@@ -15,7 +15,7 @@ public struct JSONPatchTruss : PatchTruss {
     self.core = Core(displayId,
                      initFile: initFile,
                      fileDataCount: 0,
-                     createFileData: { try Self.encoder.encode($0).bytes() },
+                     createFileData: { b, e in try Self.encoder.encode(b).bytes() },
                      parseBodyData: {
       do {
         return try Self.decoder.decode([String:Int].self, from: Data($0))

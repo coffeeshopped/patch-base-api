@@ -165,7 +165,7 @@ public extension FullRefTruss {
   // really only appropriate for a ref that has only one of each patch type
   // if there are multiple (parts), then index/location probably needs to be in the file data
   static func defaultCreateFileData(trussMap: [(SynthPath, any SysexTruss)]) -> FullRefTruss.Core.CreateFileDataFn {
-    { bodyData in
+    { bodyData, e in
       // map over the types to ensure ordering of data
       try trussMap.compactMap {
         guard let bd = bodyData[$0.0] else { return nil }

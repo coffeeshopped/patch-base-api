@@ -42,7 +42,7 @@ public struct SinglePatchTruss : PatchTruss {
       fileDataCount = 0
     }
     
-    let createFileData = createFileData ?? { _ in
+    let createFileData = createFileData ?? { _, _ in
       throw SysexTrussError.blockNotSet(msg: "createFileData called but never set.")
     }
     let parseBodyData = parseBodyData ?? { _ in
@@ -77,7 +77,7 @@ public struct SinglePatchTruss : PatchTruss {
   }
   
   private static func fileDataCount(createFileData: Core.CreateFileDataFn, bodyDataCount: Int) throws -> Int {
-    try createFileData([UInt8](repeating: 0, count: bodyDataCount)).count
+    try createFileData([UInt8](repeating: 0, count: bodyDataCount), []).count
   }
       
 //  public mutating func set(paramsFromOpts opts: [ParamOptions]) {

@@ -41,11 +41,11 @@ public extension SingleBankTrussWerk {
   }
 
   static func createFileDataWithLocationMap(_ fn: @escaping (SinglePatchTruss.BodyData, Int) -> [UInt8]) -> SingleBankTruss.Core.CreateFileDataFn {
-    { $0.enumerated().flatMap { fn($0.element, $0.offset) } }
+    { b, e in b.enumerated().flatMap { fn($0.element, $0.offset) } }
   }
 
   static func createFileDataWithLocationMap(_ fn: @escaping (SinglePatchTruss.BodyData, Int) throws -> [UInt8]) -> SingleBankTruss.Core.CreateFileDataFn {
-    { try $0.enumerated().flatMap { try fn($0.element, $0.offset) } }
+    { b, e in try b.enumerated().flatMap { try fn($0.element, $0.offset) } }
   }
 
 }

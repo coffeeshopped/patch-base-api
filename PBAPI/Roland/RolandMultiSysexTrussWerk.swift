@@ -88,8 +88,8 @@ public extension RolandMultiSysexTrussWerk {
     
     let trussMap = map.map { ($0.path, $0.werk.anyTruss) }
     
-    return FullRefTruss(displayId, trussMap: trussMap, refPath: refPath, isos: isos, sections: sections, initFile: initFile, createFileData: {
-      try defaultSysexData($0, deviceId: UInt8(RolandDefaultDeviceId), address: start, map: map).reduce([], +)
+    return FullRefTruss(displayId, trussMap: trussMap, refPath: refPath, isos: isos, sections: sections, initFile: initFile, createFileData: { b, e in
+      try defaultSysexData(b, deviceId: UInt8(RolandDefaultDeviceId), address: start, map: map).reduce([], +)
     }, pathForData: {
       RolandMultiSysexTrussWerk.path(forData: $0, start: start, sysexWerk: sysexWerk, map: map)
     })
@@ -99,8 +99,8 @@ public extension RolandMultiSysexTrussWerk {
     
     let trussMap = map.map { ($0.path, $0.werk.anyTruss) }
     
-    return BackupTruss(synthName, trussMap: trussMap, createFileData: {
-      try defaultSysexData($0, deviceId: UInt8(RolandDefaultDeviceId), address: start, map: map).reduce([], +)
+    return BackupTruss(synthName, trussMap: trussMap, createFileData: { b, e in
+      try defaultSysexData(b, deviceId: UInt8(RolandDefaultDeviceId), address: start, map: map).reduce([], +)
     }, parseBodyData: {
       FullRefTruss.sysexibles(fileData: $0, trussMap: trussMap, pathForData: {
         path(forData: $0, start: start, sysexWerk: sysexWerk, map: map)

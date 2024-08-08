@@ -66,31 +66,32 @@ extension SinglePatchTruss: JsParsable {
   static let createFileRules: JsParseTransformSet<Core.CreateFileDataFn> = try! .init([
     (".f", { fn in
       try fn.checkFn()
-      return { try fn.call([$0]).arrByte() }
+      return { b, e in try fn.call([b, e]).arrByte() }
     }),
     (".a", {
       let fns = try $0.xformArr(createFileFnRules)
-      return {
-        try fns.reduce($0) { partialResult, fn in try fn(partialResult) }
+      return { b, e in
+        try fns.reduce(b) { partialResult, fn in try fn(partialResult, e) }
       }
     })
   ], "singlePatchTruss createFile")
 
-  static let createFileFnRules: JsParseTransformSet<(BodyData) throws -> BodyData> = try! .init([
+  typealias CreateFileDataFnPlus = (BodyData, [Any]) throws -> BodyData
+  static let createFileFnRules: JsParseTransformSet<CreateFileDataFnPlus> = try! .init([
     (["+"], { v in
       let count = v.arrCount()
-      let fns: [(BodyData) throws -> BodyData] = try (1..<count).map {
+      let fns: [CreateFileDataFnPlus] = try (1..<count).map {
         try v.atIndex($0).xform(createFileFnRules)
       }
-      return { b in
-        try fns.reduce([]) { try $0 + $1(b) }
+      return { b, e in
+        try fns.reduce([]) { try $0 + $1(b, e) }
       }
     }),
     (["trussValues", ".d", ".a", ".f"], {
       let t = try $0.atIndex(1).xform(JsSysex.trussRules)
       let paths: [SynthPath] = try $0.atIndex(2).map { try $0.path() }
       let fn = try $0.fn(3)
-      return { bodyData in
+      return { bodyData, e in
         try paths.map {
           switch t {
           case let single as SinglePatchTruss:
@@ -105,24 +106,32 @@ extension SinglePatchTruss: JsParsable {
     }),
     (["enc", ".s"], {
       let bytes = try $0.str(1).sysexBytes()
-      return { _ in bytes }
+      return { _, _ in bytes }
     }),
     (["yamCmd", ".x"], {
       let arg1 = try $0.any(1).xform(createFileFnRules)
       // second arg is optional, defaults to "b"
       let arg2 = try (try? $0.any(2))?.xform(createFileFnRules)
-      return { Yamaha.sysexData(cmdBytesWithChannel: try arg1($0), bodyBytes: try arg2?($0) ?? $0) }
+      return { b, e in Yamaha.sysexData(cmdBytesWithChannel: try arg1(b, e), bodyBytes: try arg2?(b ,e) ?? b) }
     }),
-    ("b", { _ in { $0 } }), // returns itself
+    ("b", { _ in { b, e in b } }), // returns itself
+    ("e", { _ in { b, e in
+      switch e.first {
+      case let i as Int:
+        return [UInt8(i)]
+      default:
+        fatalError("TODO: handle other editor value types.")
+      }
+    } }), // returns editorValue
     ([".n"], {
       // array that starts with number: assume it's a byte array
       let bytes = try $0.arrByte()
-      return { _ in bytes }
+      return { _, _ in bytes }
     }),
     (".n", {
       // number: return it as a byte array
       let byte = try $0.byte()
-      return { _ in [byte] }
+      return { _, _ in [byte] }
     }),
     (".s", {
       // string: treat as singleArg fn
@@ -132,15 +141,15 @@ extension SinglePatchTruss: JsParsable {
       }
       
       guard let arg = try? $0.any(1) else {
-        return { fn($0) }
+        return { b, e in fn(b) }
       }
-      let b = try arg.xform(createFileFnRules)
-      return { fn(try b($0)) }
+      let bb = try arg.xform(createFileFnRules)
+      return { b, e in fn(try bb(b, e)) }
     }),
-    ([".s"], {
-      // array starts with string: treat as singleArg fn
-      return try $0.any(0).xform(createFileFnRules)
-    })
+//    ([".s"], {
+//      // array starts with string: treat as singleArg fn
+//      return try $0.any(0).xform(createFileFnRules)
+//    })
   ], "singlePatchTruss createFileFn Functions")
 
   static let singleArgCreateFileFnRules: [String:(BodyData) -> BodyData] = [

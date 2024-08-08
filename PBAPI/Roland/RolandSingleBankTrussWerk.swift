@@ -20,8 +20,8 @@ public struct RolandSingleBankTrussWerk {
 
     let parseBodyFn = parseBodyFn ?? Self.defaultParseBodyData
     
-    self.truss = SingleBankTruss(patchTruss: patchWerk.truss, patchCount: patchCount, initFile: initFile, defaultName: defaultName, createFileData: {
-      Self.defaultSysexData($0, deviceId: UInt8(RolandDefaultDeviceId), address: start, patchWerk: patchWerk, iso: iso).reduce([], +)
+    self.truss = SingleBankTruss(patchTruss: patchWerk.truss, patchCount: patchCount, initFile: initFile, defaultName: defaultName, createFileData: { b, e in
+      Self.defaultSysexData(b, deviceId: UInt8(RolandDefaultDeviceId), address: start, patchWerk: patchWerk, iso: iso).reduce([], +)
     }, parseBodyData: { fileData in
       try parseBodyFn(fileData, iso, patchWerk, patchCount)
     }, validBundle: validBundle)

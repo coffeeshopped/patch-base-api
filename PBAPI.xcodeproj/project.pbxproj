@@ -368,6 +368,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC19465F2C6561C5006C5B41 /* editor */ = {
+			isa = PBXGroup;
+			children = (
+				AC414B652C653A900019DC1B /* BasicEditorTruss.swift */,
+				AC414B5E2C653A900019DC1B /* MidiChannelTransform.swift */,
+				AC414B562C653A900019DC1B /* MidiTransform.swift */,
+				AC414B5A2C653A900019DC1B /* FetchTransform.swift */,
+				AC414B532C653A900019DC1B /* EditorValueTransform.swift */,
+			);
+			path = editor;
+			sourceTree = "<group>";
+		};
 		AC414B232C6536020019DC1B /* Roland */ = {
 			isa = PBXGroup;
 			children = (
@@ -406,15 +418,11 @@
 				AC414B542C653A900019DC1B /* JsModuleWerk.swift */,
 				AC414B5B2C653A900019DC1B /* SynthPath.swift */,
 				AC414B5D2C653A900019DC1B /* Parm.swift */,
-				AC414B652C653A900019DC1B /* BasicEditorTruss.swift */,
 				AC414B612C653A900019DC1B /* BasicModuleTruss.swift */,
-				AC414B5E2C653A900019DC1B /* MidiChannelTransform.swift */,
-				AC414B562C653A900019DC1B /* MidiTransform.swift */,
+				AC19465F2C6561C5006C5B41 /* editor */,
 				AC414B572C653A900019DC1B /* RxMidi-FetchCommand.swift */,
-				AC414B5A2C653A900019DC1B /* FetchTransform.swift */,
 				AC414B522C653A8F0019DC1B /* MidiMessage.swift */,
 				AC414B5C2C653A900019DC1B /* MemSlot-Transform.swift */,
-				AC414B532C653A900019DC1B /* EditorValueTransform.swift */,
 				AC414B5F2C653A900019DC1B /* ModuleTrussSection.swift */,
 				AC414B7E2C653AA20019DC1B /* JsSysex.swift */,
 				AC414B7D2C653AA20019DC1B /* SinglePatchTruss.swift */,

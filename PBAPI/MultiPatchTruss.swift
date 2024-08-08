@@ -29,8 +29,8 @@ public struct MultiPatchTruss : PatchTruss {
     let maxNameCount = trussMap.first { $0.0 == namePath }?.1.maxNameCount ?? 32
     let fileDataCount = fileDataCount ?? Self.fileDataCount(trusses: trussMap.map { $0.1 })
     
-    let createFileData = createFileData ?? {
-      try Self.defaultCreateFileData(bodyData: $0, trussMap: trussMap)
+    let createFileData = createFileData ?? { b, e in
+      try Self.defaultCreateFileData(bodyData: b, trussMap: trussMap)
     }
     let parseBodyData = parseBodyData ?? {
       try Self.defaultParseBodyData(fileData: $0, trussMap: trussMap)

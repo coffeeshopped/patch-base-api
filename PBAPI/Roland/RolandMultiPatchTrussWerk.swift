@@ -43,8 +43,8 @@ public struct RolandMultiPatchTrussWerk : RolandPatchTrussWerk {
     self.sysexDataFn = sysexDataFn
     
     let parseBodyFn = parseBodyFn ?? Self.defaultParseBodyData
-    self.truss = MultiPatchTruss(displayId, trussMap: map.map { ($0.path, $0.werk.truss) }, namePath: [.common], initFile: initFile, createFileData: {
-      sysexDataFn($0, UInt8(RolandDefaultDeviceId), start).reduce([], +)
+    self.truss = MultiPatchTruss(displayId, trussMap: map.map { ($0.path, $0.werk.truss) }, namePath: [.common], initFile: initFile, createFileData: { b, e in
+      sysexDataFn(b, UInt8(RolandDefaultDeviceId), start).reduce([], +)
     }, parseBodyData: {
       try parseBodyFn($0, werk, map)
     }, validBundle: bundle)

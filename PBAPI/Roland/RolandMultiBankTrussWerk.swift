@@ -33,8 +33,8 @@ public struct RolandMultiBankTrussWerk {
     let parseBodyFn = parseBodyFn ?? Self.defaultParseBodyData
     let createFileFn = createFileFn ?? Self.defaultCreateFileData
     
-    self.truss = MultiBankTruss(patchTruss: patchWerk.truss, patchCount: patchCount, initFile: initFile, createFileData: {
-      try createFileFn($0, UInt8(RolandDefaultDeviceId), start, patchWerk, iso).reduce([], +)
+    self.truss = MultiBankTruss(patchTruss: patchWerk.truss, patchCount: patchCount, initFile: initFile, createFileData: { b, e in
+      try createFileFn(b, UInt8(RolandDefaultDeviceId), start, patchWerk, iso).reduce([], +)
     }, parseBodyData: { fileData in
       try parseBodyFn(fileData, iso, patchWerk, patchCount)
     }, validBundle: validBundle)
