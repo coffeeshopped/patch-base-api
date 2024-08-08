@@ -1,0 +1,1329 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AC3DB3DD2C65340A00375C37 /* SynthPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DA2C65340A00375C37 /* SynthPath.swift */; };
+		AC3DB3DE2C65340A00375C37 /* JsSynthPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DB2C65340A00375C37 /* JsSynthPath.swift */; };
+		AC3DB3DF2C65340A00375C37 /* SynthPathTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DC2C65340A00375C37 /* SynthPathTree.swift */; };
+		AC414A4D2C6535150019DC1B /* AnySysexible.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A482C6535150019DC1B /* AnySysexible.swift */; };
+		AC414A4E2C6535150019DC1B /* AnySysexPatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A492C6535150019DC1B /* AnySysexPatch.swift */; };
+		AC414A4F2C6535150019DC1B /* Sysexible.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A4A2C6535150019DC1B /* Sysexible.swift */; };
+		AC414A502C6535150019DC1B /* AnySysexPatchBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A4B2C6535150019DC1B /* AnySysexPatchBank.swift */; };
+		AC414A512C6535150019DC1B /* AnyMultiSysexible.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A4C2C6535150019DC1B /* AnyMultiSysexible.swift */; };
+		AC414A572C65352C0019DC1B /* PatchControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A522C65352C0019DC1B /* PatchControllerState.swift */; };
+		AC414A582C65352C0019DC1B /* PBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A532C65352C0019DC1B /* PBController.swift */; };
+		AC414A592C65352C0019DC1B /* PatchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A542C65352C0019DC1B /* PatchController.swift */; };
+		AC414A5A2C65352C0019DC1B /* InfoSaveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A552C65352C0019DC1B /* InfoSaveController.swift */; };
+		AC414A5B2C65352C0019DC1B /* PBBezier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A562C65352C0019DC1B /* PBBezier.swift */; };
+		AC414A612C65353F0019DC1B /* PatchController-DadsrEnv.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A5C2C65353F0019DC1B /* PatchController-DadsrEnv.swift */; };
+		AC414A622C65353F0019DC1B /* PatchController-AdsrEnv.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A5D2C65353F0019DC1B /* PatchController-AdsrEnv.swift */; };
+		AC414A632C65353F0019DC1B /* PatchController-LevelScaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A5E2C65353F0019DC1B /* PatchController-LevelScaling.swift */; };
+		AC414A642C65353F0019DC1B /* PatchController-TimeLevelEnv.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A5F2C65353F0019DC1B /* PatchController-TimeLevelEnv.swift */; };
+		AC414A652C65353F0019DC1B /* PatchController-RateLevelEnv.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A602C65353F0019DC1B /* PatchController-RateLevelEnv.swift */; };
+		AC414A752C65354D0019DC1B /* PBLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A662C65354C0019DC1B /* PBLayoutConstraint.swift */; };
+		AC414A762C65354D0019DC1B /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A672C65354C0019DC1B /* Param.swift */; };
+		AC414A772C65354D0019DC1B /* Iso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A682C65354C0019DC1B /* Iso.swift */; };
+		AC414A782C65354D0019DC1B /* BitUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A692C65354C0019DC1B /* BitUtility.swift */; };
+		AC414A792C65354D0019DC1B /* Parm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6A2C65354C0019DC1B /* Parm.swift */; };
+		AC414A7A2C65354D0019DC1B /* PBTypealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6B2C65354C0019DC1B /* PBTypealiases.swift */; };
+		AC414A7B2C65354D0019DC1B /* PBTextAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6C2C65354C0019DC1B /* PBTextAlignment.swift */; };
+		AC414A7C2C65354D0019DC1B /* PackIso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6D2C65354C0019DC1B /* PackIso.swift */; };
+		AC414A7D2C65354D0019DC1B /* ParamHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6E2C65354C0019DC1B /* ParamHelper.swift */; };
+		AC414A7E2C65354D0019DC1B /* Yamaha.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6F2C65354C0019DC1B /* Yamaha.swift */; };
+		AC414A7F2C65354D0019DC1B /* DXAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A702C65354C0019DC1B /* DXAlgorithm.swift */; };
+		AC414A802C65354D0019DC1B /* Miso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A712C65354C0019DC1B /* Miso.swift */; };
+		AC414A812C65354D0019DC1B /* NamePackIso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A722C65354C0019DC1B /* NamePackIso.swift */; };
+		AC414A822C65354D0019DC1B /* Collection-Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A732C65354C0019DC1B /* Collection-Extras.swift */; };
+		AC414A832C65354D0019DC1B /* ParamOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A742C65354D0019DC1B /* ParamOptions.swift */; };
+		AC414A872C65355A0019DC1B /* MIDIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A842C65355A0019DC1B /* MIDIMessage.swift */; };
+		AC414A882C65355A0019DC1B /* Algorithms.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC414A852C65355A0019DC1B /* Algorithms.plist */; };
+		AC414A892C65355A0019DC1B /* TX81Z Algorithms.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC414A862C65355A0019DC1B /* TX81Z Algorithms.plist */; };
+		AC414A8B2C6535660019DC1B /* SynthWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A8A2C6535660019DC1B /* SynthWerk.swift */; };
+		AC414A8F2C65356E0019DC1B /* EditorTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A8C2C65356E0019DC1B /* EditorTruss.swift */; };
+		AC414A902C65356E0019DC1B /* BasicEditorTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A8D2C65356E0019DC1B /* BasicEditorTruss.swift */; };
+		AC414A912C65356E0019DC1B /* EditorTrussCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A8E2C65356E0019DC1B /* EditorTrussCore.swift */; };
+		AC414A962C6535760019DC1B /* BankTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A922C6535760019DC1B /* BankTruss.swift */; };
+		AC414A972C6535760019DC1B /* SysexTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A932C6535760019DC1B /* SysexTruss.swift */; };
+		AC414A982C6535760019DC1B /* PatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A942C6535760019DC1B /* PatchTruss.swift */; };
+		AC414A992C6535760019DC1B /* MultiSysexTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A952C6535760019DC1B /* MultiSysexTruss.swift */; };
+		AC414AA32C6535830019DC1B /* JSONPatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A9A2C6535820019DC1B /* JSONPatchTruss.swift */; };
+		AC414AA42C6535830019DC1B /* SomeBankTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A9B2C6535820019DC1B /* SomeBankTruss.swift */; };
+		AC414AA52C6535830019DC1B /* FullRefTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A9C2C6535820019DC1B /* FullRefTruss.swift */; };
+		AC414AA62C6535830019DC1B /* MultiPatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A9D2C6535820019DC1B /* MultiPatchTruss.swift */; };
+		AC414AA72C6535830019DC1B /* BackupTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A9E2C6535820019DC1B /* BackupTruss.swift */; };
+		AC414AA82C6535830019DC1B /* BankTruss-Compact.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A9F2C6535820019DC1B /* BankTruss-Compact.swift */; };
+		AC414AA92C6535830019DC1B /* SinglePatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AA02C6535820019DC1B /* SinglePatchTruss.swift */; };
+		AC414AAA2C6535830019DC1B /* ChannelSettingsTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AA12C6535820019DC1B /* ChannelSettingsTruss.swift */; };
+		AC414AAB2C6535830019DC1B /* SysexTrussCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AA22C6535820019DC1B /* SysexTrussCore.swift */; };
+		AC414AAE2C65358B0019DC1B /* PatchTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AAC2C65358B0019DC1B /* PatchTrussWerk.swift */; };
+		AC414AAF2C65358B0019DC1B /* SingleBankTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AAD2C65358B0019DC1B /* SingleBankTrussWerk.swift */; };
+		AC414AB32C6535940019DC1B /* SysexTrussError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB02C6535940019DC1B /* SysexTrussError.swift */; };
+		AC414AB42C6535940019DC1B /* SysexData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB12C6535940019DC1B /* SysexData.swift */; };
+		AC414AB52C6535940019DC1B /* LocalTrussType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB22C6535940019DC1B /* LocalTrussType.swift */; };
+		AC414AC12C65359D0019DC1B /* EditorCommandEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB62C65359C0019DC1B /* EditorCommandEffect.swift */; };
+		AC414AC22C65359D0019DC1B /* FetchTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB72C65359C0019DC1B /* FetchTransform.swift */; };
+		AC414AC32C65359D0019DC1B /* EditorPathTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB82C65359C0019DC1B /* EditorPathTransform.swift */; };
+		AC414AC42C65359D0019DC1B /* EditorValueTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB92C65359C0019DC1B /* EditorValueTransform.swift */; };
+		AC414AC52C65359D0019DC1B /* MemSlotTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ABA2C65359C0019DC1B /* MemSlotTransform.swift */; };
+		AC414AC62C65359D0019DC1B /* ModuleCommandEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ABB2C65359C0019DC1B /* ModuleCommandEffect.swift */; };
+		AC414AC72C65359D0019DC1B /* ModuleCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ABC2C65359D0019DC1B /* ModuleCommand.swift */; };
+		AC414AC82C65359D0019DC1B /* MidiChannelTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ABD2C65359D0019DC1B /* MidiChannelTransform.swift */; };
+		AC414AC92C65359D0019DC1B /* MidiTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ABE2C65359D0019DC1B /* MidiTransform.swift */; };
+		AC414ACA2C65359D0019DC1B /* EditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ABF2C65359D0019DC1B /* EditorCommand.swift */; };
+		AC414ACB2C65359D0019DC1B /* ParamOutTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AC02C65359D0019DC1B /* ParamOutTransform.swift */; };
+		AC414ACD2C6535A50019DC1B /* RxMidi.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ACC2C6535A50019DC1B /* RxMidi.swift */; };
+		AC414AD62C6535B10019DC1B /* BasicModuleTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ACE2C6535B00019DC1B /* BasicModuleTruss.swift */; };
+		AC414AD72C6535B10019DC1B /* UrModuleTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ACF2C6535B00019DC1B /* UrModuleTruss.swift */; };
+		AC414AD82C6535B10019DC1B /* ModuleTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AD02C6535B00019DC1B /* ModuleTruss.swift */; };
+		AC414AD92C6535B10019DC1B /* Manufacturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AD12C6535B00019DC1B /* Manufacturer.swift */; };
+		AC414ADA2C6535B10019DC1B /* AnySynthModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AD22C6535B00019DC1B /* AnySynthModule.swift */; };
+		AC414ADB2C6535B10019DC1B /* ModuleTrussCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AD32C6535B00019DC1B /* ModuleTrussCore.swift */; };
+		AC414ADC2C6535B10019DC1B /* ModuleTrussController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AD42C6535B00019DC1B /* ModuleTrussController.swift */; };
+		AC414ADD2C6535B10019DC1B /* ModuleTrussSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AD52C6535B10019DC1B /* ModuleTrussSection.swift */; };
+		AC414ADF2C6535BA0019DC1B /* ColorGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ADE2C6535BA0019DC1B /* ColorGuide.swift */; };
+		AC414AF22C6535C90019DC1B /* PBColor+Oklab.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AE32C6535C80019DC1B /* PBColor+Oklab.swift */; };
+		AC414B122C6535FD0019DC1B /* RolandSinglePatchTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B012C6535FC0019DC1B /* RolandSinglePatchTrussWerk.swift */; };
+		AC414B132C6535FD0019DC1B /* RolandMultiBankTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B022C6535FC0019DC1B /* RolandMultiBankTrussWerk.swift */; };
+		AC414B142C6535FD0019DC1B /* RolandMultiSysexTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B032C6535FD0019DC1B /* RolandMultiSysexTrussWerk.swift */; };
+		AC414B152C6535FD0019DC1B /* RolandSysexTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B042C6535FD0019DC1B /* RolandSysexTrussWerk.swift */; };
+		AC414B162C6535FD0019DC1B /* SRJVBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B052C6535FD0019DC1B /* SRJVBoard.swift */; };
+		AC414B172C6535FD0019DC1B /* RolandMultiPatchTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B062C6535FD0019DC1B /* RolandMultiPatchTrussWerk.swift */; };
+		AC414B182C6535FD0019DC1B /* RolandPatchTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B072C6535FD0019DC1B /* RolandPatchTrussWerk.swift */; };
+		AC414B192C6535FD0019DC1B /* SOPCMCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B082C6535FD0019DC1B /* SOPCMCard.swift */; };
+		AC414B1A2C6535FD0019DC1B /* RolandData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B092C6535FD0019DC1B /* RolandData.swift */; };
+		AC414B1B2C6535FD0019DC1B /* RolandModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B0A2C6535FD0019DC1B /* RolandModule.swift */; };
+		AC414B1C2C6535FD0019DC1B /* SRXBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B0B2C6535FD0019DC1B /* SRXBoard.swift */; };
+		AC414B1D2C6535FD0019DC1B /* AnyRolandSysexTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B0C2C6535FD0019DC1B /* AnyRolandSysexTrussWerk.swift */; };
+		AC414B1E2C6535FD0019DC1B /* RolandSingleBankTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B0D2C6535FD0019DC1B /* RolandSingleBankTrussWerk.swift */; };
+		AC414B1F2C6535FD0019DC1B /* RolandAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B0E2C6535FD0019DC1B /* RolandAddress.swift */; };
+		AC414B202C6535FD0019DC1B /* Roland.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B0F2C6535FD0019DC1B /* Roland.swift */; };
+		AC414B212C6535FD0019DC1B /* RolandEditorTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B102C6535FD0019DC1B /* RolandEditorTrussWerk.swift */; };
+		AC414B222C6535FD0019DC1B /* RolandDeviceIdSettingsTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B112C6535FD0019DC1B /* RolandDeviceIdSettingsTruss.swift */; };
+		AC414B252C65361A0019DC1B /* AnySynthEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B242C65361A0019DC1B /* AnySynthEditor.swift */; };
+		AC414B2A2C65362C0019DC1B /* NuBackupChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B262C65362C0019DC1B /* NuBackupChange.swift */; };
+		AC414B2B2C65362C0019DC1B /* Change.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B272C65362C0019DC1B /* Change.swift */; };
+		AC414B2C2C65362C0019DC1B /* NuPatchChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B282C65362C0019DC1B /* NuPatchChange.swift */; };
+		AC414B2D2C65362C0019DC1B /* NuBankChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B292C65362C0019DC1B /* NuBankChange.swift */; };
+		AC414B3F2C653A7B0019DC1B /* PBJS.docc in Sources */ = {isa = PBXBuildFile; fileRef = AC414B3E2C653A7B0019DC1B /* PBJS.docc */; };
+		AC414B452C653A7B0019DC1B /* PBJS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC414B3B2C653A7B0019DC1B /* PBJS.framework */; };
+		AC414B4A2C653A7B0019DC1B /* PBJSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B492C653A7B0019DC1B /* PBJSTests.swift */; };
+		AC414B4B2C653A7B0019DC1B /* PBJS.h in Headers */ = {isa = PBXBuildFile; fileRef = AC414B3D2C653A7B0019DC1B /* PBJS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AC414B662C653A900019DC1B /* MidiMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B522C653A8F0019DC1B /* MidiMessage.swift */; };
+		AC414B672C653A900019DC1B /* EditorValueTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B532C653A900019DC1B /* EditorValueTransform.swift */; };
+		AC414B682C653A900019DC1B /* JsModuleWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B542C653A900019DC1B /* JsModuleWerk.swift */; };
+		AC414B6A2C653A900019DC1B /* MidiTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B562C653A900019DC1B /* MidiTransform.swift */; };
+		AC414B6B2C653A900019DC1B /* RxMidi-FetchCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B572C653A900019DC1B /* RxMidi-FetchCommand.swift */; };
+		AC414B6C2C653A900019DC1B /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B582C653A900019DC1B /* JSError.swift */; };
+		AC414B6D2C653A900019DC1B /* JsModuleLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B592C653A900019DC1B /* JsModuleLoader.swift */; };
+		AC414B6E2C653A900019DC1B /* FetchTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5A2C653A900019DC1B /* FetchTransform.swift */; };
+		AC414B6F2C653A900019DC1B /* SynthPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5B2C653A900019DC1B /* SynthPath.swift */; };
+		AC414B702C653A900019DC1B /* MemSlot-Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5C2C653A900019DC1B /* MemSlot-Transform.swift */; };
+		AC414B712C653A900019DC1B /* Parm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5D2C653A900019DC1B /* Parm.swift */; };
+		AC414B722C653A900019DC1B /* MidiChannelTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5E2C653A900019DC1B /* MidiChannelTransform.swift */; };
+		AC414B732C653A900019DC1B /* ModuleTrussSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5F2C653A900019DC1B /* ModuleTrussSection.swift */; };
+		AC414B742C653A900019DC1B /* JsByte.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B602C653A900019DC1B /* JsByte.swift */; };
+		AC414B752C653A900019DC1B /* BasicModuleTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B612C653A900019DC1B /* BasicModuleTruss.swift */; };
+		AC414B762C653A900019DC1B /* JSValue--Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B622C653A900019DC1B /* JSValue--Helper.swift */; };
+		AC414B772C653A900019DC1B /* JsConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B632C653A900019DC1B /* JsConsole.swift */; };
+		AC414B782C653A900019DC1B /* Jiso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B642C653A900019DC1B /* Jiso.swift */; };
+		AC414B792C653A900019DC1B /* BasicEditorTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B652C653A900019DC1B /* BasicEditorTruss.swift */; };
+		AC414B822C653AA20019DC1B /* MultiBankTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B7A2C653AA20019DC1B /* MultiBankTruss.swift */; };
+		AC414B832C653AA20019DC1B /* SingleBankTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B7B2C653AA20019DC1B /* SingleBankTruss.swift */; };
+		AC414B842C653AA20019DC1B /* JsBackupTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B7C2C653AA20019DC1B /* JsBackupTruss.swift */; };
+		AC414B852C653AA20019DC1B /* SinglePatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B7D2C653AA20019DC1B /* SinglePatchTruss.swift */; };
+		AC414B862C653AA20019DC1B /* JsSysex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B7E2C653AA20019DC1B /* JsSysex.swift */; };
+		AC414B872C653AA20019DC1B /* JSONPatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B7F2C653AA20019DC1B /* JSONPatchTruss.swift */; };
+		AC414B882C653AA20019DC1B /* JsCompactSingleBankTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B802C653AA20019DC1B /* JsCompactSingleBankTruss.swift */; };
+		AC414B892C653AA20019DC1B /* MultiPatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B812C653AA20019DC1B /* MultiPatchTruss.swift */; };
+		AC414B932C653AAF0019DC1B /* PatchController.DisplayMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B8A2C653AAE0019DC1B /* PatchController.DisplayMap.swift */; };
+		AC414B942C653AAF0019DC1B /* PatchController.Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B8B2C653AAE0019DC1B /* PatchController.Constraint.swift */; };
+		AC414B952C653AAF0019DC1B /* PatchController.Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B8C2C653AAE0019DC1B /* PatchController.Builder.swift */; };
+		AC414B962C653AAF0019DC1B /* PatchController.AttrChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B8D2C653AAE0019DC1B /* PatchController.AttrChange.swift */; };
+		AC414B972C653AAF0019DC1B /* PatchController.Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B8E2C653AAF0019DC1B /* PatchController.Display.swift */; };
+		AC414B982C653AAF0019DC1B /* PatchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B8F2C653AAF0019DC1B /* PatchController.swift */; };
+		AC414B992C653AAF0019DC1B /* PatchController.PanelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B902C653AAF0019DC1B /* PatchController.PanelItem.swift */; };
+		AC414B9A2C653AAF0019DC1B /* PatchController.Prefix.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B912C653AAF0019DC1B /* PatchController.Prefix.swift */; };
+		AC414B9B2C653AAF0019DC1B /* PatchController.Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B922C653AAF0019DC1B /* PatchController.Effect.swift */; };
+		AC414BA12C653C290019DC1B /* JsParseTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414BA02C653C290019DC1B /* JsParseTransform.swift */; };
+		AC414BA32C653C540019DC1B /* PBAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4AC0EC2C65335900358BF0 /* PBAPI.framework */; };
+		AC4AC0F12C65335900358BF0 /* PBAPI.docc in Sources */ = {isa = PBXBuildFile; fileRef = AC4AC0F02C65335900358BF0 /* PBAPI.docc */; };
+		AC4AC0F72C65335900358BF0 /* PBAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4AC0EC2C65335900358BF0 /* PBAPI.framework */; };
+		AC4AC0FC2C65335900358BF0 /* PBAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4AC0FB2C65335900358BF0 /* PBAPITests.swift */; };
+		AC4AC0FD2C65335900358BF0 /* PBAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = AC4AC0EF2C65335900358BF0 /* PBAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AC414B462C653A7B0019DC1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC4AC0E32C65335900358BF0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC414B3A2C653A7B0019DC1B;
+			remoteInfo = PBJS;
+		};
+		AC414BA52C653C540019DC1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC4AC0E32C65335900358BF0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC4AC0EB2C65335900358BF0;
+			remoteInfo = PBAPI;
+		};
+		AC4AC0F82C65335900358BF0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC4AC0E32C65335900358BF0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC4AC0EB2C65335900358BF0;
+			remoteInfo = PBAPI;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AC3DB3DA2C65340A00375C37 /* SynthPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthPath.swift; sourceTree = "<group>"; };
+		AC3DB3DB2C65340A00375C37 /* JsSynthPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsSynthPath.swift; sourceTree = "<group>"; };
+		AC3DB3DC2C65340A00375C37 /* SynthPathTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthPathTree.swift; sourceTree = "<group>"; };
+		AC414A482C6535150019DC1B /* AnySysexible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnySysexible.swift; sourceTree = "<group>"; };
+		AC414A492C6535150019DC1B /* AnySysexPatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnySysexPatch.swift; sourceTree = "<group>"; };
+		AC414A4A2C6535150019DC1B /* Sysexible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sysexible.swift; sourceTree = "<group>"; };
+		AC414A4B2C6535150019DC1B /* AnySysexPatchBank.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnySysexPatchBank.swift; sourceTree = "<group>"; };
+		AC414A4C2C6535150019DC1B /* AnyMultiSysexible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyMultiSysexible.swift; sourceTree = "<group>"; };
+		AC414A522C65352C0019DC1B /* PatchControllerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchControllerState.swift; sourceTree = "<group>"; };
+		AC414A532C65352C0019DC1B /* PBController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PBController.swift; sourceTree = "<group>"; };
+		AC414A542C65352C0019DC1B /* PatchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.swift; sourceTree = "<group>"; };
+		AC414A552C65352C0019DC1B /* InfoSaveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoSaveController.swift; sourceTree = "<group>"; };
+		AC414A562C65352C0019DC1B /* PBBezier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PBBezier.swift; sourceTree = "<group>"; };
+		AC414A5C2C65353F0019DC1B /* PatchController-DadsrEnv.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PatchController-DadsrEnv.swift"; sourceTree = "<group>"; };
+		AC414A5D2C65353F0019DC1B /* PatchController-AdsrEnv.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PatchController-AdsrEnv.swift"; sourceTree = "<group>"; };
+		AC414A5E2C65353F0019DC1B /* PatchController-LevelScaling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PatchController-LevelScaling.swift"; sourceTree = "<group>"; };
+		AC414A5F2C65353F0019DC1B /* PatchController-TimeLevelEnv.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PatchController-TimeLevelEnv.swift"; sourceTree = "<group>"; };
+		AC414A602C65353F0019DC1B /* PatchController-RateLevelEnv.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PatchController-RateLevelEnv.swift"; sourceTree = "<group>"; };
+		AC414A662C65354C0019DC1B /* PBLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PBLayoutConstraint.swift; sourceTree = "<group>"; };
+		AC414A672C65354C0019DC1B /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Param.swift; sourceTree = "<group>"; };
+		AC414A682C65354C0019DC1B /* Iso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Iso.swift; sourceTree = "<group>"; };
+		AC414A692C65354C0019DC1B /* BitUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BitUtility.swift; sourceTree = "<group>"; };
+		AC414A6A2C65354C0019DC1B /* Parm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parm.swift; sourceTree = "<group>"; };
+		AC414A6B2C65354C0019DC1B /* PBTypealiases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PBTypealiases.swift; sourceTree = "<group>"; };
+		AC414A6C2C65354C0019DC1B /* PBTextAlignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PBTextAlignment.swift; sourceTree = "<group>"; };
+		AC414A6D2C65354C0019DC1B /* PackIso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackIso.swift; sourceTree = "<group>"; };
+		AC414A6E2C65354C0019DC1B /* ParamHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParamHelper.swift; sourceTree = "<group>"; };
+		AC414A6F2C65354C0019DC1B /* Yamaha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Yamaha.swift; sourceTree = "<group>"; };
+		AC414A702C65354C0019DC1B /* DXAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DXAlgorithm.swift; sourceTree = "<group>"; };
+		AC414A712C65354C0019DC1B /* Miso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Miso.swift; sourceTree = "<group>"; };
+		AC414A722C65354C0019DC1B /* NamePackIso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamePackIso.swift; sourceTree = "<group>"; };
+		AC414A732C65354C0019DC1B /* Collection-Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection-Extras.swift"; sourceTree = "<group>"; };
+		AC414A742C65354D0019DC1B /* ParamOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParamOptions.swift; sourceTree = "<group>"; };
+		AC414A842C65355A0019DC1B /* MIDIMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIMessage.swift; sourceTree = "<group>"; };
+		AC414A852C65355A0019DC1B /* Algorithms.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Algorithms.plist; sourceTree = "<group>"; };
+		AC414A862C65355A0019DC1B /* TX81Z Algorithms.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TX81Z Algorithms.plist"; sourceTree = "<group>"; };
+		AC414A8A2C6535660019DC1B /* SynthWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthWerk.swift; sourceTree = "<group>"; };
+		AC414A8C2C65356E0019DC1B /* EditorTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorTruss.swift; sourceTree = "<group>"; };
+		AC414A8D2C65356E0019DC1B /* BasicEditorTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicEditorTruss.swift; sourceTree = "<group>"; };
+		AC414A8E2C65356E0019DC1B /* EditorTrussCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorTrussCore.swift; sourceTree = "<group>"; };
+		AC414A922C6535760019DC1B /* BankTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankTruss.swift; sourceTree = "<group>"; };
+		AC414A932C6535760019DC1B /* SysexTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysexTruss.swift; sourceTree = "<group>"; };
+		AC414A942C6535760019DC1B /* PatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchTruss.swift; sourceTree = "<group>"; };
+		AC414A952C6535760019DC1B /* MultiSysexTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiSysexTruss.swift; sourceTree = "<group>"; };
+		AC414A9A2C6535820019DC1B /* JSONPatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONPatchTruss.swift; sourceTree = "<group>"; };
+		AC414A9B2C6535820019DC1B /* SomeBankTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SomeBankTruss.swift; sourceTree = "<group>"; };
+		AC414A9C2C6535820019DC1B /* FullRefTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullRefTruss.swift; sourceTree = "<group>"; };
+		AC414A9D2C6535820019DC1B /* MultiPatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPatchTruss.swift; sourceTree = "<group>"; };
+		AC414A9E2C6535820019DC1B /* BackupTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupTruss.swift; sourceTree = "<group>"; };
+		AC414A9F2C6535820019DC1B /* BankTruss-Compact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BankTruss-Compact.swift"; sourceTree = "<group>"; };
+		AC414AA02C6535820019DC1B /* SinglePatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglePatchTruss.swift; sourceTree = "<group>"; };
+		AC414AA12C6535820019DC1B /* ChannelSettingsTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelSettingsTruss.swift; sourceTree = "<group>"; };
+		AC414AA22C6535820019DC1B /* SysexTrussCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysexTrussCore.swift; sourceTree = "<group>"; };
+		AC414AAC2C65358B0019DC1B /* PatchTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchTrussWerk.swift; sourceTree = "<group>"; };
+		AC414AAD2C65358B0019DC1B /* SingleBankTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleBankTrussWerk.swift; sourceTree = "<group>"; };
+		AC414AB02C6535940019DC1B /* SysexTrussError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysexTrussError.swift; sourceTree = "<group>"; };
+		AC414AB12C6535940019DC1B /* SysexData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysexData.swift; sourceTree = "<group>"; };
+		AC414AB22C6535940019DC1B /* LocalTrussType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalTrussType.swift; sourceTree = "<group>"; };
+		AC414AB62C65359C0019DC1B /* EditorCommandEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorCommandEffect.swift; sourceTree = "<group>"; };
+		AC414AB72C65359C0019DC1B /* FetchTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchTransform.swift; sourceTree = "<group>"; };
+		AC414AB82C65359C0019DC1B /* EditorPathTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorPathTransform.swift; sourceTree = "<group>"; };
+		AC414AB92C65359C0019DC1B /* EditorValueTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorValueTransform.swift; sourceTree = "<group>"; };
+		AC414ABA2C65359C0019DC1B /* MemSlotTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemSlotTransform.swift; sourceTree = "<group>"; };
+		AC414ABB2C65359C0019DC1B /* ModuleCommandEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleCommandEffect.swift; sourceTree = "<group>"; };
+		AC414ABC2C65359D0019DC1B /* ModuleCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleCommand.swift; sourceTree = "<group>"; };
+		AC414ABD2C65359D0019DC1B /* MidiChannelTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiChannelTransform.swift; sourceTree = "<group>"; };
+		AC414ABE2C65359D0019DC1B /* MidiTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiTransform.swift; sourceTree = "<group>"; };
+		AC414ABF2C65359D0019DC1B /* EditorCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorCommand.swift; sourceTree = "<group>"; };
+		AC414AC02C65359D0019DC1B /* ParamOutTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParamOutTransform.swift; sourceTree = "<group>"; };
+		AC414ACC2C6535A50019DC1B /* RxMidi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMidi.swift; sourceTree = "<group>"; };
+		AC414ACE2C6535B00019DC1B /* BasicModuleTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicModuleTruss.swift; sourceTree = "<group>"; };
+		AC414ACF2C6535B00019DC1B /* UrModuleTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrModuleTruss.swift; sourceTree = "<group>"; };
+		AC414AD02C6535B00019DC1B /* ModuleTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleTruss.swift; sourceTree = "<group>"; };
+		AC414AD12C6535B00019DC1B /* Manufacturer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manufacturer.swift; sourceTree = "<group>"; };
+		AC414AD22C6535B00019DC1B /* AnySynthModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnySynthModule.swift; sourceTree = "<group>"; };
+		AC414AD32C6535B00019DC1B /* ModuleTrussCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleTrussCore.swift; sourceTree = "<group>"; };
+		AC414AD42C6535B00019DC1B /* ModuleTrussController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleTrussController.swift; sourceTree = "<group>"; };
+		AC414AD52C6535B10019DC1B /* ModuleTrussSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleTrussSection.swift; sourceTree = "<group>"; };
+		AC414ADE2C6535BA0019DC1B /* ColorGuide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorGuide.swift; sourceTree = "<group>"; };
+		AC414AE32C6535C80019DC1B /* PBColor+Oklab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PBColor+Oklab.swift"; sourceTree = "<group>"; };
+		AC414B012C6535FC0019DC1B /* RolandSinglePatchTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandSinglePatchTrussWerk.swift; sourceTree = "<group>"; };
+		AC414B022C6535FC0019DC1B /* RolandMultiBankTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandMultiBankTrussWerk.swift; sourceTree = "<group>"; };
+		AC414B032C6535FD0019DC1B /* RolandMultiSysexTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandMultiSysexTrussWerk.swift; sourceTree = "<group>"; };
+		AC414B042C6535FD0019DC1B /* RolandSysexTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandSysexTrussWerk.swift; sourceTree = "<group>"; };
+		AC414B052C6535FD0019DC1B /* SRJVBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRJVBoard.swift; sourceTree = "<group>"; };
+		AC414B062C6535FD0019DC1B /* RolandMultiPatchTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandMultiPatchTrussWerk.swift; sourceTree = "<group>"; };
+		AC414B072C6535FD0019DC1B /* RolandPatchTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandPatchTrussWerk.swift; sourceTree = "<group>"; };
+		AC414B082C6535FD0019DC1B /* SOPCMCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SOPCMCard.swift; sourceTree = "<group>"; };
+		AC414B092C6535FD0019DC1B /* RolandData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandData.swift; sourceTree = "<group>"; };
+		AC414B0A2C6535FD0019DC1B /* RolandModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandModule.swift; sourceTree = "<group>"; };
+		AC414B0B2C6535FD0019DC1B /* SRXBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRXBoard.swift; sourceTree = "<group>"; };
+		AC414B0C2C6535FD0019DC1B /* AnyRolandSysexTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyRolandSysexTrussWerk.swift; sourceTree = "<group>"; };
+		AC414B0D2C6535FD0019DC1B /* RolandSingleBankTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandSingleBankTrussWerk.swift; sourceTree = "<group>"; };
+		AC414B0E2C6535FD0019DC1B /* RolandAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandAddress.swift; sourceTree = "<group>"; };
+		AC414B0F2C6535FD0019DC1B /* Roland.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Roland.swift; sourceTree = "<group>"; };
+		AC414B102C6535FD0019DC1B /* RolandEditorTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandEditorTrussWerk.swift; sourceTree = "<group>"; };
+		AC414B112C6535FD0019DC1B /* RolandDeviceIdSettingsTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandDeviceIdSettingsTruss.swift; sourceTree = "<group>"; };
+		AC414B242C65361A0019DC1B /* AnySynthEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnySynthEditor.swift; sourceTree = "<group>"; };
+		AC414B262C65362C0019DC1B /* NuBackupChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NuBackupChange.swift; sourceTree = "<group>"; };
+		AC414B272C65362C0019DC1B /* Change.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Change.swift; sourceTree = "<group>"; };
+		AC414B282C65362C0019DC1B /* NuPatchChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NuPatchChange.swift; sourceTree = "<group>"; };
+		AC414B292C65362C0019DC1B /* NuBankChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NuBankChange.swift; sourceTree = "<group>"; };
+		AC414B3B2C653A7B0019DC1B /* PBJS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PBJS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC414B3D2C653A7B0019DC1B /* PBJS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBJS.h; sourceTree = "<group>"; };
+		AC414B3E2C653A7B0019DC1B /* PBJS.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = PBJS.docc; sourceTree = "<group>"; };
+		AC414B442C653A7B0019DC1B /* PBJSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PBJSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC414B492C653A7B0019DC1B /* PBJSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBJSTests.swift; sourceTree = "<group>"; };
+		AC414B522C653A8F0019DC1B /* MidiMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiMessage.swift; sourceTree = "<group>"; };
+		AC414B532C653A900019DC1B /* EditorValueTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorValueTransform.swift; sourceTree = "<group>"; };
+		AC414B542C653A900019DC1B /* JsModuleWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsModuleWerk.swift; sourceTree = "<group>"; };
+		AC414B562C653A900019DC1B /* MidiTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiTransform.swift; sourceTree = "<group>"; };
+		AC414B572C653A900019DC1B /* RxMidi-FetchCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RxMidi-FetchCommand.swift"; sourceTree = "<group>"; };
+		AC414B582C653A900019DC1B /* JSError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSError.swift; sourceTree = "<group>"; };
+		AC414B592C653A900019DC1B /* JsModuleLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsModuleLoader.swift; sourceTree = "<group>"; };
+		AC414B5A2C653A900019DC1B /* FetchTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchTransform.swift; sourceTree = "<group>"; };
+		AC414B5B2C653A900019DC1B /* SynthPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthPath.swift; sourceTree = "<group>"; };
+		AC414B5C2C653A900019DC1B /* MemSlot-Transform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MemSlot-Transform.swift"; sourceTree = "<group>"; };
+		AC414B5D2C653A900019DC1B /* Parm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parm.swift; sourceTree = "<group>"; };
+		AC414B5E2C653A900019DC1B /* MidiChannelTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiChannelTransform.swift; sourceTree = "<group>"; };
+		AC414B5F2C653A900019DC1B /* ModuleTrussSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleTrussSection.swift; sourceTree = "<group>"; };
+		AC414B602C653A900019DC1B /* JsByte.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsByte.swift; sourceTree = "<group>"; };
+		AC414B612C653A900019DC1B /* BasicModuleTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicModuleTruss.swift; sourceTree = "<group>"; };
+		AC414B622C653A900019DC1B /* JSValue--Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSValue--Helper.swift"; sourceTree = "<group>"; };
+		AC414B632C653A900019DC1B /* JsConsole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsConsole.swift; sourceTree = "<group>"; };
+		AC414B642C653A900019DC1B /* Jiso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jiso.swift; sourceTree = "<group>"; };
+		AC414B652C653A900019DC1B /* BasicEditorTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicEditorTruss.swift; sourceTree = "<group>"; };
+		AC414B7A2C653AA20019DC1B /* MultiBankTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiBankTruss.swift; sourceTree = "<group>"; };
+		AC414B7B2C653AA20019DC1B /* SingleBankTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleBankTruss.swift; sourceTree = "<group>"; };
+		AC414B7C2C653AA20019DC1B /* JsBackupTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsBackupTruss.swift; sourceTree = "<group>"; };
+		AC414B7D2C653AA20019DC1B /* SinglePatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglePatchTruss.swift; sourceTree = "<group>"; };
+		AC414B7E2C653AA20019DC1B /* JsSysex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsSysex.swift; sourceTree = "<group>"; };
+		AC414B7F2C653AA20019DC1B /* JSONPatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONPatchTruss.swift; sourceTree = "<group>"; };
+		AC414B802C653AA20019DC1B /* JsCompactSingleBankTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsCompactSingleBankTruss.swift; sourceTree = "<group>"; };
+		AC414B812C653AA20019DC1B /* MultiPatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPatchTruss.swift; sourceTree = "<group>"; };
+		AC414B8A2C653AAE0019DC1B /* PatchController.DisplayMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.DisplayMap.swift; sourceTree = "<group>"; };
+		AC414B8B2C653AAE0019DC1B /* PatchController.Constraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.Constraint.swift; sourceTree = "<group>"; };
+		AC414B8C2C653AAE0019DC1B /* PatchController.Builder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.Builder.swift; sourceTree = "<group>"; };
+		AC414B8D2C653AAE0019DC1B /* PatchController.AttrChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.AttrChange.swift; sourceTree = "<group>"; };
+		AC414B8E2C653AAF0019DC1B /* PatchController.Display.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.Display.swift; sourceTree = "<group>"; };
+		AC414B8F2C653AAF0019DC1B /* PatchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.swift; sourceTree = "<group>"; };
+		AC414B902C653AAF0019DC1B /* PatchController.PanelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.PanelItem.swift; sourceTree = "<group>"; };
+		AC414B912C653AAF0019DC1B /* PatchController.Prefix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.Prefix.swift; sourceTree = "<group>"; };
+		AC414B922C653AAF0019DC1B /* PatchController.Effect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.Effect.swift; sourceTree = "<group>"; };
+		AC414BA02C653C290019DC1B /* JsParseTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsParseTransform.swift; sourceTree = "<group>"; };
+		AC4AC0EC2C65335900358BF0 /* PBAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PBAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC4AC0EF2C65335900358BF0 /* PBAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBAPI.h; sourceTree = "<group>"; };
+		AC4AC0F02C65335900358BF0 /* PBAPI.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = PBAPI.docc; sourceTree = "<group>"; };
+		AC4AC0F62C65335900358BF0 /* PBAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PBAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC4AC0FB2C65335900358BF0 /* PBAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBAPITests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AC414B382C653A7B0019DC1B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC414BA32C653C540019DC1B /* PBAPI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC414B412C653A7B0019DC1B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC414B452C653A7B0019DC1B /* PBJS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC4AC0E92C65335900358BF0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC4AC0F32C65335900358BF0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC4AC0F72C65335900358BF0 /* PBAPI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AC414B232C6536020019DC1B /* Roland */ = {
+			isa = PBXGroup;
+			children = (
+				AC414B0F2C6535FD0019DC1B /* Roland.swift */,
+				AC414B0E2C6535FD0019DC1B /* RolandAddress.swift */,
+				AC414B112C6535FD0019DC1B /* RolandDeviceIdSettingsTruss.swift */,
+				AC414B042C6535FD0019DC1B /* RolandSysexTrussWerk.swift */,
+				AC414B0C2C6535FD0019DC1B /* AnyRolandSysexTrussWerk.swift */,
+				AC414B072C6535FD0019DC1B /* RolandPatchTrussWerk.swift */,
+				AC414B012C6535FC0019DC1B /* RolandSinglePatchTrussWerk.swift */,
+				AC414B062C6535FD0019DC1B /* RolandMultiPatchTrussWerk.swift */,
+				AC414B0D2C6535FD0019DC1B /* RolandSingleBankTrussWerk.swift */,
+				AC414B022C6535FC0019DC1B /* RolandMultiBankTrussWerk.swift */,
+				AC414B032C6535FD0019DC1B /* RolandMultiSysexTrussWerk.swift */,
+				AC414B102C6535FD0019DC1B /* RolandEditorTrussWerk.swift */,
+				AC414B0A2C6535FD0019DC1B /* RolandModule.swift */,
+				AC414B0B2C6535FD0019DC1B /* SRXBoard.swift */,
+				AC414B052C6535FD0019DC1B /* SRJVBoard.swift */,
+				AC414B082C6535FD0019DC1B /* SOPCMCard.swift */,
+				AC414B092C6535FD0019DC1B /* RolandData.swift */,
+			);
+			path = Roland;
+			sourceTree = "<group>";
+		};
+		AC414B3C2C653A7B0019DC1B /* PBJS */ = {
+			isa = PBXGroup;
+			children = (
+				AC414B3D2C653A7B0019DC1B /* PBJS.h */,
+				AC414B642C653A900019DC1B /* Jiso.swift */,
+				AC414B602C653A900019DC1B /* JsByte.swift */,
+				AC414B592C653A900019DC1B /* JsModuleLoader.swift */,
+				AC414B632C653A900019DC1B /* JsConsole.swift */,
+				AC414BA02C653C290019DC1B /* JsParseTransform.swift */,
+				AC414B622C653A900019DC1B /* JSValue--Helper.swift */,
+				AC414B582C653A900019DC1B /* JSError.swift */,
+				AC414B542C653A900019DC1B /* JsModuleWerk.swift */,
+				AC414B5B2C653A900019DC1B /* SynthPath.swift */,
+				AC414B5D2C653A900019DC1B /* Parm.swift */,
+				AC414B652C653A900019DC1B /* BasicEditorTruss.swift */,
+				AC414B612C653A900019DC1B /* BasicModuleTruss.swift */,
+				AC414B5E2C653A900019DC1B /* MidiChannelTransform.swift */,
+				AC414B562C653A900019DC1B /* MidiTransform.swift */,
+				AC414B572C653A900019DC1B /* RxMidi-FetchCommand.swift */,
+				AC414B5A2C653A900019DC1B /* FetchTransform.swift */,
+				AC414B522C653A8F0019DC1B /* MidiMessage.swift */,
+				AC414B5C2C653A900019DC1B /* MemSlot-Transform.swift */,
+				AC414B532C653A900019DC1B /* EditorValueTransform.swift */,
+				AC414B5F2C653A900019DC1B /* ModuleTrussSection.swift */,
+				AC414B7E2C653AA20019DC1B /* JsSysex.swift */,
+				AC414B7D2C653AA20019DC1B /* SinglePatchTruss.swift */,
+				AC414B7B2C653AA20019DC1B /* SingleBankTruss.swift */,
+				AC414B7F2C653AA20019DC1B /* JSONPatchTruss.swift */,
+				AC414B812C653AA20019DC1B /* MultiPatchTruss.swift */,
+				AC414B7A2C653AA20019DC1B /* MultiBankTruss.swift */,
+				AC414B802C653AA20019DC1B /* JsCompactSingleBankTruss.swift */,
+				AC414B7C2C653AA20019DC1B /* JsBackupTruss.swift */,
+				AC414B8F2C653AAF0019DC1B /* PatchController.swift */,
+				AC414B922C653AAF0019DC1B /* PatchController.Effect.swift */,
+				AC414B8D2C653AAE0019DC1B /* PatchController.AttrChange.swift */,
+				AC414B912C653AAF0019DC1B /* PatchController.Prefix.swift */,
+				AC414B8C2C653AAE0019DC1B /* PatchController.Builder.swift */,
+				AC414B902C653AAF0019DC1B /* PatchController.PanelItem.swift */,
+				AC414B8E2C653AAF0019DC1B /* PatchController.Display.swift */,
+				AC414B8A2C653AAE0019DC1B /* PatchController.DisplayMap.swift */,
+				AC414B8B2C653AAE0019DC1B /* PatchController.Constraint.swift */,
+				AC414B3E2C653A7B0019DC1B /* PBJS.docc */,
+			);
+			path = PBJS;
+			sourceTree = "<group>";
+		};
+		AC414B482C653A7B0019DC1B /* PBJSTests */ = {
+			isa = PBXGroup;
+			children = (
+				AC414B492C653A7B0019DC1B /* PBJSTests.swift */,
+			);
+			path = PBJSTests;
+			sourceTree = "<group>";
+		};
+		AC414BA22C653C540019DC1B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AC4AC0E22C65335900358BF0 = {
+			isa = PBXGroup;
+			children = (
+				AC4AC0EE2C65335900358BF0 /* PBAPI */,
+				AC414B3C2C653A7B0019DC1B /* PBJS */,
+				AC4AC0FA2C65335900358BF0 /* PBAPITests */,
+				AC414B482C653A7B0019DC1B /* PBJSTests */,
+				AC4AC0ED2C65335900358BF0 /* Products */,
+				AC414BA22C653C540019DC1B /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		AC4AC0ED2C65335900358BF0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC4AC0EC2C65335900358BF0 /* PBAPI.framework */,
+				AC4AC0F62C65335900358BF0 /* PBAPITests.xctest */,
+				AC414B3B2C653A7B0019DC1B /* PBJS.framework */,
+				AC414B442C653A7B0019DC1B /* PBJSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC4AC0EE2C65335900358BF0 /* PBAPI */ = {
+			isa = PBXGroup;
+			children = (
+				AC4AC0EF2C65335900358BF0 /* PBAPI.h */,
+				AC3DB3DA2C65340A00375C37 /* SynthPath.swift */,
+				AC3DB3DC2C65340A00375C37 /* SynthPathTree.swift */,
+				AC3DB3DB2C65340A00375C37 /* JsSynthPath.swift */,
+				AC414A4A2C6535150019DC1B /* Sysexible.swift */,
+				AC414A482C6535150019DC1B /* AnySysexible.swift */,
+				AC414A492C6535150019DC1B /* AnySysexPatch.swift */,
+				AC414A4B2C6535150019DC1B /* AnySysexPatchBank.swift */,
+				AC414A4C2C6535150019DC1B /* AnyMultiSysexible.swift */,
+				AC414A542C65352C0019DC1B /* PatchController.swift */,
+				AC414A522C65352C0019DC1B /* PatchControllerState.swift */,
+				AC414A532C65352C0019DC1B /* PBController.swift */,
+				AC414A552C65352C0019DC1B /* InfoSaveController.swift */,
+				AC414A562C65352C0019DC1B /* PBBezier.swift */,
+				AC414A602C65353F0019DC1B /* PatchController-RateLevelEnv.swift */,
+				AC414A5F2C65353F0019DC1B /* PatchController-TimeLevelEnv.swift */,
+				AC414A5C2C65353F0019DC1B /* PatchController-DadsrEnv.swift */,
+				AC414A5D2C65353F0019DC1B /* PatchController-AdsrEnv.swift */,
+				AC414A5E2C65353F0019DC1B /* PatchController-LevelScaling.swift */,
+				AC414A6B2C65354C0019DC1B /* PBTypealiases.swift */,
+				AC414A662C65354C0019DC1B /* PBLayoutConstraint.swift */,
+				AC414A742C65354D0019DC1B /* ParamOptions.swift */,
+				AC414A6E2C65354C0019DC1B /* ParamHelper.swift */,
+				AC414A6C2C65354C0019DC1B /* PBTextAlignment.swift */,
+				AC414A6A2C65354C0019DC1B /* Parm.swift */,
+				AC414A6D2C65354C0019DC1B /* PackIso.swift */,
+				AC414A722C65354C0019DC1B /* NamePackIso.swift */,
+				AC414A682C65354C0019DC1B /* Iso.swift */,
+				AC414A6F2C65354C0019DC1B /* Yamaha.swift */,
+				AC414A712C65354C0019DC1B /* Miso.swift */,
+				AC414A692C65354C0019DC1B /* BitUtility.swift */,
+				AC414A732C65354C0019DC1B /* Collection-Extras.swift */,
+				AC414A672C65354C0019DC1B /* Param.swift */,
+				AC414A702C65354C0019DC1B /* DXAlgorithm.swift */,
+				AC414A852C65355A0019DC1B /* Algorithms.plist */,
+				AC414A862C65355A0019DC1B /* TX81Z Algorithms.plist */,
+				AC414A842C65355A0019DC1B /* MIDIMessage.swift */,
+				AC414A8A2C6535660019DC1B /* SynthWerk.swift */,
+				AC414A8C2C65356E0019DC1B /* EditorTruss.swift */,
+				AC414A8E2C65356E0019DC1B /* EditorTrussCore.swift */,
+				AC414A8D2C65356E0019DC1B /* BasicEditorTruss.swift */,
+				AC414A932C6535760019DC1B /* SysexTruss.swift */,
+				AC414A942C6535760019DC1B /* PatchTruss.swift */,
+				AC414A922C6535760019DC1B /* BankTruss.swift */,
+				AC414A952C6535760019DC1B /* MultiSysexTruss.swift */,
+				AC414AA22C6535820019DC1B /* SysexTrussCore.swift */,
+				AC414AA02C6535820019DC1B /* SinglePatchTruss.swift */,
+				AC414A9D2C6535820019DC1B /* MultiPatchTruss.swift */,
+				AC414A9B2C6535820019DC1B /* SomeBankTruss.swift */,
+				AC414A9F2C6535820019DC1B /* BankTruss-Compact.swift */,
+				AC414A9A2C6535820019DC1B /* JSONPatchTruss.swift */,
+				AC414A9E2C6535820019DC1B /* BackupTruss.swift */,
+				AC414A9C2C6535820019DC1B /* FullRefTruss.swift */,
+				AC414AA12C6535820019DC1B /* ChannelSettingsTruss.swift */,
+				AC414AAC2C65358B0019DC1B /* PatchTrussWerk.swift */,
+				AC414AAD2C65358B0019DC1B /* SingleBankTrussWerk.swift */,
+				AC414AB22C6535940019DC1B /* LocalTrussType.swift */,
+				AC414AB02C6535940019DC1B /* SysexTrussError.swift */,
+				AC414AB12C6535940019DC1B /* SysexData.swift */,
+				AC414ABE2C65359D0019DC1B /* MidiTransform.swift */,
+				AC414AC02C65359D0019DC1B /* ParamOutTransform.swift */,
+				AC414AB72C65359C0019DC1B /* FetchTransform.swift */,
+				AC414ABD2C65359D0019DC1B /* MidiChannelTransform.swift */,
+				AC414ABA2C65359C0019DC1B /* MemSlotTransform.swift */,
+				AC414ABF2C65359D0019DC1B /* EditorCommand.swift */,
+				AC414AB62C65359C0019DC1B /* EditorCommandEffect.swift */,
+				AC414AB82C65359C0019DC1B /* EditorPathTransform.swift */,
+				AC414AB92C65359C0019DC1B /* EditorValueTransform.swift */,
+				AC414ABC2C65359D0019DC1B /* ModuleCommand.swift */,
+				AC414ABB2C65359C0019DC1B /* ModuleCommandEffect.swift */,
+				AC414ACC2C6535A50019DC1B /* RxMidi.swift */,
+				AC414ACF2C6535B00019DC1B /* UrModuleTruss.swift */,
+				AC414AD02C6535B00019DC1B /* ModuleTruss.swift */,
+				AC414ACE2C6535B00019DC1B /* BasicModuleTruss.swift */,
+				AC414AD32C6535B00019DC1B /* ModuleTrussCore.swift */,
+				AC414AD52C6535B10019DC1B /* ModuleTrussSection.swift */,
+				AC414AD42C6535B00019DC1B /* ModuleTrussController.swift */,
+				AC414AD12C6535B00019DC1B /* Manufacturer.swift */,
+				AC414ADE2C6535BA0019DC1B /* ColorGuide.swift */,
+				AC414AD22C6535B00019DC1B /* AnySynthModule.swift */,
+				AC414B232C6536020019DC1B /* Roland */,
+				AC414B242C65361A0019DC1B /* AnySynthEditor.swift */,
+				AC414AE32C6535C80019DC1B /* PBColor+Oklab.swift */,
+				AC414B282C65362C0019DC1B /* NuPatchChange.swift */,
+				AC414B292C65362C0019DC1B /* NuBankChange.swift */,
+				AC414B262C65362C0019DC1B /* NuBackupChange.swift */,
+				AC414B272C65362C0019DC1B /* Change.swift */,
+				AC4AC0F02C65335900358BF0 /* PBAPI.docc */,
+			);
+			path = PBAPI;
+			sourceTree = "<group>";
+		};
+		AC4AC0FA2C65335900358BF0 /* PBAPITests */ = {
+			isa = PBXGroup;
+			children = (
+				AC4AC0FB2C65335900358BF0 /* PBAPITests.swift */,
+			);
+			path = PBAPITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		AC414B362C653A7B0019DC1B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC414B4B2C653A7B0019DC1B /* PBJS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC4AC0E72C65335900358BF0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC4AC0FD2C65335900358BF0 /* PBAPI.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		AC414B3A2C653A7B0019DC1B /* PBJS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC414B4C2C653A7B0019DC1B /* Build configuration list for PBXNativeTarget "PBJS" */;
+			buildPhases = (
+				AC414B362C653A7B0019DC1B /* Headers */,
+				AC414B372C653A7B0019DC1B /* Sources */,
+				AC414B382C653A7B0019DC1B /* Frameworks */,
+				AC414B392C653A7B0019DC1B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AC414BA62C653C540019DC1B /* PBXTargetDependency */,
+			);
+			name = PBJS;
+			productName = PBJS;
+			productReference = AC414B3B2C653A7B0019DC1B /* PBJS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		AC414B432C653A7B0019DC1B /* PBJSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC414B4F2C653A7B0019DC1B /* Build configuration list for PBXNativeTarget "PBJSTests" */;
+			buildPhases = (
+				AC414B402C653A7B0019DC1B /* Sources */,
+				AC414B412C653A7B0019DC1B /* Frameworks */,
+				AC414B422C653A7B0019DC1B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AC414B472C653A7B0019DC1B /* PBXTargetDependency */,
+			);
+			name = PBJSTests;
+			productName = PBJSTests;
+			productReference = AC414B442C653A7B0019DC1B /* PBJSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AC4AC0EB2C65335900358BF0 /* PBAPI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC4AC1002C65335900358BF0 /* Build configuration list for PBXNativeTarget "PBAPI" */;
+			buildPhases = (
+				AC4AC0E72C65335900358BF0 /* Headers */,
+				AC4AC0E82C65335900358BF0 /* Sources */,
+				AC4AC0E92C65335900358BF0 /* Frameworks */,
+				AC4AC0EA2C65335900358BF0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PBAPI;
+			productName = PBAPI;
+			productReference = AC4AC0EC2C65335900358BF0 /* PBAPI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		AC4AC0F52C65335900358BF0 /* PBAPITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC4AC1032C65335900358BF0 /* Build configuration list for PBXNativeTarget "PBAPITests" */;
+			buildPhases = (
+				AC4AC0F22C65335900358BF0 /* Sources */,
+				AC4AC0F32C65335900358BF0 /* Frameworks */,
+				AC4AC0F42C65335900358BF0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AC4AC0F92C65335900358BF0 /* PBXTargetDependency */,
+			);
+			name = PBAPITests;
+			productName = PBAPITests;
+			productReference = AC4AC0F62C65335900358BF0 /* PBAPITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AC4AC0E32C65335900358BF0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					AC414B3A2C653A7B0019DC1B = {
+						CreatedOnToolsVersion = 15.2;
+					};
+					AC414B432C653A7B0019DC1B = {
+						CreatedOnToolsVersion = 15.2;
+					};
+					AC4AC0EB2C65335900358BF0 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+					AC4AC0F52C65335900358BF0 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+				};
+			};
+			buildConfigurationList = AC4AC0E62C65335900358BF0 /* Build configuration list for PBXProject "PBAPI" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AC4AC0E22C65335900358BF0;
+			productRefGroup = AC4AC0ED2C65335900358BF0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AC4AC0EB2C65335900358BF0 /* PBAPI */,
+				AC4AC0F52C65335900358BF0 /* PBAPITests */,
+				AC414B3A2C653A7B0019DC1B /* PBJS */,
+				AC414B432C653A7B0019DC1B /* PBJSTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AC414B392C653A7B0019DC1B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC414B422C653A7B0019DC1B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC4AC0EA2C65335900358BF0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC414A882C65355A0019DC1B /* Algorithms.plist in Resources */,
+				AC414A892C65355A0019DC1B /* TX81Z Algorithms.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC4AC0F42C65335900358BF0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AC414B372C653A7B0019DC1B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC414B792C653A900019DC1B /* BasicEditorTruss.swift in Sources */,
+				AC414BA12C653C290019DC1B /* JsParseTransform.swift in Sources */,
+				AC414B952C653AAF0019DC1B /* PatchController.Builder.swift in Sources */,
+				AC414B662C653A900019DC1B /* MidiMessage.swift in Sources */,
+				AC414B992C653AAF0019DC1B /* PatchController.PanelItem.swift in Sources */,
+				AC414B842C653AA20019DC1B /* JsBackupTruss.swift in Sources */,
+				AC414B752C653A900019DC1B /* BasicModuleTruss.swift in Sources */,
+				AC414B882C653AA20019DC1B /* JsCompactSingleBankTruss.swift in Sources */,
+				AC414B722C653A900019DC1B /* MidiChannelTransform.swift in Sources */,
+				AC414B9B2C653AAF0019DC1B /* PatchController.Effect.swift in Sources */,
+				AC414B932C653AAF0019DC1B /* PatchController.DisplayMap.swift in Sources */,
+				AC414B892C653AA20019DC1B /* MultiPatchTruss.swift in Sources */,
+				AC414B9A2C653AAF0019DC1B /* PatchController.Prefix.swift in Sources */,
+				AC414B682C653A900019DC1B /* JsModuleWerk.swift in Sources */,
+				AC414B712C653A900019DC1B /* Parm.swift in Sources */,
+				AC414B942C653AAF0019DC1B /* PatchController.Constraint.swift in Sources */,
+				AC414B852C653AA20019DC1B /* SinglePatchTruss.swift in Sources */,
+				AC414B822C653AA20019DC1B /* MultiBankTruss.swift in Sources */,
+				AC414B832C653AA20019DC1B /* SingleBankTruss.swift in Sources */,
+				AC414B732C653A900019DC1B /* ModuleTrussSection.swift in Sources */,
+				AC414B6E2C653A900019DC1B /* FetchTransform.swift in Sources */,
+				AC414B862C653AA20019DC1B /* JsSysex.swift in Sources */,
+				AC414B702C653A900019DC1B /* MemSlot-Transform.swift in Sources */,
+				AC414B742C653A900019DC1B /* JsByte.swift in Sources */,
+				AC414B6A2C653A900019DC1B /* MidiTransform.swift in Sources */,
+				AC414B6F2C653A900019DC1B /* SynthPath.swift in Sources */,
+				AC414B872C653AA20019DC1B /* JSONPatchTruss.swift in Sources */,
+				AC414B962C653AAF0019DC1B /* PatchController.AttrChange.swift in Sources */,
+				AC414B982C653AAF0019DC1B /* PatchController.swift in Sources */,
+				AC414B672C653A900019DC1B /* EditorValueTransform.swift in Sources */,
+				AC414B3F2C653A7B0019DC1B /* PBJS.docc in Sources */,
+				AC414B782C653A900019DC1B /* Jiso.swift in Sources */,
+				AC414B772C653A900019DC1B /* JsConsole.swift in Sources */,
+				AC414B6D2C653A900019DC1B /* JsModuleLoader.swift in Sources */,
+				AC414B972C653AAF0019DC1B /* PatchController.Display.swift in Sources */,
+				AC414B6B2C653A900019DC1B /* RxMidi-FetchCommand.swift in Sources */,
+				AC414B762C653A900019DC1B /* JSValue--Helper.swift in Sources */,
+				AC414B6C2C653A900019DC1B /* JSError.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC414B402C653A7B0019DC1B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC414B4A2C653A7B0019DC1B /* PBJSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC4AC0E82C65335900358BF0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC414AB42C6535940019DC1B /* SysexData.swift in Sources */,
+				AC414A4E2C6535150019DC1B /* AnySysexPatch.swift in Sources */,
+				AC414A7D2C65354D0019DC1B /* ParamHelper.swift in Sources */,
+				AC414ADD2C6535B10019DC1B /* ModuleTrussSection.swift in Sources */,
+				AC414AB52C6535940019DC1B /* LocalTrussType.swift in Sources */,
+				AC414B182C6535FD0019DC1B /* RolandPatchTrussWerk.swift in Sources */,
+				AC414AAF2C65358B0019DC1B /* SingleBankTrussWerk.swift in Sources */,
+				AC414A512C6535150019DC1B /* AnyMultiSysexible.swift in Sources */,
+				AC414AA72C6535830019DC1B /* BackupTruss.swift in Sources */,
+				AC414A632C65353F0019DC1B /* PatchController-LevelScaling.swift in Sources */,
+				AC414A4D2C6535150019DC1B /* AnySysexible.swift in Sources */,
+				AC414AC92C65359D0019DC1B /* MidiTransform.swift in Sources */,
+				AC414AF22C6535C90019DC1B /* PBColor+Oklab.swift in Sources */,
+				AC414A7A2C65354D0019DC1B /* PBTypealiases.swift in Sources */,
+				AC414ACB2C65359D0019DC1B /* ParamOutTransform.swift in Sources */,
+				AC414B2B2C65362C0019DC1B /* Change.swift in Sources */,
+				AC414A982C6535760019DC1B /* PatchTruss.swift in Sources */,
+				AC414AA92C6535830019DC1B /* SinglePatchTruss.swift in Sources */,
+				AC414B252C65361A0019DC1B /* AnySynthEditor.swift in Sources */,
+				AC414A752C65354D0019DC1B /* PBLayoutConstraint.swift in Sources */,
+				AC414B152C6535FD0019DC1B /* RolandSysexTrussWerk.swift in Sources */,
+				AC414AC12C65359D0019DC1B /* EditorCommandEffect.swift in Sources */,
+				AC414A642C65353F0019DC1B /* PatchController-TimeLevelEnv.swift in Sources */,
+				AC414B212C6535FD0019DC1B /* RolandEditorTrussWerk.swift in Sources */,
+				AC414B1A2C6535FD0019DC1B /* RolandData.swift in Sources */,
+				AC414A502C6535150019DC1B /* AnySysexPatchBank.swift in Sources */,
+				AC414A902C65356E0019DC1B /* BasicEditorTruss.swift in Sources */,
+				AC414ADB2C6535B10019DC1B /* ModuleTrussCore.swift in Sources */,
+				AC414AAB2C6535830019DC1B /* SysexTrussCore.swift in Sources */,
+				AC414ADF2C6535BA0019DC1B /* ColorGuide.swift in Sources */,
+				AC414A652C65353F0019DC1B /* PatchController-RateLevelEnv.swift in Sources */,
+				AC414B1D2C6535FD0019DC1B /* AnyRolandSysexTrussWerk.swift in Sources */,
+				AC414AC72C65359D0019DC1B /* ModuleCommand.swift in Sources */,
+				AC414A832C65354D0019DC1B /* ParamOptions.swift in Sources */,
+				AC414B122C6535FD0019DC1B /* RolandSinglePatchTrussWerk.swift in Sources */,
+				AC414B1E2C6535FD0019DC1B /* RolandSingleBankTrussWerk.swift in Sources */,
+				AC414A592C65352C0019DC1B /* PatchController.swift in Sources */,
+				AC414B2D2C65362C0019DC1B /* NuBankChange.swift in Sources */,
+				AC414A802C65354D0019DC1B /* Miso.swift in Sources */,
+				AC414A762C65354D0019DC1B /* Param.swift in Sources */,
+				AC414A782C65354D0019DC1B /* BitUtility.swift in Sources */,
+				AC414AD82C6535B10019DC1B /* ModuleTruss.swift in Sources */,
+				AC414AAE2C65358B0019DC1B /* PatchTrussWerk.swift in Sources */,
+				AC414AA62C6535830019DC1B /* MultiPatchTruss.swift in Sources */,
+				AC414B1B2C6535FD0019DC1B /* RolandModule.swift in Sources */,
+				AC414A7F2C65354D0019DC1B /* DXAlgorithm.swift in Sources */,
+				AC414A7E2C65354D0019DC1B /* Yamaha.swift in Sources */,
+				AC414B1F2C6535FD0019DC1B /* RolandAddress.swift in Sources */,
+				AC414A8F2C65356E0019DC1B /* EditorTruss.swift in Sources */,
+				AC414A872C65355A0019DC1B /* MIDIMessage.swift in Sources */,
+				AC414B2A2C65362C0019DC1B /* NuBackupChange.swift in Sources */,
+				AC414AC52C65359D0019DC1B /* MemSlotTransform.swift in Sources */,
+				AC414B2C2C65362C0019DC1B /* NuPatchChange.swift in Sources */,
+				AC414A7B2C65354D0019DC1B /* PBTextAlignment.swift in Sources */,
+				AC414ACA2C65359D0019DC1B /* EditorCommand.swift in Sources */,
+				AC4AC0F12C65335900358BF0 /* PBAPI.docc in Sources */,
+				AC414A612C65353F0019DC1B /* PatchController-DadsrEnv.swift in Sources */,
+				AC414A972C6535760019DC1B /* SysexTruss.swift in Sources */,
+				AC414A962C6535760019DC1B /* BankTruss.swift in Sources */,
+				AC414A792C65354D0019DC1B /* Parm.swift in Sources */,
+				AC414A4F2C6535150019DC1B /* Sysexible.swift in Sources */,
+				AC414AD72C6535B10019DC1B /* UrModuleTruss.swift in Sources */,
+				AC414B1C2C6535FD0019DC1B /* SRXBoard.swift in Sources */,
+				AC414AC82C65359D0019DC1B /* MidiChannelTransform.swift in Sources */,
+				AC3DB3DF2C65340A00375C37 /* SynthPathTree.swift in Sources */,
+				AC414B132C6535FD0019DC1B /* RolandMultiBankTrussWerk.swift in Sources */,
+				AC3DB3DD2C65340A00375C37 /* SynthPath.swift in Sources */,
+				AC414ADA2C6535B10019DC1B /* AnySynthModule.swift in Sources */,
+				AC414AC62C65359D0019DC1B /* ModuleCommandEffect.swift in Sources */,
+				AC414AA52C6535830019DC1B /* FullRefTruss.swift in Sources */,
+				AC414AD92C6535B10019DC1B /* Manufacturer.swift in Sources */,
+				AC414AC32C65359D0019DC1B /* EditorPathTransform.swift in Sources */,
+				AC414A992C6535760019DC1B /* MultiSysexTruss.swift in Sources */,
+				AC414AA82C6535830019DC1B /* BankTruss-Compact.swift in Sources */,
+				AC414AC42C65359D0019DC1B /* EditorValueTransform.swift in Sources */,
+				AC414B202C6535FD0019DC1B /* Roland.swift in Sources */,
+				AC414A912C65356E0019DC1B /* EditorTrussCore.swift in Sources */,
+				AC414AD62C6535B10019DC1B /* BasicModuleTruss.swift in Sources */,
+				AC414A812C65354D0019DC1B /* NamePackIso.swift in Sources */,
+				AC414A7C2C65354D0019DC1B /* PackIso.swift in Sources */,
+				AC414A572C65352C0019DC1B /* PatchControllerState.swift in Sources */,
+				AC414ADC2C6535B10019DC1B /* ModuleTrussController.swift in Sources */,
+				AC414A5B2C65352C0019DC1B /* PBBezier.swift in Sources */,
+				AC414A622C65353F0019DC1B /* PatchController-AdsrEnv.swift in Sources */,
+				AC414A822C65354D0019DC1B /* Collection-Extras.swift in Sources */,
+				AC414ACD2C6535A50019DC1B /* RxMidi.swift in Sources */,
+				AC414AA42C6535830019DC1B /* SomeBankTruss.swift in Sources */,
+				AC414A5A2C65352C0019DC1B /* InfoSaveController.swift in Sources */,
+				AC414B192C6535FD0019DC1B /* SOPCMCard.swift in Sources */,
+				AC414AAA2C6535830019DC1B /* ChannelSettingsTruss.swift in Sources */,
+				AC414A582C65352C0019DC1B /* PBController.swift in Sources */,
+				AC414AC22C65359D0019DC1B /* FetchTransform.swift in Sources */,
+				AC414A8B2C6535660019DC1B /* SynthWerk.swift in Sources */,
+				AC3DB3DE2C65340A00375C37 /* JsSynthPath.swift in Sources */,
+				AC414AA32C6535830019DC1B /* JSONPatchTruss.swift in Sources */,
+				AC414AB32C6535940019DC1B /* SysexTrussError.swift in Sources */,
+				AC414B142C6535FD0019DC1B /* RolandMultiSysexTrussWerk.swift in Sources */,
+				AC414A772C65354D0019DC1B /* Iso.swift in Sources */,
+				AC414B222C6535FD0019DC1B /* RolandDeviceIdSettingsTruss.swift in Sources */,
+				AC414B162C6535FD0019DC1B /* SRJVBoard.swift in Sources */,
+				AC414B172C6535FD0019DC1B /* RolandMultiPatchTrussWerk.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC4AC0F22C65335900358BF0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC4AC0FC2C65335900358BF0 /* PBAPITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AC414B472C653A7B0019DC1B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AC414B3A2C653A7B0019DC1B /* PBJS */;
+			targetProxy = AC414B462C653A7B0019DC1B /* PBXContainerItemProxy */;
+		};
+		AC414BA62C653C540019DC1B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AC4AC0EB2C65335900358BF0 /* PBAPI */;
+			targetProxy = AC414BA52C653C540019DC1B /* PBXContainerItemProxy */;
+		};
+		AC4AC0F92C65335900358BF0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AC4AC0EB2C65335900358BF0 /* PBAPI */;
+			targetProxy = AC4AC0F82C65335900358BF0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AC414B4D2C653A7B0019DC1B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 69ZS843RHQ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.coffeeshopped.PBJS;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		AC414B4E2C653A7B0019DC1B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 69ZS843RHQ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.coffeeshopped.PBJS;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
+		AC414B502C653A7B0019DC1B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 69ZS843RHQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.coffeeshopped.PBJSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AC414B512C653A7B0019DC1B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 69ZS843RHQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.coffeeshopped.PBJSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AC4AC0FE2C65335900358BF0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		AC4AC0FF2C65335900358BF0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		AC4AC1012C65335900358BF0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 69ZS843RHQ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.coffeeshopped.PBAPI;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		AC4AC1022C65335900358BF0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 69ZS843RHQ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.coffeeshopped.PBAPI;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
+		AC4AC1042C65335900358BF0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 69ZS843RHQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.coffeeshopped.PBAPITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AC4AC1052C65335900358BF0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 69ZS843RHQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.coffeeshopped.PBAPITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AC414B4C2C653A7B0019DC1B /* Build configuration list for PBXNativeTarget "PBJS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC414B4D2C653A7B0019DC1B /* Debug */,
+				AC414B4E2C653A7B0019DC1B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC414B4F2C653A7B0019DC1B /* Build configuration list for PBXNativeTarget "PBJSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC414B502C653A7B0019DC1B /* Debug */,
+				AC414B512C653A7B0019DC1B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC4AC0E62C65335900358BF0 /* Build configuration list for PBXProject "PBAPI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC4AC0FE2C65335900358BF0 /* Debug */,
+				AC4AC0FF2C65335900358BF0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC4AC1002C65335900358BF0 /* Build configuration list for PBXNativeTarget "PBAPI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC4AC1012C65335900358BF0 /* Debug */,
+				AC4AC1022C65335900358BF0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC4AC1032C65335900358BF0 /* Build configuration list for PBXNativeTarget "PBAPITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC4AC1042C65335900358BF0 /* Debug */,
+				AC4AC1052C65335900358BF0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AC4AC0E32C65335900358BF0 /* Project object */;
+}
