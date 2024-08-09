@@ -22,6 +22,25 @@ extension MidiTransform: JsParsable {
       }))
     }),
     ([
+      "type" : "multiDictPatch",
+    ], {
+      let throttle = (try? $0.int("throttle")) ?? 30
+      let editorVals: [EditorValueTransform] = (try? $0.xform("editorVal")) ?? []
+      let paramFn = try $0.fn("param")
+      let patchFn = try $0.any("patch")
+      let nameFn = try $0.fn("name")
+
+      return .multiDict(throttle: throttle, editorVals, .patch(param: { editorVal, bodyData, parm, value in
+        let e = editorVals.map { editorVal[$0]! }
+        return try makeMidiPairs(paramFn, bodyData, e, [parm.toJS(), value])
+      }, patch: { editorVal, bodyData in
+        let e = editorVals.map { editorVal[$0]! }
+        return try makeMidiPairs(patchFn, bodyData, e, [])
+      }, name: { editorVal, bodyData, path, name in
+        let e = editorVals.map { editorVal[$0]! }
+        return try makeMidiPairs(nameFn, bodyData, e, [path, name])
+      }))
+    }),    ([
       "type" : "singleBank",
     ], {
       let throttle = (try? $0.int("throttle")) ?? 30
@@ -34,15 +53,14 @@ extension MidiTransform: JsParsable {
   
   static func makeMidiPairs(_ fn: JSValue, _ bodyData: SinglePatchTruss.BodyData, _ editorVals: [Any], _ vals: [Any]) throws -> [(MidiMessage, Int)] {
     // fn can be a JS function
-    let mapVal = fn.isFn ? try fn.call(vals) : fn
     // or it can be something that should be parsed as a createFile...
+    let mapVal = fn.isFn ? try fn.call(vals) : fn
     return try mapVal!.map {
       if let msg = try? $0.arr(0).xform(MidiMessage.jsParsers) {
         return (msg, try $0.any(1).int())
       }
       else {
         // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
-        // TODO: what about single vs. multi?
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
         let fn = try $0.atIndex(0).xform(SinglePatchTruss.createFileRules)
@@ -50,5 +68,23 @@ extension MidiTransform: JsParsable {
       }
     }
   }
-  
+
+  static func makeMidiPairs(_ fn: JSValue, _ bodyData: MultiPatchTruss.BodyData, _ editorVals: [Any], _ vals: [Any]) throws -> [(MidiMessage, Int)] {
+    // fn can be a JS function
+    // or it can be something that should be parsed as a createFile...
+    let mapVal = fn.isFn ? try fn.call(vals) : fn
+    return try mapVal!.map {
+      if let msg = try? $0.arr(0).xform(MidiMessage.jsParsers) {
+        return (msg, try $0.any(1).int())
+      }
+      else {
+        // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
+        // TODO: here is where some caching needs to happen. Perhaps that caching
+        // could be implemented in the JsParseTransformSet struct.
+        let fn = try $0.atIndex(0).xform(MultiPatchTruss.createFileRules)
+        return (.sysex(try fn(bodyData, editorVals)), try $0.any(1).int())
+      }
+    }
+  }
+
 }

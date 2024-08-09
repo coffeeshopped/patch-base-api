@@ -138,7 +138,6 @@
 		AC414B852C653AA20019DC1B /* SinglePatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B7D2C653AA20019DC1B /* SinglePatchTruss.swift */; };
 		AC414B862C653AA20019DC1B /* JsSysex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B7E2C653AA20019DC1B /* JsSysex.swift */; };
 		AC414B872C653AA20019DC1B /* JSONPatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B7F2C653AA20019DC1B /* JSONPatchTruss.swift */; };
-		AC414B882C653AA20019DC1B /* JsCompactSingleBankTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B802C653AA20019DC1B /* JsCompactSingleBankTruss.swift */; };
 		AC414B892C653AA20019DC1B /* MultiPatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B812C653AA20019DC1B /* MultiPatchTruss.swift */; };
 		AC414B932C653AAF0019DC1B /* PatchController.DisplayMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B8A2C653AAE0019DC1B /* PatchController.DisplayMap.swift */; };
 		AC414B942C653AAF0019DC1B /* PatchController.Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B8B2C653AAE0019DC1B /* PatchController.Constraint.swift */; };
@@ -314,7 +313,6 @@
 		AC414B7D2C653AA20019DC1B /* SinglePatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglePatchTruss.swift; sourceTree = "<group>"; };
 		AC414B7E2C653AA20019DC1B /* JsSysex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsSysex.swift; sourceTree = "<group>"; };
 		AC414B7F2C653AA20019DC1B /* JSONPatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONPatchTruss.swift; sourceTree = "<group>"; };
-		AC414B802C653AA20019DC1B /* JsCompactSingleBankTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsCompactSingleBankTruss.swift; sourceTree = "<group>"; };
 		AC414B812C653AA20019DC1B /* MultiPatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPatchTruss.swift; sourceTree = "<group>"; };
 		AC414B8A2C653AAE0019DC1B /* PatchController.DisplayMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.DisplayMap.swift; sourceTree = "<group>"; };
 		AC414B8B2C653AAE0019DC1B /* PatchController.Constraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.Constraint.swift; sourceTree = "<group>"; };
@@ -331,6 +329,7 @@
 		AC4AC0F02C65335900358BF0 /* PBAPI.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = PBAPI.docc; sourceTree = "<group>"; };
 		AC4AC0F62C65335900358BF0 /* PBAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PBAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4AC0FB2C65335900358BF0 /* PBAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBAPITests.swift; sourceTree = "<group>"; };
+		AC58EC022C66A70400C1EEE5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -424,23 +423,8 @@
 				AC414B522C653A8F0019DC1B /* MidiMessage.swift */,
 				AC414B5C2C653A900019DC1B /* MemSlot-Transform.swift */,
 				AC414B5F2C653A900019DC1B /* ModuleTrussSection.swift */,
-				AC414B7E2C653AA20019DC1B /* JsSysex.swift */,
-				AC414B7D2C653AA20019DC1B /* SinglePatchTruss.swift */,
-				AC414B7B2C653AA20019DC1B /* SingleBankTruss.swift */,
-				AC414B7F2C653AA20019DC1B /* JSONPatchTruss.swift */,
-				AC414B812C653AA20019DC1B /* MultiPatchTruss.swift */,
-				AC414B7A2C653AA20019DC1B /* MultiBankTruss.swift */,
-				AC414B802C653AA20019DC1B /* JsCompactSingleBankTruss.swift */,
-				AC414B7C2C653AA20019DC1B /* JsBackupTruss.swift */,
-				AC414B8F2C653AAF0019DC1B /* PatchController.swift */,
-				AC414B922C653AAF0019DC1B /* PatchController.Effect.swift */,
-				AC414B8D2C653AAE0019DC1B /* PatchController.AttrChange.swift */,
-				AC414B912C653AAF0019DC1B /* PatchController.Prefix.swift */,
-				AC414B8C2C653AAE0019DC1B /* PatchController.Builder.swift */,
-				AC414B902C653AAF0019DC1B /* PatchController.PanelItem.swift */,
-				AC414B8E2C653AAF0019DC1B /* PatchController.Display.swift */,
-				AC414B8A2C653AAE0019DC1B /* PatchController.DisplayMap.swift */,
-				AC414B8B2C653AAE0019DC1B /* PatchController.Constraint.swift */,
+				AC58EC032C66AB6800C1EEE5 /* truss */,
+				AC58EC042C66AB8800C1EEE5 /* controller */,
 				AC414B3E2C653A7B0019DC1B /* PBJS.docc */,
 			);
 			path = PBJS;
@@ -464,6 +448,7 @@
 		AC4AC0E22C65335900358BF0 = {
 			isa = PBXGroup;
 			children = (
+				AC58EC022C66A70400C1EEE5 /* README.md */,
 				AC4AC0EE2C65335900358BF0 /* PBAPI */,
 				AC414B3C2C653A7B0019DC1B /* PBJS */,
 				AC4AC0FA2C65335900358BF0 /* PBAPITests */,
@@ -585,6 +570,36 @@
 				AC4AC0FB2C65335900358BF0 /* PBAPITests.swift */,
 			);
 			path = PBAPITests;
+			sourceTree = "<group>";
+		};
+		AC58EC032C66AB6800C1EEE5 /* truss */ = {
+			isa = PBXGroup;
+			children = (
+				AC414B7E2C653AA20019DC1B /* JsSysex.swift */,
+				AC414B7D2C653AA20019DC1B /* SinglePatchTruss.swift */,
+				AC414B7B2C653AA20019DC1B /* SingleBankTruss.swift */,
+				AC414B7F2C653AA20019DC1B /* JSONPatchTruss.swift */,
+				AC414B812C653AA20019DC1B /* MultiPatchTruss.swift */,
+				AC414B7A2C653AA20019DC1B /* MultiBankTruss.swift */,
+				AC414B7C2C653AA20019DC1B /* JsBackupTruss.swift */,
+			);
+			path = truss;
+			sourceTree = "<group>";
+		};
+		AC58EC042C66AB8800C1EEE5 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				AC414B8F2C653AAF0019DC1B /* PatchController.swift */,
+				AC414B912C653AAF0019DC1B /* PatchController.Prefix.swift */,
+				AC414B8C2C653AAE0019DC1B /* PatchController.Builder.swift */,
+				AC414B922C653AAF0019DC1B /* PatchController.Effect.swift */,
+				AC414B8D2C653AAE0019DC1B /* PatchController.AttrChange.swift */,
+				AC414B902C653AAF0019DC1B /* PatchController.PanelItem.swift */,
+				AC414B8E2C653AAF0019DC1B /* PatchController.Display.swift */,
+				AC414B8A2C653AAE0019DC1B /* PatchController.DisplayMap.swift */,
+				AC414B8B2C653AAE0019DC1B /* PatchController.Constraint.swift */,
+			);
+			path = controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -772,7 +787,6 @@
 				AC414B992C653AAF0019DC1B /* PatchController.PanelItem.swift in Sources */,
 				AC414B842C653AA20019DC1B /* JsBackupTruss.swift in Sources */,
 				AC414B752C653A900019DC1B /* BasicModuleTruss.swift in Sources */,
-				AC414B882C653AA20019DC1B /* JsCompactSingleBankTruss.swift in Sources */,
 				AC414B722C653A900019DC1B /* MidiChannelTransform.swift in Sources */,
 				AC414B9B2C653AAF0019DC1B /* PatchController.Effect.swift in Sources */,
 				AC414B932C653AAF0019DC1B /* PatchController.DisplayMap.swift in Sources */,

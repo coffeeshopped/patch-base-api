@@ -4,7 +4,7 @@ This repository holds the source code for 2 frameworks:
 
 ## PBAPI
 
-The Swift API for Patch Base, exposing all of the necessary structures for creating a synthesizer patch editor written in Swift and running on the newer (work-in-progress) version of the Patch Base platform.
+The Swift API for [Patch Base](https://coffeeshopped.com/patch-base), exposing all of the necessary structures for creating a synthesizer patch editor written in Swift and running on the newer (work-in-progress) version of the Patch Base platform.
 
 ## PBJS
 

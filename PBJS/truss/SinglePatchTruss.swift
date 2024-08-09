@@ -69,19 +69,15 @@ extension SinglePatchTruss: JsParsable {
       return { b, e in try fn.call([b, e]).arrByte() }
     }),
     (".a", {
-      let fns = try $0.xformArr(createFileFnRules)
+      let fns = try $0.xformArr(createFileRules)
       return { b, e in
         try fns.reduce(b) { partialResult, fn in try fn(partialResult, e) }
       }
-    })
-  ], "singlePatchTruss createFile")
-
-  typealias CreateFileDataFnPlus = (BodyData, [Any]) throws -> BodyData
-  static let createFileFnRules: JsParseTransformSet<CreateFileDataFnPlus> = try! .init([
+    }),
     (["+"], { v in
       let count = v.arrCount()
-      let fns: [CreateFileDataFnPlus] = try (1..<count).map {
-        try v.atIndex($0).xform(createFileFnRules)
+      let fns: [Core.CreateFileDataFn] = try (1..<count).map {
+        try v.atIndex($0).xform(createFileRules)
       }
       return { b, e in
         try fns.reduce([]) { try $0 + $1(b, e) }
@@ -109,9 +105,9 @@ extension SinglePatchTruss: JsParsable {
       return { _, _ in bytes }
     }),
     (["yamCmd", ".x"], {
-      let arg1 = try $0.any(1).xform(createFileFnRules)
+      let arg1 = try $0.any(1).xform(createFileRules)
       // second arg is optional, defaults to "b"
-      let arg2 = try (try? $0.any(2))?.xform(createFileFnRules)
+      let arg2 = try (try? $0.any(2))?.xform(createFileRules)
       return { b, e in Yamaha.sysexData(cmdBytesWithChannel: try arg1(b, e), bodyBytes: try arg2?(b ,e) ?? b) }
     }),
     ("b", { _ in { b, e in b } }), // returns itself
@@ -143,14 +139,10 @@ extension SinglePatchTruss: JsParsable {
       guard let arg = try? $0.any(1) else {
         return { b, e in fn(b) }
       }
-      let bb = try arg.xform(createFileFnRules)
+      let bb = try arg.xform(createFileRules)
       return { b, e in fn(try bb(b, e)) }
     }),
-//    ([".s"], {
-//      // array starts with string: treat as singleArg fn
-//      return try $0.any(0).xform(createFileFnRules)
-//    })
-  ], "singlePatchTruss createFileFn Functions")
+  ], "singlePatchTruss createFile")
 
   static let singleArgCreateFileFnRules: [String:(BodyData) -> BodyData] = [
     "nibblizeLSB": {
