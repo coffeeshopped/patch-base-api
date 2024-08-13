@@ -16,7 +16,7 @@ extension SinglePatchTruss: JsBankParsable {
       let initFile = (try? $0.str("initFile")) ?? ""
       let validSizes = try $0.arr("validSizes").arrInt()
       let includeFileDataCount = try $0.bool("includeFileDataCount")
-      let createFile = try $0.obj("createFile").xform(SingleBankTruss.createFileRules)
+      let createFile = try $0.obj("createFile").xform(SingleBankTruss.toMidiRules)
       let parseBody = try $0.obj("parseBody").xform(SingleBankTruss.parseBodyRules)
       return .init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody)
     }),
@@ -36,8 +36,8 @@ extension SinglePatchTruss: JsBankParsable {
       let compactTruss: SinglePatchTruss = try $0.xform("compactTruss")
       let compactByteCount = compactTruss.bodyDataCount
 
-      let singleCreateFile = try $0.any("createFile").xform(createFileRules)
-      let createFile: SingleBankTruss.Core.CreateFileDataFn = { bodyData, e in
+      let singleCreateFile = try $0.any("createFile").xform(toMidiRules)
+      let createFile: SingleBankTruss.Core.ToMidiFn = { bodyData, e in
         var patchData: [UInt8] = bodyData.flatMap {
           compactTruss.parse(otherData: $0, otherTruss: patchTruss)
         }
@@ -65,7 +65,7 @@ extension SinglePatchTruss: JsBankParsable {
 
 extension SingleBankTruss {
   
-  static let createFileRules: JsParseTransformSet<Core.CreateFileDataFn> = try! .init([
+  static let toMidiRules: JsParseTransformSet<Core.ToMidiFn> = try! .init([
     ([
       "locationMap" : ".f",
     ], {

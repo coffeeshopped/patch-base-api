@@ -19,8 +19,8 @@ extension MidiMessage: JsParsable {
     }),
     (["+"], { v in
       let count = v.arrCount()
-      let fns: [SinglePatchTruss.Core.CreateFileDataFn] = try (1..<count).map {
-        try v.atIndex($0).xform(SinglePatchTruss.createFileRules)
+      let fns: [SinglePatchTruss.Core.ToMidiFn] = try (1..<count).map {
+        try v.atIndex($0).xform(SinglePatchTruss.toMidiRules)
       }
       return { e in
         .sysex(try fns.reduce([]) { try $0 + $1([], e) })

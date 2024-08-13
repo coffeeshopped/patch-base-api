@@ -1,6 +1,6 @@
 
 public struct SysexTrussCore<BodyData> {
-  public typealias CreateFileDataFn = (_ b: BodyData, _ e: AnySynthEditor?) throws -> [UInt8]
+  public typealias ToMidiFn = (_ b: BodyData, _ e: AnySynthEditor?) throws -> [UInt8]
   public typealias ParseBodyDataFn = ([UInt8]) throws -> BodyData
   public typealias ValidSizeFn = (Int) -> Bool
   public typealias ValidDataFn = ([UInt8]) -> Bool
@@ -17,14 +17,14 @@ public struct SysexTrussCore<BodyData> {
 
   public let defaultName: String?
 
-  public let createFileData: CreateFileDataFn
+  public let createFileData: ToMidiFn
   public let parseBodyData: ParseBodyDataFn
 
   public let isValidSize: ValidSizeFn
   public let isValidFileData: ValidDataFn
   public let isCompleteFetch: ValidDataFn
     
-  public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: @escaping CreateFileDataFn, parseBodyData: @escaping ParseBodyDataFn, isValidSize: ValidSizeFn? = nil, isValidFileData: ValidDataFn? = nil, isCompleteFetch: ValidDataFn? = nil) {
+  public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: @escaping ToMidiFn, parseBodyData: @escaping ParseBodyDataFn, isValidSize: ValidSizeFn? = nil, isValidFileData: ValidDataFn? = nil, isCompleteFetch: ValidDataFn? = nil) {
     self.displayId = displayId
     self.initFileName = initFile
     self.maxNameCount = maxNameCount
@@ -39,12 +39,12 @@ public struct SysexTrussCore<BodyData> {
     self.isCompleteFetch = isCompleteFetch ?? Self.validDataFn(isValidSize)
   }
 
-  public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: @escaping CreateFileDataFn, parseBodyData: @escaping ParseBodyDataFn, validBundle bundle: ValidBundle? = nil) {
+  public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: @escaping ToMidiFn, parseBodyData: @escaping ParseBodyDataFn, validBundle bundle: ValidBundle? = nil) {
     
     self = Self.init(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: bundle?.validSize, isValidFileData: bundle?.validData, isCompleteFetch: bundle?.completeFetch)
   }
 
-  public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: @escaping CreateFileDataFn, parseBodyData: @escaping ParseBodyDataFn, isValidSizeDataAndFetch validSizeFn: @escaping ValidSizeFn) {
+  public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: @escaping ToMidiFn, parseBodyData: @escaping ParseBodyDataFn, isValidSizeDataAndFetch validSizeFn: @escaping ValidSizeFn) {
     let validDataFn = Self.validDataFn(validSizeFn)
     self = Self.init(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: validSizeFn, isValidFileData: validDataFn, isCompleteFetch: validDataFn)
   }

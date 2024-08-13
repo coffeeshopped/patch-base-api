@@ -17,7 +17,7 @@ extension MultiPatchTruss : JsParsable {
       "includeFileDataCount": ".b",
     ], {
 //      let parms = try $0.arr("parms").xform([Parm].jsParsers)
-//      let createFile = try $0.any("createFile").xform(createFileRules)
+//      let createFile = try $0.any("createFile").xform(toMidiRules)
 //      let parseBody = try $0.any("parseBody").xform(parseBodyRules)
 //      let namePack = try? $0.any("namePack").xform(namePackRules)
 //      let unpack = try? $0.any("unpack").xform(jsUnpackParsers)
@@ -25,7 +25,7 @@ extension MultiPatchTruss : JsParsable {
     }),
   ], "multiPatchTruss")
   
-  static let createFileRules: JsParseTransformSet<Core.CreateFileDataFn> = try! .init([
+  static let toMidiRules: JsParseTransformSet<Core.ToMidiFn> = try! .init([
     (".f", { fn in
       try fn.checkFn()
       return { b, e in try fn.call([b, e]).arrByte() }
@@ -34,9 +34,9 @@ extension MultiPatchTruss : JsParsable {
       let count = v.arrCount()
       // the first element of the array is a fn mapping [SynthPath:[UInt8]] -> [UInt8]
       // the rest of the elements map [UInt8] -> [UInt8]
-      let fn = try v.any(0).xform(createFileRules)
-      let singleFns: [SinglePatchTruss.Core.CreateFileDataFn] = try (1..<count).map {
-        try v.atIndex($0).xform(SinglePatchTruss.createFileRules)
+      let fn = try v.any(0).xform(toMidiRules)
+      let singleFns: [SinglePatchTruss.Core.ToMidiFn] = try (1..<count).map {
+        try v.atIndex($0).xform(SinglePatchTruss.toMidiRules)
       }
 
       return { b, e in
@@ -46,8 +46,8 @@ extension MultiPatchTruss : JsParsable {
     }),
     (["+"], { v in
       let count = v.arrCount()
-      let fns: [Core.CreateFileDataFn] = try (1..<count).map {
-        try v.atIndex($0).xform(createFileRules)
+      let fns: [Core.ToMidiFn] = try (1..<count).map {
+        try v.atIndex($0).xform(toMidiRules)
       }
       return { b, e in
         try fns.reduce([]) { try $0 + $1(b, e) }

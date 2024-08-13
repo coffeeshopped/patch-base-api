@@ -18,8 +18,8 @@ extension MultiPatchTruss : JsBankParsable {
       let compactTrussMap: [(SynthPath, SinglePatchTruss)] = try $0.obj("compactTrussMap").xform()
       let compactByteCount = compactTrussMap.first?.1.bodyDataCount ?? 0
 
-      let singleCreateFile = try $0.any("createFile").xform(SinglePatchTruss.createFileRules)
-      let createFile: MultiBankTruss.Core.CreateFileDataFn = { bodyData, e in
+      let singleCreateFile = try $0.any("createFile").xform(SinglePatchTruss.toMidiRules)
+      let createFile: MultiBankTruss.Core.ToMidiFn = { bodyData, e in
         let patchData: [UInt8] = bodyData.flatMap { d in
           var compactData = [UInt8](repeating: 0, count: compactByteCount)
           compactTrussMap.forEach {
@@ -52,7 +52,7 @@ extension MultiPatchTruss : JsBankParsable {
 
 //extension MultiBankTruss {
 //  
-//  static let createFileRules: JsParseTransformSet<Core.CreateFileDataFn> = try! .init([
+//  static let toMidiRules: JsParseTransformSet<Core.ToMidiFn> = try! .init([
 //    ([
 //      "locationMap" : ".f",
 //    ], {

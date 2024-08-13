@@ -75,7 +75,7 @@ public struct FullRefTruss : MultiSysexTruss {
 //  public let trussDict: [SynthPath : any SysexTruss]
   public let trussPaths: [SynthPath]
 
-  public init(_ displayId: String, trussMap: [(SynthPath, any SysexTruss)], refPath: SynthPath = [.perf], isos: Isos, sections: [(String, [SynthPath])], initFile: String = "", defaultName: String? = nil, createFileData: @escaping Core.CreateFileDataFn, parseBodyData: @escaping Core.ParseBodyDataFn) {
+  public init(_ displayId: String, trussMap: [(SynthPath, any SysexTruss)], refPath: SynthPath = [.perf], isos: Isos, sections: [(String, [SynthPath])], initFile: String = "", defaultName: String? = nil, createFileData: @escaping Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn) {
     self.trussMapFn = { _ in trussMap }
     self.parseMapHeadData = { _ in .single([]) } // always returns something so that trussMap is returned in trussMap(fileData:)
     let trussDict = trussMap.dict { [$0.0 : $0.1] }
@@ -92,7 +92,7 @@ public struct FullRefTruss : MultiSysexTruss {
     self.core = Core(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: { _ in true }, isValidFileData: { _ in true }, isCompleteFetch: { _ in true })
   }
   
-  public init(_ displayId: String, trussMap: [(SynthPath, any SysexTruss)], refPath: SynthPath = [.perf], isos: Isos, sections: [(String, [SynthPath])], initFile: String = "", defaultName: String? = nil, createFileData: @escaping Core.CreateFileDataFn, pathForData: @escaping PathForDataFn) {
+  public init(_ displayId: String, trussMap: [(SynthPath, any SysexTruss)], refPath: SynthPath = [.perf], isos: Isos, sections: [(String, [SynthPath])], initFile: String = "", defaultName: String? = nil, createFileData: @escaping Core.ToMidiFn, pathForData: @escaping PathForDataFn) {
     
     self = Self.init(displayId, trussMap: trussMap, refPath: refPath, isos: isos, sections: sections, initFile: initFile, defaultName: defaultName, createFileData: createFileData, parseBodyData: {
       Self.sysexibles(fileData: $0, trussMap: trussMap, pathForData: pathForData)
@@ -100,7 +100,7 @@ public struct FullRefTruss : MultiSysexTruss {
     
   }
   
-  public init(_ displayId: String, trussMapFn: @escaping TrussMapFn, trussPaths: [SynthPath], parseMapHeadData: @escaping ParseMapHeadDataFn, refPath: SynthPath = [.perf], refTruss: any PatchTruss, isos: Isos, sections: [(String, [SynthPath])], initFile: String = "", defaultName: String? = nil, createFileData: @escaping Core.CreateFileDataFn, parseBodyData: @escaping Core.ParseBodyDataFn, fileDataCount: Int) {
+  public init(_ displayId: String, trussMapFn: @escaping TrussMapFn, trussPaths: [SynthPath], parseMapHeadData: @escaping ParseMapHeadDataFn, refPath: SynthPath = [.perf], refTruss: any PatchTruss, isos: Isos, sections: [(String, [SynthPath])], initFile: String = "", defaultName: String? = nil, createFileData: @escaping Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, fileDataCount: Int) {
     self.trussMapFn = trussMapFn
     self.parseMapHeadData = parseMapHeadData
 //    self.trussDict = trussDict
@@ -164,7 +164,7 @@ public extension FullRefTruss {
   // iterates over truss map, looking for data for that path, then creating fileData from it
   // really only appropriate for a ref that has only one of each patch type
   // if there are multiple (parts), then index/location probably needs to be in the file data
-  static func defaultCreateFileData(trussMap: [(SynthPath, any SysexTruss)]) -> FullRefTruss.Core.CreateFileDataFn {
+  static func defaultCreateFileData(trussMap: [(SynthPath, any SysexTruss)]) -> FullRefTruss.Core.ToMidiFn {
     { bodyData, e in
       // map over the types to ensure ordering of data
       try trussMap.compactMap {

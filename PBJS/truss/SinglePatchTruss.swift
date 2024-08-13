@@ -15,7 +15,7 @@ extension SinglePatchTruss: JsParsable {
       "createFile" : ".x?",
     ], {
       let parms = try $0.arr("parms").xform([Parm].jsParsers)
-      let createFile = try (try? $0.any("createFile"))?.xform(createFileRules)
+      let createFile = try (try? $0.any("createFile"))?.xform(toMidiRules)
       let bodyDataCount = try $0.int("bodyDataCount")
       
       var parseBodyFn: Core.ParseBodyDataFn? = nil
@@ -64,15 +64,15 @@ extension SinglePatchTruss: JsParsable {
     }),
   ], "singlePatchUnpack")
     
-  static let createFileRules: JsParseTransformSet<Core.CreateFileDataFn> = try! .init([
+  static let toMidiRules: JsParseTransformSet<Core.ToMidiFn> = try! .init([
     (".f", { fn in
       try fn.checkFn()
       return { b, e in try fn.call([b, e]).arrByte() }
     }),
     (["+"], { v in
       let count = v.arrCount()
-      let fns: [Core.CreateFileDataFn] = try (1..<count).map {
-        try v.atIndex($0).xform(createFileRules)
+      let fns: [Core.ToMidiFn] = try (1..<count).map {
+        try v.atIndex($0).xform(toMidiRules)
       }
       return { b, e in
         try fns.reduce([]) { try $0 + $1(b, e) }
@@ -100,9 +100,9 @@ extension SinglePatchTruss: JsParsable {
       return { _, _ in bytes }
     }),
     (["yamCmd", ".x"], {
-      let arg1 = try $0.any(1).xform(createFileRules)
+      let arg1 = try $0.any(1).xform(toMidiRules)
       // second arg is optional, defaults to "b"
-      let arg2 = try (try? $0.any(2))?.xform(createFileRules)
+      let arg2 = try (try? $0.any(2))?.xform(toMidiRules)
       return { b, e in Yamaha.sysexData(cmdBytesWithChannel: try arg1(b, e), bodyBytes: try arg2?(b ,e) ?? b) }
     }),
     ("b", { _ in { b, e in b } }), // returns itself
@@ -117,7 +117,7 @@ extension SinglePatchTruss: JsParsable {
         return fn
       }
 
-      let fns = try $0.xformArr(createFileRules)
+      let fns = try $0.xformArr(toMidiRules)
       return { b, e in
         try fns.reduce(b) { partialResult, fn in try fn(partialResult, e) }
       }
@@ -142,12 +142,12 @@ extension SinglePatchTruss: JsParsable {
       guard let arg = try? $0.any(1) else {
         return { b, e in fn(b) }
       }
-      let bb = try arg.xform(createFileRules)
+      let bb = try arg.xform(toMidiRules)
       return { b, e in fn(try bb(b, e)) }
     }),
   ], "singlePatchTruss createFile")
 
-  static func tryAsEditorValueTransform(_ value: JSValue) -> Core.CreateFileDataFn? {
+  static func tryAsEditorValueTransform(_ value: JSValue) -> Core.ToMidiFn? {
     guard let evt = try? value.xform(EditorValueTransform.jsParsers) else {
       return nil
     }

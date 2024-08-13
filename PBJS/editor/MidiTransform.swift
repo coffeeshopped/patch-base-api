@@ -59,7 +59,7 @@ extension MidiTransform: JsParsable {
         // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
-        let fn = try $0.atIndex(0).xform(SinglePatchTruss.createFileRules)
+        let fn = try $0.atIndex(0).xform(SinglePatchTruss.toMidiRules)
         return (.sysex(try fn(bodyData, editor)), try $0.any(1).int())
       }
     }
@@ -77,7 +77,7 @@ extension MidiTransform: JsParsable {
         // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
-        let fn = try $0.atIndex(0).xform(MultiPatchTruss.createFileRules)
+        let fn = try $0.atIndex(0).xform(MultiPatchTruss.toMidiRules)
         return (.sysex(try fn(bodyData, editor)), try $0.any(1).int())
       }
     }
