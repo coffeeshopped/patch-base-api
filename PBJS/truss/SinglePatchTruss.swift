@@ -1,4 +1,5 @@
 import PBAPI
+import JavaScriptCore
 
 extension SinglePatchTruss: JsParsable {
   
@@ -68,12 +69,6 @@ extension SinglePatchTruss: JsParsable {
       try fn.checkFn()
       return { b, e in try fn.call([b, e]).arrByte() }
     }),
-    (".a", {
-      let fns = try $0.xformArr(createFileRules)
-      return { b, e in
-        try fns.reduce(b) { partialResult, fn in try fn(partialResult, e) }
-      }
-    }),
     (["+"], { v in
       let count = v.arrCount()
       let fns: [Core.CreateFileDataFn] = try (1..<count).map {
@@ -111,18 +106,21 @@ extension SinglePatchTruss: JsParsable {
       return { b, e in Yamaha.sysexData(cmdBytesWithChannel: try arg1(b, e), bodyBytes: try arg2?(b ,e) ?? b) }
     }),
     ("b", { _ in { b, e in b } }), // returns itself
-    ("e", { _ in { b, e in
-      switch e.first {
-      case let i as Int:
-        return [UInt8(i)]
-      default:
-        fatalError("TODO: handle other editor value types.")
-      }
-    } }), // returns editorValue
     ([".n"], {
       // array that starts with number: assume it's a byte array
       let bytes = try $0.arrByte()
       return { _, _ in bytes }
+    }),
+    (".a", {
+      // if array, first see if it's an editorValueTransform
+      if let fn = tryAsEditorValueTransform($0) {
+        return fn
+      }
+
+      let fns = try $0.xformArr(createFileRules)
+      return { b, e in
+        try fns.reduce(b) { partialResult, fn in try fn(partialResult, e) }
+      }
     }),
     (".n", {
       // number: return it as a byte array
@@ -130,6 +128,11 @@ extension SinglePatchTruss: JsParsable {
       return { _, _ in [byte] }
     }),
     (".s", {
+      // if string, first see if it's an editorValueTransform
+      if let fn = tryAsEditorValueTransform($0) {
+        return fn
+      }
+
       // string: treat as singleArg fn
       let fnKey = try $0.str()
       guard let fn = singleArgCreateFileFnRules[fnKey] else {
@@ -144,6 +147,13 @@ extension SinglePatchTruss: JsParsable {
     }),
   ], "singlePatchTruss createFile")
 
+  static func tryAsEditorValueTransform(_ value: JSValue) -> Core.CreateFileDataFn? {
+    guard let evt = try? value.xform(EditorValueTransform.jsParsers) else {
+      return nil
+    }
+    return { b, e in [try e?.byteValue(evt) ?? 0] }
+  }
+  
   static let singleArgCreateFileFnRules: [String:(BodyData) -> BodyData] = [
     "nibblizeLSB": {
       $0.flatMap { [UInt8($0.bits(0...3)), UInt8($0.bits(4...7))] }

@@ -151,10 +151,16 @@ extension JSValue {
 
   func pbDebug(_ indent: Int = 0) -> String {
     if isString {
-      return toString()
+      return "\"\(toString()!)\""
     }
     else if isArray {
-      return debugDescription
+//      return debugDescription
+      var str = "[ "
+      str.append(try! map {
+        $0.pbDebug(indent)
+      }.joined(separator: ", "))
+      str.append(" ]")
+      return str
     }
     else if isNumber {  
       return toString()

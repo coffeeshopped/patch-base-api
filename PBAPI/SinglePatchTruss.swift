@@ -77,7 +77,7 @@ public struct SinglePatchTruss : PatchTruss {
   }
   
   private static func fileDataCount(createFileData: Core.CreateFileDataFn, bodyDataCount: Int) throws -> Int {
-    try createFileData([UInt8](repeating: 0, count: bodyDataCount), []).count
+    try createFileData([UInt8](repeating: 0, count: bodyDataCount), nil).count
   }
       
 //  public mutating func set(paramsFromOpts opts: [ParamOptions]) {

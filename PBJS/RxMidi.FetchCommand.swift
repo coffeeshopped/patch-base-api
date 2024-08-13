@@ -12,4 +12,11 @@ extension RxMidi.FetchCommand: JsParsable, JsArrayParsable {
 
   static let jsArrayParsers = try! jsParsers.arrayParsers()
 
+  static let dynamicRules: JsParseTransformSet<(AnySynthEditor) throws -> Self> = try! .init([
+    (["send", ".x"], {
+      let msg = try $0.any(1).xform(MidiMessage.dynamicRules)
+      return { .sendMsg(try msg($0)) }
+    }),
+  ], "dynamic midi msg")
+
 }

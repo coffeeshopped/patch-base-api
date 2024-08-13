@@ -59,14 +59,14 @@ extension MultiPatchTruss : JsParsable {
         b[path] ?? [] // TODO: should we throw here?
       }
     }),
-    ("e", { _ in { b, e in
-      switch e.first {
-      case let i as Int:
-        return [UInt8(i)]
-      default:
-        fatalError("TODO: handle other editor value types.")
-      }
-    } }), // returns editorValue
+//    ("e", { _ in { b, e in
+//      switch e.first {
+//      case let i as Int:
+//        return [UInt8(i)]
+//      default:
+//        fatalError("TODO: handle other editor value types.")
+//      }
+//    } }), // returns editorValue
     ([".n"], {
       // array that starts with number: assume it's a byte array
       let bytes = try $0.arrByte()

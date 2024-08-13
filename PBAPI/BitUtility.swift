@@ -533,8 +533,12 @@ public extension Array where Element == UInt8 {
 
 public extension UInt8 {
 
-  func flatMap<T>(fn: (UInt8) -> [T]) -> [T] {
+  func flatMap<T>(fn: (Self) -> [T]) -> [T] {
     (0..<self).flatMap { fn($0) }
+  }
+
+  func flatMap<T>(fn: (Self) throws -> [T]) throws -> [T] {
+    try (0..<self).flatMap { try fn($0) }
   }
 
 }

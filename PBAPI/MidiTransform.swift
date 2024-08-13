@@ -1,42 +1,42 @@
 
 public enum MidiTransform {
 
-  case single(throttle: Int = 30, _ value: EditorValueTransform?, _ fn: Fn<SinglePatchTruss,Int>)
+  case single(throttle: Int = 30, _ fn: Fn<SinglePatchTruss>)
   
-  case multi(throttle: Int = 30, _ value: EditorValueTransform?, _ fn: Fn<MultiPatchTruss,Int>)
+  case multi(throttle: Int = 30, _ fn: Fn<MultiPatchTruss>)
 
-  case singleDict(throttle: Int = 30, _ values: [EditorValueTransform], _ fn: Fn<SinglePatchTruss,[EditorValueTransform:Any]>)
+  case singleDict(throttle: Int = 30, _ fn: Fn<SinglePatchTruss>)
 
-  case multiDict(throttle: Int = 30, _ values: [EditorValueTransform], _ fn: Fn<MultiPatchTruss,[EditorValueTransform:Any]>)
+  case multiDict(throttle: Int = 30, _ fn: Fn<MultiPatchTruss>)
   
-  case json(throttle: Int = 30, _ value: EditorValueTransform?, _ fn: Fn<JSONPatchTruss,Int>)
+  case json(throttle: Int = 30, _ fn: Fn<JSONPatchTruss>)
 
   
   public var throttle: Int {
     switch self {
-    case .single(let throttle, _, _),
-        .multi(let throttle, _, _),
-        .singleDict(let throttle, _, _),
-        .multiDict(let throttle, _, _),
-        .json(let throttle, _, _):
+    case .single(let throttle, _),
+        .multi(let throttle, _),
+        .singleDict(let throttle, _),
+        .multiDict(let throttle, _),
+        .json(let throttle, _):
       return throttle
     }
   }
   
-  public var values: [EditorValueTransform] {
-    switch self {
-    case .single(_, let value, _),
-        .multi(_, let value, _),
-        .json(_, let value, _):
-      return value == nil ? [] : [value!]
-      case .singleDict(_, let values, _),
-        .multiDict(_, let values, _):
-      return values
-    }
-
-  }
+//  public var values: [EditorValueTransform] {
+//    switch self {
+//    case .single(_, let value, _),
+//        .multi(_, let value, _),
+//        .json(_, let value, _):
+//      return value == nil ? [] : [value!]
+//      case .singleDict(_, let values, _),
+//        .multiDict(_, let values, _):
+//      return values
+//    }
+//
+//  }
   
-  public enum Fn<Truss:PatchTruss, Value> {
+  public enum Fn<Truss:PatchTruss> {
 
     case patch(coalesce: Int = 2, param: Param, patch: Whole, name: Name?)
     case multiPatch(params: Params, patch: Whole, name: Name?)
@@ -45,21 +45,21 @@ public enum MidiTransform {
     case wholeBank(WholeBank)
             
     /// Transforms bodyData to a series of MidiMessages / send intervals representing an entire patch. editor provided for possible extra data needed
-    public typealias Whole = (_ editorVal: Value, _ bodyData: Truss.BodyData) throws -> [(MidiMessage, Int)]?
+    public typealias Whole = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData) throws -> [(MidiMessage, Int)]?
 
     /// Transforms bodyData to a series of MidiMessages / send intervals representing a single parameter change. editor provided for possible extra data needed
-    public typealias Param = (_ editorVal: Value, _ bodyData: Truss.BodyData, _ parm: Parm, _ value: Int) throws -> [(MidiMessage, Int)]?
+    public typealias Param = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ parm: Parm, _ value: Int) throws -> [(MidiMessage, Int)]?
 
     /// Transforms bodyData to a series of MidiMessages / send intervals representing multiple parameter changes. editor provided for possible extra data needed.
-    public typealias Params = (_ editorVal: Value, _ bodyData: Truss.BodyData, _ values: SynthPathTree<Int>) throws -> [(MidiMessage, Int)]?
+    public typealias Params = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ values: SynthPathTree<Int>) throws -> [(MidiMessage, Int)]?
 
     /// Transforms bodyData to a series of MidiMessages / send intervals representing a patch name change. editor provided for possible extra data needed
-    public typealias Name = (_ editorVal: Value, _ bodyData: Truss.BodyData, _ path: SynthPath, _ name: String) throws -> [(MidiMessage, Int)]?
+    public typealias Name = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ path: SynthPath, _ name: String) throws -> [(MidiMessage, Int)]?
 
     /// Transforms bodyData to a series of MidiMessages / send intervals representing a patch within a bank (in memory). editor provided for possible extra data needed
-    public typealias BankPatch = (_ editorVal: Value, _ bodyData: Truss.BodyData, _ location: Int) throws -> [(MidiMessage, Int)]?
+    public typealias BankPatch = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ location: Int) throws -> [(MidiMessage, Int)]?
 
-    public typealias WholeBank = (_ editorVal: Value, _ bodyData: [Truss.BodyData]) throws -> [(MidiMessage, Int)]?
+    public typealias WholeBank = (_ editor: AnySynthEditor, _ bodyData: [Truss.BodyData]) throws -> [(MidiMessage, Int)]?
 
     
   }

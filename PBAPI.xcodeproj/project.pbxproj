@@ -117,12 +117,12 @@
 		AC414B672C653A900019DC1B /* EditorValueTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B532C653A900019DC1B /* EditorValueTransform.swift */; };
 		AC414B682C653A900019DC1B /* JsModuleWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B542C653A900019DC1B /* JsModuleWerk.swift */; };
 		AC414B6A2C653A900019DC1B /* MidiTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B562C653A900019DC1B /* MidiTransform.swift */; };
-		AC414B6B2C653A900019DC1B /* RxMidi-FetchCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B572C653A900019DC1B /* RxMidi-FetchCommand.swift */; };
+		AC414B6B2C653A900019DC1B /* RxMidi.FetchCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B572C653A900019DC1B /* RxMidi.FetchCommand.swift */; };
 		AC414B6C2C653A900019DC1B /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B582C653A900019DC1B /* JSError.swift */; };
 		AC414B6D2C653A900019DC1B /* JsModuleLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B592C653A900019DC1B /* JsModuleLoader.swift */; };
 		AC414B6E2C653A900019DC1B /* FetchTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5A2C653A900019DC1B /* FetchTransform.swift */; };
 		AC414B6F2C653A900019DC1B /* SynthPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5B2C653A900019DC1B /* SynthPath.swift */; };
-		AC414B702C653A900019DC1B /* MemSlot-Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5C2C653A900019DC1B /* MemSlot-Transform.swift */; };
+		AC414B702C653A900019DC1B /* MemSlot.Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5C2C653A900019DC1B /* MemSlot.Transform.swift */; };
 		AC414B712C653A900019DC1B /* Parm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5D2C653A900019DC1B /* Parm.swift */; };
 		AC414B722C653A900019DC1B /* MidiChannelTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5E2C653A900019DC1B /* MidiChannelTransform.swift */; };
 		AC414B732C653A900019DC1B /* ModuleTrussSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5F2C653A900019DC1B /* ModuleTrussSection.swift */; };
@@ -292,12 +292,12 @@
 		AC414B532C653A900019DC1B /* EditorValueTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorValueTransform.swift; sourceTree = "<group>"; };
 		AC414B542C653A900019DC1B /* JsModuleWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsModuleWerk.swift; sourceTree = "<group>"; };
 		AC414B562C653A900019DC1B /* MidiTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiTransform.swift; sourceTree = "<group>"; };
-		AC414B572C653A900019DC1B /* RxMidi-FetchCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RxMidi-FetchCommand.swift"; sourceTree = "<group>"; };
+		AC414B572C653A900019DC1B /* RxMidi.FetchCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMidi.FetchCommand.swift; sourceTree = "<group>"; };
 		AC414B582C653A900019DC1B /* JSError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSError.swift; sourceTree = "<group>"; };
 		AC414B592C653A900019DC1B /* JsModuleLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsModuleLoader.swift; sourceTree = "<group>"; };
 		AC414B5A2C653A900019DC1B /* FetchTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchTransform.swift; sourceTree = "<group>"; };
 		AC414B5B2C653A900019DC1B /* SynthPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthPath.swift; sourceTree = "<group>"; };
-		AC414B5C2C653A900019DC1B /* MemSlot-Transform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MemSlot-Transform.swift"; sourceTree = "<group>"; };
+		AC414B5C2C653A900019DC1B /* MemSlot.Transform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemSlot.Transform.swift; sourceTree = "<group>"; };
 		AC414B5D2C653A900019DC1B /* Parm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parm.swift; sourceTree = "<group>"; };
 		AC414B5E2C653A900019DC1B /* MidiChannelTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiChannelTransform.swift; sourceTree = "<group>"; };
 		AC414B5F2C653A900019DC1B /* ModuleTrussSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleTrussSection.swift; sourceTree = "<group>"; };
@@ -419,9 +419,9 @@
 				AC414B5D2C653A900019DC1B /* Parm.swift */,
 				AC414B612C653A900019DC1B /* BasicModuleTruss.swift */,
 				AC19465F2C6561C5006C5B41 /* editor */,
-				AC414B572C653A900019DC1B /* RxMidi-FetchCommand.swift */,
+				AC414B572C653A900019DC1B /* RxMidi.FetchCommand.swift */,
 				AC414B522C653A8F0019DC1B /* MidiMessage.swift */,
-				AC414B5C2C653A900019DC1B /* MemSlot-Transform.swift */,
+				AC414B5C2C653A900019DC1B /* MemSlot.Transform.swift */,
 				AC414B5F2C653A900019DC1B /* ModuleTrussSection.swift */,
 				AC58EC032C66AB6800C1EEE5 /* truss */,
 				AC58EC042C66AB8800C1EEE5 /* controller */,
@@ -801,7 +801,7 @@
 				AC414B732C653A900019DC1B /* ModuleTrussSection.swift in Sources */,
 				AC414B6E2C653A900019DC1B /* FetchTransform.swift in Sources */,
 				AC414B862C653AA20019DC1B /* JsSysex.swift in Sources */,
-				AC414B702C653A900019DC1B /* MemSlot-Transform.swift in Sources */,
+				AC414B702C653A900019DC1B /* MemSlot.Transform.swift in Sources */,
 				AC414B742C653A900019DC1B /* JsByte.swift in Sources */,
 				AC414B6A2C653A900019DC1B /* MidiTransform.swift in Sources */,
 				AC414B6F2C653A900019DC1B /* SynthPath.swift in Sources */,
@@ -814,7 +814,7 @@
 				AC414B772C653A900019DC1B /* JsConsole.swift in Sources */,
 				AC414B6D2C653A900019DC1B /* JsModuleLoader.swift in Sources */,
 				AC414B972C653AAF0019DC1B /* PatchController.Display.swift in Sources */,
-				AC414B6B2C653A900019DC1B /* RxMidi-FetchCommand.swift in Sources */,
+				AC414B6B2C653A900019DC1B /* RxMidi.FetchCommand.swift in Sources */,
 				AC414B762C653A900019DC1B /* JSValue--Helper.swift in Sources */,
 				AC414B6C2C653A900019DC1B /* JSError.swift in Sources */,
 			);

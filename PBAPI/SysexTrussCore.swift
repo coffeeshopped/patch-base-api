@@ -1,6 +1,6 @@
 
 public struct SysexTrussCore<BodyData> {
-  public typealias CreateFileDataFn = (_ b: BodyData, _ e: [Any]) throws -> [UInt8]
+  public typealias CreateFileDataFn = (_ b: BodyData, _ e: AnySynthEditor?) throws -> [UInt8]
   public typealias ParseBodyDataFn = ([UInt8]) throws -> BodyData
   public typealias ValidSizeFn = (Int) -> Bool
   public typealias ValidDataFn = ([UInt8]) -> Bool
