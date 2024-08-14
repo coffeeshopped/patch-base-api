@@ -11,7 +11,6 @@ public enum MidiTransform {
   
   case json(throttle: Int = 30, _ fn: Fn<JSONPatchTruss>)
 
-  
   public var throttle: Int {
     switch self {
     case .single(let throttle, _),
@@ -23,18 +22,6 @@ public enum MidiTransform {
     }
   }
   
-//  public var values: [EditorValueTransform] {
-//    switch self {
-//    case .single(_, let value, _),
-//        .multi(_, let value, _),
-//        .json(_, let value, _):
-//      return value == nil ? [] : [value!]
-//      case .singleDict(_, let values, _),
-//        .multiDict(_, let values, _):
-//      return values
-//    }
-//
-//  }
   
   public enum Fn<Truss:PatchTruss> {
 

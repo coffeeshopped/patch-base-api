@@ -50,19 +50,23 @@ extension MultiPatchTruss : JsBankParsable {
   
 }
 
+extension MultiPatchTruss : JsBankToMidiParsable {
+  
+  static let bankToMidiRules: JsParseTransformSet<SomeBankTruss<Self>.Core.ToMidiFn> = try! .init([
+    ([
+      "locationMap" : ".f",
+    ], {
+      let locationMap = try $0.fn("locationMap")
+      let fn: SomeBankTruss<Self>.Core.ToMidiFn =  SomeBankTruss<Self>.createFileDataWithLocationMap { bodyData, location in
+        try locationMap.call([bodyData, location]).arrByte()
+      }
+      return fn
+    }),
+  ], "singleBankTruss createFile")
+  
+}
+
 //extension MultiBankTruss {
-//  
-//  static let toMidiRules: JsParseTransformSet<Core.ToMidiFn> = try! .init([
-//    ([
-//      "locationMap" : ".f",
-//    ], {
-//      let locationMap = try $0.fn("locationMap")
-//      return SingleBankTrussWerk.createFileDataWithLocationMap { bodyData, location in
-//        try locationMap.call([bodyData, location]).arrByte()
-//      }
-//    }),
-//  ], "singleBankTruss createFile")
-//  
 //  static let parseBodyRules: JsParseTransformSet<Core.ParseBodyDataFn> = try! .init([
 //    ([
 //      "locationIndex" : ".n",
@@ -76,4 +80,4 @@ extension MultiPatchTruss : JsBankParsable {
 //    }),
 //  ], "singleBankTruss parseBody")
 //}
-
+//

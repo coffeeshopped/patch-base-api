@@ -1,7 +1,7 @@
 import PBAPI
 import JavaScriptCore
 
-extension SinglePatchTruss: JsParsable {
+extension SinglePatchTruss: JsParsable, JsToMidiParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     ([
@@ -100,10 +100,18 @@ extension SinglePatchTruss: JsParsable {
       return { _, _ in bytes }
     }),
     (["yamCmd", ".x"], {
-      let arg1 = try $0.any(1).xform(toMidiRules)
+      let cmdBytes = try $0.any(1).xform(toMidiRules)
       // second arg is optional, defaults to "b"
-      let arg2 = try (try? $0.any(2))?.xform(toMidiRules)
-      return { b, e in Yamaha.sysexData(cmdBytesWithChannel: try arg1(b, e), bodyBytes: try arg2?(b ,e) ?? b) }
+      let bodyData = try (try? $0.any(2))?.xform(toMidiRules)
+      return { b, e in Yamaha.sysexData(cmdBytesWithChannel: try cmdBytes(b, e), bodyBytes: try bodyData?(b ,e) ?? b) }
+    }),
+    (["yamFetch", ".x"], {
+      let chan = try $0.any(1).xform(toMidiRules)
+      // second arg is optional, defaults to "b"
+      let cmdBytes = try (try? $0.any(2))?.xform(toMidiRules)
+      return { b, e in
+        Yamaha.fetchRequestBytes(channel: Int(try chan(b, e).first ?? 0), cmdBytes: try cmdBytes?(b ,e) ?? b)
+      }
     }),
     ("b", { _ in { b, e in b } }), // returns itself
     ([".n"], {

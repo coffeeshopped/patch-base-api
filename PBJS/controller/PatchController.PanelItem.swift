@@ -12,7 +12,8 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
       let l = try? obj.str("l")
       let id = try? obj.path("id")
       let w = try? obj.cgFloat("w")
-
+      let h = try? obj.cgFloat("h")
+      
       switch t {
       case "knob":
         return .knob(l, path, id: nil, width: nil)
@@ -24,6 +25,8 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
         return .spacer(try obj.cgFloat("w"))
       case "select":
         return .select(l, path, id: id, width: w)
+      case "imgSelect":
+        return .imgSelect(l, path, w: w!, h: h!, images: nil, spacing: nil, id: id, width: nil)
       default:
         throw JSError.error(msg: "Unknown PanelItem type: \(t)")
       }

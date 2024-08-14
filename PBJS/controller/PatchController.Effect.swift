@@ -23,6 +23,9 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
       return .patchChange(paths: paths) { values in
         try fn.call([paths.map { values[$0]! }]).xform()
       }
+    }),
+    (["dimsOn", ".p"], {
+      return .dimsOn(try $0.path(1), id: nil, dimAlpha: nil, dimWhen: nil)
     })
   ], "PatchController.Effect")
   

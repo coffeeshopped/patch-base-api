@@ -1,7 +1,7 @@
 
 import PBAPI
 
-extension MultiPatchTruss : JsParsable {
+extension MultiPatchTruss : JsParsable, JsToMidiParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     ([

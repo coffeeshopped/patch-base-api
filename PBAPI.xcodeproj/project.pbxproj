@@ -56,12 +56,10 @@
 		AC414AA52C6535830019DC1B /* FullRefTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A9C2C6535820019DC1B /* FullRefTruss.swift */; };
 		AC414AA62C6535830019DC1B /* MultiPatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A9D2C6535820019DC1B /* MultiPatchTruss.swift */; };
 		AC414AA72C6535830019DC1B /* BackupTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A9E2C6535820019DC1B /* BackupTruss.swift */; };
-		AC414AA82C6535830019DC1B /* BankTruss-Compact.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A9F2C6535820019DC1B /* BankTruss-Compact.swift */; };
 		AC414AA92C6535830019DC1B /* SinglePatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AA02C6535820019DC1B /* SinglePatchTruss.swift */; };
 		AC414AAA2C6535830019DC1B /* ChannelSettingsTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AA12C6535820019DC1B /* ChannelSettingsTruss.swift */; };
 		AC414AAB2C6535830019DC1B /* SysexTrussCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AA22C6535820019DC1B /* SysexTrussCore.swift */; };
 		AC414AAE2C65358B0019DC1B /* PatchTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AAC2C65358B0019DC1B /* PatchTrussWerk.swift */; };
-		AC414AAF2C65358B0019DC1B /* SingleBankTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AAD2C65358B0019DC1B /* SingleBankTrussWerk.swift */; };
 		AC414AB32C6535940019DC1B /* SysexTrussError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB02C6535940019DC1B /* SysexTrussError.swift */; };
 		AC414AB42C6535940019DC1B /* SysexData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB12C6535940019DC1B /* SysexData.swift */; };
 		AC414AB52C6535940019DC1B /* LocalTrussType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB22C6535940019DC1B /* LocalTrussType.swift */; };
@@ -230,12 +228,10 @@
 		AC414A9C2C6535820019DC1B /* FullRefTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullRefTruss.swift; sourceTree = "<group>"; };
 		AC414A9D2C6535820019DC1B /* MultiPatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPatchTruss.swift; sourceTree = "<group>"; };
 		AC414A9E2C6535820019DC1B /* BackupTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupTruss.swift; sourceTree = "<group>"; };
-		AC414A9F2C6535820019DC1B /* BankTruss-Compact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BankTruss-Compact.swift"; sourceTree = "<group>"; };
 		AC414AA02C6535820019DC1B /* SinglePatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglePatchTruss.swift; sourceTree = "<group>"; };
 		AC414AA12C6535820019DC1B /* ChannelSettingsTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelSettingsTruss.swift; sourceTree = "<group>"; };
 		AC414AA22C6535820019DC1B /* SysexTrussCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysexTrussCore.swift; sourceTree = "<group>"; };
 		AC414AAC2C65358B0019DC1B /* PatchTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchTrussWerk.swift; sourceTree = "<group>"; };
-		AC414AAD2C65358B0019DC1B /* SingleBankTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleBankTrussWerk.swift; sourceTree = "<group>"; };
 		AC414AB02C6535940019DC1B /* SysexTrussError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysexTrussError.swift; sourceTree = "<group>"; };
 		AC414AB12C6535940019DC1B /* SysexData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysexData.swift; sourceTree = "<group>"; };
 		AC414AB22C6535940019DC1B /* LocalTrussType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalTrussType.swift; sourceTree = "<group>"; };
@@ -521,13 +517,11 @@
 				AC414AA02C6535820019DC1B /* SinglePatchTruss.swift */,
 				AC414A9D2C6535820019DC1B /* MultiPatchTruss.swift */,
 				AC414A9B2C6535820019DC1B /* SomeBankTruss.swift */,
-				AC414A9F2C6535820019DC1B /* BankTruss-Compact.swift */,
 				AC414A9A2C6535820019DC1B /* JSONPatchTruss.swift */,
 				AC414A9E2C6535820019DC1B /* BackupTruss.swift */,
 				AC414A9C2C6535820019DC1B /* FullRefTruss.swift */,
 				AC414AA12C6535820019DC1B /* ChannelSettingsTruss.swift */,
 				AC414AAC2C65358B0019DC1B /* PatchTrussWerk.swift */,
-				AC414AAD2C65358B0019DC1B /* SingleBankTrussWerk.swift */,
 				AC414AB22C6535940019DC1B /* LocalTrussType.swift */,
 				AC414AB02C6535940019DC1B /* SysexTrussError.swift */,
 				AC414AB12C6535940019DC1B /* SysexData.swift */,
@@ -838,7 +832,6 @@
 				AC414ADD2C6535B10019DC1B /* ModuleTrussSection.swift in Sources */,
 				AC414AB52C6535940019DC1B /* LocalTrussType.swift in Sources */,
 				AC414B182C6535FD0019DC1B /* RolandPatchTrussWerk.swift in Sources */,
-				AC414AAF2C65358B0019DC1B /* SingleBankTrussWerk.swift in Sources */,
 				AC414A512C6535150019DC1B /* AnyMultiSysexible.swift in Sources */,
 				AC414AA72C6535830019DC1B /* BackupTruss.swift in Sources */,
 				AC414A632C65353F0019DC1B /* PatchController-LevelScaling.swift in Sources */,
@@ -905,7 +898,6 @@
 				AC414AD92C6535B10019DC1B /* Manufacturer.swift in Sources */,
 				AC414AC32C65359D0019DC1B /* EditorPathTransform.swift in Sources */,
 				AC414A992C6535760019DC1B /* MultiSysexTruss.swift in Sources */,
-				AC414AA82C6535830019DC1B /* BankTruss-Compact.swift in Sources */,
 				AC414AC42C65359D0019DC1B /* EditorValueTransform.swift in Sources */,
 				AC414B202C6535FD0019DC1B /* Roland.swift in Sources */,
 				AC414A912C65356E0019DC1B /* EditorTrussCore.swift in Sources */,

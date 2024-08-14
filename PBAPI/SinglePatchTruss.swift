@@ -46,7 +46,7 @@ public struct SinglePatchTruss : PatchTruss {
       throw SysexTrussError.blockNotSet(msg: "createFileData called but never set.")
     }
     let parseBodyData = parseBodyData ?? { _ in
-      throw SysexTrussError.blockNotSet(msg: "parseBodyData called but never set.")
+      throw SysexTrussError.blockNotSet(msg: "\(displayId): parseBodyData called but never set.")
     }
 
     let maxNameCount = namePackIso?.byteRange.count ?? 32

@@ -241,3 +241,37 @@ protocol JsBankParsable: PatchTruss {
 extension SomeBankTruss: JsParsable where PT: JsBankParsable {
   static var jsParsers: JsParseTransformSet<SomeBankTruss<PT>> { PT.jsBankParsers }
 }
+
+protocol JsToMidiParsable : SysexTruss {
+  static var toMidiRules: JsParseTransformSet<Core.ToMidiFn> { get }
+}
+
+extension JsToMidiParsable {
+  
+  static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any]) throws -> [(MidiMessage, Int)] {
+    // fn can be a JS function
+    // or it can be something that should be parsed as a createFile...
+    let mapVal = fn.isFn ? try fn.call(vals) : fn
+    return try mapVal!.map {
+      if let msg = try? $0.arr(0).xform(MidiMessage.jsParsers) {
+        return (msg, try $0.any(1).int())
+      }
+      else {
+        // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
+        // TODO: here is where some caching needs to happen. Perhaps that caching
+        // could be implemented in the JsParseTransformSet struct.
+        let fn = try $0.atIndex(0).xform(toMidiRules)
+        return (.sysex(try fn(bodyData, editor)), try $0.any(1).int())
+      }
+    }
+  }
+  
+}
+
+protocol JsBankToMidiParsable : PatchTruss {
+  static var bankToMidiRules: JsParseTransformSet<SomeBankTruss<Self>.Core.ToMidiFn> { get }
+}
+
+extension SomeBankTruss: JsToMidiParsable where PT: JsBankToMidiParsable {
+  static var toMidiRules: JsParseTransformSet<Core.ToMidiFn> { PT.bankToMidiRules }
+}

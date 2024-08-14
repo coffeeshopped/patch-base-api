@@ -48,8 +48,8 @@ extension SinglePatchTruss: JsBankParsable {
       }
       
       let offset = try $0.int("parseBody")
-      let parseBody: SingleBankTruss.Core.ParseBodyDataFn = {
-        let compactData = SingleBankTrussWerk.compactData(fileData: $0, offset: offset, patchByteCount: compactByteCount)
+      let parseBody: SomeBankTruss<Self>.Core.ParseBodyDataFn = {
+        let compactData = SomeBankTruss<Self>.compactData(fileData: $0, offset: offset, patchByteCount: compactByteCount)
         let bodyData = compactData.map {
           patchTruss.parse(otherData: $0, otherTruss: compactTruss)
         }
@@ -63,19 +63,23 @@ extension SinglePatchTruss: JsBankParsable {
   ], "singleBankTruss")
 }
 
-extension SingleBankTruss {
+extension SinglePatchTruss : JsBankToMidiParsable {
   
-  static let toMidiRules: JsParseTransformSet<Core.ToMidiFn> = try! .init([
+  static let bankToMidiRules: JsParseTransformSet<SomeBankTruss<Self>.Core.ToMidiFn> = try! .init([
     ([
       "locationMap" : ".f",
     ], {
       let locationMap = try $0.fn("locationMap")
-      return SingleBankTrussWerk.createFileDataWithLocationMap { bodyData, location in
+      let fn: SomeBankTruss<Self>.Core.ToMidiFn =  SomeBankTruss<Self>.createFileDataWithLocationMap { bodyData, location in
         try locationMap.call([bodyData, location]).arrByte()
       }
+      return fn
     }),
   ], "singleBankTruss createFile")
   
+}
+
+extension SingleBankTruss {
   static let parseBodyRules: JsParseTransformSet<Core.ParseBodyDataFn> = try! .init([
     ([
       "locationIndex" : ".n",
