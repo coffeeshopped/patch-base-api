@@ -43,6 +43,13 @@ extension SynthPath {
       }
     }
   }
+  
+  func str() -> String {
+    var s = ""
+    forEach { s.append("\($0)")}
+    return s
+  }
+  
 }
 
 enum JsSynthPath {

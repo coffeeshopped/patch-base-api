@@ -29,6 +29,10 @@ extension PatchController.Constraint: JsParsable, JsArrayParsable {
       let opts = try parseConstraintFormatOptions(options) ?? [.alignAllLeading]
       return .colPart(items, opts: opts, spacing: nil)
     }),
+    (["colFixed", ".a", ".d"], {
+      let cfg = try $0.obj(2)
+      return .colFixed(try $0.arrStr(1), fixed: try cfg.str("fixed"), height: try cfg.cgFloat("height"), opts: [], spacing: try cfg.cgFloat("spacing"))
+    }),
     (["eq", ".a", ".s"], {
       return .eq(try $0.arr(1).arrStr(), try parseConstraintAttribute(try $0.any(2).str()))
     })

@@ -26,8 +26,14 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
     }),
     (["dimsOn", ".p"], {
       return .dimsOn(try $0.path(1), id: nil, dimAlpha: nil, dimWhen: nil)
-    })
-  ], "PatchController.Effect")
+    }),
+    (["indexChange", ".f"], {
+      let fn = try $0.fn(1)
+      return .indexChange {
+        try fn.call([$0]).xform()
+      }
+    }),
+  ])
   
   static let jsArrayParsers = try! jsParsers.arrayParsers()
 }

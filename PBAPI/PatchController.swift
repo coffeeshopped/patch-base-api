@@ -5,7 +5,7 @@ public indirect enum PatchController {
   
   case paged(prefix: Prefix? = nil, color: Int? = nil, border: Int? = nil, _ builders: [Builder], effects: [Effect] = [], layout: [Constraint] = [], pages: PageSetup)
   
-  case fm(_ algos: [DXAlgorithm], opCtrlr: (Int) -> PatchController, algoPath: SynthPath = [.algo], reverse: Bool = false, selectable: Bool = false)
+  case fm(_ algos: [DXAlgorithm], opCtrlr: (Int) throws -> PatchController, algoPath: SynthPath = [.algo], reverse: Bool = false, selectable: Bool = false)
   
   case data(_ dataCount: Int, _ range: ClosedRange<Int>, _ pathFn: (Int) -> SynthPath, effects: [Effect] = [])
     
@@ -47,7 +47,7 @@ public indirect enum PatchController {
     
     case change(_ fn: ControlChangeFn)
     
-    case indexChange(_ fn: (Int) -> [AttrChange])
+    case indexChange(_ fn: (Int) throws -> [AttrChange])
     
     case controlChange(_ id: SynthPath, fn: ControlChangeFn)
     case controlCommand(_ id: SynthPath, latestValues: [SynthPath], _ fn: (_ value: Int, _ latestValues: SynthPathInts, _ index: Int) -> [AttrChange])
@@ -119,7 +119,7 @@ public indirect enum PatchController {
   }
 
   
-  public typealias DisplayPathFn = (_ values: [SynthPath:CGFloat]) -> [PBBezier.PathCommand]
+  public typealias DisplayPathFn = (_ values: [SynthPath:CGFloat]) throws -> [PBBezier.PathCommand]
   
   public enum DisplayLayer {
     case l(_ path: SynthPath, stroke: DisplayColor, lineWidth: CGFloat = 1.0, dashPattern: [CGFloat]? = nil, _ pathFn: DisplayPathFn)

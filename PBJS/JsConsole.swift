@@ -1,5 +1,6 @@
 import Foundation
 import JavaScriptCore
+import PBAPI
 
 @objc protocol JsConsoleExport : JSExport {
 
@@ -7,10 +8,17 @@ import JavaScriptCore
 
 }
 
-class JsConsole : NSObject, JsConsoleExport {
+public class JsConsole : NSObject, JsConsoleExport {
 
+  public var logHandler: PBLogHandler?
+  
   func log(_ data: Any) {
-    debugPrint(data)
+    if let logHandler = logHandler {
+      logHandler.log(data)
+    }
+    else {
+      debugPrint(data)
+    }
   }
 
 }

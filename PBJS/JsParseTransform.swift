@@ -42,6 +42,22 @@ enum Match {
     .a(intArr.map { .ci($0) })
   }
 
+  static func from(any: Any) throws -> Self {
+    switch any {
+    case let arr as [String]:
+      return try from(arr)
+    case let dict as [String:String]:
+      return try from(dict)
+    case let str as String:
+      return try from(str)
+    case let arr as [Int]:
+      return try from(arr)
+    default:
+      throw JSError.error(msg: "Unrecognized Match specifier: \(any)")
+    }
+
+  }
+
 
   func string() -> String {
     switch self {
@@ -138,10 +154,12 @@ struct JsParseTransform<Output:Any> {
   
   let match: Match
   let xform: (JSValue) throws -> Output
+  let name: String
   
-  init(_ match: Match, _ xform: @escaping (JSValue) throws -> Output) {
+  init(_ match: Match, _ xform: @escaping (JSValue) throws -> Output, _ name: String) {
     self.match = match
     self.xform = xform
+    self.name = name
   }
     
   func transform(_ x: JSValue) throws -> Output {
@@ -150,7 +168,7 @@ struct JsParseTransform<Output:Any> {
       return try xform(x)
     }
     catch {
-      throw JSError.wrap("Error in transform. Match was: \n\(match.string())\nJS Value:\n\(x.pbDebug())", error)
+      throw JSError.wrap("Error in transform (\(name)). Match was: \n\(match.string())\nJS Value:\n\(x.pbDebug())", error)
     }
   }
 }
@@ -166,21 +184,12 @@ struct JsParseTransformSet<Output:Any> {
   }
   
   init(_ tuples: [(Any, (JSValue) throws -> Output)], _ name: String) throws {
-    self.rules = try tuples.map {
-      switch $0.0 {
-      case let arr as [String]:
-        return .init(try Match.from(arr), $0.1)
-      case let dict as [String:String]:
-        return .init(try Match.from(dict), $0.1)
-      case let str as String:
-        return .init(try Match.from(str), $0.1)
-      case let arr as [Int]:
-        return .init(try Match.from(arr), $0.1)
-      default:
-        throw JSError.error(msg: "Unrecognized Match specifier: \($0.0)")
-      }
-    }
     self.name = name
+    self.rules = try tuples.map { .init(try .from(any: $0.0), $0.1, name) }
+  }
+  
+  init(_ tuples: [(Any, (JSValue) throws -> Output)]) throws {
+    try self.init(tuples, String(reflecting: Output.self))
   }
   
 }
@@ -188,7 +197,7 @@ struct JsParseTransformSet<Output:Any> {
 extension JsParseTransform where Output: SysexTruss {
   
   func anyTrussXform() -> JsParseTransform<any SysexTruss> {
-    .init(match, { try xform($0) as any SysexTruss })
+    .init(match, { try xform($0) as any SysexTruss }, "any truss")
   }
 }
 

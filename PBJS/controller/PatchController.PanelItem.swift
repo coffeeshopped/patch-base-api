@@ -31,22 +31,21 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
         throw JSError.error(msg: "Unknown PanelItem type: \(t)")
       }
     }),
+    // maps: PatchController.Display
     ([
-      "display" : ".s",
       "maps" : ".a",
     ], {
       let l = try? $0.str("l")
       let id = try? $0.path("id")
       let w = try? $0.cgFloat("w")
-      return .display(try $0.xform("display"), l, try $0.xform("maps"), id: id, width: w)
+      return .display(try $0.xform(), l, try $0.xform("maps"), id: id, width: w)
     }),
-    ("spacer", { _ in .spacer(2) }),
+    ("-", { _ in .spacer(2) }),
     ([
       "l" : ".s",
-      "w" : ".n",
     ], {
       let l = try $0.str("l")
-      let w = try $0.cgFloat("w")
+      let w = try? $0.cgFloat("w")
       let id = try? $0.path("id")
       let bold = (try? $0.bool("bold")) ?? true
       let size = (try? $0.cgFloat("size")) ?? 13
@@ -63,5 +62,9 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
       "h": ".n",
     ], { (try $0.xform("row"), try $0.cgFloat("h")) }),
   ], "panel row item")
+
+  static let itemsRules: JsParseTransformSet<(Self, String)> = try! .init([
+    ([".d", ".s"], { (try $0.any(0).xform(), try $0.str(1)) }),
+  ])
 
 }

@@ -14,20 +14,21 @@ extension PatchController: JsParsable {
         effects = try fx.xform()
       }
       
-      return .patch(prefix: try? $0.xform("prefix"), color: color, border: border, try $0.xform("builders"), effects: effects, layout: (try? $0.xform("layout")) ?? [])
+      let layout: [PatchController.Constraint]? = try (try? $0.any("layout"))?.xform()
+      
+      return .patch(prefix: try? $0.xform("prefix"), color: color, border: border, try $0.xform("builders"), effects: effects, layout: layout ?? [])
     }),
     (["fm", ".a", ".f", ".d"], {
-//      let algo = try $0.arr(1)
       let opFn = try $0.fn(2)
-      let opCtrlr: (Int) -> PatchController = {
-        try! opFn.call([$0]).xform()
+      let opCtrlr: (Int) throws -> PatchController = {
+        try opFn.call([$0]).xform()
       }
       let config = try? $0.obj(3)
       let algoPath: SynthPath = (try? config?.path("algo")) ?? [.algo]
       let reverse = (try? config?.bool("reverse")) ?? false
       let selectable = (try? config?.bool("selectable")) ?? false
 
-      return .fm([], opCtrlr: opCtrlr, algoPath: algoPath, reverse: reverse, selectable: selectable)
+      return .fm(try $0.xform(1), opCtrlr: opCtrlr, algoPath: algoPath, reverse: reverse, selectable: selectable)
     })
   ], "controller")
   

@@ -77,6 +77,9 @@ extension JSValue {
     try map { try $0.str() }
   }
 
+  func arrStr(_ key: String) throws -> [String] { try arr(key).arrStr() }
+  func arrStr(_ index: Int) throws -> [String] { try arr(index).arrStr() }
+
   
   func map<X:Any>(_ fn: (JSValue) throws -> X) throws -> [X] {
     try (0..<arrCount()).map { try fn(any($0)) }
@@ -91,19 +94,6 @@ extension JSValue {
     let item = try any(index)
     guard item.isObject else { throw JSError.error(msg: "Expected Object at index: \(index)") }
     return item
-  }
-
-  
-  func path(_ index: Int) throws -> SynthPath {
-    try any(index).path()
-  }
-  
-  func arrPath() throws -> [SynthPath] {
-    try map { try $0.xform() }
-  }
-  
-  func arrPath(_ key: String) throws -> [SynthPath] {
-    try arr(key).arrPath()
   }
 
   
@@ -134,6 +124,10 @@ extension JSValue {
     try any(index).xform()
   }
 
+  func xform<Output:JsParsable>(_ index: Int) throws -> Output? {
+    try (try? any(index))?.xform()
+  }
+
   func xform<A:JsParsable, B:JsParsable>() throws -> (A, B) {
     let t = try JsParseTransformSet<(A,B)>([
       ([".x", ".x"], { (try $0.any(0).xform(), try $0.any(1).xform()) }),
@@ -149,7 +143,7 @@ extension JSValue {
   }
 
 
-  func pbDebug(_ indent: Int = 0) -> String {
+  public func pbDebug(_ indent: Int = 0) -> String {
     if isString {
       return "\"\(toString()!)\""
     }
@@ -234,10 +228,7 @@ extension JSValue {
     return item
   }
 
-  func arrStr(_ key: String) throws -> [String] {
-    try arr(key).arrStr()
-  }
-  
+
   func arrInt() throws -> [Int] {
     try map { try $0.int() }
   }
@@ -268,6 +259,19 @@ extension JSValue {
   
   func path(_ key: String) throws -> SynthPath { try any(key).path() }
 
+  func path(_ index: Int) throws -> SynthPath { try any(index).path() }
+
+  func pathOpt(_ index: Int) throws -> SynthPath? { try (try? any(index))?.path() }
+
+  func arrPath() throws -> [SynthPath] {
+    try map { try $0.xform() }
+  }
+  
+  func arrPath(_ key: String) throws -> [SynthPath] {
+    try arr(key).arrPath()
+  }
+
+  
   func fn(_ key: String) throws -> JSValue {
     guard let item = try checkForProperty(key),
           item.isFn else { throw JSError.error(msg: "Expected Function at key: \(key)") }

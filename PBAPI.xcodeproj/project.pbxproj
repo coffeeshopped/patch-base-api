@@ -152,6 +152,11 @@
 		AC4AC0F72C65335900358BF0 /* PBAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4AC0EC2C65335900358BF0 /* PBAPI.framework */; };
 		AC4AC0FC2C65335900358BF0 /* PBAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4AC0FB2C65335900358BF0 /* PBAPITests.swift */; };
 		AC4AC0FD2C65335900358BF0 /* PBAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = AC4AC0EF2C65335900358BF0 /* PBAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACE0BB762C6E4E130099F3D9 /* PBBezier.PathCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB752C6E4E130099F3D9 /* PBBezier.PathCommand.swift */; };
+		ACE0BB782C6E6EF00099F3D9 /* PBError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB772C6E6EF00099F3D9 /* PBError.swift */; };
+		ACE0BB7A2C6E92710099F3D9 /* DXAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB792C6E92700099F3D9 /* DXAlgorithm.swift */; };
+		ACE0BB7C2C6EAAC00099F3D9 /* PBErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB7B2C6EAAC00099F3D9 /* PBErrorHandler.swift */; };
+		ACE0BB7E2C6EAB450099F3D9 /* PBLogHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB7D2C6EAB450099F3D9 /* PBLogHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -326,6 +331,11 @@
 		AC4AC0F62C65335900358BF0 /* PBAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PBAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4AC0FB2C65335900358BF0 /* PBAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBAPITests.swift; sourceTree = "<group>"; };
 		AC58EC022C66A70400C1EEE5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		ACE0BB752C6E4E130099F3D9 /* PBBezier.PathCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBBezier.PathCommand.swift; sourceTree = "<group>"; };
+		ACE0BB772C6E6EF00099F3D9 /* PBError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBError.swift; sourceTree = "<group>"; };
+		ACE0BB792C6E92700099F3D9 /* DXAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DXAlgorithm.swift; sourceTree = "<group>"; };
+		ACE0BB7B2C6EAAC00099F3D9 /* PBErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBErrorHandler.swift; sourceTree = "<group>"; };
+		ACE0BB7D2C6EAB450099F3D9 /* PBLogHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBLogHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -419,6 +429,8 @@
 				AC414B522C653A8F0019DC1B /* MidiMessage.swift */,
 				AC414B5C2C653A900019DC1B /* MemSlot.Transform.swift */,
 				AC414B5F2C653A900019DC1B /* ModuleTrussSection.swift */,
+				ACE0BB752C6E4E130099F3D9 /* PBBezier.PathCommand.swift */,
+				ACE0BB792C6E92700099F3D9 /* DXAlgorithm.swift */,
 				AC58EC032C66AB6800C1EEE5 /* truss */,
 				AC58EC042C66AB8800C1EEE5 /* controller */,
 				AC414B3E2C653A7B0019DC1B /* PBJS.docc */,
@@ -554,6 +566,9 @@
 				AC414B262C65362C0019DC1B /* NuBackupChange.swift */,
 				AC414B272C65362C0019DC1B /* Change.swift */,
 				AC4AC0F02C65335900358BF0 /* PBAPI.docc */,
+				ACE0BB772C6E6EF00099F3D9 /* PBError.swift */,
+				ACE0BB7B2C6EAAC00099F3D9 /* PBErrorHandler.swift */,
+				ACE0BB7D2C6EAB450099F3D9 /* PBLogHandler.swift */,
 			);
 			path = PBAPI;
 			sourceTree = "<group>";
@@ -790,8 +805,10 @@
 				AC414B712C653A900019DC1B /* Parm.swift in Sources */,
 				AC414B942C653AAF0019DC1B /* PatchController.Constraint.swift in Sources */,
 				AC414B852C653AA20019DC1B /* SinglePatchTruss.swift in Sources */,
+				ACE0BB7A2C6E92710099F3D9 /* DXAlgorithm.swift in Sources */,
 				AC414B822C653AA20019DC1B /* MultiBankTruss.swift in Sources */,
 				AC414B832C653AA20019DC1B /* SingleBankTruss.swift in Sources */,
+				ACE0BB762C6E4E130099F3D9 /* PBBezier.PathCommand.swift in Sources */,
 				AC414B732C653A900019DC1B /* ModuleTrussSection.swift in Sources */,
 				AC414B6E2C653A900019DC1B /* FetchTransform.swift in Sources */,
 				AC414B862C653AA20019DC1B /* JsSysex.swift in Sources */,
@@ -827,6 +844,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC414AB42C6535940019DC1B /* SysexData.swift in Sources */,
+				ACE0BB7E2C6EAB450099F3D9 /* PBLogHandler.swift in Sources */,
 				AC414A4E2C6535150019DC1B /* AnySysexPatch.swift in Sources */,
 				AC414A7D2C65354D0019DC1B /* ParamHelper.swift in Sources */,
 				AC414ADD2C6535B10019DC1B /* ModuleTrussSection.swift in Sources */,
@@ -834,6 +852,7 @@
 				AC414B182C6535FD0019DC1B /* RolandPatchTrussWerk.swift in Sources */,
 				AC414A512C6535150019DC1B /* AnyMultiSysexible.swift in Sources */,
 				AC414AA72C6535830019DC1B /* BackupTruss.swift in Sources */,
+				ACE0BB782C6E6EF00099F3D9 /* PBError.swift in Sources */,
 				AC414A632C65353F0019DC1B /* PatchController-LevelScaling.swift in Sources */,
 				AC414A4D2C6535150019DC1B /* AnySysexible.swift in Sources */,
 				AC414AC92C65359D0019DC1B /* MidiTransform.swift in Sources */,
@@ -896,6 +915,7 @@
 				AC414AC62C65359D0019DC1B /* ModuleCommandEffect.swift in Sources */,
 				AC414AA52C6535830019DC1B /* FullRefTruss.swift in Sources */,
 				AC414AD92C6535B10019DC1B /* Manufacturer.swift in Sources */,
+				ACE0BB7C2C6EAAC00099F3D9 /* PBErrorHandler.swift in Sources */,
 				AC414AC32C65359D0019DC1B /* EditorPathTransform.swift in Sources */,
 				AC414A992C6535760019DC1B /* MultiSysexTruss.swift in Sources */,
 				AC414AC42C65359D0019DC1B /* EditorValueTransform.swift in Sources */,

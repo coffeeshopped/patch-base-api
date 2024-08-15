@@ -54,7 +54,7 @@ extension MultiPatchTruss : JsParsable, JsToMidiParsable {
       }
     }),
     (".p", {
-      let path = try $0.path(0)
+      let path = try $0.path()
       return { b, e in
         b[path] ?? [] // TODO: should we throw here?
       }

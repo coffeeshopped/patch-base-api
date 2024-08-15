@@ -32,7 +32,7 @@ public struct JsModuleWerk: ModuleProvider {
   public let localModuleURL: String
 
   private let packageName: String
-  private let console = JsConsole()
+  public var console = JsConsole()
   
   init(packageName: String, dict: [String:String]) throws {
     self.packageName = packageName

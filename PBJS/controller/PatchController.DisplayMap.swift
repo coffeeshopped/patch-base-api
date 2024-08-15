@@ -10,7 +10,10 @@ extension PatchController.DisplayMap: JsParsable, JsArrayParsable {
         try fn.call([$0]).cgFloat()
       }
     }),
-  ], "controller display map")
+    (["u", ".p", ".n", ".p?"], {
+      .unit(try $0.path(1), dest: try $0.xform(3), max: try $0.cgFloat(2))
+    }),
+  ])
 
   static let jsArrayParsers = try! jsParsers.arrayParsers()
   
