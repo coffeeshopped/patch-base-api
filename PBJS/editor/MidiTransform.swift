@@ -22,8 +22,8 @@ extension MidiTransform: JsParsable {
         name = nil
       }
 
-      return .single(throttle: throttle, .patch(coalesce: 2, param: { editor, bodyData, parm, value in
-        try SinglePatchTruss.makeMidiPairs(paramFn, bodyData, editor, [parm.toJS(), value])
+      return .single(throttle: throttle, .patch(coalesce: 2, param: { editor, bodyData, path, parm, value in
+        try SinglePatchTruss.makeMidiPairs(paramFn, bodyData, editor, [path.toJS(), parm?.toJS(), value])
       }, patch: { editor, bodyData in
         try SinglePatchTruss.makeMidiPairs(patchFn, bodyData, editor, [])
       }, name: name))
@@ -36,8 +36,8 @@ extension MidiTransform: JsParsable {
       let patchFn = try $0.any("patch")
       let nameFn = try $0.any("name")
 
-      return .multiDict(throttle: throttle, .patch(param: { editor, bodyData, parm, value in
-        return try MultiPatchTruss.makeMidiPairs(paramFn, bodyData, editor, [parm.toJS(), value])
+      return .multiDict(throttle: throttle, .patch(param: { editor, bodyData, path, parm, value in
+        return try MultiPatchTruss.makeMidiPairs(paramFn, bodyData, editor, [path.toJS(), parm?.toJS(), value])
       }, patch: { editor, bodyData in
         return try MultiPatchTruss.makeMidiPairs(patchFn, bodyData, editor, [])
       }, name: { editor, bodyData, path, name in

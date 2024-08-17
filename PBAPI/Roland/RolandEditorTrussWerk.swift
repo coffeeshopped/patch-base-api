@@ -121,9 +121,9 @@ public extension RolandEditorTrussWerk {
   func singleBundle(werk: RolandSinglePatchTrussWerk, address: RolandAddress) -> MidiTransform {
     
     let params = werk.truss.params
-    let paramT: MidiTransform.Fn<SinglePatchTruss>.Param = { editor, bodyData, parm, value in
+    let paramT: MidiTransform.Fn<SinglePatchTruss>.Param = { editor, bodyData, path, parm, value in
       let deviceId = try! UInt8(editor.intValue(deviceId))
-      let data = werk.werk.paramSetData(bodyData, deviceId: deviceId, address: address, path: parm.path, params: params)
+      let data = werk.werk.paramSetData(bodyData, deviceId: deviceId, address: address, path: path, params: params)
       return Self.mm([data])
     }
 

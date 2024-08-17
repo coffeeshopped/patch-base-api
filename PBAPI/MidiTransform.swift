@@ -35,7 +35,7 @@ public enum MidiTransform {
     public typealias Whole = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData) throws -> [(MidiMessage, Int)]?
 
     /// Transforms bodyData to a series of MidiMessages / send intervals representing a single parameter change. editor provided for possible extra data needed
-    public typealias Param = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ parm: Parm, _ value: Int) throws -> [(MidiMessage, Int)]?
+    public typealias Param = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ path: SynthPath, _ parm: Parm?, _ value: Int) throws -> [(MidiMessage, Int)]?
 
     /// Transforms bodyData to a series of MidiMessages / send intervals representing multiple parameter changes. editor provided for possible extra data needed.
     public typealias Params = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ values: SynthPathTree<Int>) throws -> [(MidiMessage, Int)]?

@@ -1,7 +1,7 @@
 import PBAPI
 import JavaScriptCore
 
-extension SinglePatchTruss: JsParsable, JsToMidiParsable {
+extension SinglePatchTruss: JsParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     ([
@@ -64,112 +64,6 @@ extension SinglePatchTruss: JsParsable, JsToMidiParsable {
     }),
   ], "singlePatchUnpack")
     
-  static let toMidiRules: JsParseTransformSet<Core.ToMidiFn> = try! .init([
-    (".f", { fn in
-      try fn.checkFn()
-      return { b, e in try fn.call([b, e]).arrByte() }
-    }),
-    (["+"], { v in
-      let count = v.arrCount()
-      let fns: [Core.ToMidiFn] = try (1..<count).map {
-        try v.atIndex($0).xform(toMidiRules)
-      }
-      return { b, e in
-        try fns.reduce([]) { try $0 + $1(b, e) }
-      }
-    }),
-    (["trussValues", ".d", ".a", ".f"], {
-      let t = try $0.atIndex(1).xform(JsSysex.trussRules)
-      let paths: [SynthPath] = try $0.atIndex(2).map { try $0.path() }
-      let fn = try $0.fn(3)
-      return { bodyData, e in
-        try paths.map {
-          switch t {
-          case let single as SinglePatchTruss:
-            let v = single.getValue(bodyData, path: $0) ?? 0
-            // truss return Int. So, map Int -> UInt8 via passed-in mapping fn.
-            return try fn.call([v]).byte()
-          default:
-            throw JSError.error(msg: "Unknown truss type passed to trussValue.")
-          }
-        }
-      }
-    }),
-    (["enc", ".s"], {
-      let bytes = try $0.str(1).sysexBytes()
-      return { _, _ in bytes }
-    }),
-    (["yamCmd", ".x"], {
-      let cmdBytes = try $0.any(1).xform(toMidiRules)
-      // second arg is optional, defaults to "b"
-      let bodyData = try (try? $0.any(2))?.xform(toMidiRules)
-      return { b, e in Yamaha.sysexData(cmdBytesWithChannel: try cmdBytes(b, e), bodyBytes: try bodyData?(b ,e) ?? b) }
-    }),
-    (["yamFetch", ".x"], {
-      let chan = try $0.any(1).xform(toMidiRules)
-      // second arg is optional, defaults to "b"
-      let cmdBytes = try (try? $0.any(2))?.xform(toMidiRules)
-      return { b, e in
-        Yamaha.fetchRequestBytes(channel: Int(try chan(b, e).first ?? 0), cmdBytes: try cmdBytes?(b ,e) ?? b)
-      }
-    }),
-    ("b", { _ in { b, e in b } }), // returns itself
-    ([".n"], {
-      // array that starts with number: assume it's a byte array
-      let bytes = try $0.arrByte()
-      return { _, _ in bytes }
-    }),
-    (".a", {
-      // if array, first see if it's an editorValueTransform
-      if let fn = tryAsEditorValueTransform($0) {
-        return fn
-      }
-
-      let fns = try $0.xformArr(toMidiRules)
-      return { b, e in
-        try fns.reduce(b) { partialResult, fn in try fn(partialResult, e) }
-      }
-    }),
-    (".n", {
-      // number: return it as a byte array
-      let byte = try $0.byte()
-      return { _, _ in [byte] }
-    }),
-    (".s", {
-      // if string, first see if it's an editorValueTransform
-      if let fn = tryAsEditorValueTransform($0) {
-        return fn
-      }
-
-      // string: treat as singleArg fn
-      let fnKey = try $0.str()
-      guard let fn = singleArgCreateFileFnRules[fnKey] else {
-        throw JSError.error(msg: "Unknown singleArgCreateFileFn: \(fnKey)")
-      }
-      
-      guard let arg = try? $0.any(1) else {
-        return { b, e in fn(b) }
-      }
-      let bb = try arg.xform(toMidiRules)
-      return { b, e in fn(try bb(b, e)) }
-    }),
-  ], "singlePatchTruss createFile")
-
-  static func tryAsEditorValueTransform(_ value: JSValue) -> Core.ToMidiFn? {
-    guard let evt = try? value.xform(EditorValueTransform.jsParsers) else {
-      return nil
-    }
-    return { b, e in [try e?.byteValue(evt) ?? 0] }
-  }
-  
-  static let singleArgCreateFileFnRules: [String:(BodyData) -> BodyData] = [
-    "nibblizeLSB": {
-      $0.flatMap { [UInt8($0.bits(0...3)), UInt8($0.bits(4...7))] }
-    },
-    "checksum": {
-      [UInt8($0.map{ Int($0) }.reduce(0, +) & 0x7f)]
-    },
-  ]
 
   static let parseBodyRules: JsParseTransformSet<Core.ParseBodyDataFn> = try! .init([
     (".f", { fn in
@@ -254,4 +148,152 @@ extension SinglePatchTruss: JsParsable, JsToMidiParsable {
     })
   ], "nameByteFilter")
   
+}
+
+// MARK: JsToMidiParsable
+
+extension SinglePatchTruss: JsToMidiParsable {
+  
+  static let toMidiRules: JsParseTransformSet<Core.ToMidiFn> = try! .init([
+    (".f", { fn in
+      try fn.checkFn()
+      return { b, e in try fn.call([b, e]).arrByte() }
+    }),
+    (["+"], { v in
+      let count = v.arrCount()
+      let fns: [Core.ToMidiFn] = try (1..<count).map {
+        try v.atIndex($0).xform(toMidiRules)
+      }
+      return { b, e in
+        try fns.reduce([]) { try $0 + $1(b, e) }
+      }
+    }),
+    (["trussValues", ".d", ".a", ".f"], {
+      let t = try $0.atIndex(1).xform(JsSysex.trussRules)
+      let paths: [SynthPath] = try $0.atIndex(2).map { try $0.path() }
+      let fn = try $0.fn(3)
+      return { bodyData, e in
+        try paths.map {
+          switch t {
+          case let single as SinglePatchTruss:
+            let v = single.getValue(bodyData, path: $0) ?? 0
+            // truss return Int. So, map Int -> UInt8 via passed-in mapping fn.
+            return try fn.call([v]).byte()
+          default:
+            throw JSError.error(msg: "Unknown truss type passed to trussValue.")
+          }
+        }
+      }
+    }),
+    (["byte", ".n"], {
+      let byte = try $0.int(1)
+      return { b, e in
+        guard byte < b.count else {
+          throw JSError.error(msg: "byte: index (\(byte)) must be less than data length (\(b.count)")
+        }
+        return [b[byte]]
+      }
+    }),
+    (["enc", ".s"], {
+      let bytes = try $0.str(1).sysexBytes()
+      return { _, _ in bytes }
+    }),
+    (["yamCmd", ".x"], {
+      let cmdBytes = try $0.any(1).xform(toMidiRules)
+      // second arg is optional, defaults to "b"
+      let bodyData = try (try? $0.any(2))?.xform(toMidiRules)
+      return { b, e in Yamaha.sysexData(cmdBytesWithChannel: try cmdBytes(b, e), bodyBytes: try bodyData?(b ,e) ?? b) }
+    }),
+    (["yamFetch", ".x"], {
+      let chan = try $0.any(1).xform(toMidiRules)
+      // second arg is optional, defaults to "b"
+      let cmdBytes = try (try? $0.any(2))?.xform(toMidiRules)
+      return { b, e in
+        Yamaha.fetchRequestBytes(channel: Int(try chan(b, e).first ?? 0), cmdBytes: try cmdBytes?(b ,e) ?? b)
+      }
+    }),
+    (["yamParm", ".x"], {
+      let chan = try $0.any(1).xform(toMidiRules)
+      // second arg is optional, defaults to "b"
+      let cmdBytes = try (try? $0.any(2))?.xform(toMidiRules)
+      return { b, e in
+        Yamaha.paramData(channel: Int(try chan(b, e).first ?? 0), cmdBytes: try cmdBytes?(b ,e) ?? b)
+      }
+    }),
+    ("b", { _ in { b, e in b } }), // returns itself
+    ([".n"], {
+      // array that starts with number: assume it's a byte array
+      let bytes = try $0.arrByte()
+      return { _, _ in bytes }
+    }),
+    (".a", {
+      // if array, first see if it's an editorValueTransform
+      if let fn = tryAsEditorValueTransform($0) {
+        return fn
+      }
+
+      let fns = try $0.xformArr(toMidiRules)
+      return { b, e in
+        try fns.reduce(b) { partialResult, fn in try fn(partialResult, e) }
+      }
+    }),
+    (".n", {
+      // number: return it as a byte array
+      let byte = try $0.byte()
+      return { _, _ in [byte] }
+    }),
+    (".s", {
+      // if string, first see if it's an editorValueTransform
+      if let fn = tryAsEditorValueTransform($0) {
+        return fn
+      }
+
+      // string: treat as singleArg fn
+      let fnKey = try $0.str()
+      guard let fn = singleArgCreateFileFnRules[fnKey] else {
+        throw JSError.error(msg: "Unknown singleArgCreateFileFn: \(fnKey)")
+      }
+      
+      guard let arg = try? $0.any(1) else {
+        return { b, e in fn(b) }
+      }
+      let bb = try arg.xform(toMidiRules)
+      return { b, e in fn(try bb(b, e)) }
+    }),
+  ], "singlePatchTruss createFile")
+
+  static func tryAsEditorValueTransform(_ value: JSValue) -> Core.ToMidiFn? {
+    guard let evt = try? value.xform(EditorValueTransform.jsParsers) else {
+      return nil
+    }
+    return { b, e in [try e?.byteValue(evt) ?? 0] }
+  }
+  
+  static let singleArgCreateFileFnRules: [String:(BodyData) -> BodyData] = [
+    "nibblizeLSB": {
+      $0.flatMap { [UInt8($0.bits(0...3)), UInt8($0.bits(4...7))] }
+    },
+    "checksum": {
+      [UInt8($0.map{ Int($0) }.reduce(0, +) & 0x7f)]
+    },
+  ]
+  
+  static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any?]) throws -> [(MidiMessage, Int)] {
+    // fn can be a JS function
+    // or it can be something that should be parsed as a createFile...
+    let mapVal = fn.isFn ? try fn.call(vals) : fn
+    return try mapVal!.map {
+      if let msg = try? $0.arr(0).xform(MidiMessage.jsParsers) {
+        return (msg, try $0.any(1).int())
+      }
+      else {
+        // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
+        // TODO: here is where some caching needs to happen. Perhaps that caching
+        // could be implemented in the JsParseTransformSet struct.
+        let fn = try $0.atIndex(0).xform(toMidiRules)
+        return (.sysex(try fn(bodyData, editor)), try $0.any(1).int())
+      }
+    }
+  }
+
 }

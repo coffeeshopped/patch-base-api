@@ -253,11 +253,20 @@ extension SomeBankTruss: JsParsable where PT: JsBankParsable {
 
 protocol JsToMidiParsable : SysexTruss {
   static var toMidiRules: JsParseTransformSet<Core.ToMidiFn> { get }
+  
+  static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any?]) throws -> [(MidiMessage, Int)]
+  
 }
 
-extension JsToMidiParsable {
+protocol JsBankToMidiParsable : PatchTruss {
+  static var bankToMidiRules: JsParseTransformSet<SomeBankTruss<Self>.Core.ToMidiFn> { get }
+}
+
+extension SomeBankTruss: JsToMidiParsable where PT: JsBankToMidiParsable {
+  static var toMidiRules: JsParseTransformSet<Core.ToMidiFn> { PT.bankToMidiRules }
   
-  static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any]) throws -> [(MidiMessage, Int)] {
+  // TODO: this will need to somehow get implemented per-Single/Multi
+  static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any?]) throws -> [(MidiMessage, Int)] {
     // fn can be a JS function
     // or it can be something that should be parsed as a createFile...
     let mapVal = fn.isFn ? try fn.call(vals) : fn
@@ -274,13 +283,4 @@ extension JsToMidiParsable {
       }
     }
   }
-  
-}
-
-protocol JsBankToMidiParsable : PatchTruss {
-  static var bankToMidiRules: JsParseTransformSet<SomeBankTruss<Self>.Core.ToMidiFn> { get }
-}
-
-extension SomeBankTruss: JsToMidiParsable where PT: JsBankToMidiParsable {
-  static var toMidiRules: JsParseTransformSet<Core.ToMidiFn> { PT.bankToMidiRules }
 }

@@ -17,10 +17,7 @@ public extension AnySynthEditor {
   }
 
   func byteValue(_ transform: EditorValueTransform?) throws -> UInt8 {
-    guard let v = value(transform) as? UInt8 else {
-      throw SysexTrussError.incorrectSysexType(msg: "Bad transform!")
-    }
-    return v
+    UInt8(try intValue(transform))
   }
 
 }
