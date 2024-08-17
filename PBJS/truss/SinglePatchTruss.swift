@@ -66,15 +66,24 @@ extension SinglePatchTruss: JsParsable {
     
 
   static let parseBodyRules: JsParseTransformSet<Core.ParseBodyDataFn> = try! .init([
-    (".f", { fn in
-      try fn.checkFn()
-      return { try fn.call([$0]).arrByte() }
-    }),
-    (".a", {
-      let fns = try $0.xformArr(parseBodyFnRules)
+    (["+"], { v in
+      let fns = try (1..<v.arrCount()).map { try v.atIndex($0).xform(parseBodyFnRules) }
+      return { b in try fns.flatMap { try $0(b) } }
+      }),
+    ([">"], { v in
+      let fns = try (1..<v.arrCount()).map { try v.atIndex($0).xform(parseBodyFnRules) }
       return {
         try fns.reduce($0) { partialResult, fn in try fn(partialResult) }
       }
+    }),
+    (".a", { v in
+      // otherwise, treat as an implicit "+"
+      let fns = try v.map { try $0.xform(parseBodyFnRules) }
+      return { b in try fns.flatMap { try $0(b) } }
+    }),
+    (".f", { fn in
+      try fn.checkFn()
+      return { try fn.call([$0]).arrByte() }
     }),
   ], "singlePatchTruss parseBody")
   
@@ -155,17 +164,21 @@ extension SinglePatchTruss: JsParsable {
 extension SinglePatchTruss: JsToMidiParsable {
   
   static let toMidiRules: JsParseTransformSet<Core.ToMidiFn> = try! .init([
-    (".f", { fn in
-      try fn.checkFn()
-      return { b, e in try fn.call([b, e]).arrByte() }
-    }),
     (["+"], { v in
-      let count = v.arrCount()
-      let fns: [Core.ToMidiFn] = try (1..<count).map {
+      let fns: [Core.ToMidiFn] = try (1..<v.arrCount()).map {
         try v.atIndex($0).xform(toMidiRules)
       }
       return { b, e in
-        try fns.reduce([]) { try $0 + $1(b, e) }
+        try fns.flatMap { try $0(b, e) }
+      }
+    }),
+    ([">"], { v in
+      // treat as an array of functions, with the output of each function being fed as input to the next function (chaining).
+      let fns: [Core.ToMidiFn] = try (1..<v.arrCount()).map {
+        try v.atIndex($0).xform(toMidiRules)
+      }
+      return { b, e in
+        try fns.reduce(b) { partialResult, fn in try fn(partialResult, e) }
       }
     }),
     (["trussValues", ".d", ".a", ".f"], {
@@ -221,22 +234,6 @@ extension SinglePatchTruss: JsToMidiParsable {
       }
     }),
     ("b", { _ in { b, e in b } }), // returns itself
-    ([".n"], {
-      // array that starts with number: assume it's a byte array
-      let bytes = try $0.arrByte()
-      return { _, _ in bytes }
-    }),
-    (".a", {
-      // if array, first see if it's an editorValueTransform
-      if let fn = tryAsEditorValueTransform($0) {
-        return fn
-      }
-
-      let fns = try $0.xformArr(toMidiRules)
-      return { b, e in
-        try fns.reduce(b) { partialResult, fn in try fn(partialResult, e) }
-      }
-    }),
     (".n", {
       // number: return it as a byte array
       let byte = try $0.byte()
@@ -259,6 +256,20 @@ extension SinglePatchTruss: JsToMidiParsable {
       }
       let bb = try arg.xform(toMidiRules)
       return { b, e in fn(try bb(b, e)) }
+    }),
+    (".a", { v in
+      // if array, first see if it's an editorValueTransform
+      if let fn = tryAsEditorValueTransform(v) {
+        return fn
+      }
+
+      // otherwise, treat as an implicit "+"
+      let fns: [Core.ToMidiFn] = try v.map { try $0.xform(toMidiRules) }
+      return { b, e in try fns.flatMap { try $0(b, e) } }
+    }),
+    (".f", { fn in
+      try fn.checkFn()
+      return { b, e in try fn.call([b, e]).arrByte() }
     }),
   ], "singlePatchTruss createFile")
 

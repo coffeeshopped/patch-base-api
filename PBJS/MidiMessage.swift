@@ -17,7 +17,7 @@ extension MidiMessage: JsParsable {
         .pgmChange(channel: UInt8(try $0.intValue(chan)), value: UInt8(try $0.intValue(val)))
       }
     }),
-    (["+"], { v in
+    (".a", { v in
       let count = v.arrCount()
       let fns: [SinglePatchTruss.Core.ToMidiFn] = try (1..<count).map {
         try v.atIndex($0).xform(SinglePatchTruss.toMidiRules)

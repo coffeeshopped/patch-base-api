@@ -31,49 +31,23 @@ extension MultiPatchTruss : JsParsable {
 extension MultiPatchTruss: JsToMidiParsable {
   
   static let toMidiRules: JsParseTransformSet<Core.ToMidiFn> = try! .init([
-    (".f", { fn in
-      try fn.checkFn()
-      return { b, e in try fn.call([b, e]).arrByte() }
-    }),
     (["+"], { v in
       let count = v.arrCount()
       let fns: [Core.ToMidiFn] = try (1..<count).map {
         try v.atIndex($0).xform(toMidiRules)
       }
-      return { b, e in
-        try fns.reduce([]) { try $0 + $1(b, e) }
-      }
+      return { b, e in try fns.reduce([]) { try $0 + $1(b, e) } }
     }),
-    (["sub", ".p"], {
-      let path = try $0.path(1)
-      return { b, e in
-        b[path] ?? [] // TODO: should we throw here?
-      }
-    }),
-//    ("e", { _ in { b, e in
-//      switch e.first {
-//      case let i as Int:
-//        return [UInt8(i)]
-//      default:
-//        fatalError("TODO: handle other editor value types.")
-//      }
-//    } }), // returns editorValue
-    ([".n"], {
-      // array that starts with number: assume it's a byte array
-      let bytes = try $0.arrByte()
-      return { _, _ in bytes }
-    }),
-    (".a", { v in
-      let count = v.arrCount()
-      // the first element of the array is a fn mapping [SynthPath:[UInt8]] -> [UInt8]
+    ([".p"], { v in
+      // the first element of the array is a path to fetch subdata
       // the rest of the elements map [UInt8] -> [UInt8]
-      let fn = try v.any(0).xform(toMidiRules)
-      let singleFns: [SinglePatchTruss.Core.ToMidiFn] = try (1..<count).map {
+      let path = try v.path(0)
+      let singleFns: [SinglePatchTruss.Core.ToMidiFn] = try (1..<v.arrCount()).map {
         try v.atIndex($0).xform(SinglePatchTruss.toMidiRules)
       }
 
       return { b, e in
-        let sub = try fn(b, e)
+        let sub = b[path] ?? []
         return try singleFns.reduce(sub) { partialResult, fn in try fn(partialResult, e) }
       }
     }),
@@ -81,6 +55,15 @@ extension MultiPatchTruss: JsToMidiParsable {
       // number: return it as a byte array
       let byte = try $0.byte()
       return { _, _ in [byte] }
+    }),
+    (".a", { v in
+      // implicit "+"
+      let fns: [Core.ToMidiFn] = try v.map { try $0.xform(toMidiRules) }
+      return { b, e in try fns.reduce([]) { try $0 + $1(b, e) } }
+    }),
+    (".f", { fn in
+      try fn.checkFn()
+      return { b, e in try fn.call([b, e]).arrByte() }
     }),
   ], "multiPatchTruss toMidiRules")
   
