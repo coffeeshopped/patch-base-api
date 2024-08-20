@@ -9,7 +9,7 @@ public struct BackupTruss : MultiSysexTruss {
   public let trussDict: [SynthPath : any SysexTruss]
   public let trussPaths: [SynthPath]
   
-  public init(_ synthName: String, trussMap: [(SynthPath, any SysexTruss)], createFileData: @escaping Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, otherValidSizes: [Int]? = nil) {
+  public init(_ synthName: String, trussMap: [(SynthPath, any SysexTruss)], createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, otherValidSizes: [Int]? = nil) {
     self.trussMap = trussMap
     let trussDict = trussMap.dict { [$0.0 : $0.1] }
     self.trussDict = trussDict
@@ -23,9 +23,9 @@ public struct BackupTruss : MultiSysexTruss {
   
   public init(_ synthName: String, map: [(SynthPath, any SysexTruss)], pathForData: @escaping BackupTruss.PathForDataFn, createFileData: BackupTruss.Core.ToMidiFn? = nil) {
     let trussDict = map.dict { [$0.0 : $0.1] }
-    let createFileData = createFileData ?? { b, e in
+    let createFileData = createFileData ?? .fn({ b, e in
       try Self.defaultCreateFileData(b, trussDict: trussDict)
-    }
+    })
     self = Self.init(synthName, trussMap: map, createFileData: createFileData, parseBodyData: {
       try Self.defaultParseBodyData($0, trussDict: trussDict, withPathForDataFn: pathForData)
     })

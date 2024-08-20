@@ -393,13 +393,13 @@ public extension PatchController.Effect {
 
   
   /// Note: path here is an unprefixed path, since that is the most common usage!
-  static func paramChange(_ fullPath: SynthPath, _ fn: @escaping (Param) -> [PatchController.AttrChange]) -> Self {
-    .paramChange(fullPath, fnWithContext: { param, state, locals in
-      fn(param)
+  static func paramChange(_ fullPath: SynthPath, _ fn: @escaping (Parm) throws -> [PatchController.AttrChange]) -> Self {
+    .paramChange(fullPath, fnWithContext: { parm, state, locals in
+      try fn(parm)
     })
   }
 
-  static func paramChange(_ fullPath: SynthPath, fnWithContext fn: @escaping (Param, PatchControllerState, PatchControllerLocals) -> [PatchController.AttrChange]) -> Self {
+  static func paramChange(_ fullPath: SynthPath, fnWithContext fn: @escaping (Parm, PatchControllerState, PatchControllerLocals) throws -> [PatchController.AttrChange]) -> Self {
     .change { state, locals in
       switch state.event {
       case .prefixChange:
@@ -409,12 +409,12 @@ public extension PatchController.Effect {
         // when VC first gets added to the flow
         // BUT, this would handle the situation of getting added to the flow and
         // then having the Effect added (although does that situation happen?)
-        guard let param = state.params[fullPath] else { return [] }
-        return fn(param.param(), state, locals)
+        guard let parm = state.params[fullPath] else { return [] }
+        return try fn(parm, state, locals)
       case .paramsChange(let paths):
         guard paths.contains(fullPath),
-              let param = state.params[fullPath] else { return [] }
-        return fn(param.param(), state, locals)
+              let parm = state.params[fullPath] else { return [] }
+        return try fn(parm, state, locals)
       default:
         return []
       }

@@ -28,9 +28,9 @@ public struct RolandSinglePatchTrussWerk : RolandPatchTrussWerk {
     let parseBodyData = SinglePatchTruss.parseBodyDataFn(parseOffset: werk.parseOffset, bodyDataCount: bodyDataCount)
     
     // valid sizes should be based on both passed in size as well as the default createFileData
-    self.truss = try SinglePatchTruss(displayId, bodyDataCount, namePackIso: name, params: params, initFile: initFile, defaultName: defaultName, createFileData: { b, e in
+    self.truss = try SinglePatchTruss(displayId, bodyDataCount, namePackIso: name, params: params, initFile: initFile, defaultName: defaultName, createFileData: .fn({ b, e in
       sysexDataFn(b, UInt8(RolandDefaultDeviceId), start).reduce([], +)
-    }, parseBodyData: parseBodyData, validSizes: [werk.sysexMsgCount(size: size)], includeFileDataCount: true, pack: Self.defaultPack, unpack: Self.defaultUnpack, randomize: randomize)
+    }), parseBodyData: parseBodyData, validSizes: [werk.sysexMsgCount(size: size)], includeFileDataCount: true, pack: Self.defaultPack, unpack: Self.defaultUnpack, randomize: randomize)
   }
   
 }

@@ -8,11 +8,11 @@ extension FetchTransform: JsParsable, JsArrayParsable {
     (["sequence", ".x",], { .sequence(try $0.xform(1)) }),
     (["truss", ".x"], {
       let fn = try $0.any(1).xform(SinglePatchTruss.toMidiRules)
-      return .truss({ try fn([], $0) })
+      return .truss({ try fn.call([], $0) })
     }),
     (["bankTruss", ".x"], {
       let fn = try $0.any(1).xform(SinglePatchTruss.toMidiRules)
-      return .bankTruss({ editor, loc in try fn([loc], editor) }, waitInterval: 0)
+      return .bankTruss({ editor, loc in try fn.call([loc], editor) }, waitInterval: 0)
     }),
     (["custom", ".x"], {
       let fns = try $0.any(1).map {

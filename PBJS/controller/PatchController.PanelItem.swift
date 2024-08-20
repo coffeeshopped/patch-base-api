@@ -5,9 +5,9 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     ([".s?", ".p"], { .knob(try? $0.str(0), try $0.path(1)) }),
-    ([".d", ".p"], {
+    ([".d", ".p?"], {
       let obj = try $0.obj(0)
-      let path = try $0.path(1)
+      let path = try? $0.path(1)
       let t = (try? obj.str("t")) ?? "knob"
       let l = try? obj.str("l")
       let id = try? obj.path("id")
@@ -51,7 +51,7 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
       let size = (try? $0.cgFloat("size")) ?? 13
       return .label(l, align: .center, size: size, bold: bold, id: id, width: w)
     })
-  ], "panelItem")
+  ])
   
   static let jsArrayParsers = try! jsParsers.arrayParsers()
   

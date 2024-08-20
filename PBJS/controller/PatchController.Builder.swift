@@ -12,6 +12,11 @@ extension PatchController.Builder: JsParsable, JsArrayParsable {
       let clearBG = (try? opts?.bool("clearBG")) ?? false
       return .child(child, panel, color: color, clearBG: clearBG)
     }),
+    (["children", ".n", ".s"], {
+      let count = try $0.int(1)
+      let panelPrefix = try $0.str(2)
+      return .children(count, panelPrefix, color: nil, clearBG: false, try $0.any(3).xform(), indexFn: nil)
+    }),
     (["panel", ".s", ".d", ".a"], {
       let opts = try? $0.obj(2)
       let color = try? opts?.int("color")
@@ -37,7 +42,7 @@ extension PatchController.Builder: JsParsable, JsArrayParsable {
       let clearBG = (try? opts?.bool("clearBG")) ?? false
       return .items(color: color, clearBG: clearBG, try $0.arr(2).xformArr(PatchController.PanelItem.itemsRules))
     })
-  ], "builder")
+  ])
   
   static let jsArrayParsers = try! jsParsers.arrayParsers()
 }

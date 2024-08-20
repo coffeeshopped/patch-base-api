@@ -16,8 +16,9 @@ public extension AnySynthEditor {
     return v
   }
 
+  // force Int to UInt8 using 2's complement
   func byteValue(_ transform: EditorValueTransform?) throws -> UInt8 {
-    UInt8(try intValue(transform))
+    UInt8(bitPattern: Int8(try intValue(transform)))
   }
 
 }

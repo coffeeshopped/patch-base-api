@@ -29,26 +29,22 @@ extension SynthPathItem: JsArrayParsable {
     }
     return i
   }
+  
+  func scriptItem() -> Any {
+    switch self {
+    case .i(let i):
+      return i
+    default:
+      return "\(self)"
+    }
+  }
 }
 
 extension SynthPath {
   
-  func toJS() -> [Any] {
-    map {
-      switch $0 {
-      case .i(let i):
-        return i
-      default:
-        return "\($0)"
-      }
-    }
-  }
+  func toJS() -> [Any] { map { $0.scriptItem() } }
   
-  func str() -> String {
-    var s = ""
-    forEach { s.append("\($0)")}
-    return s
-  }
+  func str() -> String { map { "\($0.scriptItem())" }.joined(separator: "/") }
   
 }
 

@@ -267,9 +267,8 @@ extension JSValue {
     try map { try $0.xform() }
   }
   
-  func arrPath(_ key: String) throws -> [SynthPath] {
-    try arr(key).arrPath()
-  }
+  func arrPath(_ key: String) throws -> [SynthPath] { try arr(key).arrPath() }
+  func arrPath(_ index: Int) throws -> [SynthPath] { try arr(index).arrPath() }
 
   
   func fn(_ key: String) throws -> JSValue {

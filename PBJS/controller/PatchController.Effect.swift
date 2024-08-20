@@ -33,8 +33,28 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
         try fn.call([$0]).xform()
       }
     }),
+    (["paramChange", ".p", ".f"], {
+      let fn = try $0.fn(2)
+      return .paramChange(try $0.path(1)) { parm in
+        try fn.call([parm]).xform()
+      }
+    }),
   ])
   
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
+  static let jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([
+    (["voiceReserve", ".a", ".n", ".a"], {
+      try .voiceReserve(paths: $0.arrPath(1), total: $0.int(2), ctrls: $0.arrPath(3))
+    }),
+    (".a", {
+      // TODO: this should probably be the implementation of jsArrayParsers()
+      guard $0.arrCount() > 0 else { return [] }
+      return try $0.map {
+        guard let x = try? $0.xform(jsParsers) else {
+          return try $0.xform()
+        }
+        return [x]
+      }.reduce([], +)
+    }),
+  ])
 }
 

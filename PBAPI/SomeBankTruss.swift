@@ -13,7 +13,7 @@ public struct SomeBankTruss<PT:PatchTruss> : BankTruss {
   
   public var anyPatchTruss: any PatchTruss { patchTruss }
 
-  public init(patchTruss: PT, patchCount: Int, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: @escaping Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, isValidSize: Core.ValidSizeFn? = nil, isValidFileData: Core.ValidDataFn? = nil, isCompleteFetch: Core.ValidDataFn? = nil) {
+  public init(patchTruss: PT, patchCount: Int, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, isValidSize: Core.ValidSizeFn? = nil, isValidFileData: Core.ValidDataFn? = nil, isCompleteFetch: Core.ValidDataFn? = nil) {
     self.patchTruss = patchTruss
     self.patchCount = patchCount
 
@@ -21,12 +21,12 @@ public struct SomeBankTruss<PT:PatchTruss> : BankTruss {
     self.core = Core("\(patchTruss.displayId).bank", initFile: initFile, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: isValidSize, isValidFileData: isValidFileData, isCompleteFetch: isCompleteFetch)
   }
 
-  public init(patchTruss: PT, patchCount: Int, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: @escaping Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, validBundle bundle: Core.ValidBundle? = nil) {
+  public init(patchTruss: PT, patchCount: Int, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, validBundle bundle: Core.ValidBundle? = nil) {
     
     self = Self.init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: bundle?.validSize, isValidFileData: bundle?.validData, isCompleteFetch: bundle?.completeFetch)
   }
   
-  public init(patchTruss: PT, patchCount: Int, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: @escaping Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, validSizes: [Int], includeFileDataCount: Bool) {
+  public init(patchTruss: PT, patchCount: Int, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, validSizes: [Int], includeFileDataCount: Bool) {
     
     let fileDataCount = Self.fileDataCount(patchTruss: patchTruss, patchCount: patchCount)
     let finalValidSizes = (includeFileDataCount ? [fileDataCount] : []) + validSizes
@@ -125,10 +125,10 @@ public extension SomeBankTruss {
   }
 
   static func createFileDataWithLocationMap(_ fn: @escaping (PT.BodyData, Int) -> [UInt8]) -> Core.ToMidiFn {
-    { b, e in b.enumerated().flatMap { fn($0.element, $0.offset) } }
+    .fn({ b, e in b.enumerated().flatMap { fn($0.element, $0.offset) } })
   }
 
   static func createFileDataWithLocationMap(_ fn: @escaping (PT.BodyData, Int) throws -> [UInt8]) -> Core.ToMidiFn {
-    { b, e in try b.enumerated().flatMap { try fn($0.element, $0.offset) } }
+    .fn({ b, e in try b.enumerated().flatMap { try fn($0.element, $0.offset) } })
   }
 }

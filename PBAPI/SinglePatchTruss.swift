@@ -42,9 +42,9 @@ public struct SinglePatchTruss : PatchTruss {
       fileDataCount = 0
     }
     
-    let createFileData = createFileData ?? { _, _ in
+    let createFileData = createFileData ?? .fn({ _, _ in
       throw SysexTrussError.blockNotSet(msg: "createFileData called but never set.")
-    }
+    })
     let parseBodyData = parseBodyData ?? { _ in
       throw SysexTrussError.blockNotSet(msg: "\(displayId): parseBodyData called but never set.")
     }
@@ -62,7 +62,7 @@ public struct SinglePatchTruss : PatchTruss {
   }
   
   
-  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: @escaping Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, validSizes: [Int], includeFileDataCount: Bool, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
+  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, validSizes: [Int], includeFileDataCount: Bool, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
 
     let fileDataCount = try Self.fileDataCount(createFileData: createFileData, bodyDataCount: bodyDataCount)
     let finalValidSizes = (includeFileDataCount ? [fileDataCount] : []) + validSizes
@@ -71,13 +71,13 @@ public struct SinglePatchTruss : PatchTruss {
     self = try Self.init(displayId, bodyDataCount, namePackIso: namePackIso, params: params, initFile: initFile, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: validBundle, pack: pack, unpack: unpack, randomize: randomize)
   }
   
-  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: @escaping Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, isValidSizeDataAndFetch validSizeFn: @escaping Core.ValidSizeFn, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
+  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, isValidSizeDataAndFetch validSizeFn: @escaping Core.ValidSizeFn, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
     
     self = try Self.init(displayId, bodyDataCount, namePackIso: namePackIso, params: params, initFile: initFile, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: Core.validBundle(validSize: validSizeFn), pack: pack, unpack: unpack, randomize: randomize)
   }
   
   private static func fileDataCount(createFileData: Core.ToMidiFn, bodyDataCount: Int) throws -> Int {
-    try createFileData([UInt8](repeating: 0, count: bodyDataCount), nil).count
+    try createFileData.call([UInt8](repeating: 0, count: bodyDataCount), nil).count
   }
       
 //  public mutating func set(paramsFromOpts opts: [ParamOptions]) {

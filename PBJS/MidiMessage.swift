@@ -23,7 +23,7 @@ extension MidiMessage: JsParsable {
         try v.atIndex($0).xform(SinglePatchTruss.toMidiRules)
       }
       return { e in
-        .sysex(try fns.reduce([]) { try $0 + $1([], e) })
+        .sysex(try fns.reduce([]) { try $0 + $1.call([], e) })
       }
     }),
 

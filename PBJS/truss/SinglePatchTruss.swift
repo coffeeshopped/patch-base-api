@@ -168,8 +168,8 @@ extension SinglePatchTruss: JsToMidiParsable {
       let fns: [Core.ToMidiFn] = try (1..<v.arrCount()).map {
         try v.atIndex($0).xform(toMidiRules)
       }
-      return { b, e in
-        try fns.flatMap { try $0(b, e) }
+      return .fn { b, e in
+        try fns.flatMap { try $0.call(b, e) }
       }
     }),
     ([">"], { v in
@@ -177,30 +177,25 @@ extension SinglePatchTruss: JsToMidiParsable {
       let fns: [Core.ToMidiFn] = try (1..<v.arrCount()).map {
         try v.atIndex($0).xform(toMidiRules)
       }
-      return { b, e in
-        try fns.reduce(b) { partialResult, fn in try fn(partialResult, e) }
+      return .fn { b, e in
+        try fns.reduce(b) { partialResult, fn in try fn.call(partialResult, e) }
       }
     }),
-    (["trussValues", ".d", ".a", ".f"], {
-      let t = try $0.atIndex(1).xform(JsSysex.trussRules)
-      let paths: [SynthPath] = try $0.atIndex(2).map { try $0.path() }
+    (["e.values", ".p", ".a", ".f"], {
+      let editorPath = try $0.path(1)
+      let paths: [SynthPath] = try $0.arr(2).map { try $0.path() }
       let fn = try $0.fn(3)
-      return { bodyData, e in
-        try paths.map {
-          switch t {
-          case let single as SinglePatchTruss:
-            let v = single.getValue(bodyData, path: $0) ?? 0
-            // truss return Int. So, map Int -> UInt8 via passed-in mapping fn.
-            return try fn.call([v]).byte()
-          default:
-            throw JSError.error(msg: "Unknown truss type passed to trussValue.")
-          }
+      let evts: [EditorValueTransform] = paths.map { .value(editorPath, $0, defaultValue: 0) }
+      return .fn { bodyData, e in
+        try evts.map {
+          let v = try e?.intValue($0) ?? 0
+          return try fn.call([v]).byte()
         }
       }
     }),
     (["byte", ".n"], {
       let byte = try $0.int(1)
-      return { b, e in
+      return .b { b in
         guard byte < b.count else {
           throw JSError.error(msg: "byte: index (\(byte)) must be less than data length (\(b.count)")
         }
@@ -208,37 +203,32 @@ extension SinglePatchTruss: JsToMidiParsable {
       }
     }),
     (["enc", ".s"], {
-      let bytes = try $0.str(1).sysexBytes()
-      return { _, _ in bytes }
+      .const(try $0.str(1).sysexBytes())
     }),
     (["yamCmd", ".x"], {
       let cmdBytes = try $0.any(1).xform(toMidiRules)
       // second arg is optional, defaults to "b"
       let bodyData = try (try? $0.any(2))?.xform(toMidiRules)
-      return { b, e in Yamaha.sysexData(cmdBytesWithChannel: try cmdBytes(b, e), bodyBytes: try bodyData?(b ,e) ?? b) }
+      return .fn { b, e in Yamaha.sysexData(cmdBytesWithChannel: try cmdBytes.call(b, e), bodyBytes: try bodyData?.call(b ,e) ?? b) }
     }),
     (["yamFetch", ".x"], {
       let chan = try $0.any(1).xform(toMidiRules)
       // second arg is optional, defaults to "b"
       let cmdBytes = try (try? $0.any(2))?.xform(toMidiRules)
-      return { b, e in
-        Yamaha.fetchRequestBytes(channel: Int(try chan(b, e).first ?? 0), cmdBytes: try cmdBytes?(b ,e) ?? b)
+      return .fn { b, e in
+        Yamaha.fetchRequestBytes(channel: Int(try chan.call(b, e).first ?? 0), cmdBytes: try cmdBytes?.call(b ,e) ?? b)
       }
     }),
     (["yamParm", ".x"], {
       let chan = try $0.any(1).xform(toMidiRules)
       // second arg is optional, defaults to "b"
       let cmdBytes = try (try? $0.any(2))?.xform(toMidiRules)
-      return { b, e in
-        Yamaha.paramData(channel: Int(try chan(b, e).first ?? 0), cmdBytes: try cmdBytes?(b ,e) ?? b)
+      return .fn { b, e in
+        Yamaha.paramData(channel: Int(try chan.call(b, e).first ?? 0), cmdBytes: try cmdBytes?.call(b ,e) ?? b)
       }
     }),
-    ("b", { _ in { b, e in b } }), // returns itself
-    (".n", {
-      // number: return it as a byte array
-      let byte = try $0.byte()
-      return { _, _ in [byte] }
-    }),
+    ("b", { _ in .ident }), // returns itself
+    (".n", { .const([try $0.byte()]) }), // number: return it as a byte array
     (".s", {
       // if string, first see if it's an editorValueTransform
       if let fn = tryAsEditorValueTransform($0) {
@@ -252,10 +242,10 @@ extension SinglePatchTruss: JsToMidiParsable {
       }
       
       guard let arg = try? $0.any(1) else {
-        return { b, e in fn(b) }
+        return .b(fn)
       }
       let bb = try arg.xform(toMidiRules)
-      return { b, e in fn(try bb(b, e)) }
+      return .fn { b, e in fn(try bb.call(b, e)) }
     }),
     (".a", { v in
       // if array, first see if it's an editorValueTransform
@@ -265,11 +255,11 @@ extension SinglePatchTruss: JsToMidiParsable {
 
       // otherwise, treat as an implicit "+"
       let fns: [Core.ToMidiFn] = try v.map { try $0.xform(toMidiRules) }
-      return { b, e in try fns.flatMap { try $0(b, e) } }
+      return .fn { b, e in try fns.flatMap { try $0.call(b, e) } }
     }),
     (".f", { fn in
       try fn.checkFn()
-      return { b, e in try fn.call([b, e]).arrByte() }
+      return .fn { b, e in try fn.call([b, e]).arrByte() }
     }),
   ], "singlePatchTruss createFile")
 
@@ -277,7 +267,7 @@ extension SinglePatchTruss: JsToMidiParsable {
     guard let evt = try? value.xform(EditorValueTransform.jsParsers) else {
       return nil
     }
-    return { b, e in [try e?.byteValue(evt) ?? 0] }
+    return .e { [try $0?.byteValue(evt) ?? 0] }
   }
   
   static let singleArgCreateFileFnRules: [String:(BodyData) -> BodyData] = [
@@ -302,7 +292,7 @@ extension SinglePatchTruss: JsToMidiParsable {
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
         let fn = try $0.atIndex(0).xform(toMidiRules)
-        return (.sysex(try fn(bodyData, editor)), try $0.any(1).int())
+        return (.sysex(try fn.call(bodyData, editor)), try $0.any(1).int())
       }
     }
   }

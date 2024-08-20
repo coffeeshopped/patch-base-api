@@ -36,7 +36,7 @@ extension MultiPatchTruss: JsToMidiParsable {
       let fns: [Core.ToMidiFn] = try (1..<count).map {
         try v.atIndex($0).xform(toMidiRules)
       }
-      return { b, e in try fns.reduce([]) { try $0 + $1(b, e) } }
+      return .fn { b, e in try fns.reduce([]) { try $0 + $1.call(b, e) } }
     }),
     ([".p"], { v in
       // the first element of the array is a path to fetch subdata
@@ -46,24 +46,24 @@ extension MultiPatchTruss: JsToMidiParsable {
         try v.atIndex($0).xform(SinglePatchTruss.toMidiRules)
       }
 
-      return { b, e in
+      return .fn { b, e in
         let sub = b[path] ?? []
-        return try singleFns.reduce(sub) { partialResult, fn in try fn(partialResult, e) }
+        return try singleFns.reduce(sub) { partialResult, fn in try fn.call(partialResult, e) }
       }
     }),
     (".n", {
       // number: return it as a byte array
       let byte = try $0.byte()
-      return { _, _ in [byte] }
+      return .fn { _, _ in [byte] }
     }),
     (".a", { v in
       // implicit "+"
       let fns: [Core.ToMidiFn] = try v.map { try $0.xform(toMidiRules) }
-      return { b, e in try fns.reduce([]) { try $0 + $1(b, e) } }
+      return .fn { b, e in try fns.reduce([]) { try $0 + $1.call(b, e) } }
     }),
     (".f", { fn in
       try fn.checkFn()
-      return { b, e in try fn.call([b, e]).arrByte() }
+      return .fn { b, e in try fn.call([b, e]).arrByte() }
     }),
   ], "multiPatchTruss toMidiRules")
   
@@ -80,7 +80,7 @@ extension MultiPatchTruss: JsToMidiParsable {
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
         let fn = try $0.atIndex(0).xform(toMidiRules)
-        return (.sysex(try fn(bodyData, editor)), try $0.any(1).int())
+        return (.sysex(try fn.call(bodyData, editor)), try $0.any(1).int())
       }
     }
   }

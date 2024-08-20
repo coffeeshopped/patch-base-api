@@ -192,6 +192,10 @@ struct JsParseTransformSet<Output:Any> {
     try self.init(tuples, String(reflecting: Output.self))
   }
   
+  func with(_ other: Self) -> Self {
+    .init(rules + other.rules, name)
+  }
+  
 }
 
 extension JsParseTransform where Output: SysexTruss {
@@ -279,7 +283,7 @@ extension SomeBankTruss: JsToMidiParsable where PT: JsBankToMidiParsable {
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
         let fn = try $0.atIndex(0).xform(toMidiRules)
-        return (.sysex(try fn(bodyData, editor)), try $0.any(1).int())
+        return (.sysex(try fn.call(bodyData, editor)), try $0.any(1).int())
       }
     }
   }
