@@ -31,22 +31,34 @@ extension PatchController.Constraint: JsParsable, JsArrayParsable {
     }),
     (["colFixed", ".a", ".d"], {
       let cfg = try $0.obj(2)
-      return .colFixed(try $0.arrStr(1), fixed: try cfg.str("fixed"), height: try cfg.cgFloat("height"), opts: [], spacing: try cfg.cgFloat("spacing"))
+      return try .colFixed($0.arrStr(1), fixed: cfg.x("fixed"), height: cfg.x("height"), opts: [], spacing: cfg.x("spacing"))
     }),
     (["eq", ".a", ".s"], {
-      return .eq(try $0.arr(1).arrStr(), try parseConstraintAttribute(try $0.any(2).str()))
+      return try .eq($0.arr(1).arrStr(), parseConstraintAttribute($0.x(2)))
     })
   ], "controller constraint")
   
   static let jsArrayParsers = try! jsParsers.arrayParsers()
   
+  static let gridRowRules: JsParseTransformSet<([Self.Item], CGFloat)> = try! .init([
+//    (".a", { (try $0.xform(), CGFloat(1)) }),
+    ([
+      "row": ".a",
+      "h": ".n",
+    ], {
+      let row = try $0.arr("row")
+      let rows: [Self.Item] = try row.map { (try $0.x(0), try $0.x(1)) }
+      return (rows, try $0.x("h"))
+    }),
+  ], "layoutConstraint grid row item")
+
   static func parseConstraintItems(_ value: JSValue) throws -> [PatchController.Constraint.Item] {
-    try value.map { (try $0.any(0).str(), try $0.cgFloat(1)) }
+    try value.map { try ($0.x(0), $0.x(1)) }
   }
   
   static func parseConstraintFormatOptions(_ options: JSValue?) throws -> [PBLayoutConstraint.FormatOption]? {
     return try (try? options?.arr("opts"))?.map({
-      let s = try $0.str()
+      let s: String = try $0.x()
       switch s {
       case "alignAllTop":
         return .alignAllTop

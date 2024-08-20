@@ -6,9 +6,9 @@ extension Parm: JsParsable, JsArrayParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     ([".p", ".d"], {
-      let path = try $0.path(0)
+      let path: SynthPath = try $0.x(0)
       let obj = try $0.obj(1)
-      return .p(path, try? obj.int("b"), p: try? obj.int("p"), bits: nil, extra: [:], packIso: nil, try obj.xform())
+      return .p(path, try obj.xq("b"), p: try obj.xq("p"), bits: nil, extra: [:], packIso: nil, try obj.x())
     }),
   ], "general parm")
   
@@ -24,13 +24,13 @@ extension Parm: JsParsable, JsArrayParsable {
     (".a", {
       guard $0.arrCount() > 0 else { return [] }
       
-      if (try? $0.path(0)) != nil {
+      if (try? $0.x(0) as SynthPath) != nil {
         // if first element is a path, treat this as a Parm
-        return [try $0.xform()]
+        return [try $0.x() as Parm]
       }
       else {
         // otherwise, treat it as a bunch of [Parm]s
-        return try $0.map { try $0.xform() }.reduce([], +)
+        return try $0.map { try $0.x() }.reduce([], +)
       }
     }),
     ([
@@ -41,7 +41,7 @@ extension Parm: JsParsable, JsArrayParsable {
       "block" : ".x",
     ], {
       let block = try $0.any("block")
-      return try .prefix(try $0.path("prefix"), count: try $0.int("count"), bx: (try? $0.int("bx")) ?? 0, px: try? $0.int("px"), block: {
+      return try .prefix($0.x("prefix"), count: $0.x("count"), bx: $0.xq("bx") ?? 0, px: $0.xq("px"), block: {
         let parms: JSValue
         if block.isFn {
           guard let p = try block.call([$0]) else {
@@ -59,21 +59,21 @@ extension Parm: JsParsable, JsArrayParsable {
       "prefix" : ".p",
       "block" : ".x",
     ], {
-      let parms: [Parm] = try $0.xform("block")
-      return parms.prefix(try $0.path("prefix"))
+      let parms: [Parm] = try $0.x("block")
+      return parms.prefix(try $0.x("prefix"))
     }),
     ([
       "inc" : ".n",
       "block" : ".x",
     ], {
-      let parms: [Parm] = try $0.xform("block")
-      return parms.inc(b: try? $0.int("b"), p: try? $0.int("p"), inc: try $0.int("inc"))
+      let parms: [Parm] = try $0.x("block")
+      return try parms.inc(b: $0.xq("b"), p: $0.xq("p"), inc: $0.x("inc"))
     }),
     ([
       "offset" : ".x",
     ], {
-      let parms: [Parm] = try $0.xform("offset")
-      return parms.offset(b: (try? $0.int("b")) ?? 0, p: try? $0.int("p"))
+      let parms: [Parm] = try $0.x("offset")
+      return try parms.offset(b: $0.xq("b") ?? 0, p: $0.xq("p"))
     }),
   ], "parms")
 }
@@ -82,15 +82,15 @@ extension Parm.Span: JsParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     (["opts" : ".a"], { .opts(try $0.arrStr("opts")) }),
-    (["max" : ".n"], { .max(try $0.int("max")) }),
+    (["max" : ".n"], { .max(try $0.x("max")) }),
     ([
       "rng" : ".a",
       "dispOff" : ".n?",
     ], {
       let rngArr = try $0.arr("rng")
-      let min = try rngArr.int(0)
-      let max = try rngArr.int(1) - 1
-      return .rng(min...max, dispOff: (try? $0.int("dispOff")) ?? 0)
+      let min: Int = try rngArr.x(0)
+      let max: Int = try rngArr.x(1) - 1
+      return try .rng(min...max, dispOff: $0.xq("dispOff") ?? 0)
     }),
     (["options" : ".a"], { .options(try $0.arr("options").optDict()) }),
     ([:], { _ in .rng() }),

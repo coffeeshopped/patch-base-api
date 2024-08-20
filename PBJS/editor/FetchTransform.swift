@@ -5,7 +5,7 @@ import JavaScriptCore
 extension FetchTransform: JsParsable, JsArrayParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (["sequence", ".x",], { .sequence(try $0.xform(1)) }),
+    (["sequence", ".x",], { .sequence(try $0.x(1)) }),
     (["truss", ".x"], {
       let fn = try $0.any(1).xform(SinglePatchTruss.toMidiRules)
       return .truss({ try fn.call([], $0) })

@@ -11,13 +11,13 @@ extension PBBezier.PathCommand: JsParsable, JsArrayParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     (["move", ".n", ".n"], {
-      .move(to: CGPoint(x: try $0.cgFloat(1), y: try $0.cgFloat(2)))
+      .move(to: CGPoint(x: try $0.x(1) as CGFloat, y: try $0.x(2)))
     }),
     (["line", ".n", ".n"], {
-      .addLine(to: CGPoint(x: try $0.cgFloat(1), y: try $0.cgFloat(2)))
+      .addLine(to: CGPoint(x: try $0.x(1) as CGFloat, y: try $0.x(2)))
     }),
     (["scale", ".n", ".n"], {
-      .apply(.identity.scaledBy(x: try $0.cgFloat(1), y: try $0.cgFloat(2)))
+      .apply(.identity.scaledBy(x: try $0.x(1) as CGFloat, y: try $0.x(2)))
     }),
   ])
   

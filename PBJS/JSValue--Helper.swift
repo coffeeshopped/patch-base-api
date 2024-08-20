@@ -3,12 +3,7 @@ import JavaScriptCore
 import PBAPI
 
 extension JSValue {
-  
-  func str() throws -> String {
-    guard isString else { throw JSError.error(msg: "Expected String") }
-    return toString()
-  }
-  
+    
   fileprivate func checkArr() throws {
     guard isArray else {
       throw JSError.error(msg: "Expected Array")
@@ -26,47 +21,49 @@ extension JSValue {
     
     return atIndex(index)
   }
+  
+  func any(_ key: String) throws -> JSValue {
+    guard let s = try checkForProperty(key) else { throw JSError.error(msg: "Expected property at key: \(key)") }
+    return s
+  }
 
-  func str(_ index: Int) throws -> String {
-    try any(index).str()
+  func x<Out:JSX>() throws -> Out { try Out.x(self) }
+  func x<Out:JSX>(_ k: String) throws -> Out { try Out.x(any(k)) }
+  func x<Out:JSX>(_ i: Int) throws -> Out { try Out.x(any(i)) }
+
+  // look for a value at the given key.
+  // if it exists, parse an expected type
+  // if it doesn't exist, return nil
+  // used for optional (but type-checked) values
+  func xq<Out:JSX>(_ k: String) throws -> Out? {
+    guard let e = try? any(k), !e.isNull else { return nil }
+    return try Out.x(e)
+  }
+  func xq<Out:JSX>(_ i: Int) throws -> Out? {
+    guard let e = try? any(i), !e.isNull else { return nil }
+    return try Out.x(e)
+  }
+
+  func x<Output:JsParsable>() throws -> Output {
+    try xform(Output.jsParsers)
+  }
+  func x<Output:JsParsable>(_ k: String) throws -> Output { try any(k).x() }
+  func x<Output:JsParsable>(_ i: Int) throws -> Output { try any(i).x() }
+
+  func xq<Output:JsParsable>(_ k: String) throws -> Output? {
+    guard let e = try? any(k), !e.isNull else { return nil }
+    return try e.x()
+  }
+  func xq<Output:JsParsable>(_ i: Int) throws -> Output? {
+    guard let e = try? any(i), !e.isNull else { return nil }
+    return try e.x()
   }
   
-  func num(_ index: Int) throws -> NSNumber {
-    let s = try any(index)
-    guard s.isNumber else {
-      throw JSError.error(msg: "Expected Number at index: \(index)")
-    }
-    return s.toNumber()
-  }
-  
-  func num() throws -> NSNumber {
-    guard isNumber else {
-      throw JSError.error(msg: "Expected Number")
-    }
+  fileprivate func num() throws -> NSNumber {
+    guard isNumber else { throw JSError.error(msg: "Expected Number") }
     return toNumber()
   }
-
-  func int(_ index: Int) throws -> Int {
-    try num(index).intValue
-  }
   
-  func int() throws -> Int { try num().intValue }
-
-  func byte(_ index: Int) throws -> UInt8 {
-    try num(index).uint8Value
-  }
-
-  func byte() throws -> UInt8 { try num().uint8Value }
-
-  func cgFloat(_ index: Int) throws -> CGFloat {
-    CGFloat(truncating: try num(index))
-  }
-  
-  func cgFloat() throws -> CGFloat {
-    guard isNumber else { throw JSError.error(msg: "Expected number")}
-    return CGFloat(truncating: toNumber())
-  }
-
   func arr(_ index: Int) throws -> JSValue {
     let item = try any(index)
     guard item.isArray else { throw JSError.error(msg: "Expected Array at index") }
@@ -74,7 +71,7 @@ extension JSValue {
   }
   
   func arrStr() throws -> [String] {
-    try map { try $0.str() }
+    try map { try $0.x() }
   }
 
   func arrStr(_ key: String) throws -> [String] { try arr(key).arrStr() }
@@ -103,7 +100,6 @@ extension JSValue {
     return item
   }
 
-
   func xform<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> Output {
     guard let rule = rules.rules.first(where: { $0.match.matches(self) }) else {
       throw JSError.error(msg: "No matching rule in set: \(rules.name)\n\n\(pbDebug())")
@@ -111,33 +107,18 @@ extension JSValue {
     // TODO: catch and wrap any exceptions here to denote what rule was tried, with what data.
     return try rule.transform(self)
   }
-  
-  func xform<Output:JsParsable>() throws -> Output {
-    try xform(Output.jsParsers)
-  }
 
-  func xform<Output:JsParsable>(_ key: String) throws -> Output {
-    try any(key).xform()
-  }
-
-  func xform<Output:JsParsable>(_ index: Int) throws -> Output {
-    try any(index).xform()
-  }
-
-  func xform<Output:JsParsable>(_ index: Int) throws -> Output? {
-    try (try? any(index))?.xform()
-  }
 
   func xform<A:JsParsable, B:JsParsable>() throws -> (A, B) {
     let t = try JsParseTransformSet<(A,B)>([
-      ([".x", ".x"], { (try $0.any(0).xform(), try $0.any(1).xform()) }),
+      ([".x", ".x"], { (try $0.any(0).x(), try $0.any(1).x()) }),
     ], "pairs")
     return try xform(t)
   }
   
   func xform<Output:JsParsable>() throws -> [(SynthPath, Output)] {
     let t = try JsParseTransformSet<(SynthPath, Output)>.init([
-      ([".p", ".x"], { (try $0.path(0), try $0.any(1).xform()) }),
+      ([".p", ".x"], { (try $0.x(0), try $0.x(1)) }),
     ], "pairs")
     return try xformArr(t)
   }
@@ -188,40 +169,6 @@ extension JSValue {
     return forProperty(key)
   }
 
-  func str(_ key: String) throws -> String {
-    guard let s = try checkForProperty(key),
-          s.isString else { throw JSError.error(msg: "Expected String at key: \(key)") }
-    return s.toString()
-  }
-
-  func num(_ key: String) throws -> NSNumber {
-    guard let s = try checkForProperty(key),
-          s.isNumber else { throw JSError.error(msg: "Expected Number at key: \(key)") }
-    return s.toNumber()
-  }
-
-  func bool() throws -> Bool {
-    guard isBoolean else { throw JSError.error(msg: "Expected Boolean") }
-    return toBool()
-  }
-
-  func bool(_ key: String) throws -> Bool { try any(key).bool() }
-  func bool(_ index: Int) throws -> Bool { try any(index).bool() }
-
-  func any(_ key: String) throws -> JSValue {
-    guard let s = try checkForProperty(key) else { throw JSError.error(msg: "Expected property at key: \(key)") }
-    return s
-  }
-
-  func int(_ key: String) throws -> Int {
-    try num(key).intValue
-  }
-  
-  func cgFloat(_ key: String) throws -> CGFloat {
-    CGFloat(truncating: try num(key))
-  }
-
-
   func arr(_ key: String) throws -> JSValue {
     guard let item = try checkForProperty(key),
           item.isArray else { throw JSError.error(msg: "Expected Array at key: \(key)") }
@@ -230,14 +177,14 @@ extension JSValue {
 
 
   func arrInt() throws -> [Int] {
-    try map { try $0.int() }
+    try map { try $0.x() }
   }
 
   func arrInt(_ index: Int) throws -> [Int] { try arr(index).arrInt() }
   func arrInt(_ key: String) throws -> [Int] { try arr(key).arrInt() }
 
   func arrByte() throws -> [UInt8] {
-    try map { try $0.byte() }
+    try map { try $0.x() }
   }
   
   func optDict() throws -> [Int:String] {
@@ -245,7 +192,7 @@ extension JSValue {
     let count = arrCount()
     return try (0..<count).dict {
       let arr = try arr($0)
-      return [try arr.int(0) : try arr.str(1)]
+      return [try arr.x(0) : try arr.x(1)]
     }
   }
 
@@ -255,16 +202,8 @@ extension JSValue {
     return item
   }
   
-  func path() throws -> SynthPath { try xform() }
-  
-  func path(_ key: String) throws -> SynthPath { try any(key).path() }
-
-  func path(_ index: Int) throws -> SynthPath { try any(index).path() }
-
-  func pathOpt(_ index: Int) throws -> SynthPath? { try (try? any(index))?.path() }
-
   func arrPath() throws -> [SynthPath] {
-    try map { try $0.xform() }
+    try map { try $0.x() }
   }
   
   func arrPath(_ key: String) throws -> [SynthPath] { try arr(key).arrPath() }
@@ -294,3 +233,36 @@ extension JSValue {
 
 }
 
+protocol JSX {
+  static func x(_ v: JSValue) throws -> Self
+}
+
+extension String: JSX {
+  static func x(_ v: JSValue) throws -> String {
+    guard v.isString else {
+      throw JSError.error(msg: "Expected String")
+    }
+    return v.toString()
+  }
+}
+
+extension Int: JSX {
+  static func x(_ v: JSValue) throws -> Int { try v.num().intValue }
+}
+
+extension UInt8: JSX {
+  static func x(_ v: JSValue) throws -> UInt8 { try v.num().uint8Value }
+}
+
+extension CGFloat: JSX {
+  static func x(_ v: JSValue) throws -> CGFloat {
+    CGFloat(truncating: try v.num())
+  }
+}
+
+extension Bool: JSX {
+  static func x(_ v: JSValue) throws -> Bool {
+    guard v.isBoolean else { throw JSError.error(msg: "Expected Boolean") }
+    return v.toBool()
+  }
+}

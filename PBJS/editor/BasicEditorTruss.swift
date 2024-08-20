@@ -14,14 +14,14 @@ extension BasicEditorTruss: JsParsable {
       "slotTransforms" : ".a?",
     ], {
       let trussMap = try $0.arr("trussMap").xformArr(pathPairRules(JsSysex.trussRules))
-      var t = BasicEditorTruss(try $0.str("name"), truss: trussMap)
-      t.fetchTransforms = try $0.arr("fetchTransforms").xform()
+      var t = BasicEditorTruss(try $0.x("name"), truss: trussMap)
+      t.fetchTransforms = try $0.arr("fetchTransforms").x()
       t.midiOuts = try $0.arr("midiOuts").xform()
-      t.midiChannels = try $0.arr("midiChannels").xform()
+      t.midiChannels = try $0.arr("midiChannels").x()
       
       t.slotTransforms = [:]
       if let x = try? $0.any("slotTransforms") {
-        t.slotTransforms = try x.xform()
+        t.slotTransforms = try x.x()
       }
       
       return t
@@ -30,7 +30,7 @@ extension BasicEditorTruss: JsParsable {
 
   static func pathPairRules<Output:Any>(_ subrules: JsParseTransformSet<Output>) throws -> JsParseTransformSet<(SynthPath, Output)> {
     try JsParseTransformSet<(SynthPath, Output)>.init([
-      ([".p", ".x"], { (try $0.path(0), try $0.any(1).xform(subrules)) }),
+      ([".p", ".x"], { try ($0.x(0), $0.any(1).xform(subrules)) }),
     ], "\(subrules.name) pairs")
   }
   

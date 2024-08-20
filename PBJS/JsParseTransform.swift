@@ -209,9 +209,7 @@ extension JsParseTransformSet where Output: JsParsable {
 
   func arrayParsers() throws -> JsParseTransformSet<[Output]> {
     try .init([
-      (".a", {
-        try $0.map { try $0.xform() }
-      })
+      (".a", { try $0.map { try $0.x() } })
     ], "\(self.name) array")
   }
 
@@ -240,7 +238,7 @@ extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
     try! JsParseTransformSet<Self>([
       (".a", {
         try $0.map {
-          [try $0.any(0).xform() : try $0.any(1).xform()]
+          [try $0.any(0).x() : try $0.any(1).x()]
         }.dict { $0 }
       }),
     ], "pairs")
@@ -276,14 +274,14 @@ extension SomeBankTruss: JsToMidiParsable where PT: JsBankToMidiParsable {
     let mapVal = fn.isFn ? try fn.call(vals) : fn
     return try mapVal!.map {
       if let msg = try? $0.arr(0).xform(MidiMessage.jsParsers) {
-        return (msg, try $0.any(1).int())
+        return (msg, try $0.any(1).x())
       }
       else {
         // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
         let fn = try $0.atIndex(0).xform(toMidiRules)
-        return (.sysex(try fn.call(bodyData, editor)), try $0.any(1).int())
+        return (.sysex(try fn.call(bodyData, editor)), try $0.x(1))
       }
     }
   }

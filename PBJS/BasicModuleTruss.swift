@@ -10,10 +10,10 @@ extension BasicModuleTruss: JsParsable {
       "sections" : ".a",
     ], {
       
-      let editor: BasicEditorTruss = try $0.xform("editor")
-      let sections: [ModuleTrussSection] = try $0.xform("sections")
-      let manu = try $0.str("manu")
-      let subid = try $0.str("subid")
+      let editor: BasicEditorTruss = try $0.x("editor")
+      let sections: [ModuleTrussSection] = try $0.x("sections")
+      let manu: String = try $0.x("manu")
+      let subid: String = try $0.x("subid")
       
       let colorGuide: ColorGuide
       if let arr = $0.forProperty("colorGuide"),

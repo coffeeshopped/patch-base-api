@@ -22,7 +22,7 @@ extension MultiPatchTruss : JsParsable {
 //      let parseBody = try $0.any("parseBody").xform(parseBodyRules)
 //      let namePack = try? $0.any("namePack").xform(namePackRules)
 //      let unpack = try? $0.any("unpack").xform(jsUnpackParsers)
-      return .init(try $0.str("id"), trussMap: try $0.any("trussMap").xform(), namePath: try $0.path("namePath"), initFile: try $0.str("initFile"), fileDataCount: nil, defaultName: nil, createFileData: nil, parseBodyData: nil, validSizes: try $0.arrInt("validSizes"), includeFileDataCount: try $0.bool("includeFileDataCount"))
+      return try .init($0.x("id"), trussMap: $0.any("trussMap").xform(), namePath: $0.x("namePath"), initFile: $0.x("initFile"), fileDataCount: nil, defaultName: nil, createFileData: nil, parseBodyData: nil, validSizes: $0.arrInt("validSizes"), includeFileDataCount: $0.x("includeFileDataCount"))
     }),
   ], "multiPatchTruss")
   
@@ -41,7 +41,7 @@ extension MultiPatchTruss: JsToMidiParsable {
     ([".p"], { v in
       // the first element of the array is a path to fetch subdata
       // the rest of the elements map [UInt8] -> [UInt8]
-      let path = try v.path(0)
+      let path: SynthPath = try v.x(0)
       let singleFns: [SinglePatchTruss.Core.ToMidiFn] = try (1..<v.arrCount()).map {
         try v.atIndex($0).xform(SinglePatchTruss.toMidiRules)
       }
@@ -53,8 +53,7 @@ extension MultiPatchTruss: JsToMidiParsable {
     }),
     (".n", {
       // number: return it as a byte array
-      let byte = try $0.byte()
-      return .fn { _, _ in [byte] }
+      return .const([try $0.x()])
     }),
     (".a", { v in
       // implicit "+"
@@ -73,14 +72,14 @@ extension MultiPatchTruss: JsToMidiParsable {
     let mapVal = fn.isFn ? try fn.call(vals) : fn
     return try mapVal!.map {
       if let msg = try? $0.arr(0).xform(MidiMessage.jsParsers) {
-        return (msg, try $0.any(1).int())
+        return (msg, try $0.x(1))
       }
       else {
         // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
         let fn = try $0.atIndex(0).xform(toMidiRules)
-        return (.sysex(try fn.call(bodyData, editor)), try $0.any(1).int())
+        return (.sysex(try fn.call(bodyData, editor)), try $0.x(1))
       }
     }
   }

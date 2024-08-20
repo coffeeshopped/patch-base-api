@@ -117,17 +117,15 @@ public struct JsModuleWerk: ModuleProvider {
       throw JSError.error(msg: "createModule() failed")
     }
     // the exports of the eval'ed file should define a "module" property with the module truss
-    _moduleTruss = try moduleTemplate.xform("module")
+    _moduleTruss = try moduleTemplate.x("module")
     return _moduleTruss!
   }
   
   
   
   static func trussValue(truss: JSValue, bodyData: JSValue, path: JSValue) throws -> Int? {
-    let t: any SysexTruss
-    let p: SynthPath
-    t = try truss.xform(JsSysex.trussRules)
-    p = try path.path()
+    let t: any SysexTruss = try truss.xform(JsSysex.trussRules)
+    let p: SynthPath = try path.x()
     
     switch t {
     case let single as SinglePatchTruss:

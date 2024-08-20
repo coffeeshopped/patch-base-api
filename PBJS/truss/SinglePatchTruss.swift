@@ -16,22 +16,22 @@ extension SinglePatchTruss: JsParsable {
     ], {
       let parms = try $0.arr("parms").xform([Parm].jsParsers)
       let createFile = try (try? $0.any("createFile"))?.xform(toMidiRules)
-      let bodyDataCount = try $0.int("bodyDataCount")
+      let bodyDataCount: Int = try $0.x("bodyDataCount")
       
       var parseBodyFn: Core.ParseBodyDataFn? = nil
       if let parseBody = try? $0.any("parseBody") {
         parseBodyFn = try? parseBody.xform(parseBodyRules)
         if parseBodyFn == nil {
           // if it doesn't parse as a function, assume it's an int (parseOffset)
-          parseBodyFn = parseBodyDataFn(parseOffset: try parseBody.int(), bodyDataCount: bodyDataCount)
+          parseBodyFn = parseBodyDataFn(parseOffset: try parseBody.x(), bodyDataCount: bodyDataCount)
         }
       }
       
       let namePack = try? $0.any("namePack").xform(namePackRules)
       let unpack = try? $0.any("unpack").xform(jsUnpackParsers)
-      let initFile = (try? $0.str("initFile")) ?? ""
+      let initFile = (try $0.xq("initFile")) ?? ""
       
-      return try .init(try $0.str("id"), bodyDataCount, namePackIso: namePack, params: parms.params(), initFile: initFile, defaultName: nil, createFileData: createFile, parseBodyData: parseBodyFn, validBundle: nil, pack: nil, unpack: unpack, randomize: nil)
+      return try .init(try $0.x("id"), bodyDataCount, namePackIso: namePack, params: parms.params(), initFile: initFile, defaultName: nil, createFileData: createFile, parseBodyData: parseBodyFn, validBundle: nil, pack: nil, unpack: unpack, randomize: nil)
     }),
   ], "singlePatchTruss")
   
@@ -39,7 +39,7 @@ extension SinglePatchTruss: JsParsable {
     ([
       "b" : ".s", // byte representation scheme
     ], {
-      let scheme = try $0.any("b").str()
+      let scheme: String = try $0.x("b")
       return { bodyData, parm in
         guard let index = parm.b else {
           throw JSError.error(msg: "Parm did not have b specified.")
@@ -59,7 +59,7 @@ extension SinglePatchTruss: JsParsable {
     (".f", { fn in
       try fn.checkFn()
       return { bodyData, parm in
-        try fn.call([bodyData, parm.toJS()])?.int()
+        try fn.call([bodyData, parm.toJS()])?.x()
       }
     }),
   ], "singlePatchUnpack")
@@ -89,8 +89,8 @@ extension SinglePatchTruss: JsParsable {
   
   static let parseBodyFnRules: JsParseTransformSet<(BodyData) throws -> BodyData> = try! .init([
     (["bytes", ".n", ".n"], {
-      let start = try $0.int(1)
-      let count = try $0.int(2)
+      let start: Int = try $0.x(1)
+      let count: Int = try $0.x(2)
       return { $0.safeBytes(offset: start, count: count) }
     }),
     ("denibblizeLSB", { _ in
@@ -110,7 +110,7 @@ extension SinglePatchTruss: JsParsable {
       "toString" : ".a",
     ], {
       let rangeArr = try $0.arr("range")
-      let range = (try rangeArr.int(0))..<(try rangeArr.int(1))
+      let range: CountableRange<Int> = (try rangeArr.x(0))..<(try rangeArr.x(1))
       let byteFilters = try $0.arr("toBytes").xformArr(nameFilterRules)
       let stringFilters = try $0.arr("toString").xformArr(nameFilterRules)
       // TODO: allow for a pad value other than 32 (for alt encodings)
@@ -182,19 +182,19 @@ extension SinglePatchTruss: JsToMidiParsable {
       }
     }),
     (["e.values", ".p", ".a", ".f"], {
-      let editorPath = try $0.path(1)
-      let paths: [SynthPath] = try $0.arr(2).map { try $0.path() }
+      let editorPath: SynthPath = try $0.x(1)
+      let paths: [SynthPath] = try $0.arr(2).map { try $0.x() }
       let fn = try $0.fn(3)
       let evts: [EditorValueTransform] = paths.map { .value(editorPath, $0, defaultValue: 0) }
       return .fn { bodyData, e in
         try evts.map {
           let v = try e?.intValue($0) ?? 0
-          return try fn.call([v]).byte()
+          return try fn.call([v]).x()
         }
       }
     }),
     (["byte", ".n"], {
-      let byte = try $0.int(1)
+      let byte: Int = try $0.x(1)
       return .b { b in
         guard byte < b.count else {
           throw JSError.error(msg: "byte: index (\(byte)) must be less than data length (\(b.count)")
@@ -203,7 +203,7 @@ extension SinglePatchTruss: JsToMidiParsable {
       }
     }),
     (["enc", ".s"], {
-      .const(try $0.str(1).sysexBytes())
+      .const((try $0.x(1) as String).sysexBytes())
     }),
     (["yamCmd", ".x"], {
       let cmdBytes = try $0.any(1).xform(toMidiRules)
@@ -228,7 +228,7 @@ extension SinglePatchTruss: JsToMidiParsable {
       }
     }),
     ("b", { _ in .ident }), // returns itself
-    (".n", { .const([try $0.byte()]) }), // number: return it as a byte array
+    (".n", { .const([try $0.x()]) }), // number: return it as a byte array
     (".s", {
       // if string, first see if it's an editorValueTransform
       if let fn = tryAsEditorValueTransform($0) {
@@ -236,7 +236,7 @@ extension SinglePatchTruss: JsToMidiParsable {
       }
 
       // string: treat as singleArg fn
-      let fnKey = try $0.str()
+      let fnKey: String = try $0.x()
       guard let fn = singleArgCreateFileFnRules[fnKey] else {
         throw JSError.error(msg: "Unknown singleArgCreateFileFn: \(fnKey)")
       }
@@ -285,14 +285,14 @@ extension SinglePatchTruss: JsToMidiParsable {
     let mapVal = fn.isFn ? try fn.call(vals) : fn
     return try mapVal!.map {
       if let msg = try? $0.arr(0).xform(MidiMessage.jsParsers) {
-        return (msg, try $0.any(1).int())
+        return (msg, try $0.any(1).x())
       }
       else {
         // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
         let fn = try $0.atIndex(0).xform(toMidiRules)
-        return (.sysex(try fn.call(bodyData, editor)), try $0.any(1).int())
+        return (.sysex(try fn.call(bodyData, editor)), try $0.any(1).x())
       }
     }
   }

@@ -10,7 +10,7 @@ extension PatchController.Display: JsParsable {
       return .env { values in
         var v = [String:CGFloat]()
         values.forEach { v[$0.key.str()] = $0.value }
-        return try fn.call([v]).xform()
+        return try fn.call([v]).x()
       }
     })
   ], "controller display")

@@ -5,42 +5,38 @@ extension PatchController.Builder: JsParsable, JsArrayParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     (["child", ".x", ".s", ".d?"], {
-      let child: PatchController = try $0.xform(1)
-      let panel = try $0.str(2)
       let opts = try? $0.obj(3)
-      let color = try? opts?.int("color")
-      let clearBG = (try? opts?.bool("clearBG")) ?? false
-      return .child(child, panel, color: color, clearBG: clearBG)
+      let clearBG = (try opts?.xq("clearBG")) ?? false
+      return try .child($0.x(1), $0.x(2), color: opts?.x("color"), clearBG: clearBG)
     }),
     (["children", ".n", ".s"], {
-      let count = try $0.int(1)
-      let panelPrefix = try $0.str(2)
-      return .children(count, panelPrefix, color: nil, clearBG: false, try $0.any(3).xform(), indexFn: nil)
+      try .children($0.x(1), $0.x(2), color: nil, clearBG: false, $0.any(3).x(), indexFn: nil)
     }),
     (["panel", ".s", ".d", ".a"], {
       let opts = try? $0.obj(2)
-      let color = try? opts?.int("color")
-      let clearBG = (try? opts?.bool("clearBG")) ?? false
+      let clearBG = (try opts?.xq("clearBG")) ?? false
       let items = try $0.arr(3).xformArr(PatchController.PanelItem.rowRules)
-      let prefix = (try? opts?.path("prefix")) ?? []
-      return .panel(try $0.str(1), prefix: prefix, color: color, clearBG: clearBG, items: items)
+      let prefix: SynthPath = (try opts?.xq("prefix")) ?? []
+      return try .panel($0.x(1), prefix: prefix, color: opts?.xq("color"), clearBG: clearBG, items: items)
     }),
     (["grid", ".d", ".a"], {
       let opts = try? $0.obj(1)
-      let color = try? opts?.int("color")
-      let clearBG = (try? opts?.bool("clearBG")) ?? false
-      let items: [[PatchController.PanelItem]] = try $0.arr(2).map { try $0.xform() }
-      return .grid(prefix: nil, color: color, clearBG: clearBG, items)
+      let clearBG = (try opts?.xq("clearBG")) ?? false
+      let items: [[PatchController.PanelItem]] = try $0.arr(2).map { try $0.x() }
+      return try .grid(prefix: nil, color: opts?.xq("color"), clearBG: clearBG, items)
     }),
     (["grid", ".a"], {
-      let items: [[PatchController.PanelItem]] = try $0.arr(1).map { try $0.xform() }
+      let items: [[PatchController.PanelItem]] = try $0.arr(1).map { try $0.x() }
       return .grid(prefix: nil, items)
     }),
     (["items", ".d", ".a"], {
       let opts = try? $0.obj(1)
-      let color = try? opts?.int("color")
-      let clearBG = (try? opts?.bool("clearBG")) ?? false
-      return .items(color: color, clearBG: clearBG, try $0.arr(2).xformArr(PatchController.PanelItem.itemsRules))
+      let clearBG = (try opts?.xq("clearBG")) ?? false
+      return try .items(color: opts?.xq("color"), clearBG: clearBG, try $0.arr(2).xformArr(PatchController.PanelItem.itemsRules))
+    }),
+    (["switcher", ".a", ".d?"], {
+      let c = try? $0.obj(2)
+      return .switcher(label: try c?.xq("l"), try $0.arrStr(1), cols: try c?.xq("cols"), color: try c?.xq("color"))
     })
   ])
   

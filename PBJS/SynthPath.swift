@@ -51,8 +51,8 @@ extension SynthPath {
 enum JsSynthPath {
   
   static let pathEq: @convention(block) (JSValue, JSValue) -> Bool = {
-    let p1 = try! $0.path()
-    let p2 = try! $1.path()
+    let p1: SynthPath = try! $0.x()
+    let p2: SynthPath = try! $1.x()
     return p1 == p2
   }
 

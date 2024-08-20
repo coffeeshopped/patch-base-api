@@ -8,7 +8,7 @@ extension MidiTransform: JsParsable {
     ([
       "type" : "singlePatch",
     ], {
-      let throttle = (try? $0.int("throttle")) ?? 30
+      let throttle = try $0.xq("throttle") ?? 30
       let paramFn = try $0.fn("param")
       let patchFn = try $0.any("patch")
       
@@ -31,7 +31,7 @@ extension MidiTransform: JsParsable {
     ([
       "type" : "multiDictPatch",
     ], {
-      let throttle = (try? $0.int("throttle")) ?? 30
+      let throttle = try $0.xq("throttle") ?? 30
       let paramFn = try $0.fn("param")
       let patchFn = try $0.any("patch")
       let nameFn = try $0.any("name")
@@ -47,7 +47,7 @@ extension MidiTransform: JsParsable {
     ([
       "type" : "singleBank",
     ], {
-      let throttle = (try? $0.int("throttle")) ?? 30
+      let throttle = try $0.xq("throttle") ?? 30
       let bankFn = try $0.fn("bank")
       return .single(throttle: throttle, .bank({ editor, bodyData, location in
         try SinglePatchTruss.makeMidiPairs(bankFn, bodyData, editor, [location])
@@ -56,7 +56,7 @@ extension MidiTransform: JsParsable {
     ([
       "type" : "wholeBank",
     ], {
-      let throttle = (try? $0.int("throttle")) ?? 30
+      let throttle = try $0.xq("throttle") ?? 30
       if let fn = try? $0.any("single") {
         return .single(throttle: throttle, .wholeBank({ editor, bodyData in
           try SingleBankTruss.makeMidiPairs(fn, bodyData, editor, [])

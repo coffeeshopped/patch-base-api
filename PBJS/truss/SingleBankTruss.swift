@@ -12,13 +12,12 @@ extension SinglePatchTruss: JsBankParsable {
       "includeFileDataCount" : ".b",
     ], {
       let patchTruss = try $0.obj("patchTruss").xform(jsParsers)
-      let patchCount = try $0.int("patchCount")
-      let initFile = (try? $0.str("initFile")) ?? ""
+      let initFile = (try $0.xq("initFile")) ?? ""
       let validSizes = try $0.arr("validSizes").arrInt()
-      let includeFileDataCount = try $0.bool("includeFileDataCount")
+      let includeFileDataCount: Bool = try $0.x("includeFileDataCount")
       let createFile = try $0.obj("createFile").xform(SingleBankTruss.toMidiRules)
       let parseBody = try $0.obj("parseBody").xform(SingleBankTruss.parseBodyRules)
-      return .init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody)
+      return try .init(patchTruss: patchTruss, patchCount: $0.x("patchCount"), initFile: initFile, fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody)
     }),
     ([
       "type" : "compactSingleBank",
@@ -28,12 +27,12 @@ extension SinglePatchTruss: JsBankParsable {
       "fileDataCount" : ".n",
       "compactTruss": ".d",
     ], {
-      let patchTruss: SinglePatchTruss = try $0.obj("patchTruss").xform()
-      let patchCount = try $0.int("patchCount")
-      let paddedPatchCount = (try? $0.int("paddedPatchCount")) ?? patchCount
-      let initFile = (try? $0.str("initFile")) ?? ""
-      let fileDataCount = try $0.int("fileDataCount")
-      let compactTruss: SinglePatchTruss = try $0.xform("compactTruss")
+      let patchTruss: SinglePatchTruss = try $0.obj("patchTruss").x()
+      let patchCount: Int = try $0.x("patchCount")
+      let paddedPatchCount = (try $0.xq("paddedPatchCount")) ?? patchCount
+      let initFile = (try $0.xq("initFile")) ?? ""
+      let fileDataCount: Int = try $0.x("fileDataCount")
+      let compactTruss: SinglePatchTruss = try $0.x("compactTruss")
       let compactByteCount = compactTruss.bodyDataCount
 
       let singleCreateFile = try $0.any("createFile").xform(toMidiRules)
@@ -47,7 +46,7 @@ extension SinglePatchTruss: JsBankParsable {
         return try singleCreateFile.call(patchData, e)
       })
       
-      let offset = try $0.int("parseBody")
+      let offset: Int = try $0.x("parseBody")
       let parseBody: SomeBankTruss<Self>.Core.ParseBodyDataFn = {
         let compactData = SomeBankTruss<Self>.compactData(fileData: $0, offset: offset, patchByteCount: compactByteCount)
         let bodyData = compactData.map {
@@ -87,9 +86,7 @@ extension SingleBankTruss {
       "patchCount" : ".n",
     ], {
       let parseBody = try $0.any("parseBody").xform(SinglePatchTruss.parseBodyRules)
-      let patchCount = try $0.int("patchCount")
-      let locationIndex = try $0.int("locationIndex")
-      return sortAndParseBodyDataWithLocationIndex(locationIndex, parseBodyData: parseBody, patchCount: patchCount)
+      return try sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: parseBody, patchCount: $0.x("patchCount"))
     }),
   ], "singleBankTruss parseBody")
 }
