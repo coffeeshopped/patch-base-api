@@ -32,12 +32,12 @@ public indirect enum PatchController {
   
   public enum Builder {
     
-    case grid(prefix: SynthPath? = nil, color: Int? = nil, clearBG: Bool = false, items: [([PanelItem], h: CGFloat)])
-    case panel(_ name: String, prefix: SynthPath = [], color: Int? = nil, clearBG: Bool = false, items: [([PanelItem], h: CGFloat)])
+    case grid(prefix: SynthPath? = nil, color: Int? = nil, clearBG: Bool? = nil, items: [([PanelItem], h: CGFloat)])
+    case panel(_ name: String, prefix: SynthPath = [], color: Int? = nil, clearBG: Bool? = nil, items: [([PanelItem], h: CGFloat)])
     // for adding controls directly to the controller and laying them out without panels
-    case items(color: Int? = nil, clearBG: Bool = false, _ items: [(PanelItem, String)])
-    case child(_ child: PatchController, _ panel: String, color: Int? = nil, clearBG: Bool = false)
-    case children(_ count: Int, _ panelPrefix: String, color: Int? = nil, clearBG: Bool = false, _ child: PatchController, indexFn: ((_ parentIndex: Int, _ offset: Int) -> Int)? = nil)
+    case items(color: Int? = nil, clearBG: Bool? = nil, _ items: [(PanelItem, String)])
+    case child(_ child: PatchController, _ panel: String, color: Int? = nil, clearBG: Bool? = nil)
+    case children(_ count: Int, _ panelPrefix: String, color: Int? = nil, clearBG: Bool? = nil, _ child: PatchController, indexFn: ((_ parentIndex: Int, _ offset: Int) -> Int)? = nil)
   }
   
   public typealias ControlChangeFn = (_ state: PatchControllerState, _ locals: PatchControllerLocals) throws -> [AttrChange]
@@ -173,8 +173,8 @@ public indirect enum PatchController {
     
     case event(_ id: SynthPath, _ state: PatchControllerState, _ locals: [SynthPath:Int])
     
-    case colorItem(_ id: SynthPath, level: Int = 1, clearBG: Bool = false)
-    case colorPanel(_ id: String?, level: Int = 1, clearBG: Bool = false)
+    case colorItem(_ id: SynthPath, level: Int = 1, clearBG: Bool? = nil)
+    case colorPanel(_ id: String?, level: Int = 1, clearBG: Bool? = nil)
   }
   
   public enum Constraint {
@@ -285,11 +285,11 @@ public extension PatchController.DisplayMap {
 
 public extension PatchController.Builder {
   
-  static func grid(prefix: SynthPath? = nil, color: Int? = nil, clearBG: Bool = false, _ items: [[PatchController.PanelItem]]) -> Self {
+  static func grid(prefix: SynthPath? = nil, color: Int? = nil, clearBG: Bool? = nil, _ items: [[PatchController.PanelItem]]) -> Self {
     .grid(prefix: prefix, color: color, clearBG: clearBG, items: items.map { ($0, h: 1) })
   }
   
-  static func panel(_ name: String, prefix: SynthPath = [], color: Int? = nil, clearBG: Bool = false, _ items: [[PatchController.PanelItem]]) -> Self {
+  static func panel(_ name: String, prefix: SynthPath = [], color: Int? = nil, clearBG: Bool? = nil, _ items: [[PatchController.PanelItem]]) -> Self {
     .panel(name, prefix: prefix, color: color, clearBG: clearBG, items: items.map { ($0, h: 1) })
   }
 

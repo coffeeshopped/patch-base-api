@@ -7,11 +7,11 @@ extension FetchTransform: JsParsable, JsArrayParsable {
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     (["sequence", ".x",], { .sequence(try $0.x(1)) }),
     (["truss", ".x"], {
-      let fn = try $0.any(1).xform(SinglePatchTruss.toMidiRules)
+      let fn: SinglePatchTruss.Core.ToMidiFn = try $0.x(1)
       return .truss({ try fn.call([], $0) })
     }),
     (["bankTruss", ".x"], {
-      let fn = try $0.any(1).xform(SinglePatchTruss.toMidiRules)
+      let fn: SinglePatchTruss.Core.ToMidiFn = try $0.x(1)
       return .bankTruss({ editor, loc in try fn.call([loc], editor) }, waitInterval: 0)
     }),
     (["custom", ".x"], {

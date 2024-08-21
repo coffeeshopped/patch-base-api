@@ -20,7 +20,7 @@ extension MidiMessage: JsParsable {
     (".a", { v in
       let count = v.arrCount()
       let fns: [SinglePatchTruss.Core.ToMidiFn] = try (1..<count).map {
-        try v.atIndex($0).xform(SinglePatchTruss.toMidiRules)
+        try v.x($0)
       }
       return { e in
         .sysex(try fns.reduce([]) { try $0 + $1.call([], e) })

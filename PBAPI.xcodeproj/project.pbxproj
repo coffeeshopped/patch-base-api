@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC0BBF422C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */; };
+		AC0BBF442C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */; };
 		AC3DB3DD2C65340A00375C37 /* SynthPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DA2C65340A00375C37 /* SynthPath.swift */; };
 		AC3DB3DE2C65340A00375C37 /* JsSynthPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DB2C65340A00375C37 /* JsSynthPath.swift */; };
 		AC3DB3DF2C65340A00375C37 /* SynthPathTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DC2C65340A00375C37 /* SynthPathTree.swift */; };
@@ -184,6 +186,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePatchTruss.Core.ToMidiFn.swift; sourceTree = "<group>"; };
+		AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPatchTruss.Core.ToMidiFn.swift; sourceTree = "<group>"; };
 		AC3DB3DA2C65340A00375C37 /* SynthPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthPath.swift; sourceTree = "<group>"; };
 		AC3DB3DB2C65340A00375C37 /* JsSynthPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsSynthPath.swift; sourceTree = "<group>"; };
 		AC3DB3DC2C65340A00375C37 /* SynthPathTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthPathTree.swift; sourceTree = "<group>"; };
@@ -591,6 +595,8 @@
 				AC414B812C653AA20019DC1B /* MultiPatchTruss.swift */,
 				AC414B7A2C653AA20019DC1B /* MultiBankTruss.swift */,
 				AC414B7C2C653AA20019DC1B /* JsBackupTruss.swift */,
+				AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */,
+				AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */,
 			);
 			path = truss;
 			sourceTree = "<group>";
@@ -821,7 +827,9 @@
 				AC414B982C653AAF0019DC1B /* PatchController.swift in Sources */,
 				AC414B672C653A900019DC1B /* EditorValueTransform.swift in Sources */,
 				AC414B3F2C653A7B0019DC1B /* PBJS.docc in Sources */,
+				AC0BBF442C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift in Sources */,
 				AC414B782C653A900019DC1B /* Jiso.swift in Sources */,
+				AC0BBF422C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift in Sources */,
 				AC414B772C653A900019DC1B /* JsConsole.swift in Sources */,
 				AC414B6D2C653A900019DC1B /* JsModuleLoader.swift in Sources */,
 				AC414B972C653AAF0019DC1B /* PatchController.Display.swift in Sources */,

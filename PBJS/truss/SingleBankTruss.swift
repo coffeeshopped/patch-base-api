@@ -35,7 +35,7 @@ extension SinglePatchTruss: JsBankParsable {
       let compactTruss: SinglePatchTruss = try $0.x("compactTruss")
       let compactByteCount = compactTruss.bodyDataCount
 
-      let singleCreateFile = try $0.any("createFile").xform(toMidiRules)
+      let singleCreateFile: SinglePatchTruss.Core.ToMidiFn = try $0.x("createFile")
       let createFile: SingleBankTruss.Core.ToMidiFn = .fn({ bodyData, e in
         var patchData: [UInt8] = bodyData.flatMap {
           compactTruss.parse(otherData: $0, otherTruss: patchTruss)

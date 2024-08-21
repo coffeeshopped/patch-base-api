@@ -6,24 +6,21 @@ extension PatchController.Builder: JsParsable, JsArrayParsable {
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     (["child", ".x", ".s", ".d?"], {
       let opts = try? $0.obj(3)
-      let clearBG = (try opts?.xq("clearBG")) ?? false
-      return try .child($0.x(1), $0.x(2), color: opts?.x("color"), clearBG: clearBG)
+      return try .child($0.x(1), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"))
     }),
     (["children", ".n", ".s"], {
       try .children($0.x(1), $0.x(2), color: nil, clearBG: false, $0.any(3).x(), indexFn: nil)
     }),
     (["panel", ".s", ".d", ".a"], {
       let opts = try? $0.obj(2)
-      let clearBG = (try opts?.xq("clearBG")) ?? false
       let items = try $0.arr(3).xformArr(PatchController.PanelItem.rowRules)
       let prefix: SynthPath = (try opts?.xq("prefix")) ?? []
-      return try .panel($0.x(1), prefix: prefix, color: opts?.xq("color"), clearBG: clearBG, items: items)
+      return try .panel($0.x(1), prefix: prefix, color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), items: items)
     }),
     (["grid", ".d", ".a"], {
       let opts = try? $0.obj(1)
-      let clearBG = (try opts?.xq("clearBG")) ?? false
       let items: [[PatchController.PanelItem]] = try $0.arr(2).map { try $0.x() }
-      return try .grid(prefix: nil, color: opts?.xq("color"), clearBG: clearBG, items)
+      return try .grid(prefix: nil, color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), items)
     }),
     (["grid", ".a"], {
       let items: [[PatchController.PanelItem]] = try $0.arr(1).map { try $0.x() }
@@ -31,8 +28,7 @@ extension PatchController.Builder: JsParsable, JsArrayParsable {
     }),
     (["items", ".d", ".a"], {
       let opts = try? $0.obj(1)
-      let clearBG = (try opts?.xq("clearBG")) ?? false
-      return try .items(color: opts?.xq("color"), clearBG: clearBG, try $0.arr(2).xformArr(PatchController.PanelItem.itemsRules))
+      return try .items(color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), try $0.arr(2).xformArr(PatchController.PanelItem.itemsRules))
     }),
     (["switcher", ".a", ".d?"], {
       let c = try? $0.obj(2)
