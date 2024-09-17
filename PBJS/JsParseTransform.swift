@@ -281,7 +281,7 @@ extension SomeBankTruss: JsToMidiParsable where PT: JsBankToMidiParsable {
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
         let fn = try $0.atIndex(0).xform(toMidiRules)
-        return (.sysex(try fn.call(bodyData, editor)), try $0.x(1))
+        return (.sysex(try fn.call(bodyData, editor).bytes()), try $0.x(1))
       }
     }
   }

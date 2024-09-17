@@ -111,7 +111,7 @@ public extension SysexTruss {
 
   var isCompleteFetch: ([UInt8]) -> Bool { { core.isCompleteFetch($0)} }
 
-  var createFileData: (BodyData) throws -> [UInt8] { { try core.createFileData.call($0, nil) } }
+  var createFileData: (BodyData) throws -> [UInt8] { { try core.createFileData.call($0, nil).bytes() } }
   
   var parseBodyData: ([UInt8]) throws -> BodyData { { try core.parseBodyData($0) } }
     

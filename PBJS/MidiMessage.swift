@@ -4,8 +4,8 @@ import PBAPI
 extension MidiMessage: JsParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    ([0xf0], { .sysex(try $0.arrByte()) }),
-    (["syx", ".a"], { .sysex(try $0.arr(1).arrByte()) }),
+    ([0xf0], { .sysex(try $0.x()) }),
+    (["syx", ".a"], { .sysex(try $0.arr(1).x()) }),
     (["pgmChange", ".n", ".n"], { try .pgmChange(channel: $0.x(1), value: $0.x(2)) }),
   ], "midi message")
 
@@ -23,7 +23,7 @@ extension MidiMessage: JsParsable {
         try v.x($0)
       }
       return { e in
-        .sysex(try fns.reduce([]) { try $0 + $1.call([], e) })
+        .sysex(try fns.reduce([]) { try $0 + $1.call([], e).bytes() })
       }
     }),
 

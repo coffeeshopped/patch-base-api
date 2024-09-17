@@ -24,7 +24,7 @@ public struct BackupTruss : MultiSysexTruss {
   public init(_ synthName: String, map: [(SynthPath, any SysexTruss)], pathForData: @escaping BackupTruss.PathForDataFn, createFileData: BackupTruss.Core.ToMidiFn? = nil) {
     let trussDict = map.dict { [$0.0 : $0.1] }
     let createFileData = createFileData ?? .fn({ b, e in
-      try Self.defaultCreateFileData(b, trussDict: trussDict)
+      .bytes(try Self.defaultCreateFileData(b, trussDict: trussDict))
     })
     self = Self.init(synthName, trussMap: map, createFileData: createFileData, parseBodyData: {
       try Self.defaultParseBodyData($0, trussDict: trussDict, withPathForDataFn: pathForData)

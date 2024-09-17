@@ -40,7 +40,7 @@ extension MultiPatchTruss : JsParsable {
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
         let fn: Core.ToMidiFn = try $0.x(0)
-        return (.sysex(try fn.call(bodyData, editor)), try $0.x(1))
+        return (.sysex(try fn.call(bodyData, editor).bytes()), try $0.x(1))
       }
     }
   }

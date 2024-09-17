@@ -69,9 +69,9 @@ public extension RolandSysexTrussWerk {
     return dataSetHeader(deviceId) + nameAddress.sysexBytes(count: addressCount) + nameBytes + [checksum(address: nameAddress, dataBytes: nameBytes), 0xf7]
   }
     
-  func singlePatchWerk(_ displayId: String, _ params: SynthPathParam, size: RolandAddress, start: RolandAddress, name: NamePackIso? = nil, initFile: String = "", defaultName: String? = nil, sysexDataFn: RolandSinglePatchTrussWerk.SysexDataFn? = nil, randomize: SinglePatchTruss.RandomizeFn? = nil) throws -> RolandSinglePatchTrussWerk {
-    try RolandSinglePatchTrussWerk(self, displayId, params, size: size, start: start, name: name, initFile: initFile, defaultName: defaultName, sysexDataFn: sysexDataFn, randomize: randomize)
-  }
+//  func singlePatchWerk(_ displayId: String, _ params: SynthPathParam, size: RolandAddress, start: RolandAddress, name: NamePackIso? = nil, initFile: String = "", defaultName: String? = nil, sysexDataFn: RolandSinglePatchTrussWerk.SysexDataFn? = nil, randomize: SinglePatchTruss.RandomizeFn? = nil) throws -> RolandSinglePatchTrussWerk {
+//    try RolandSinglePatchTrussWerk(self, displayId, params, size: size, start: start, name: name, initFile: initFile, defaultName: defaultName, sysexDataFn: sysexDataFn, randomize: randomize)
+//  }
   
   func singleBankWerk(_ patchWerk: RolandSinglePatchTrussWerk, _ patchCount: Int, start: RolandAddress, initFile: String? = nil, iso: RolandOffsetAddressIso? = nil, validBundle: SingleBankTruss.Core.ValidBundle? = nil) -> RolandSingleBankTrussWerk {
     let iso = iso ?? .init(address: {
@@ -82,23 +82,23 @@ public extension RolandSysexTrussWerk {
     return RolandSingleBankTrussWerk(patchWerk, patchCount, start: start, iso: iso, validBundle: validBundle)
   }
   
-  func compactSingleBankWerk(_ patchWerk: RolandSinglePatchTrussWerk, _ patchCount: Int, start: RolandAddress, initFile: String? = nil, defaultName: String? = nil, iso: RolandOffsetAddressIso? = nil, validBundle: SingleBankTruss.Core.ValidBundle? = nil) -> RolandSingleBankTrussWerk {
-    let iso = iso ?? .init(address: {
-      RolandAddress([$0, 0, 0])
-    }, location: {
-      $0.sysexBytes(count: addressCount)[1]
-    })
-    return RolandSingleBankTrussWerk(patchWerk, patchCount, start: start, initFile: initFile ?? "", defaultName: defaultName, iso: iso, parseBodyFn: RolandSingleBankTrussWerk.defaultParseCompactBodyData, validBundle: validBundle)
-  }
-
-  
-  func multiPatchWerk(_ displayId: String, _ map: [RolandMultiPatchTrussWerk.MapItem], start: RolandAddress, initFile: String = "", sysexDataFn: RolandMultiPatchTrussWerk.SysexDataFn? = nil, validBundle: MultiPatchTruss.Core.ValidBundle? = nil) -> RolandMultiPatchTrussWerk {
-    RolandMultiPatchTrussWerk(self, displayId, map, start: start, initFile: initFile, sysexDataFn: sysexDataFn, validBundle: validBundle)
-  }
-
-  func compactMultiPatchWerk(_ displayId: String, _ map: [RolandMultiPatchTrussWerk.MapItem], start: RolandAddress, initFile: String = "", sysexDataFn: RolandMultiPatchTrussWerk.SysexDataFn? = nil, validBundle: MultiPatchTruss.Core.ValidBundle? = nil) -> RolandMultiPatchTrussWerk {
-    RolandMultiPatchTrussWerk(self, displayId, map, start: start, initFile: initFile, parseBodyFn: RolandMultiPatchTrussWerk.defaultParseCompactBodyData, sysexDataFn: sysexDataFn, validBundle: validBundle)
-  }
+//  func compactSingleBankWerk(_ patchWerk: RolandSinglePatchTrussWerk, _ patchCount: Int, start: RolandAddress, initFile: String? = nil, defaultName: String? = nil, iso: RolandOffsetAddressIso? = nil, validBundle: SingleBankTruss.Core.ValidBundle? = nil) -> RolandSingleBankTrussWerk {
+//    let iso = iso ?? .init(address: {
+//      RolandAddress([$0, 0, 0])
+//    }, location: {
+//      $0.sysexBytes(count: addressCount)[1]
+//    })
+//    return RolandSingleBankTrussWerk(patchWerk, patchCount, start: start, initFile: initFile ?? "", defaultName: defaultName, iso: iso, parseBodyFn: RolandSingleBankTrussWerk.defaultParseCompactBodyData, validBundle: validBundle)
+//  }
+//
+//  
+//  func multiPatchWerk(_ displayId: String, _ map: [RolandMultiPatchTrussWerk.MapItem], start: RolandAddress, initFile: String = "", sysexDataFn: RolandMultiPatchTrussWerk.SysexDataFn? = nil, validBundle: MultiPatchTruss.Core.ValidBundle? = nil) -> RolandMultiPatchTrussWerk {
+//    RolandMultiPatchTrussWerk(self, displayId, map, start: start, initFile: initFile, sysexDataFn: sysexDataFn, validBundle: validBundle)
+//  }
+//
+//  func compactMultiPatchWerk(_ displayId: String, _ map: [RolandMultiPatchTrussWerk.MapItem], start: RolandAddress, initFile: String = "", sysexDataFn: RolandMultiPatchTrussWerk.SysexDataFn? = nil, validBundle: MultiPatchTruss.Core.ValidBundle? = nil) -> RolandMultiPatchTrussWerk {
+//    RolandMultiPatchTrussWerk(self, displayId, map, start: start, initFile: initFile, parseBodyFn: RolandMultiPatchTrussWerk.defaultParseCompactBodyData, sysexDataFn: sysexDataFn, validBundle: validBundle)
+//  }
 
   
   func multiBankWerk(_ patchWerk: RolandMultiPatchTrussWerk, _ patchCount: Int, start: RolandAddress, initFile: String? = nil, iso: RolandOffsetAddressIso? = nil, validBundle: MultiBankTruss.Core.ValidBundle? = nil) -> RolandMultiBankTrussWerk {
@@ -110,14 +110,14 @@ public extension RolandSysexTrussWerk {
     return RolandMultiBankTrussWerk(patchWerk, patchCount, start: start, iso: iso, validBundle: validBundle)
   }
   
-  func compactMultiBankWerk(_ patchWerk: RolandMultiPatchTrussWerk, _ patchCount: Int, start: RolandAddress, initFile: String? = nil, iso: RolandOffsetAddressIso? = nil, validBundle: MultiBankTruss.Core.ValidBundle? = nil) -> RolandMultiBankTrussWerk {
-    let iso = iso ?? .init(address: {
-      RolandAddress([$0, 0, 0])
-    }, location: {
-      $0.sysexBytes(count: addressCount)[1]
-    })
-    return RolandMultiBankTrussWerk(patchWerk, patchCount, start: start, iso: iso, parseBodyFn: RolandMultiBankTrussWerk.defaultParseCompactBodyData, validBundle: validBundle)
-  }
+//  func compactMultiBankWerk(_ patchWerk: RolandMultiPatchTrussWerk, _ patchCount: Int, start: RolandAddress, initFile: String? = nil, iso: RolandOffsetAddressIso? = nil, validBundle: MultiBankTruss.Core.ValidBundle? = nil) -> RolandMultiBankTrussWerk {
+//    let iso = iso ?? .init(address: {
+//      RolandAddress([$0, 0, 0])
+//    }, location: {
+//      $0.sysexBytes(count: addressCount)[1]
+//    })
+//    return RolandMultiBankTrussWerk(patchWerk, patchCount, start: start, iso: iso, parseBodyFn: RolandMultiBankTrussWerk.defaultParseCompactBodyData, validBundle: validBundle)
+//  }
   
   func editorWerk(_ name: String, deviceId: EditorValueTransform? = nil, map: [RolandEditorTrussWerk.MapItem]) -> RolandEditorTrussWerk {
     let deviceId = deviceId ?? .value([.deviceId], [.deviceId], defaultValue: RolandDefaultDeviceId)

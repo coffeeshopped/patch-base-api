@@ -26,7 +26,7 @@ extension SinglePatchTruss: JsParsable {
         }
       }
       
-      let namePack = try? $0.any("namePack").xform(namePackRules)
+      let namePack: NamePackIso? = try $0.xq("namePack")
       let unpack = try? $0.any("unpack").xform(jsUnpackParsers)
       let initFile = (try $0.xq("initFile")) ?? ""
       
@@ -82,7 +82,7 @@ extension SinglePatchTruss: JsParsable {
     }),
     (".f", { fn in
       try fn.checkFn()
-      return { try fn.call([$0]).arrByte() }
+      return { try fn.call([$0]).x() }
     }),
   ], "singlePatchTruss parseBody")
   
@@ -100,61 +100,6 @@ extension SinglePatchTruss: JsParsable {
       }
     })
   ], "singlePatchTruss parseBody Functions")
-  
-  static let namePackRules: JsParseTransformSet<NamePackIso> = try! .init([
-    ([
-      "type" : "filtered",
-      "range" : ".a",
-      "toBytes" : ".a",
-      "toString" : ".a",
-    ], {
-      let rangeArr = try $0.arr("range")
-      let range: CountableRange<Int> = (try rangeArr.x(0))..<(try rangeArr.x(1))
-      let byteFilters = try $0.arr("toBytes").xformArr(nameFilterRules)
-      let stringFilters = try $0.arr("toString").xformArr(nameFilterRules)
-      // TODO: allow for a pad value other than 32 (for alt encodings)
-      return NamePackIso.filtered(range) {
-        let bytes = $0.compactMap { $0.asciiValue } // convert to uint8's
-        return try bytes.compactMap { byte in
-          try byteFilters.reduce(Optional(byte)) { partialResult, filter in
-            guard let partialResult = partialResult else { return nil }
-            return try filter(partialResult)
-          }
-        }.paddedTo(length: range.count, value: 32)
-      } toName: {
-        let bytes = try $0.compactMap { byte in
-          try stringFilters.reduce(Optional(byte)) { partialResult, filter in
-            guard let partialResult = partialResult else { return nil }
-            return try filter(partialResult)
-          }
-        }
-        return String(bytes: bytes, encoding: .ascii)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-      }
-
-    }),
-  ], "namePack")
-  
-  static let nameFilterRules: JsParseTransformSet<(UInt8) throws -> UInt8?> = try! .init([
-    ("upper", { _ in
-      { Character(Unicode.Scalar($0)).uppercased().first?.asciiValue }
-    }),
-    ("clean", { _ in
-      { (32...126).contains($0) ? $0 : nil }
-    }),
-    (".f", { fn in
-      try fn.checkFn()
-      return {
-        let result = try fn.call([$0])!
-        if result.isNumber {
-          return result.toNumber().uint8Value
-        }
-        else if result.isNull {
-          return nil
-        }
-        throw JSError.error(msg: "Name byte filter returned an unexpected type.")
-      }
-    })
-  ], "nameByteFilter")
       
   static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any?]) throws -> [(MidiMessage, Int)] {
     // fn can be a JS function
@@ -169,7 +114,7 @@ extension SinglePatchTruss: JsParsable {
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
         let fn: Core.ToMidiFn = try $0.x(0)
-        return (.sysex(try fn.call(bodyData, editor)), try $0.x(1))
+        return (.sysex(try fn.call(bodyData, editor).bytes()), try $0.x(1))
       }
     }
   }

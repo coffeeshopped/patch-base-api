@@ -31,14 +31,14 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
     (["+"], { v in
       let fns: [Self] = try (1..<v.arrCount()).map { try v.x($0) }
       return .fn { b, e in
-        try fns.flatMap { try $0.call(b, e) }
+        try .bytes(fns.flatMap { try $0.call(b, e).bytes() })
       }
     }),
     ([">"], { v in
       // treat as an array of functions, with the output of each function being fed as input to the next function (chaining).
       let fns: [Self] = try (1..<v.arrCount()).map { try v.x($0) }
       return .fn { b, e in
-        try fns.reduce(b) { partialResult, fn in try fn.call(partialResult, e) }
+          .bytes(try fns.reduce(b) { partialResult, fn in try fn.call(partialResult, e).bytes() })
       }
     }),
     (["e.values", ".p", ".a", ".f"], {
@@ -47,10 +47,10 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
       let fn = try $0.fn(3)
       let evts: [EditorValueTransform] = paths.map { .value(editorPath, $0, defaultValue: 0) }
       return .fn { bodyData, e in
-        try evts.map {
+        .bytes(try evts.map {
           let v = try e?.intValue($0) ?? 0
           return try fn.call([v]).x()
-        }
+        })
       }
     }),
     (["byte", ".n"], {
@@ -59,7 +59,7 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
         guard byte < b.count else {
           throw JSError.error(msg: "byte: index (\(byte)) must be less than data length (\(b.count)")
         }
-        return [b[byte]]
+        return .bytes([b[byte]])
       }
     }),
     (["enc", ".s"], {
@@ -69,14 +69,14 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
       let cmdBytes: Self = try $0.x(1)
       // second arg is optional, defaults to "b"
       let bodyData: Self? = try $0.xq(2)
-      return .fn { b, e in try Yamaha.sysexData(cmdBytesWithChannel: cmdBytes.call(b, e), bodyBytes: bodyData?.call(b ,e) ?? b) }
+      return .fn { b, e in try .msg(.sysex(Yamaha.sysexData(cmdBytesWithChannel: cmdBytes.call(b, e).bytes(), bodyBytes: bodyData?.call(b ,e).bytes() ?? b))) }
     }),
     (["yamFetch", ".x"], {
       let chan: Self = try $0.x(1)
       // second arg is optional, defaults to "b"
       let cmdBytes: Self? = try $0.xq(2)
       return .fn { b, e in
-        try Yamaha.fetchRequestBytes(channel: Int(chan.call(b, e).first ?? 0), cmdBytes: cmdBytes?.call(b ,e) ?? b)
+        try .msg(.sysex(Yamaha.fetchRequestBytes(channel: Int(chan.call(b, e).bytes().first ?? 0), cmdBytes: cmdBytes?.call(b ,e).bytes() ?? b)))
       }
     }),
     (["yamParm", ".x"], {
@@ -84,7 +84,7 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
       // second arg is optional, defaults to "b"
       let cmdBytes: Self? = try $0.xq(2)
       return .fn { b, e in
-        try Yamaha.paramData(channel: Int(chan.call(b, e).first ?? 0), cmdBytes: cmdBytes?.call(b ,e) ?? b)
+        try .msg(.sysex(Yamaha.paramData(channel: Int(chan.call(b, e).bytes().first ?? 0), cmdBytes: cmdBytes?.call(b ,e).bytes() ?? b)))
       }
     }),
     ("b", { _ in .ident }), // returns itself
@@ -102,10 +102,10 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
       }
       
       guard let arg = try? $0.any(1) else {
-        return .b(fn)
+        return .b({ .bytes(fn($0)) })
       }
       let bb: Self = try arg.x()
-      return .fn { b, e in fn(try bb.call(b, e)) }
+      return .fn { b, e in .bytes(fn(try bb.call(b, e).bytes())) }
     }),
     (".a", { v in
       // if array, first see if it's an editorValueTransform
@@ -113,14 +113,15 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
         return fn
       }
 
-      // otherwise, treat as an implicit "+"
+      // otherwise, treat as an implicit "+" -- NO MORE
+      // now return a fn that returns an array of midimessages
       let fns: [Self] = try v.map { try $0.x() }
-      return .fn { b, e in try fns.flatMap { try $0.call(b, e) } }
+      return .fn { b, e in .arr(try fns.flatMap { try $0.call(b, e).midi() }) }
     }),
-    (".f", { fn in
-      try fn.checkFn()
-      return .fn { b, e in try fn.call([b, e]).arrByte() }
-    }),
+//    (".f", { fn in
+//      try fn.checkFn()
+//      return .fn { b, e in try fn.call([b, e]).x() }
+//    }),
   ], "singlePatchTruss createFile")
  
   static let singleArgCreateFileFnRules: [String:(BodyData) -> BodyData] = [
@@ -136,7 +137,7 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
     guard let evt: EditorValueTransform = try? value.x() else {
       return nil
     }
-    return .e { [try $0?.byteValue(evt) ?? 0] }
+    return .e { .bytes([try $0?.byteValue(evt) ?? 0]) }
   }
 
 }

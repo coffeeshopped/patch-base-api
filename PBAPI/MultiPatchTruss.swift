@@ -30,7 +30,7 @@ public struct MultiPatchTruss : PatchTruss {
     let fileDataCount = fileDataCount ?? Self.fileDataCount(trusses: trussMap.map { $0.1 })
     
     let createFileData = createFileData ?? .fn({ b, e in
-      try Self.defaultCreateFileData(bodyData: b, trussMap: trussMap)
+      .bytes(try Self.defaultCreateFileData(bodyData: b, trussMap: trussMap))
     })
     let parseBodyData = parseBodyData ?? {
       try Self.defaultParseBodyData(fileData: $0, trussMap: trussMap)

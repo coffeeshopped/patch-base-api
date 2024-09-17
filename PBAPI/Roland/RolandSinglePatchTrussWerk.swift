@@ -7,42 +7,42 @@ public struct RolandSinglePatchTrussWerk : RolandPatchTrussWerk {
 
   public typealias SysexDataFn = (_ bytes: BodyData, _ deviceId: UInt8, _ address: RolandAddress) -> [[UInt8]]
   
-  public let werk: RolandSysexTrussWerk
+//  public let werk: RolandSysexTrussWerk
   public let start: RolandAddress
   public let size: RolandAddress
 
-  public let truss: SinglePatchTruss
-  public let sysexDataFn: SysexDataFn
+//  public let truss: SinglePatchTruss
+  public let sysexDataFn: SinglePatchTruss.Core.ToMidiFn?
 
-  public init(_ werk: RolandSysexTrussWerk, _ displayId: String, _ params: SynthPathParam, size: RolandAddress, start: RolandAddress, name: NamePackIso? = nil, initFile: String = "", defaultName: String? = nil, sysexDataFn: SysexDataFn? = nil, randomize: SinglePatchTruss.RandomizeFn? = nil) throws {
-    self.werk = werk
+  public init(_ displayId: String, _ params: SynthPathParam, size: RolandAddress, start: RolandAddress, name: NamePackIso? = nil, initFile: String = "", defaultName: String? = nil, sysexDataFn: SinglePatchTruss.Core.ToMidiFn? = nil, randomize: SinglePatchTruss.RandomizeFn? = nil) throws {
+//    self.werk = werk
     self.start = start
     self.size = size
-    let sysexDataFn = sysexDataFn ?? {
-      [werk.sysexMsg(deviceId: $1, address: $2, bytes: $0)]
-    }
+//    let sysexDataFn = sysexDataFn ?? {
+//      [werk.sysexMsg(deviceId: $1, address: $2, bytes: $0)]
+//    }
     self.sysexDataFn = sysexDataFn
 
     
     let bodyDataCount = size.intValue()
-    let parseBodyData = SinglePatchTruss.parseBodyDataFn(parseOffset: werk.parseOffset, bodyDataCount: bodyDataCount)
+//    let parseBodyData = SinglePatchTruss.parseBodyDataFn(parseOffset: werk.parseOffset, bodyDataCount: bodyDataCount)
     
     // valid sizes should be based on both passed in size as well as the default createFileData
-    self.truss = try SinglePatchTruss(displayId, bodyDataCount, namePackIso: name, params: params, initFile: initFile, defaultName: defaultName, createFileData: .fn({ b, e in
-      sysexDataFn(b, UInt8(RolandDefaultDeviceId), start).reduce([], +)
-    }), parseBodyData: parseBodyData, validSizes: [werk.sysexMsgCount(size: size)], includeFileDataCount: true, pack: Self.defaultPack, unpack: Self.defaultUnpack, randomize: randomize)
+//    self.truss = try SinglePatchTruss(displayId, bodyDataCount, namePackIso: name, params: params, initFile: initFile, defaultName: defaultName, createFileData: .fn({ b, e in
+//      sysexDataFn(b, UInt8(RolandDefaultDeviceId), start).reduce([], +)
+//    }), parseBodyData: parseBodyData, validSizes: [werk.sysexMsgCount(size: size)], includeFileDataCount: true, pack: Self.defaultPack, unpack: Self.defaultUnpack, randomize: randomize)
   }
   
 }
 
 extension RolandSinglePatchTrussWerk : AnyRolandSysexTrussWerk {
   
-  public var anyTruss: any SysexTruss { truss }
+//  public var anyTruss: any SysexTruss { truss }
 
-  public func anySysexData(_ bodyData: SysexBodyData, deviceId: UInt8, address: RolandAddress) throws -> [[UInt8]] {
-    let bd = try bodyDataCheck(bodyData, bodyDataType: BodyData.self)
-    return self.sysexDataFn(bd, deviceId, address)
-  }
+//  public func anySysexData(_ bodyData: SysexBodyData, deviceId: UInt8, address: RolandAddress) throws -> [[UInt8]] {
+//    let bd = try bodyDataCheck(bodyData, bodyDataType: BodyData.self)
+//    return self.sysexDataFn(bd, deviceId, address)
+//  }
 
   /// Param parm > 1 -> multi-byte parameter
   static func defaultUnpack(bodyData: BodyData, param: Parm) -> Int? {

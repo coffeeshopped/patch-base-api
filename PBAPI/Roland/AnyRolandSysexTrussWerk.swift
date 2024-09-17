@@ -1,11 +1,11 @@
 
 public protocol AnyRolandSysexTrussWerk {
-  var anyTruss: any SysexTruss { get }
+//  var anyTruss: any SysexTruss { get }
   var start: RolandAddress { get }
   var size: RolandAddress { get }
-  var werk: RolandSysexTrussWerk { get }
+//  var werk: RolandSysexTrussWerk { get }
 
-  func anySysexData(_ bodyData: SysexBodyData, deviceId: UInt8, address: RolandAddress) throws -> [[UInt8]]
+//  func anySysexData(_ bodyData: SysexBodyData, deviceId: UInt8, address: RolandAddress) throws -> [[UInt8]]
 }
 
 public extension AnyRolandSysexTrussWerk {

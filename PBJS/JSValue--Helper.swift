@@ -76,7 +76,6 @@ extension JSValue {
 
   func arrStr(_ key: String) throws -> [String] { try arr(key).arrStr() }
   func arrStr(_ index: Int) throws -> [String] { try arr(index).arrStr() }
-
   
   func map<X:Any>(_ fn: (JSValue) throws -> X) throws -> [X] {
     try (0..<arrCount()).map { try fn(any($0)) }
@@ -182,10 +181,6 @@ extension JSValue {
 
   func arrInt(_ index: Int) throws -> [Int] { try arr(index).arrInt() }
   func arrInt(_ key: String) throws -> [Int] { try arr(key).arrInt() }
-
-  func arrByte() throws -> [UInt8] {
-    try map { try $0.x() }
-  }
   
   func optDict() throws -> [Int:String] {
     try checkArr()
@@ -264,5 +259,11 @@ extension Bool: JSX {
   static func x(_ v: JSValue) throws -> Bool {
     guard v.isBoolean else { throw JSError.error(msg: "Expected Boolean") }
     return v.toBool()
+  }
+}
+
+extension Array: JSX where Element: JSX {
+  static func x(_ v: JSValue) throws -> Array<Element> {
+    try v.map { try $0.x() }
   }
 }

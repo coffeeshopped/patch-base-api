@@ -58,7 +58,7 @@ extension MultiPatchTruss : JsBankToMidiParsable {
     ], {
       let locationMap = try $0.fn("locationMap")
       let fn: SomeBankTruss<Self>.Core.ToMidiFn =  SomeBankTruss<Self>.createFileDataWithLocationMap { bodyData, location in
-        try locationMap.call([bodyData, location]).arrByte()
+        try locationMap.call([bodyData, location]).x()
       }
       return fn
     }),

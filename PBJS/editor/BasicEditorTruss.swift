@@ -5,6 +5,17 @@ import PBAPI
 extension BasicEditorTruss: JsParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
+//    ([
+//      "rolandModelId" : ".a",
+//      "addressCount" : ".n",
+//      "name" : ".s",
+//      "map" : ".a",
+//    ], {
+//      let sysexWerk = try RolandSysexTrussWerk(modelId: $0.x("rolandModelId"), addressCount: $0.x("addressCount"))
+//      let map: [RolandEditorTrussWerk.MapItem] = try $0.x("map")
+//      var t = BasicEditorTruss(try $0.x("name"), truss: [])
+//      return t
+//    }),
     ([
       "name" : ".s",
       "trussMap" : ".a",

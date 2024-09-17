@@ -48,16 +48,44 @@ public func optimizedCompose<BodyData>(_ fns: [SysexTrussCore<BodyData>.ToMidiFn
   return optimizedCompose(optFns)
 }
 
+public enum MidiBuilder {
+  case msg(MidiMessage)
+  case bytes([UInt8])
+  case arr([MidiMessage])
+  
+  public func bytes() -> [UInt8] {
+    switch self {
+    case .msg(let msg):
+      return msg.bytes()
+    case .bytes(let b):
+      return b
+    case .arr(let arr):
+      return arr.flatMap { $0.bytes() }
+    }
+  }
+  
+  public func midi() -> [MidiMessage] {
+    switch self {
+    case .msg(let msg):
+      return [msg]
+    case .bytes(let b): // TODO: maybe should throw here.
+      return [.sysex(b)]
+    case .arr(let arr):
+      return arr
+    }
+  }
+}
+
 public struct SysexTrussCore<BodyData> {
   
   public enum ToMidiFn {
-    case fn((_ b: BodyData, _ e: AnySynthEditor?) throws -> [UInt8])
-    case b((_ b: BodyData) throws -> [UInt8])
-    case e((_ e: AnySynthEditor?) throws -> [UInt8])
+    case fn((_ b: BodyData, _ e: AnySynthEditor?) throws -> MidiBuilder)
+    case b((_ b: BodyData) throws -> MidiBuilder)
+    case e((_ e: AnySynthEditor?) throws -> MidiBuilder)
     case const([UInt8])
     case ident
     
-    public func call(_ b: BodyData, _ e: AnySynthEditor?) throws -> [UInt8] {
+    public func call(_ b: BodyData, _ e: AnySynthEditor?) throws -> MidiBuilder {
       switch self {
       case .fn(let fn):
         return try fn(b, e)
@@ -66,12 +94,12 @@ public struct SysexTrussCore<BodyData> {
       case .e(let fn):
         return try fn(e)
       case .const(let bytes):
-        return bytes
+        return .bytes(bytes)
       case .ident:
         guard let b = b as? [UInt8] else {
           throw SysexTrussError.incorrectSysexType(msg: "ident should only be called on SinglePatchTruss")
         }
-        return b
+        return .bytes(b)
       }
     }
     
