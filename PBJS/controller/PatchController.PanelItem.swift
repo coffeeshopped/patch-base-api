@@ -4,15 +4,26 @@ import PBAPI
 extension PatchController.PanelItem: JsParsable, JsArrayParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    ([".s?", ".p"], { .knob(try $0.x(0), try $0.x(1)) }),
-    ([".d", ".p?"], {
-      let obj = try $0.obj(0)
-      let path: SynthPath? = try $0.xq(1)
-      let t: String = (try obj.xq("t")) ?? "knob"
-      let l: String? = try obj.xq("l")
+    (["switcher", ".a", ".d?"], {
+      let c = try? $0.obj(2)
+      return try .switcher(label: c?.xq("l"), $0.x(1), id: c?.xq("id"), width: c?.xq("w"), cols: c?.xq("cols"))
+    }),
+    ([".s?", ".p"], { .knob(try $0.xq(0), try $0.x(1)) }),
+    ([".d", ".p?"], { v in
+      let obj = try v.obj(0)
+      let path: SynthPath? = try v.xq(1)
+      var t: String = (try obj.xq("t")) ?? "knob"
+      var l: String? = try obj.xq("l")
       let id: SynthPath? = try obj.xq("id")
       let w: CGFloat? = try obj.xq("w")
       let h: CGFloat? = try obj.xq("h")
+      
+      let ctrls = ["knob", "switch", "switsch", "checkbox", "select", "imgSelect"]
+      try ctrls.forEach {
+        guard let label: String = try v.xq($0) else { return }
+        t = $0
+        l = label
+      }
       
       switch t {
       case "knob":

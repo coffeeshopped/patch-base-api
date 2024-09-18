@@ -1,9 +1,8 @@
 
 public protocol AnyRolandSysexTrussWerk {
-//  var anyTruss: any SysexTruss { get }
   var start: RolandAddress { get }
   var size: RolandAddress { get }
-//  var werk: RolandSysexTrussWerk { get }
+  func anyTruss(_ werk: RolandSysexTrussWerk) throws -> any SysexTruss
 
 //  func anySysexData(_ bodyData: SysexBodyData, deviceId: UInt8, address: RolandAddress) throws -> [[UInt8]]
 }

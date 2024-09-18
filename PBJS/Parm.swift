@@ -81,7 +81,20 @@ extension Parm: JsParsable, JsArrayParsable {
 extension Parm.Span: JsParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (["opts" : ".a"], { .opts(try $0.arrStr("opts")) }),
+    (["opts" : ".a"], {
+      // allow for sparse arrays.
+      // TODO: follow up and see if this causes weirdness with controls.
+      let arr = try $0.arr("opts")
+      let count = arr.arrCount()
+      var options = [Int:String]()
+      count.forEach {
+        guard let v = arr.atIndex($0),
+              !v.isUndefined else { return }
+        options[$0] = v.toString()
+      }
+      return .options(options)
+//      return .opts(try $0.arrStr("opts"))
+    }),
     (["max" : ".n"], { .max(try $0.x("max")) }),
     ([
       "rng" : ".a",
@@ -94,6 +107,6 @@ extension Parm.Span: JsParsable {
     }),
     (["options" : ".a"], { .options(try $0.arr("options").optDict()) }),
     ([:], { _ in .rng() }),
-  ], "parm.span")
+  ])
   
 }

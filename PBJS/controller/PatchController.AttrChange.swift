@@ -7,6 +7,9 @@ extension PatchController.AttrChange: JsParsable, JsArrayParsable {
     (["dimItem"], {
       try .dimItem($0.x(1), $0.x(2), dimAlpha: $0.xq(3))
     }),
+    (["hideItem"], {
+      try .dimItem($0.x(1), $0.x(2), dimAlpha: 0)
+    }),
     (["setCtrlLabel", ".p", ".s"], {
       try .setCtrlLabel($0.x(1), $0.x(2))
     }),

@@ -492,15 +492,15 @@ public extension Array where Element == PatchController.Effect {
     }
   }
 
-  static func patchSelector(id: SynthPath, bankValues: [SynthPath], paramMapWithContext: @escaping (SynthPathInts, PatchControllerState, PatchControllerLocals) -> PatchController.ConfigParam) -> Self {
+  static func patchSelector(id: SynthPath, bankValues: [SynthPath], paramMapWithContext: @escaping (SynthPathInts, PatchControllerState, PatchControllerLocals) throws -> PatchController.ConfigParam) -> Self {
 
     let patchChange: PatchController.Effect = .patchChange(paths: bankValues, fn: { values, state, locals in
-      [.configCtrl(id, paramMapWithContext(values, state, locals))]
+      [.configCtrl(id, try paramMapWithContext(values, state, locals))]
     })
 
     let paramChange: PatchController.Effect = .change({ state, locals in
       guard case .paramsChange = state.event else { return [] }
-      return [.configCtrl(id, paramMapWithContext(.init(bankValues.compactDict {
+      return [.configCtrl(id, try paramMapWithContext(.init(bankValues.compactDict {
         guard let v = state.prefixedValue($0) else { return nil }
         return [$0 : v]
       }), state, locals))]
@@ -609,9 +609,9 @@ public extension PatchController {
     ])
   }
   
-  static func index(_ prefix: SynthPath, label: SynthPath, _ labelFn: @escaping (Int) -> String, color: Int? = nil, border: Int? = nil, _ builders: [Builder], effects: [Effect] = [], layout: [Constraint] = []) -> Self {
+  static func index(_ prefix: SynthPath, label: SynthPath, _ labelFn: @escaping (Int) throws -> String, color: Int? = nil, border: Int? = nil, _ builders: [Builder], effects: [Effect] = [], layout: [Constraint] = []) -> Self {
     .patch(prefix: .index(prefix), color: color, border: border, builders, effects: effects + [
-      .indexChange({ [.setCtrlLabel(label, labelFn($0))]})
+      .indexChange({ [.setCtrlLabel(label, try labelFn($0))]})
     ], layout: layout)
   }
 

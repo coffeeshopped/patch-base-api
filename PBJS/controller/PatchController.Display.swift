@@ -12,7 +12,15 @@ extension PatchController.Display: JsParsable {
         values.forEach { v[$0.key.str()] = $0.value }
         return try fn.call([v]).x()
       }
-    })
+    }),
+    ([
+      "display": "timeLevelEnv",
+      "pointCount" : ".n",
+      "sustain" : ".n",
+      "bipolar" : ".b",
+    ], {
+      try .timeLevelEnv(pointCount: $0.x("pointCount"), sustain: $0.x("sustain"), bipolar: $0.x("bipolar"))
+    }),
   ], "controller display")
 
 }

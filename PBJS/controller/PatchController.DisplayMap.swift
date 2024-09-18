@@ -10,8 +10,21 @@ extension PatchController.DisplayMap: JsParsable, JsArrayParsable {
         try fn.call([$0]).x()
       }
     }),
+    (["src", ".p", ".p", ".f?"], {
+      if let fn = try? $0.fn(3) {
+        return try .src($0.x(1), dest: $0.x(2)) {
+          try fn.call([$0]).x()
+        }
+      }
+      else {
+        return try .src($0.x(1), dest: $0.x(2)) { $0 }
+      }
+    }),
     (["u", ".p", ".n", ".p?"], {
       try .unit($0.x(1), dest: $0.xq(3), max: $0.x(2))
+    }),
+    (["u", ".p", ".p?"], {
+      try .unit($0.x(1), dest: $0.xq(2))
     }),
   ])
 

@@ -241,7 +241,7 @@ extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
           [try $0.any(0).x() : try $0.any(1).x()]
         }.dict { $0 }
       }),
-    ], "pairs")
+    ], "[\(Key.self) : \(Value.self)] pairs")
   }
 }
 

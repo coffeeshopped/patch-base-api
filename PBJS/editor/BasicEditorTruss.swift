@@ -5,17 +5,21 @@ import PBAPI
 extension BasicEditorTruss: JsParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
-//    ([
-//      "rolandModelId" : ".a",
-//      "addressCount" : ".n",
-//      "name" : ".s",
-//      "map" : ".a",
-//    ], {
-//      let sysexWerk = try RolandSysexTrussWerk(modelId: $0.x("rolandModelId"), addressCount: $0.x("addressCount"))
-//      let map: [RolandEditorTrussWerk.MapItem] = try $0.x("map")
-//      var t = BasicEditorTruss(try $0.x("name"), truss: [])
-//      return t
-//    }),
+    ([
+      "rolandModelId" : ".a",
+      "addressCount" : ".n",
+      "name" : ".s",
+      "map" : ".a",
+      "deviceId" : ".x?",
+    ], {
+      let sysexWerk = try RolandSysexTrussWerk(modelId: $0.x("rolandModelId"), addressCount: $0.x("addressCount"))
+      let map: [RolandEditorTrussWerk.MapItem] = try $0.x("map")
+      let werk = try sysexWerk.editorWerk($0.x("name"), deviceId: $0.xq("deviceId"), map: map)
+      var t = try BasicEditorTruss($0.x("name"), truss: [([.deviceId], RolandDeviceIdSettingsTruss)] + werk.sysexMap())
+      t.fetchTransforms = werk.defaultFetchTransforms()
+      t.midiOuts = try werk.midiOuts()
+      return t
+    }),
     ([
       "name" : ".s",
       "trussMap" : ".a",
@@ -37,7 +41,7 @@ extension BasicEditorTruss: JsParsable {
       
       return t
     }),
-  ], "editor")
+  ])
 
   static func pathPairRules<Output:Any>(_ subrules: JsParseTransformSet<Output>) throws -> JsParseTransformSet<(SynthPath, Output)> {
     try JsParseTransformSet<(SynthPath, Output)>.init([

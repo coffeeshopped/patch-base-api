@@ -10,6 +10,11 @@ import PBAPI
 extension NamePackIso : JsParsable {
   
   static var jsParsers: JsParseTransformSet<Self> = try! .init([
+    ([".n", ".n"], {
+      let start: Int = try $0.x(0)
+      let end: Int = try $0.x(1)
+      return .basic(start..<end)
+    }),
     ([
       "type" : "filtered",
       "range" : ".a",

@@ -26,6 +26,11 @@ public struct RolandSingleBankTrussWerk {
 //      try parseBodyFn(fileData, iso, patchWerk, patchCount)
 //    }, validBundle: validBundle)
   }
+  
+  public func anyTruss(_ werk: RolandSysexTrussWerk) throws -> any SysexTruss {
+    fatalError("TODO")
+  }
+
 }
 
 public extension RolandSingleBankTrussWerk {

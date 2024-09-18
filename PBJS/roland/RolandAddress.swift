@@ -12,5 +12,6 @@ extension RolandAddress: JsParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     (".n", { RolandAddress(try $0.x() as Int) }),
+    (".a", { RolandAddress(try $0.x() as [UInt8]) }),
   ])
 }

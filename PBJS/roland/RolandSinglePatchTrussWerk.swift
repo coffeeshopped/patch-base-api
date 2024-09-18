@@ -15,10 +15,9 @@ extension RolandSinglePatchTrussWerk: JsParsable {
       "parms" : ".x",
       "size" : ".n",
       "start" : ".n",
-      "initFile" : ".s",
     ], {
-      
-      return try .init($0.x("single"), $0.x("parms"), size: $0.x("size"), start: $0.x("start"), name: $0.xq("name"), initFile: $0.x("initFile"), defaultName: nil, sysexDataFn: nil, randomize: nil)
+      let parms: [Parm] = try $0.x("parms")
+      return try .init($0.x("single"), parms.params(), size: $0.x("size"), start: $0.x("start"), name: $0.xq("name"), initFile: $0.xq("initFile") ?? "", defaultName: nil, sysexDataFn: nil, randomize: nil)
     }),
   ])
 }

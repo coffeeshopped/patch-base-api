@@ -154,6 +154,9 @@
 		AC4AC0F72C65335900358BF0 /* PBAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4AC0EC2C65335900358BF0 /* PBAPI.framework */; };
 		AC4AC0FC2C65335900358BF0 /* PBAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4AC0FB2C65335900358BF0 /* PBAPITests.swift */; };
 		AC4AC0FD2C65335900358BF0 /* PBAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = AC4AC0EF2C65335900358BF0 /* PBAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AC6659E72C9B42AF00CFDFFA /* RolandMultiBankTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6659E62C9B42AF00CFDFFA /* RolandMultiBankTrussWerk.swift */; };
+		AC6659E92C9B783C00CFDFFA /* PatchController.PageSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6659E82C9B783C00CFDFFA /* PatchController.PageSetup.swift */; };
+		AC6659EB2C9B893100CFDFFA /* PatchController.ConfigParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6659EA2C9B893100CFDFFA /* PatchController.ConfigParam.swift */; };
 		AC6778D52C98B257002FE359 /* RolandEditorTrussWerk.MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6778D42C98B257002FE359 /* RolandEditorTrussWerk.MapItem.swift */; };
 		AC6778D82C98C90A002FE359 /* RolandAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6778D72C98C90A002FE359 /* RolandAddress.swift */; };
 		AC6778DA2C98CA33002FE359 /* RolandSinglePatchTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6778D92C98CA33002FE359 /* RolandSinglePatchTrussWerk.swift */; };
@@ -342,6 +345,9 @@
 		AC4AC0F62C65335900358BF0 /* PBAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PBAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4AC0FB2C65335900358BF0 /* PBAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBAPITests.swift; sourceTree = "<group>"; };
 		AC58EC022C66A70400C1EEE5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		AC6659E62C9B42AF00CFDFFA /* RolandMultiBankTrussWerk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolandMultiBankTrussWerk.swift; sourceTree = "<group>"; };
+		AC6659E82C9B783C00CFDFFA /* PatchController.PageSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchController.PageSetup.swift; sourceTree = "<group>"; };
+		AC6659EA2C9B893100CFDFFA /* PatchController.ConfigParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchController.ConfigParam.swift; sourceTree = "<group>"; };
 		AC6778D42C98B257002FE359 /* RolandEditorTrussWerk.MapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolandEditorTrussWerk.MapItem.swift; sourceTree = "<group>"; };
 		AC6778D72C98C90A002FE359 /* RolandAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolandAddress.swift; sourceTree = "<group>"; };
 		AC6778D92C98CA33002FE359 /* RolandSinglePatchTrussWerk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolandSinglePatchTrussWerk.swift; sourceTree = "<group>"; };
@@ -624,11 +630,13 @@
 				AC414B912C653AAF0019DC1B /* PatchController.Prefix.swift */,
 				AC414B8C2C653AAE0019DC1B /* PatchController.Builder.swift */,
 				AC414B922C653AAF0019DC1B /* PatchController.Effect.swift */,
+				AC6659EA2C9B893100CFDFFA /* PatchController.ConfigParam.swift */,
 				AC414B8D2C653AAE0019DC1B /* PatchController.AttrChange.swift */,
 				AC414B902C653AAF0019DC1B /* PatchController.PanelItem.swift */,
 				AC414B8E2C653AAF0019DC1B /* PatchController.Display.swift */,
 				AC414B8A2C653AAE0019DC1B /* PatchController.DisplayMap.swift */,
 				AC414B8B2C653AAE0019DC1B /* PatchController.Constraint.swift */,
+				AC6659E82C9B783C00CFDFFA /* PatchController.PageSetup.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -641,6 +649,7 @@
 				AC6778D72C98C90A002FE359 /* RolandAddress.swift */,
 				AC6778D92C98CA33002FE359 /* RolandSinglePatchTrussWerk.swift */,
 				AC6778DD2C98FA11002FE359 /* RolandMultiPatchTrussWerk.swift */,
+				AC6659E62C9B42AF00CFDFFA /* RolandMultiBankTrussWerk.swift */,
 				AC6778DF2C98FD39002FE359 /* RolandMultiPatchTrussWerk.MapItem.swift */,
 			);
 			path = roland;
@@ -844,6 +853,7 @@
 				AC414B942C653AAF0019DC1B /* PatchController.Constraint.swift in Sources */,
 				AC414B852C653AA20019DC1B /* SinglePatchTruss.swift in Sources */,
 				AC6778DC2C98D9B7002FE359 /* NamePackIso.swift in Sources */,
+				AC6659E72C9B42AF00CFDFFA /* RolandMultiBankTrussWerk.swift in Sources */,
 				ACE0BB7A2C6E92710099F3D9 /* DXAlgorithm.swift in Sources */,
 				AC414B822C653AA20019DC1B /* MultiBankTruss.swift in Sources */,
 				AC414B832C653AA20019DC1B /* SingleBankTruss.swift in Sources */,
@@ -863,7 +873,9 @@
 				AC414B3F2C653A7B0019DC1B /* PBJS.docc in Sources */,
 				AC0BBF442C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift in Sources */,
 				AC6778E22C98FF3E002FE359 /* AnyRolandSysexTrussWerk.swift in Sources */,
+				AC6659E92C9B783C00CFDFFA /* PatchController.PageSetup.swift in Sources */,
 				AC414B782C653A900019DC1B /* Jiso.swift in Sources */,
+				AC6659EB2C9B893100CFDFFA /* PatchController.ConfigParam.swift in Sources */,
 				AC0BBF422C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift in Sources */,
 				AC414B772C653A900019DC1B /* JsConsole.swift in Sources */,
 				AC414B6D2C653A900019DC1B /* JsModuleLoader.swift in Sources */,

@@ -111,14 +111,14 @@ extension JSValue {
   func xform<A:JsParsable, B:JsParsable>() throws -> (A, B) {
     let t = try JsParseTransformSet<(A,B)>([
       ([".x", ".x"], { (try $0.any(0).x(), try $0.any(1).x()) }),
-    ], "pairs")
+    ], "(\(A.self), \(B.self)) pairs")
     return try xform(t)
   }
   
   func xform<Output:JsParsable>() throws -> [(SynthPath, Output)] {
     let t = try JsParseTransformSet<(SynthPath, Output)>.init([
       ([".p", ".x"], { (try $0.x(0), try $0.x(1)) }),
-    ], "pairs")
+    ], "(SynthPath, \(Output.self)) pairs")
     return try xformArr(t)
   }
 
@@ -144,7 +144,7 @@ extension JSValue {
     }
     else if isObject {
             
-      let inStr = String(repeating: "\t", count: indent)
+      let inStr = String(repeating: "  ", count: indent)
       var str = "\(inStr){\n"
       toDictionary().keys.forEach {
         str.append("\(inStr)\t\($0): ")

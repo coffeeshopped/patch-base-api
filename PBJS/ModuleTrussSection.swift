@@ -25,8 +25,12 @@ extension ModuleTrussSection.Item: JsParsable, JsArrayParsable {
       let path: SynthPath = try config?.xq("path") ?? [.perf]
       return .perf(title: title, path: path, try $0.x(1))
     }),
-    (["bank", ".s", ".p"], { .bank(try $0.x(1), try $0.x(2)) }),
+    (["bank", ".s", ".p"], { try .bank($0.x(1), $0.x(2)) }),
     ("channel", { _ in .channel() } ),
+    ("deviceId", { _ in .deviceId() }),
+    (["custom", ".s", ".p", ".d"], {
+      try .custom($0.x(1), $0.x(2), $0.x(3))
+    }),
   ])
 
   static let jsArrayParsers = try! jsParsers.arrayParsers()

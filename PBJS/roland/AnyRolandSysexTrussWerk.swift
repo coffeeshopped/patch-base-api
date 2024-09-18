@@ -15,4 +15,6 @@ extension JsParseTransformSet where Output: AnyRolandSysexTrussWerk {
 
 let RolandSysexTrussWerkRules: JsParseTransformSet<AnyRolandSysexTrussWerk> = .init([
   RolandSinglePatchTrussWerk.jsParsers.anyWerkRules(),
+  RolandMultiPatchTrussWerk.jsParsers.anyWerkRules(),
+  RolandMultiBankTrussWerk.jsParsers.anyWerkRules(),
 ].flatMap({ $0 }), "werk")

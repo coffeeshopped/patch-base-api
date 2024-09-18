@@ -17,6 +17,10 @@ extension PatchController.Builder: JsParsable, JsArrayParsable {
       let prefix: SynthPath = (try opts?.xq("prefix")) ?? []
       return try .panel($0.x(1), prefix: prefix, color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), items: items)
     }),
+    (["panel", ".s", ".a"], {
+      let items = try $0.arr(2).xformArr(PatchController.PanelItem.rowRules)
+      return try .panel($0.x(1), prefix: [], color: nil, clearBG: nil, items: items)
+    }),
     (["grid", ".d", ".a"], {
       let opts = try? $0.obj(1)
       let items: [[PatchController.PanelItem]] = try $0.arr(2).map { try $0.x() }
@@ -28,12 +32,16 @@ extension PatchController.Builder: JsParsable, JsArrayParsable {
     }),
     (["items", ".d", ".a"], {
       let opts = try? $0.obj(1)
-      return try .items(color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), try $0.arr(2).xformArr(PatchController.PanelItem.itemsRules))
+      return try .items(color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), $0.arr(2).xformArr(PatchController.PanelItem.itemsRules))
     }),
     (["switcher", ".a", ".d?"], {
       let c = try? $0.obj(2)
-      return .switcher(label: try c?.xq("l"), try $0.arrStr(1), cols: try c?.xq("cols"), color: try c?.xq("color"))
-    })
+      return try .switcher(label: c?.xq("l"), $0.arrStr(1), cols: c?.xq("cols"), color: c?.xq("color"))
+    }),
+    (["button", ".s", ".d?"], {
+      let c = try? $0.obj(2)
+      return try .button($0.x(1), color: c?.xq("color"))
+    }),
   ])
   
   static let jsArrayParsers = try! jsParsers.arrayParsers()
