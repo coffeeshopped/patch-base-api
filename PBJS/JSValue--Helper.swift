@@ -27,38 +27,23 @@ extension JSValue {
     return s
   }
 
-  func x<Out:JSX>() throws -> Out { try Out.x(self) }
-  func x<Out:JSX>(_ k: String) throws -> Out { try Out.x(any(k)) }
-  func x<Out:JSX>(_ i: Int) throws -> Out { try Out.x(any(i)) }
+  func x<Out:JsParsable>() throws -> Out { try xform(Out.jsParsers) }
+  func x<Out:JsParsable>(_ k: String) throws -> Out { try any(k).x() }
+  func x<Out:JsParsable>(_ i: Int) throws -> Out { try any(i).x() }
 
   // look for a value at the given key.
   // if it exists, parse an expected type
   // if it doesn't exist, return nil
   // used for optional (but type-checked) values
-  func xq<Out:JSX>(_ k: String) throws -> Out? {
-    guard let e = try? any(k), !e.isNull else { return nil }
-    return try Out.x(e)
-  }
-  func xq<Out:JSX>(_ i: Int) throws -> Out? {
-    guard let e = try? any(i), !e.isNull else { return nil }
-    return try Out.x(e)
-  }
-
-  func x<Output:JsParsable>() throws -> Output {
-    try xform(Output.jsParsers)
-  }
-  func x<Output:JsParsable>(_ k: String) throws -> Output { try any(k).x() }
-  func x<Output:JsParsable>(_ i: Int) throws -> Output { try any(i).x() }
-
-  func xq<Output:JsParsable>(_ k: String) throws -> Output? {
+  func xq<Out:JsParsable>(_ k: String) throws -> Out? {
     guard let e = try? any(k), !e.isNull else { return nil }
     return try e.x()
   }
-  func xq<Output:JsParsable>(_ i: Int) throws -> Output? {
+  func xq<Out:JsParsable>(_ i: Int) throws -> Out? {
     guard let e = try? any(i), !e.isNull else { return nil }
     return try e.x()
   }
-  
+    
   fileprivate func num() throws -> NSNumber {
     guard isNumber else { throw JSError.error(msg: "Expected Number") }
     return toNumber()
@@ -228,42 +213,58 @@ extension JSValue {
 
 }
 
-protocol JSX {
-  static func x(_ v: JSValue) throws -> Self
+//protocol JSX {
+//  static func x(_ v: JSValue) throws -> Self
+//}
+
+extension String: JsArrayParsable {
+  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+    (".s", {
+      guard $0.isString else {
+        throw JSError.error(msg: "Expected String")
+      }
+      return $0.toString()
+    }),
+  ])
+  static let jsArrayParsers = try! jsParsers.arrayParsers()
 }
 
-extension String: JSX {
-  static func x(_ v: JSValue) throws -> String {
-    guard v.isString else {
-      throw JSError.error(msg: "Expected String")
-    }
-    return v.toString()
-  }
+
+extension Int: JsArrayParsable {
+  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+    (".n", { try $0.num().intValue }),
+  ])
+  static let jsArrayParsers = try! jsParsers.arrayParsers()
 }
 
-extension Int: JSX {
-  static func x(_ v: JSValue) throws -> Int { try v.num().intValue }
+
+extension UInt8: JsArrayParsable {
+  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+    (".n", { try $0.num().uint8Value }),
+  ])
+  static let jsArrayParsers = try! jsParsers.arrayParsers()
 }
 
-extension UInt8: JSX {
-  static func x(_ v: JSValue) throws -> UInt8 { try v.num().uint8Value }
+extension CGFloat: JsArrayParsable {
+  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+    (".n", { CGFloat(truncating: try $0.num()) }),
+  ])
+  static let jsArrayParsers = try! jsParsers.arrayParsers()
 }
 
-extension CGFloat: JSX {
-  static func x(_ v: JSValue) throws -> CGFloat {
-    CGFloat(truncating: try v.num())
-  }
+extension Bool: JsArrayParsable {
+  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+    (".b", {
+      guard $0.isBoolean else { throw JSError.error(msg: "Expected Boolean") }
+      return $0.toBool()
+    }),
+  ])
+  static let jsArrayParsers = try! jsParsers.arrayParsers()
 }
 
-extension Bool: JSX {
-  static func x(_ v: JSValue) throws -> Bool {
-    guard v.isBoolean else { throw JSError.error(msg: "Expected Boolean") }
-    return v.toBool()
-  }
-}
+//extension Array: JSX where Element: JSX {
+//  static func x(_ v: JSValue) throws -> Array<Element> {
+//    try v.map { try $0.x() }
+//  }
+//}
 
-extension Array: JSX where Element: JSX {
-  static func x(_ v: JSValue) throws -> Array<Element> {
-    try v.map { try $0.x() }
-  }
-}

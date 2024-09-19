@@ -29,7 +29,9 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
       let paths = try config.arrPath("paths")
       let fn = try config.fn("fn")
       return .patchChange(paths: paths) { values in
-        try fn.call([paths.map { values[$0]! }]).x()
+        var v = [String:Int]()
+        values.forEach { v[$0.str()] = $1 }
+        return try fn.call([v]).x()
       }
     }),
     (["dimsOn", ".p"], {
@@ -47,8 +49,8 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
     }),
     (["controlChange", ".p", ".f"], {
       let fn = try $0.fn(2)
-      return .controlChange(try $0.x(1)) { state, locals in
-        try fn.call([state, locals]).x()
+      return .controlChangeParams(try $0.x(1)) { state, locals in
+        .init(try fn.call([state, locals.toJS()]).x())
       }
     }),
     (["setup", ".a"], { .setup(try $0.x(1)) }),

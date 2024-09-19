@@ -4,6 +4,13 @@ import PBAPI
 
 extension SynthPathItem: JsArrayParsable {
   
+  static var jsParsers: JsParseTransformSet<Self> = try! .init([
+    (".s", { 
+      let s: String = try $0.x()
+      return try parseSynthPathItem(s)
+    })
+  ])
+  
   static let jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([
     (".s", {
       try $0.toString().split(separator: "/").map {
@@ -41,11 +48,14 @@ extension SynthPathItem: JsArrayParsable {
 }
 
 extension SynthPath {
-  
   func toJS() -> [Any] { map { $0.scriptItem() } }
-  
   func str() -> String { map { "\($0.scriptItem())" }.joined(separator: "/") }
-  
+}
+
+extension Dictionary<SynthPath,Int> {
+  func toJS() -> [String:Int] {
+    dict { [$0.key.str() : $0.value] }
+  }
 }
 
 enum JsSynthPath {

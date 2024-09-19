@@ -178,7 +178,17 @@ public indirect enum PatchController {
   }
   
   public enum Constraint {
-    public typealias Item = (String, CGFloat)
+    
+    public struct Item {
+      public let id: String
+      public let w: CGFloat
+      
+      public init(_ id: String, _ w: CGFloat) {
+        self.id = id
+        self.w = w
+      }
+    }
+    
     case grid(_ items: [(row: [Item], height: CGFloat)])
     case row(_ items: [Item], opts: [PBLayoutConstraint.FormatOption] = [.alignAllTop, .alignAllBottom], spacing: CGFloat? = nil)
     case col(_ items: [Item], opts: [PBLayoutConstraint.FormatOption] = [.alignAllLeading], spacing: CGFloat? = nil)
@@ -327,15 +337,15 @@ public extension PatchController.Effect {
     }
   }
 
-  static func controlChange(_ id: SynthPath, _ fn: @escaping (_ state: PatchControllerState, _ locals: [SynthPath:Int]) -> SynthPathInts?) -> Self {
+  static func controlChangeParams(_ id: SynthPath, _ fn: @escaping (_ state: PatchControllerState, _ locals: [SynthPath:Int]) throws -> SynthPathInts?) -> Self {
     .controlChange(id) { state, locals in
-      guard let pc = fn(state, locals) else { return [] }
+      guard let pc = try fn(state, locals) else { return [] }
       return [.paramsChange(pc)]
     }
   }
   
   static func basicControlChange(_ id: SynthPath) -> Self {
-    .controlChange(id) { state, locals in
+    .controlChangeParams(id) { state, locals in
       [id : locals[id] ?? 0]
     }
   }
@@ -472,7 +482,7 @@ public extension PatchController.Constraint {
   }
 
   static func oneRowGrid(_ count: Int, _ panelPrefix: String) -> Self {
-    .simpleGrid([count.map { ("\(panelPrefix)\($0)", 1) }])
+    .simpleGrid([count.map { .init("\(panelPrefix)\($0)", 1) }])
   }
 
 }
@@ -535,7 +545,7 @@ public extension Array where Element == PatchController.Effect {
     
     return [
       .patchChange(path, { [.setValue(path, value($0))] }),
-      .controlChange(path, { state, locals in
+      .controlChangeParams(path, { state, locals in
         guard let v = locals[path] else { return nil }
         return [path : cc(v)]
       }),
@@ -627,7 +637,7 @@ public extension PatchController {
     return .patch([
       .children(count, "pal", wrapped),
     ], effects: [], layout: [
-      .simpleGrid([count.map { ("pal\($0)", 1) }])
+      .simpleGrid([count.map { .init("pal\($0)", 1) }])
     ])
   }
   
@@ -648,8 +658,8 @@ public extension PatchController {
       .editMenu([.button], paths: nil, type: pasteType, init: nil, rand: nil)
     ] + fx, layout: [
       .grid([
-        (row: [("vc", 1)], height: vcHeight),
-        (row: [("button", 1)], height: 1),
+        (row: [.init("vc", 1)], height: vcHeight),
+        (row: [.init("button", 1)], height: 1),
       ])
     ])
   }

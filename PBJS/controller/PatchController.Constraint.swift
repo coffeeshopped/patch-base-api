@@ -6,28 +6,24 @@ extension PatchController.Constraint: JsParsable, JsArrayParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     (["row", ".a", ".d?"], {
-      let items = try parseConstraintItems($0.arr(1))
       let options = try? $0.obj(2)
       let opts = try parseConstraintFormatOptions(options) ?? [.alignAllTop, .alignAllBottom]
-      return .row(items, opts: opts, spacing: nil)
+      return .row(try $0.x(1), opts: opts, spacing: nil)
     }),
     (["rowPart", ".a", ".d?"], {
-      let items = try parseConstraintItems($0.arr(1))
       let options = try? $0.obj(2)
       let opts = try parseConstraintFormatOptions(options) ?? [.alignAllTop, .alignAllBottom]
-      return .rowPart(items, opts: opts, spacing: nil)
+      return .rowPart(try $0.x(1), opts: opts, spacing: nil)
     }),
     (["col", ".a", ".d?"], {
-      let items = try parseConstraintItems($0.arr(1))
       let options = try? $0.obj(2)
       let opts = try parseConstraintFormatOptions(options) ?? [.alignAllLeading]
-      return .col(items, opts: opts, spacing: nil)
+      return .col(try $0.x(1), opts: opts, spacing: nil)
     }),
     (["colPart", ".a", ".d?"], {
-      let items = try parseConstraintItems($0.arr(1))
       let options = try? $0.obj(2)
       let opts = try parseConstraintFormatOptions(options) ?? [.alignAllLeading]
-      return .colPart(items, opts: opts, spacing: nil)
+      return .colPart(try $0.x(1), opts: opts, spacing: nil)
     }),
     (["colFixed", ".a", ".d"], {
       let cfg = try $0.obj(2)
@@ -45,16 +41,8 @@ extension PatchController.Constraint: JsParsable, JsArrayParsable {
     ([
       "row": ".a",
       "h": ".n",
-    ], {
-      let row = try $0.arr("row")
-      let rows: [Self.Item] = try row.map { (try $0.x(0), try $0.x(1)) }
-      return (rows, try $0.x("h"))
-    }),
+    ], { (try $0.x("row"), try $0.x("h")) }),
   ], "layoutConstraint grid row item")
-
-  static func parseConstraintItems(_ value: JSValue) throws -> [PatchController.Constraint.Item] {
-    try value.map { try ($0.x(0), $0.x(1)) }
-  }
   
   static func parseConstraintFormatOptions(_ options: JSValue?) throws -> [PBLayoutConstraint.FormatOption]? {
     return try (try? options?.arr("opts"))?.map({
@@ -89,4 +77,12 @@ extension PatchController.Constraint: JsParsable, JsArrayParsable {
     }
   }
   
+}
+
+extension PatchController.Constraint.Item: JsParsable, JsArrayParsable {
+  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+    ([".s", ".n"], { try .init($0.x(0), $0.x(1)) }),
+  ])
+  
+  static let jsArrayParsers = try! jsParsers.arrayParsers()
 }

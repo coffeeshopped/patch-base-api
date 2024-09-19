@@ -76,7 +76,7 @@ extension RolandSinglePatchTrussWerk : AnyRolandSysexTrussWerk {
   static func defaultPack(bodyData: inout BodyData, param: Parm, value: Int) {
     // NOTE: this multi-byte style is for JV-1080 (and beyond?)
     //  JD-800 uses all 7 bits of LSB, not just 4.
-    let byteCount = param.p!
+    let byteCount = param.p ?? 1
     // roland byte addresses in params are *Roland* addresses
     let byte = RolandAddress(param.b!).intValue()
     guard byteCount > 1 else {

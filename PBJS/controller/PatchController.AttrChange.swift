@@ -18,7 +18,10 @@ extension PatchController.AttrChange: JsParsable, JsArrayParsable {
     }),
     (["dimPanel", ".b", ".s?", ".n?"], {
       try .dimPanel($0.x(1), $0.xq(2), dimAlpha: $0.xq(3))
-    })
+    }),
+    (["setValue", ".p", ".n"], {
+      try .setValue($0.x(1), $0.x(2))
+    }),
   ], "PatchController.AttrChange")
 
   // allow for a single AttrChange in places where an array is returned

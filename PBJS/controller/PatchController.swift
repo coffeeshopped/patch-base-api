@@ -13,7 +13,7 @@ extension PatchController: JsParsable {
     (["index", ".p", ".p", ".f", ".d"], {
       let fn = try $0.fn(3)
       let obj = try $0.obj(4)
-      return try .index($0.x(1), label: $0.x(2), { try fn.call([$0]).toString() }, color: nil, border: nil, obj.x("builders"), effects: obj.xq("effects") ?? [], layout: obj.xq("layout") ?? [])
+      return try .index($0.x(1), label: $0.x(2), { try fn.call([$0]).toString() }, color: obj.xq("color"), border: obj.xq("border"), obj.x("builders"), effects: obj.xq("effects") ?? [], layout: obj.xq("layout") ?? [])
     }),
     (["palettes", ".d", ".n", ".p", ".s", ".s"], {
       try .palettes($0.x(1), $0.x(2), $0.x(3), $0.x(4), pasteType: $0.x(5), effects: [])
@@ -22,30 +22,18 @@ extension PatchController: JsParsable {
       "builders" : ".a",
       "gridLayout": ".a",
     ], {
-      let color: Int? = nil
-      let border: Int? = nil
-      var effects: [PatchController.Effect] = []
-      if let fx = try? $0.any("effects") {
-        effects = try fx.x()
-      }
-      
-      let layout: PatchController.Constraint = .grid(try $0.arr("gridLayout").xformArr(PatchController.Constraint.gridRowRules))
-      
-      return try .patch(prefix: $0.xq("prefix"), color: color, border: border, $0.x("builders"), effects: effects, layout: [layout])
+      try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.arr("gridLayout").xformArr(Constraint.gridRowRules))])
+    }),
+    ([
+      "builders" : ".a",
+      "simpleGridLayout": ".a",
+    ], {
+      try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.simpleGrid(try $0.x("simpleGridLayout"))])
     }),
     ([
       "builders" : ".a",
     ], {
-      let color: Int? = nil
-      let border: Int? = nil
-      var effects: [PatchController.Effect] = []
-      if let fx = try? $0.any("effects") {
-        effects = try fx.x()
-      }
-      
-      let layout: [PatchController.Constraint]? = try (try? $0.any("layout"))?.x()
-      
-      return .patch(prefix: try? $0.x("prefix"), color: color, border: border, try $0.x("builders"), effects: effects, layout: layout ?? [])
+      try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), try $0.x("builders"), effects: $0.xq("effects") ?? [], layout: $0.xq("layout") ?? [])
     }),
     (["fm", ".a", ".f", ".d"], {
       let opFn = try $0.fn(2)

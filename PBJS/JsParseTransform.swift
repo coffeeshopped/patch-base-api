@@ -225,12 +225,25 @@ protocol JsParsable {
   static var jsParsers: JsParseTransformSet<Self> { get }
 }
 
-protocol JsArrayParsable {
+extension JsParsable {
+  static func x(_ v: JSValue) throws -> Self {
+    try v.xform(jsParsers)
+  }
+}
+
+
+protocol JsArrayParsable: JsParsable {
   static var jsArrayParsers: JsParseTransformSet<[Self]> { get }
 }
 
 extension Array: JsParsable where Element: JsArrayParsable {
-  static var jsParsers: JsParseTransformSet<Array<Element>> { Element.jsArrayParsers }
+  static var jsParsers: JsParseTransformSet<[Element]> { Element.jsArrayParsers }
+}
+
+extension Array: JsArrayParsable where Element: JsArrayParsable {
+  static var jsArrayParsers: JsParseTransformSet<[[Element]]> {
+    try! Element.jsArrayParsers.arrayParsers()
+  }
 }
 
 extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
@@ -238,7 +251,7 @@ extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
     try! JsParseTransformSet<Self>([
       (".a", {
         try $0.map {
-          [try $0.any(0).x() : try $0.any(1).x()]
+          try [$0.x(0) : $0.x(1)]
         }.dict { $0 }
       }),
     ], "[\(Key.self) : \(Value.self)] pairs")

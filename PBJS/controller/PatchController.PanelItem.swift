@@ -9,9 +9,9 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
       return try .switcher(label: c?.xq("l"), $0.x(1), id: c?.xq("id"), width: c?.xq("w"), cols: c?.xq("cols"))
     }),
     ([".s?", ".p"], { .knob(try $0.xq(0), try $0.x(1)) }),
-    ([".d", ".p?"], { v in
-      let obj = try v.obj(0)
-      let path: SynthPath? = try v.xq(1)
+    ([".d", ".p?"], {
+      let obj = try $0.obj(0)
+      let path: SynthPath? = try $0.xq(1)
       var t: String = (try obj.xq("t")) ?? "knob"
       var l: String? = try obj.xq("l")
       let id: SynthPath? = try obj.xq("id")
@@ -20,7 +20,7 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
       
       let ctrls = ["knob", "switch", "switsch", "checkbox", "select", "imgSelect"]
       try ctrls.forEach {
-        guard let label: String = try v.xq($0) else { return }
+        guard let label: String = try obj.xq($0) else { return }
         t = $0
         l = label
       }
