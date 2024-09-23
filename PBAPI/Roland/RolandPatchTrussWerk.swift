@@ -2,7 +2,7 @@
 public protocol RolandPatchTrussWerk {
 
 //  var werk: RolandSysexTrussWerk { get }
-  var start: RolandAddress { get }
+//  var start: RolandAddress { get }
   var size: RolandAddress { get }
 
 }

@@ -22,7 +22,7 @@ public extension Roland {
       PackIso.splitter(byteCount.map {
         let loValBit = (byteCount - ($0 + 1)) * 4
         let hiValBit = loValBit + 3
-        return (byte: (byte + RolandAddress(intValue: $0)).intValue(), byteBits: 0...3, valueBits: loValBit...hiValBit)
+        return .init(byte: (byte + RolandAddress(intValue: $0)).intValue(), byteBits: 0...3, valueBits: loValBit...hiValBit)
       })
     }
   }

@@ -8,7 +8,7 @@ extension Parm: JsParsable, JsArrayParsable {
     ([".p", ".d"], {
       let path: SynthPath = try $0.x(0)
       let obj = try $0.obj(1)
-      return .p(path, try obj.xq("b"), p: try obj.xq("p"), bits: nil, extra: [:], packIso: nil, try obj.x())
+      return try .p(path, obj.xq("b"), p: obj.xq("p"), bits: nil, extra: [:], packIso: obj.xq("packIso"), obj.x())
     }),
   ], "general parm")
   
@@ -95,7 +95,10 @@ extension Parm.Span: JsParsable {
       return .options(options)
 //      return .opts(try $0.arrStr("opts"))
     }),
-    (["max" : ".n"], { .max(try $0.x("max")) }),
+    ([
+      "max" : ".n",
+      "dispOff" : ".n?",
+    ], { try .max($0.x("max"), dispOff: $0.xq("dispOff") ?? 0) }),
     ([
       "rng" : ".a",
       "dispOff" : ".n?",

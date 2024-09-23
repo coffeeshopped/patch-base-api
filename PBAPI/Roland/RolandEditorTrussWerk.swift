@@ -21,7 +21,7 @@ public struct RolandEditorTrussWerk {
   }
 
   public func sysexMap() throws -> [(SynthPath, any SysexTruss)] {
-    try map.map { ($0.path, try $0.werk.anyTruss(sysexWerk)) }
+    try map.map { ($0.path, try $0.werk.anyTruss(sysexWerk, start: $0.address)) }
   }
   
 //  public func backupTruss(_ werk: RolandSysexTrussWerk, start: RolandAddress, paths: [SynthPath], otherValidSizes: [Int]? = nil) -> BackupTruss {
@@ -99,17 +99,19 @@ public extension RolandEditorTrussWerk {
         return (item.path, multiBundle(werk: b, address: item.address))
         
       case let b as RolandSingleBankTrussWerk:
+        let sysexData = RolandSinglePatchTrussWerk.sysexData(sysexWerk)
         return (item.path, .single(throttle: 0, .bank({ editor, bodyData, location in
           let offset = b.iso.address(UInt8(location))
           let deviceId = try! UInt8(editor.intValue(deviceId))
-          return Self.mm(try b.patchWerk.sysexDataFn?.call(bodyData, editor /*deviceId, item.address + offset*/).midi() ?? [])
+          return Self.mm(try sysexData(bodyData, editor, item.address + offset))
         })))
         
       case let b as RolandMultiBankTrussWerk:
+        let sysexData = b.patchWerk.sysexData(sysexWerk)
         return (item.path, .multi(throttle: 0, .bank({ editor, bodyData, location in
           let offset = b.iso.address(UInt8(location))
           let deviceId = try! UInt8(editor.intValue(deviceId))
-          return Self.mm(try b.patchWerk.sysexDataFn?.call(bodyData, editor /*deviceId, item.address + offset*/).midi() ?? [])
+          return Self.mm(try sysexData(bodyData, editor, item.address + offset))
         })))
         
       default:
@@ -120,16 +122,16 @@ public extension RolandEditorTrussWerk {
 
   func singleBundle(werk: RolandSinglePatchTrussWerk, address: RolandAddress) throws -> MidiTransform {
     
-    let params = try werk.truss(sysexWerk).params
+    let params = try werk.truss(sysexWerk, start: address).params
     let paramT: MidiTransform.Fn<SinglePatchTruss>.Param = { editor, bodyData, path, parm, value in
       let deviceId = try! UInt8(editor.intValue(deviceId))
       let data = sysexWerk.paramSetData(bodyData, deviceId: deviceId, address: address, path: path, params: params)
       return Self.mm([.sysex(data)])
     }
 
+    let sysexData = RolandSinglePatchTrussWerk.sysexData(sysexWerk)
     let patchT: MidiTransform.Fn<SinglePatchTruss>.Whole = { editor, bodyData in
-//      let deviceId = try! UInt8(editor.intValue(deviceId))
-      let msgs = try werk.sysexDataFn?.call(bodyData, editor).midi() ?? []
+      let msgs = try sysexData(bodyData, editor, address)
       return Self.mm(msgs)
     }
     
@@ -150,6 +152,7 @@ public extension RolandEditorTrussWerk {
   
   func multiBundle(werk: RolandMultiPatchTrussWerk, address: RolandAddress) -> MidiTransform {
     
+    let sysexData = werk.sysexData(sysexWerk)
     let paramsT: MidiTransform.Fn<MultiPatchTruss>.Params = { editor, bodyData, values in
 
       let deviceId = try! UInt8(editor.intValue(deviceId))
@@ -168,7 +171,7 @@ public extension RolandEditorTrussWerk {
       
       // if there are changes across multiple subpatches, send the whole patch!
       if subchanges.count > 1 {
-        return Self.mm(try werk.sysexDataFn?.call(bodyData, editor).midi() ?? [])
+        return Self.mm(try sysexData(bodyData, editor, address))
       }
       
       guard let changePair = subchanges.first,
@@ -179,12 +182,12 @@ public extension RolandEditorTrussWerk {
       let fullSubpatchAddress = address + subpatchItem.address
       if subparams.count > 1 {
         //, if there are multiple changes, send subpatch
-        let data = try subpatchItem.werk.sysexDataFn?.call(subdata, editor).midi() ?? []
+        let data = try RolandSinglePatchTrussWerk.sysexData(sysexWerk)(subdata, editor, fullSubpatchAddress)
         return Self.mm(data)
       }
       else if let pair = subparams.first {
         //  otherwise, send individual change
-        return Self.mm([.sysex(sysexWerk.paramSetData(subdata, deviceId: deviceId, address: fullSubpatchAddress, path: pair.key, params: try subpatchItem.werk.truss(sysexWerk).params))])
+        return Self.mm([.sysex(sysexWerk.paramSetData(subdata, deviceId: deviceId, address: fullSubpatchAddress, path: pair.key, params: try subpatchItem.werk.truss(sysexWerk, start: fullSubpatchAddress).params))])
       }
       else {
         return nil
@@ -192,19 +195,17 @@ public extension RolandEditorTrussWerk {
     }
 
     let patchT: MidiTransform.Fn<MultiPatchTruss>.Whole = { editor, bodyData in
-      let deviceId = try! UInt8(editor.intValue(deviceId))
-      let data = try werk.sysexDataFn?.call(bodyData, editor/*deviceId, address*/).midi() ?? []
-      return Self.mm(data)
+      return Self.mm(try sysexData(bodyData, editor, address))
     }
     
     let nameT: MidiTransform.Fn<MultiPatchTruss>.Name = { editor, bodyData, path, name in
       let deviceId = try! UInt8(editor.intValue(deviceId))
       // for now, assume that top-level name is always stored at .common path
-      let p = path.count == 0 ? try werk.truss(sysexWerk).namePath ?? [.common] : path
-      guard let item = werk.dict[p],
-            let namePack = try item.werk.truss(sysexWerk).namePackIso,
-            let subdata = bodyData[p] else { return nil }
+      let p = path.count == 0 ? try werk.truss(sysexWerk, start: address).namePath ?? [.common] : path
+      guard let item = werk.dict[p] else { return nil }
       let fullSubpatchAddress = address + item.address
+      guard let namePack = try item.werk.truss(sysexWerk, start: fullSubpatchAddress).namePackIso,
+            let subdata = bodyData[p] else { return nil }
       return Self.mm([.sysex(sysexWerk.nameSetData(subdata, deviceId: deviceId, address: fullSubpatchAddress, namePackIso: namePack))])
     }
     

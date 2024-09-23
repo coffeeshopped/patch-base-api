@@ -107,7 +107,7 @@ public extension RolandSysexTrussWerk {
     }, location: {
       $0.sysexBytes(count: addressCount)[1]
     })
-    return RolandMultiBankTrussWerk(patchWerk, patchCount, start: start, iso: iso, validBundle: validBundle)
+    return RolandMultiBankTrussWerk(patchWerk, patchCount, iso: iso, validBundle: validBundle)
   }
   
 //  func compactMultiBankWerk(_ patchWerk: RolandMultiPatchTrussWerk, _ patchCount: Int, start: RolandAddress, initFile: String? = nil, iso: RolandOffsetAddressIso? = nil, validBundle: MultiBankTruss.Core.ValidBundle? = nil) -> RolandMultiBankTrussWerk {

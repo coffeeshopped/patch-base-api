@@ -27,7 +27,7 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
       
       switch t {
       case "knob":
-        return .knob(l, path, id: nil, width: nil)
+        return .knob(l, path, id: id, width: nil)
       case "switch", "switsch":
         return .switsch(l, path, id: id, width: w)
       case "checkbox":

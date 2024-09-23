@@ -12,6 +12,7 @@
 		AC3DB3DD2C65340A00375C37 /* SynthPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DA2C65340A00375C37 /* SynthPath.swift */; };
 		AC3DB3DE2C65340A00375C37 /* JsSynthPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DB2C65340A00375C37 /* JsSynthPath.swift */; };
 		AC3DB3DF2C65340A00375C37 /* SynthPathTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DC2C65340A00375C37 /* SynthPathTree.swift */; };
+		AC3E94762CA21672004690B9 /* PackIso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E94752CA21672004690B9 /* PackIso.swift */; };
 		AC414A4D2C6535150019DC1B /* AnySysexible.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A482C6535150019DC1B /* AnySysexible.swift */; };
 		AC414A4E2C6535150019DC1B /* AnySysexPatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A492C6535150019DC1B /* AnySysexPatch.swift */; };
 		AC414A4F2C6535150019DC1B /* Sysexible.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A4A2C6535150019DC1B /* Sysexible.swift */; };
@@ -201,6 +202,7 @@
 		AC3DB3DA2C65340A00375C37 /* SynthPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthPath.swift; sourceTree = "<group>"; };
 		AC3DB3DB2C65340A00375C37 /* JsSynthPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsSynthPath.swift; sourceTree = "<group>"; };
 		AC3DB3DC2C65340A00375C37 /* SynthPathTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthPathTree.swift; sourceTree = "<group>"; };
+		AC3E94752CA21672004690B9 /* PackIso.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackIso.swift; sourceTree = "<group>"; };
 		AC414A482C6535150019DC1B /* AnySysexible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnySysexible.swift; sourceTree = "<group>"; };
 		AC414A492C6535150019DC1B /* AnySysexPatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnySysexPatch.swift; sourceTree = "<group>"; };
 		AC414A4A2C6535150019DC1B /* Sysexible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sysexible.swift; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 				AC414B542C653A900019DC1B /* JsModuleWerk.swift */,
 				AC414B5B2C653A900019DC1B /* SynthPath.swift */,
 				AC414B5D2C653A900019DC1B /* Parm.swift */,
+				AC3E94752CA21672004690B9 /* PackIso.swift */,
 				AC414B612C653A900019DC1B /* BasicModuleTruss.swift */,
 				AC19465F2C6561C5006C5B41 /* editor */,
 				AC414B572C653A900019DC1B /* RxMidi.FetchCommand.swift */,
@@ -867,6 +870,7 @@
 				AC414B6A2C653A900019DC1B /* MidiTransform.swift in Sources */,
 				AC414B6F2C653A900019DC1B /* SynthPath.swift in Sources */,
 				AC414B872C653AA20019DC1B /* JSONPatchTruss.swift in Sources */,
+				AC3E94762CA21672004690B9 /* PackIso.swift in Sources */,
 				AC414B962C653AAF0019DC1B /* PatchController.AttrChange.swift in Sources */,
 				AC414B982C653AAF0019DC1B /* PatchController.swift in Sources */,
 				AC414B672C653A900019DC1B /* EditorValueTransform.swift in Sources */,

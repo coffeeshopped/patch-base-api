@@ -16,11 +16,17 @@ public struct PackIso {
   }
 
   /// Blitter = Byte Splitter
-  public typealias Blitter = (
-    byte: Int,
-    byteBits: ClosedRange<Int>?,
-    valueBits: ClosedRange<Int>
-  )
+  public struct Blitter {
+    let byte: Int
+    let byteBits: ClosedRange<Int>?
+    let valueBits: ClosedRange<Int>
+    
+    public init(byte: Int, byteBits: ClosedRange<Int>?, valueBits: ClosedRange<Int>) {
+      self.byte = byte
+      self.byteBits = byteBits
+      self.valueBits = valueBits
+    }
+  }
 }
 
 public func >>>(_ lhs: Iso<Int, Int>, _ rhs: PackIso) -> PackIso {

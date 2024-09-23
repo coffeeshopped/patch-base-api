@@ -7,7 +7,6 @@ public struct RolandSingleBankTrussWerk {
   public let start: RolandAddress
   public let size: RolandAddress
   
-//  public let truss: SingleBankTruss
   let patchWerk: RolandSinglePatchTrussWerk
   public let iso: RolandOffsetAddressIso
   
@@ -27,7 +26,7 @@ public struct RolandSingleBankTrussWerk {
 //    }, validBundle: validBundle)
   }
   
-  public func anyTruss(_ werk: RolandSysexTrussWerk) throws -> any SysexTruss {
+  public func anyTruss(_ werk: RolandSysexTrussWerk, start: RolandAddress) throws -> any SysexTruss {
     fatalError("TODO")
   }
 

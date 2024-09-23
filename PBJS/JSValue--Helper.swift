@@ -262,6 +262,12 @@ extension Bool: JsArrayParsable {
   static let jsArrayParsers = try! jsParsers.arrayParsers()
 }
 
+extension ClosedRange<Int> : JsParsable {
+  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+    (".a", { try .init(($0.x(0))..<($0.x(1))) }),
+  ])
+}
+
 //extension Array: JSX where Element: JSX {
 //  static func x(_ v: JSValue) throws -> Array<Element> {
 //    try v.map { try $0.x() }
