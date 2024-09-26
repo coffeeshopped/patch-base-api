@@ -30,7 +30,12 @@ public extension EditorTruss {
     get { core.fetchTransforms }
     set { core.fetchTransforms = newValue }
   }
-
+  
+  var extraParamOuts: [ParamOutTransform] {
+    get { core.extraParamsOuts }
+    set { core.extraParamsOuts = newValue }
+  }
+  
   var midiOuts: [(path: SynthPath, transform: MidiTransform)] {
     get { core.midiOuts }
     set { core.midiOuts = newValue }
@@ -41,11 +46,6 @@ public extension EditorTruss {
     set { core.midiChannels = newValue }
   }
 
-  var extraParamOuts: [(path: SynthPath, transform: ParamOutTransform)] {
-    get { core.extraParamsOuts }
-    set { core.extraParamsOuts = newValue }
-  }
-  
   var slotTransforms: [SynthPath:MemSlot.Transform] {
     get { core.slotTransforms }
     set { core.slotTransforms = newValue }

@@ -18,6 +18,8 @@ extension BasicEditorTruss: JsParsable {
       var t = try BasicEditorTruss($0.x("name"), truss: [([.deviceId], RolandDeviceIdSettingsTruss)] + werk.sysexMap())
       t.fetchTransforms = werk.defaultFetchTransforms()
       t.midiOuts = try werk.midiOuts()
+      t.midiChannels = try $0.x("midiChannels")
+      t.extraParamOuts = try $0.x("extraParamOuts")
       return t
     }),
     ([
@@ -32,7 +34,7 @@ extension BasicEditorTruss: JsParsable {
       var t = BasicEditorTruss(try $0.x("name"), truss: trussMap)
       t.fetchTransforms = try $0.arr("fetchTransforms").x()
       t.midiOuts = try $0.arr("midiOuts").xform()
-      t.midiChannels = try $0.arr("midiChannels").x()
+      t.midiChannels = try $0.x("midiChannels")
       
       t.slotTransforms = [:]
       if let x = try? $0.any("slotTransforms") {

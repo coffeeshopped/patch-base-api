@@ -47,8 +47,12 @@ extension PatchController: JsParsable {
 
       return .fm(try $0.x(1), opCtrlr: opCtrlr, algoPath: algoPath, reverse: reverse, selectable: selectable)
     }),
-    (["oneRow", ".n", ".d"], {
-      return .oneRow(try $0.x(1), child: try $0.x(2), indexMap: nil)
+    (["oneRow", ".n", ".d", ".f?"], {
+      var f: ((Int,Int) throws -> Int)? = nil
+      if let fn = try? $0.fn(3) {
+        f = { try fn.call([$0, $1]).x() }
+      }
+      return .oneRow(try $0.x(1), child: try $0.x(2), indexMap: f)
     }),
   ])
   

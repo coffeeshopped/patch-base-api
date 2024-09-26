@@ -58,6 +58,24 @@ extension Dictionary<SynthPath,Int> {
   }
 }
 
+extension Dictionary<SynthPath,String> {
+  func toJS() -> [String:String] {
+    dict { [$0.key.str() : $0.value] }
+  }
+}
+
+extension SynthPathInts {
+  func toJS() -> [String:Int] {
+    dict { [$0.key.str() : $0.value] }
+  }
+}
+
+extension SynthPathParam {
+  func toJS() -> [String:Any?] {
+    dict { [$0.key.str() : $0.value.toJS()] }
+  }
+}
+
 enum JsSynthPath {
   
   static let pathEq: @convention(block) (JSValue, JSValue) -> Bool = {

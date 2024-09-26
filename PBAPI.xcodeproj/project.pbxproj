@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		AC0BBF422C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */; };
 		AC0BBF442C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */; };
+		AC3847652CA5B76E006531E6 /* PatchControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3847642CA5B76E006531E6 /* PatchControllerState.swift */; };
+		AC3847672CA5BECB006531E6 /* ParamOutTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3847662CA5BECB006531E6 /* ParamOutTransform.swift */; };
 		AC3DB3DD2C65340A00375C37 /* SynthPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DA2C65340A00375C37 /* SynthPath.swift */; };
 		AC3DB3DE2C65340A00375C37 /* JsSynthPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DB2C65340A00375C37 /* JsSynthPath.swift */; };
 		AC3DB3DF2C65340A00375C37 /* SynthPathTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DC2C65340A00375C37 /* SynthPathTree.swift */; };
@@ -199,6 +201,8 @@
 /* Begin PBXFileReference section */
 		AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePatchTruss.Core.ToMidiFn.swift; sourceTree = "<group>"; };
 		AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPatchTruss.Core.ToMidiFn.swift; sourceTree = "<group>"; };
+		AC3847642CA5B76E006531E6 /* PatchControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchControllerState.swift; sourceTree = "<group>"; };
+		AC3847662CA5BECB006531E6 /* ParamOutTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParamOutTransform.swift; sourceTree = "<group>"; };
 		AC3DB3DA2C65340A00375C37 /* SynthPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthPath.swift; sourceTree = "<group>"; };
 		AC3DB3DB2C65340A00375C37 /* JsSynthPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsSynthPath.swift; sourceTree = "<group>"; };
 		AC3DB3DC2C65340A00375C37 /* SynthPathTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthPathTree.swift; sourceTree = "<group>"; };
@@ -407,6 +411,7 @@
 				AC414B562C653A900019DC1B /* MidiTransform.swift */,
 				AC414B5A2C653A900019DC1B /* FetchTransform.swift */,
 				AC414B532C653A900019DC1B /* EditorValueTransform.swift */,
+				AC3847662CA5BECB006531E6 /* ParamOutTransform.swift */,
 			);
 			path = editor;
 			sourceTree = "<group>";
@@ -640,6 +645,7 @@
 				AC414B8A2C653AAE0019DC1B /* PatchController.DisplayMap.swift */,
 				AC414B8B2C653AAE0019DC1B /* PatchController.Constraint.swift */,
 				AC6659E82C9B783C00CFDFFA /* PatchController.PageSetup.swift */,
+				AC3847642CA5B76E006531E6 /* PatchControllerState.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -847,6 +853,7 @@
 				AC414B752C653A900019DC1B /* BasicModuleTruss.swift in Sources */,
 				AC6778D82C98C90A002FE359 /* RolandAddress.swift in Sources */,
 				AC414B722C653A900019DC1B /* MidiChannelTransform.swift in Sources */,
+				AC3847652CA5B76E006531E6 /* PatchControllerState.swift in Sources */,
 				AC414B9B2C653AAF0019DC1B /* PatchController.Effect.swift in Sources */,
 				AC414B932C653AAF0019DC1B /* PatchController.DisplayMap.swift in Sources */,
 				AC414B892C653AA20019DC1B /* MultiPatchTruss.swift in Sources */,
@@ -854,6 +861,7 @@
 				AC414B682C653A900019DC1B /* JsModuleWerk.swift in Sources */,
 				AC414B712C653A900019DC1B /* Parm.swift in Sources */,
 				AC414B942C653AAF0019DC1B /* PatchController.Constraint.swift in Sources */,
+				AC3847672CA5BECB006531E6 /* ParamOutTransform.swift in Sources */,
 				AC414B852C653AA20019DC1B /* SinglePatchTruss.swift in Sources */,
 				AC6778DC2C98D9B7002FE359 /* NamePackIso.swift in Sources */,
 				AC6659E72C9B42AF00CFDFFA /* RolandMultiBankTrussWerk.swift in Sources */,

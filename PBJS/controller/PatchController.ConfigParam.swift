@@ -7,7 +7,7 @@ extension PatchController.ConfigParam: JsParsable {
     (["fullPath", ".p"], {
       try .fullPath($0.x(1))
     }),
-    ([".d"], {
+    (".d", {
       try .span($0.x())
     }),
   ])

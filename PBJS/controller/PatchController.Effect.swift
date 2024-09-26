@@ -69,7 +69,7 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
       let obj = try $0.obj(2)
       let fn = try obj.fn("paramMapWithContext")
       return try .patchSelector(id: $0.x(1), bankValues: obj.arrPath("bankValues")) { values, state, locals in
-        try fn.call([values, state, locals]).x()
+        try fn.call([values.toJS(), state.toJS(), locals.toJS()]).x()
       }
     }),
     ([".s"], { [try $0.x()] }),

@@ -37,7 +37,7 @@ public indirect enum PatchController {
     // for adding controls directly to the controller and laying them out without panels
     case items(color: Int? = nil, clearBG: Bool? = nil, _ items: [(PanelItem, String)])
     case child(_ child: PatchController, _ panel: String, color: Int? = nil, clearBG: Bool? = nil)
-    case children(_ count: Int, _ panelPrefix: String, color: Int? = nil, clearBG: Bool? = nil, _ child: PatchController, indexFn: ((_ parentIndex: Int, _ offset: Int) -> Int)? = nil)
+    case children(_ count: Int, _ panelPrefix: String, color: Int? = nil, clearBG: Bool? = nil, _ child: PatchController, indexFn: ((_ parentIndex: Int, _ offset: Int) throws -> Int)? = nil)
   }
   
   public typealias ControlChangeFn = (_ state: PatchControllerState, _ locals: PatchControllerLocals) throws -> [AttrChange]
@@ -611,7 +611,7 @@ public extension PatchController {
 
 public extension PatchController {
   
-  static func oneRow(_ count: Int, child: PatchController, indexMap: ((_ parentIndex: Int, _ offset: Int) -> Int)? = nil) -> Self {
+  static func oneRow(_ count: Int, child: PatchController, indexMap: ((_ parentIndex: Int, _ offset: Int) throws -> Int)? = nil) -> Self {
     .patch([
       .children(count, "p", child, indexFn: indexMap),
     ], layout: [

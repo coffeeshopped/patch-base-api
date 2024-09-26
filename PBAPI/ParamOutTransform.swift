@@ -1,12 +1,22 @@
 
-public enum ParamOutTransform {
+public struct ParamOutTransform {
   
-  public typealias PatchOutFn = (_ change: NuPatchChange, _ patch: AnySysexPatch?) -> SynthPathParam
-  public typealias BankOutFn = (_ change: NuBankChange, _ bank: AnySysexPatchBank?) -> SynthPathParam
+  public let path: SynthPath
+  public let transform: Transform
+  
+  public init(_ path: SynthPath, _ transform: Transform) {
+    self.path = path
+    self.transform = transform
+  }
+  
+  public typealias PatchOutFn = (_ change: NuPatchChange, _ patch: AnySysexPatch?) throws -> SynthPathParam
+  public typealias BankOutFn = (_ change: NuBankChange, _ bank: AnySysexPatchBank?) throws -> SynthPathParam
 
-  case patchOut(_ src: SynthPath, _ fn: PatchOutFn)
-  case bankOut(_ src: SynthPath, _ fn: BankOutFn)
-  case bankNames(_ src: SynthPath, _ path: SynthPath, nameBlock: ((Int, String) -> String)? = nil)
+  public enum Transform {
+    case patchOut(_ src: SynthPath, _ fn: PatchOutFn)
+    case bankOut(_ src: SynthPath, _ fn: BankOutFn)
+    case bankNames(_ src: SynthPath, _ path: SynthPath, nameBlock: ((Int, String) -> String)? = nil)
+  }
   
 }
 

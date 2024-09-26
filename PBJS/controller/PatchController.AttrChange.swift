@@ -22,6 +22,10 @@ extension PatchController.AttrChange: JsParsable, JsArrayParsable {
     (["setValue", ".p", ".n"], {
       try .setValue($0.x(1), $0.x(2))
     }),
+    (["midiNote", ".d"], {
+      let obj = try $0.obj(1)
+      return try .midiNote(chan: obj.x("ch"), note: obj.x("n"), velo: obj.x("v"), len: obj.x("l"))
+    }),
   ], "PatchController.AttrChange")
 
   // allow for a single AttrChange in places where an array is returned

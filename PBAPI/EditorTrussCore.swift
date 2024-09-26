@@ -36,7 +36,7 @@ public struct EditorTrussCore {
     
   public var midiChannels: [SynthPath:MidiChannelTransform] = [:]
 
-  public var extraParamsOuts: [(path: SynthPath, transform: ParamOutTransform)] = []
+  public var extraParamsOuts: [ParamOutTransform] = []
     
   public var slotTransforms: [SynthPath:MemSlot.Transform] = [:]
   
