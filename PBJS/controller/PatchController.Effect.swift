@@ -34,8 +34,13 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
         return try fn.call([v]).x()
       }
     }),
-    (["dimsOn", ".p"], {
-      return .dimsOn(try $0.x(1), id: nil, dimAlpha: nil, dimWhen: nil)
+    (["dimsOn", ".p", ".s?", ".d?"], {
+      let obj = try? $0.obj(3)
+      var f: ((Int) throws -> Bool)? = nil
+      if let fn = try? obj?.fn("dimWhen") {
+        f = { try fn.call([$0]).x() }
+      }
+      return try .dimsOn($0.x(1), id: $0.xq(2), dimAlpha: obj?.xq("dimAlpha"), dimWhen: f)
     }),
     (["indexChange", ".f"], {
       let fn = try $0.fn(1)

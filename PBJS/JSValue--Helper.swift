@@ -66,6 +66,10 @@ extension JSValue {
     try (0..<arrCount()).map { try fn(any($0)) }
   }
   
+  func forEach(_ fn: (JSValue) throws -> Void) throws {
+    try (0..<arrCount()).forEach { try fn(any($0)) }
+  }
+  
   
   func arrCount() -> Int {
     forProperty("length").toNumber().intValue
@@ -226,7 +230,20 @@ extension String: JsArrayParsable {
       return $0.toString()
     }),
   ])
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
+  
+  static let jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([
+    ([".n", ".a"], {
+      let count: Int = try $0.x(0)
+      let iso: IsoFS = try $0.x(1)
+      return (count).map { iso.forward(Float($0)) }
+    }),
+    (".a", { 
+      try $0.map {
+        try $0.x()
+      }
+    }),
+  ])
+
 }
 
 

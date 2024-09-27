@@ -22,7 +22,7 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
       try ctrls.forEach {
         guard let label: String = try obj.xq($0) else { return }
         t = $0
-        l = label
+        l = label == "." ? nil : label
       }
       
       switch t {

@@ -45,10 +45,7 @@ public struct RolandWerkData {
   }
   
   public func data(forAddress address: RolandAddress, size: RolandAddress) -> [UInt8] {
-    let offset = (address - startAddress).intValue()
-    let offsetEnd = offset + size.intValue()
-    guard offsetEnd <= slab.count else { return [UInt8](repeating: 0, count: offsetEnd - offset) }
-    return [UInt8](slab[offset..<offsetEnd])
+    bytes(offset: address - startAddress, size: size)
   }
   
   public func bytes(offset: RolandAddress, size: RolandAddress) -> [UInt8] {

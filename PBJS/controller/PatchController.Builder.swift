@@ -36,7 +36,7 @@ extension PatchController.Builder: JsParsable, JsArrayParsable {
     }),
     (["switcher", ".a", ".d?"], {
       let c = try? $0.obj(2)
-      return try .switcher(label: c?.xq("l"), $0.arrStr(1), cols: c?.xq("cols"), color: c?.xq("color"))
+      return try .switcher(label: c?.xq("l"), $0.x(1), cols: c?.xq("cols"), color: c?.xq("color"))
     }),
     (["button", ".s", ".d?"], {
       let c = try? $0.obj(2)

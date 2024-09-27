@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		AC0BBF422C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */; };
 		AC0BBF442C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */; };
+		AC1B9E3D2CA60C19000C777F /* IsoFF.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1B9E3C2CA60C19000C777F /* IsoFF.swift */; };
+		AC1B9E402CA70FAE000C777F /* IsoFF.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1B9E3E2CA70F88000C777F /* IsoFF.swift */; };
+		AC1B9E422CA71037000C777F /* IsoFS.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1B9E412CA71037000C777F /* IsoFS.swift */; };
+		AC1B9E442CA71314000C777F /* IsoFS.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1B9E432CA71314000C777F /* IsoFS.swift */; };
+		AC1B9E462CA730FC000C777F /* RolandOffsetAddressIso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1B9E452CA730FC000C777F /* RolandOffsetAddressIso.swift */; };
+		AC1B9E482CA731D7000C777F /* RolandOffsetAddressIso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1B9E472CA731D7000C777F /* RolandOffsetAddressIso.swift */; };
 		AC3847652CA5B76E006531E6 /* PatchControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3847642CA5B76E006531E6 /* PatchControllerState.swift */; };
 		AC3847672CA5BECB006531E6 /* ParamOutTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3847662CA5BECB006531E6 /* ParamOutTransform.swift */; };
 		AC3DB3DD2C65340A00375C37 /* SynthPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DB3DA2C65340A00375C37 /* SynthPath.swift */; };
@@ -41,7 +47,6 @@
 		AC414A7D2C65354D0019DC1B /* ParamHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6E2C65354C0019DC1B /* ParamHelper.swift */; };
 		AC414A7E2C65354D0019DC1B /* Yamaha.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6F2C65354C0019DC1B /* Yamaha.swift */; };
 		AC414A7F2C65354D0019DC1B /* DXAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A702C65354C0019DC1B /* DXAlgorithm.swift */; };
-		AC414A802C65354D0019DC1B /* Miso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A712C65354C0019DC1B /* Miso.swift */; };
 		AC414A812C65354D0019DC1B /* NamePackIso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A722C65354C0019DC1B /* NamePackIso.swift */; };
 		AC414A822C65354D0019DC1B /* Collection-Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A732C65354C0019DC1B /* Collection-Extras.swift */; };
 		AC414A832C65354D0019DC1B /* ParamOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A742C65354D0019DC1B /* ParamOptions.swift */; };
@@ -201,6 +206,12 @@
 /* Begin PBXFileReference section */
 		AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePatchTruss.Core.ToMidiFn.swift; sourceTree = "<group>"; };
 		AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPatchTruss.Core.ToMidiFn.swift; sourceTree = "<group>"; };
+		AC1B9E3C2CA60C19000C777F /* IsoFF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoFF.swift; sourceTree = "<group>"; };
+		AC1B9E3E2CA70F88000C777F /* IsoFF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoFF.swift; sourceTree = "<group>"; };
+		AC1B9E412CA71037000C777F /* IsoFS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoFS.swift; sourceTree = "<group>"; };
+		AC1B9E432CA71314000C777F /* IsoFS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoFS.swift; sourceTree = "<group>"; };
+		AC1B9E452CA730FC000C777F /* RolandOffsetAddressIso.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolandOffsetAddressIso.swift; sourceTree = "<group>"; };
+		AC1B9E472CA731D7000C777F /* RolandOffsetAddressIso.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolandOffsetAddressIso.swift; sourceTree = "<group>"; };
 		AC3847642CA5B76E006531E6 /* PatchControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchControllerState.swift; sourceTree = "<group>"; };
 		AC3847662CA5BECB006531E6 /* ParamOutTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParamOutTransform.swift; sourceTree = "<group>"; };
 		AC3DB3DA2C65340A00375C37 /* SynthPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthPath.swift; sourceTree = "<group>"; };
@@ -233,7 +244,6 @@
 		AC414A6E2C65354C0019DC1B /* ParamHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParamHelper.swift; sourceTree = "<group>"; };
 		AC414A6F2C65354C0019DC1B /* Yamaha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Yamaha.swift; sourceTree = "<group>"; };
 		AC414A702C65354C0019DC1B /* DXAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DXAlgorithm.swift; sourceTree = "<group>"; };
-		AC414A712C65354C0019DC1B /* Miso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Miso.swift; sourceTree = "<group>"; };
 		AC414A722C65354C0019DC1B /* NamePackIso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamePackIso.swift; sourceTree = "<group>"; };
 		AC414A732C65354C0019DC1B /* Collection-Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection-Extras.swift"; sourceTree = "<group>"; };
 		AC414A742C65354D0019DC1B /* ParamOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParamOptions.swift; sourceTree = "<group>"; };
@@ -429,6 +439,7 @@
 				AC414B062C6535FD0019DC1B /* RolandMultiPatchTrussWerk.swift */,
 				AC414B0D2C6535FD0019DC1B /* RolandSingleBankTrussWerk.swift */,
 				AC414B022C6535FC0019DC1B /* RolandMultiBankTrussWerk.swift */,
+				AC1B9E472CA731D7000C777F /* RolandOffsetAddressIso.swift */,
 				AC414B032C6535FD0019DC1B /* RolandMultiSysexTrussWerk.swift */,
 				AC414B102C6535FD0019DC1B /* RolandEditorTrussWerk.swift */,
 				AC414B0A2C6535FD0019DC1B /* RolandModule.swift */,
@@ -454,6 +465,8 @@
 				AC414B542C653A900019DC1B /* JsModuleWerk.swift */,
 				AC414B5B2C653A900019DC1B /* SynthPath.swift */,
 				AC414B5D2C653A900019DC1B /* Parm.swift */,
+				AC1B9E3C2CA60C19000C777F /* IsoFF.swift */,
+				AC1B9E432CA71314000C777F /* IsoFS.swift */,
 				AC3E94752CA21672004690B9 /* PackIso.swift */,
 				AC414B612C653A900019DC1B /* BasicModuleTruss.swift */,
 				AC19465F2C6561C5006C5B41 /* editor */,
@@ -541,8 +554,9 @@
 				AC414A6D2C65354C0019DC1B /* PackIso.swift */,
 				AC414A722C65354C0019DC1B /* NamePackIso.swift */,
 				AC414A682C65354C0019DC1B /* Iso.swift */,
+				AC1B9E3E2CA70F88000C777F /* IsoFF.swift */,
+				AC1B9E412CA71037000C777F /* IsoFS.swift */,
 				AC414A6F2C65354C0019DC1B /* Yamaha.swift */,
-				AC414A712C65354C0019DC1B /* Miso.swift */,
 				AC414A692C65354C0019DC1B /* BitUtility.swift */,
 				AC414A732C65354C0019DC1B /* Collection-Extras.swift */,
 				AC414A672C65354C0019DC1B /* Param.swift */,
@@ -659,6 +673,7 @@
 				AC6778D92C98CA33002FE359 /* RolandSinglePatchTrussWerk.swift */,
 				AC6778DD2C98FA11002FE359 /* RolandMultiPatchTrussWerk.swift */,
 				AC6659E62C9B42AF00CFDFFA /* RolandMultiBankTrussWerk.swift */,
+				AC1B9E452CA730FC000C777F /* RolandOffsetAddressIso.swift */,
 				AC6778DF2C98FD39002FE359 /* RolandMultiPatchTrussWerk.MapItem.swift */,
 			);
 			path = roland;
@@ -855,6 +870,7 @@
 				AC414B722C653A900019DC1B /* MidiChannelTransform.swift in Sources */,
 				AC3847652CA5B76E006531E6 /* PatchControllerState.swift in Sources */,
 				AC414B9B2C653AAF0019DC1B /* PatchController.Effect.swift in Sources */,
+				AC1B9E462CA730FC000C777F /* RolandOffsetAddressIso.swift in Sources */,
 				AC414B932C653AAF0019DC1B /* PatchController.DisplayMap.swift in Sources */,
 				AC414B892C653AA20019DC1B /* MultiPatchTruss.swift in Sources */,
 				AC414B9A2C653AAF0019DC1B /* PatchController.Prefix.swift in Sources */,
@@ -874,6 +890,7 @@
 				AC414B862C653AA20019DC1B /* JsSysex.swift in Sources */,
 				AC414B702C653A900019DC1B /* MemSlot.Transform.swift in Sources */,
 				AC414B742C653A900019DC1B /* JsByte.swift in Sources */,
+				AC1B9E3D2CA60C19000C777F /* IsoFF.swift in Sources */,
 				AC6778E02C98FD39002FE359 /* RolandMultiPatchTrussWerk.MapItem.swift in Sources */,
 				AC414B6A2C653A900019DC1B /* MidiTransform.swift in Sources */,
 				AC414B6F2C653A900019DC1B /* SynthPath.swift in Sources */,
@@ -883,6 +900,7 @@
 				AC414B982C653AAF0019DC1B /* PatchController.swift in Sources */,
 				AC414B672C653A900019DC1B /* EditorValueTransform.swift in Sources */,
 				AC414B3F2C653A7B0019DC1B /* PBJS.docc in Sources */,
+				AC1B9E442CA71314000C777F /* IsoFS.swift in Sources */,
 				AC0BBF442C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift in Sources */,
 				AC6778E22C98FF3E002FE359 /* AnyRolandSysexTrussWerk.swift in Sources */,
 				AC6659E92C9B783C00CFDFFA /* PatchController.PageSetup.swift in Sources */,
@@ -921,6 +939,7 @@
 				AC414A512C6535150019DC1B /* AnyMultiSysexible.swift in Sources */,
 				AC414AA72C6535830019DC1B /* BackupTruss.swift in Sources */,
 				ACE0BB782C6E6EF00099F3D9 /* PBError.swift in Sources */,
+				AC1B9E422CA71037000C777F /* IsoFS.swift in Sources */,
 				AC414A632C65353F0019DC1B /* PatchController-LevelScaling.swift in Sources */,
 				AC414A4D2C6535150019DC1B /* AnySysexible.swift in Sources */,
 				AC414AC92C65359D0019DC1B /* MidiTransform.swift in Sources */,
@@ -936,6 +955,7 @@
 				AC414AC12C65359D0019DC1B /* EditorCommandEffect.swift in Sources */,
 				AC414A642C65353F0019DC1B /* PatchController-TimeLevelEnv.swift in Sources */,
 				AC414B212C6535FD0019DC1B /* RolandEditorTrussWerk.swift in Sources */,
+				AC1B9E402CA70FAE000C777F /* IsoFF.swift in Sources */,
 				AC414B1A2C6535FD0019DC1B /* RolandData.swift in Sources */,
 				AC414A502C6535150019DC1B /* AnySysexPatchBank.swift in Sources */,
 				AC414A902C65356E0019DC1B /* BasicEditorTruss.swift in Sources */,
@@ -950,7 +970,6 @@
 				AC414B1E2C6535FD0019DC1B /* RolandSingleBankTrussWerk.swift in Sources */,
 				AC414A592C65352C0019DC1B /* PatchController.swift in Sources */,
 				AC414B2D2C65362C0019DC1B /* NuBankChange.swift in Sources */,
-				AC414A802C65354D0019DC1B /* Miso.swift in Sources */,
 				AC414A762C65354D0019DC1B /* Param.swift in Sources */,
 				AC414A782C65354D0019DC1B /* BitUtility.swift in Sources */,
 				AC414AD82C6535B10019DC1B /* ModuleTruss.swift in Sources */,
@@ -981,6 +1000,7 @@
 				AC3DB3DD2C65340A00375C37 /* SynthPath.swift in Sources */,
 				AC414ADA2C6535B10019DC1B /* AnySynthModule.swift in Sources */,
 				AC414AC62C65359D0019DC1B /* ModuleCommandEffect.swift in Sources */,
+				AC1B9E482CA731D7000C777F /* RolandOffsetAddressIso.swift in Sources */,
 				AC414AA52C6535830019DC1B /* FullRefTruss.swift in Sources */,
 				AC414AD92C6535B10019DC1B /* Manufacturer.swift in Sources */,
 				ACE0BB7C2C6EAAC00099F3D9 /* PBErrorHandler.swift in Sources */,

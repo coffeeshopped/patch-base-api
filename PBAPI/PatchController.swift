@@ -437,10 +437,10 @@ public extension PatchController.Effect {
     }
   }
   
-  static func dimsOn(_ path: SynthPath, id: String?, dimAlpha: CGFloat? = nil, dimWhen: ((Int) -> Bool)? = nil) -> Self {
+  static func dimsOn(_ path: SynthPath, id: String?, dimAlpha: CGFloat? = nil, dimWhen: ((Int) throws -> Bool)? = nil) -> Self {
     let dimWhen = dimWhen ?? { $0 == 0 }
     return .patchChange(path) { v in
-      [.dimPanel(dimWhen(v), id, dimAlpha: dimAlpha)]
+      [.dimPanel(try dimWhen(v), id, dimAlpha: dimAlpha)]
     }
   }
 

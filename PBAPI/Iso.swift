@@ -21,10 +21,24 @@ public extension Iso where A: Numeric, A == B {
 
 }
 
-infix operator >>>: MultiplicationPrecedence
-
 public func >>><A, B, C>(_ lhs: Iso<A, B>, _ rhs: Iso<B, C>) -> Iso<A, C> {
   Iso<A, C>(
+    forward: { a in rhs.forward(lhs.forward(a)) },
+    backward: { c in lhs.backward(rhs.backward(c)) }
+  )
+}
+
+infix operator >>>: MultiplicationPrecedence
+
+public func >>>(_ lhs: IsoFF, _ rhs: IsoFF) -> IsoFF {
+  IsoFF(
+    forward: { a in rhs.forward(lhs.forward(a)) },
+    backward: { c in lhs.backward(rhs.backward(c)) }
+  )
+}
+
+public func >>>(_ lhs: IsoFF, _ rhs: IsoFS) -> IsoFS {
+  IsoFS(
     forward: { a in rhs.forward(lhs.forward(a)) },
     backward: { c in lhs.backward(rhs.backward(c)) }
   )

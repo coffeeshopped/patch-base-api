@@ -48,8 +48,6 @@ public struct RolandSinglePatchTrussWerk : RolandPatchTrussWerk {
 
 extension RolandSinglePatchTrussWerk : AnyRolandSysexTrussWerk {
   
-//  public var anyTruss: any SysexTruss { truss }
-
 //  public func anySysexData(_ bodyData: SysexBodyData, deviceId: UInt8, address: RolandAddress) throws -> [[UInt8]] {
 //    let bd = try bodyDataCheck(bodyData, bodyDataType: BodyData.self)
 //    return self.sysexDataFn(bd, deviceId, address)
@@ -143,9 +141,5 @@ extension RolandSinglePatchTrussWerk : AnyRolandSysexTrussWerk {
 //      
 //
 ////  static var parseBodyDataOffset: Int { dataSetHeaderCount }
-//
-//
-////patchT: @escaping MidiTransform.Whole<PatchTruss>,
-////nameT: MidiTransform.Name<PatchTruss>? = nil
 //
 //}

@@ -19,6 +19,9 @@ extension PatchController.AttrChange: JsParsable, JsArrayParsable {
     (["dimPanel", ".b", ".s?", ".n?"], {
       try .dimPanel($0.x(1), $0.xq(2), dimAlpha: $0.xq(3))
     }),
+    (["hidePanel", ".b", ".s?"], {
+      try .dimPanel($0.x(1), $0.xq(2), dimAlpha: 0)
+    }),
     (["setValue", ".p", ".n"], {
       try .setValue($0.x(1), $0.x(2))
     }),

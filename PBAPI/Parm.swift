@@ -79,8 +79,8 @@ public struct Parm {
   public enum Span {
     case rng(_ range: ClosedRange<Int>? = nil, dispOff: Int = 0)
     case options(_ opts: [Int : String])
-    case isoF(_ isoF: Iso<Float, Float>, range: ClosedRange<Int>? = nil)
-    case isoS(_ isoS: Iso<Float, String>, range: ClosedRange<Int>? = nil)
+    case isoF(_ isoF: IsoFF, range: ClosedRange<Int>? = nil)
+    case isoS(_ isoS: IsoFS, range: ClosedRange<Int>? = nil)
     
     public var range: ClosedRange<Int> {
       switch self {
@@ -121,10 +121,10 @@ public struct Parm {
 public extension Parm.Span {
   static func max(_ max: Int, dispOff: Int = 0) -> Self { .rng(0...max, dispOff: dispOff) }
   static func opts(_ opts: [String]) -> Self { .options(OptionsParam.makeOptions(opts)) }
-  static func iso(_ iso: Iso<Float, Float>, _ range: ClosedRange<Int>? = nil) -> Self {
+  static func iso(_ iso: IsoFF, _ range: ClosedRange<Int>? = nil) -> Self {
     .isoF(iso, range: range)
   }
-  static func iso(_ iso: Iso<Float, String>, _ range: ClosedRange<Int>? = nil) -> Self {
+  static func iso(_ iso: IsoFS, _ range: ClosedRange<Int>? = nil) -> Self {
     .isoS(iso, range: range)
   }
 }

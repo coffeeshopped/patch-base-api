@@ -20,13 +20,10 @@ public struct RolandMultiPatchTrussWerk : RolandPatchTrussWerk {
   public let size: RolandAddress
   public let map: [MapItem]
   public let initFile: String
-
-//  public let truss: MultiPatchTruss
-  private let sysexDataFn: MultiPatchTruss.Core.ToMidiFn?
   
   public let dict: [SynthPath:(address: RolandAddress, werk: RolandSinglePatchTrussWerk)]
 
-  public init(_ displayId: String, _ map: [MapItem], initFile: String = "", sysexDataFn: MultiPatchTruss.Core.ToMidiFn? = nil, validBundle bundle: MultiPatchTruss.Core.ValidBundle? = nil) {
+  public init(_ displayId: String, _ map: [MapItem], initFile: String = "", validBundle bundle: MultiPatchTruss.Core.ValidBundle? = nil) {
     self.displayId = displayId
     self.map = map
     self.initFile = initFile
@@ -40,18 +37,17 @@ public struct RolandMultiPatchTrussWerk : RolandPatchTrussWerk {
     else {
       self.size = 0
     }
-    
-    self.sysexDataFn = sysexDataFn
   }
   
   public func truss(_ werk: RolandSysexTrussWerk, start: RolandAddress) throws -> MultiPatchTruss {
     
-    let parseBodyFn = /*parseBodyFn ??*/ defaultParseBodyData(werk, start: start)
-    
     let sysexDataFn = sysexData(werk)
     return MultiPatchTruss(displayId, trussMap: try map.map { ($0.path, try $0.werk.truss(werk, start: start)) }, namePath: [.common], initFile: initFile, createFileData: .fn({ b, e in
         .arr(try sysexDataFn(b, e, start))
-    }), parseBodyData: parseBodyFn, validBundle: nil)
+    }), parseBodyData: { fileData in
+      let rData = RolandWerkData(data: Data(fileData), werk: werk)
+      return parseBodyData(rData, 0)
+    }, validBundle: nil)
   }
   
   public func anyTruss(_ werk: RolandSysexTrussWerk, start: RolandAddress) throws -> any SysexTruss {
@@ -73,8 +69,6 @@ public struct RolandMultiPatchTrussWerk : RolandPatchTrussWerk {
 
 extension RolandMultiPatchTrussWerk : AnyRolandSysexTrussWerk {
 
-//  public var anyTruss: any SysexTruss { truss }
-
 //  public func anySysexData(_ bodyData: SysexBodyData, deviceId: UInt8, address: RolandAddress) throws -> [[UInt8]] {
 //    let bd = try bodyDataCheck(bodyData, bodyDataType: BodyData.self)
 //    return self.sysexDataFn(bd, deviceId, address)
@@ -83,58 +77,11 @@ extension RolandMultiPatchTrussWerk : AnyRolandSysexTrussWerk {
 }
 
 public extension RolandMultiPatchTrussWerk {
-    
-  func defaultParseBodyData(_ werk: RolandSysexTrussWerk, start: RolandAddress) -> MultiPatchTruss.Core.ParseBodyDataFn {
-    return { fileData in
-      let sysex = SysexData(data: Data(fileData))
-
-      // determine the base address of the fetched data
-      let baseAdd = sysex.map { werk.address(forSysex: $0.bytes()) }.sorted(by: { $0 < $1 }).first
-      guard let baseAddress = baseAdd else {
-        // if no base address found, init subpatches
-        var d = BodyData()
-        try map.forEach {
-          d[$0.path] = try $0.werk.truss(werk, start: start).createInitBodyData()
-        }
-        return d
-      }
       
-      var subpatchData = [Int:[UInt8]]()
-      try sysex.forEach { msg in
-        let offsetAddress = werk.address(forSysex: msg.bytes()) - baseAddress
-        // find key that matches the offset address
-        guard let index = try mapIndex(address: offsetAddress, sysex: msg.bytes(), werk: werk, start: start) else { return }
-        subpatchData[index] = (subpatchData[index] ?? []) + msg
-      }
-
-      var p = BodyData()
-      try subpatchData.forEach { (index, data) in
-        let item = map[index]
-        p[item.path] = try item.werk.truss(werk, start: start).parseBodyData(data)
-      }
-
-      // for any unfilled subpatches, init them
-      try map.forEach {
-        guard p[$0.path] == nil else { return }
-        p[$0.path] = try $0.werk.truss(werk, start: start).createInitBodyData()
-      }
-
-      return p
+  func parseBodyData(_ rData: RolandWerkData, _ offset: RolandAddress) -> MultiPatchTruss.BodyData {
+    map.dict {
+      [$0.path : rData.bytes(offset: offset + $0.address, size: $0.werk.size)]
     }
-  }
-  
-  func mapIndex(address: RolandAddress, sysex: [UInt8], werk: RolandSysexTrussWerk, start: RolandAddress) throws -> Int? {
-    try map.enumerated().first { i, item in
-      if address == item.address,
-         try item.werk.truss(werk, start: start).isValidFileData(sysex) {
-        return true
-      }
-//      else if let template = builder as? RolandMultiPatchTemplate.Type,
-//              template.mapIndex(address: address - item.address, sysex: sysex) != nil {
-//        return true
-//      }
-      return false
-    }?.offset
   }
     
   // MARK: Compact data
@@ -159,13 +106,6 @@ public extension RolandMultiPatchTrussWerk {
     
 }
 
-//public protocol RolandMultiPatchTrussBuilder : MultiPatchTrussBuilder, RolandPatchTrussBuilder {
-//  
-////  static var rolandMap: RolandSinglePatchTrussMapper { get }
-////  static func mapIndex(address: RolandAddress, sysex: [UInt8]) -> Int?
-//
-//}
-//
 //public extension RolandMultiPatchTrussBuilder {
 //  
 ////  static func rolandCreatePatchTruss() -> PatchTruss {

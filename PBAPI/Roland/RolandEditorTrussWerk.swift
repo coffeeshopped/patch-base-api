@@ -41,9 +41,10 @@ public extension RolandEditorTrussWerk {
   func fetchBytes(forAddress address: RolandAddress, size: RolandAddress, addressCount: Int) -> (_ editor: AnySynthEditor) -> [UInt8] {
     let addressBytes = address.sysexBytes(count: addressCount)
     let sizeBytes = size.sysexBytes(count: addressCount)
-    let data = addressBytes + sizeBytes + [RolandChecksum(address: address, dataBytes: sizeBytes, addressCount: addressCount), 0xf7]
+    let checksum = RolandChecksum(address: address, dataBytes: sizeBytes, addressCount: addressCount)
+    let data = sysexWerk.modelId + [0x11] + addressBytes + sizeBytes + [checksum, 0xf7]
     return {
-      [0xf0, 0x41, UInt8(try! $0.intValue(deviceId))] + sysexWerk.modelId + [0x11] + data
+      [0xf0, 0x41, UInt8(try! $0.intValue(deviceId))] + data
     }
   }
   

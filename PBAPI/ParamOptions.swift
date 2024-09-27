@@ -1,6 +1,6 @@
 
 public struct ParamOptions {
-  public init(label: String? = nil, path: SynthPath = [], p: Int? = nil, b: Int? = nil, bit: Int? = nil, bits: ClosedRange<Int>? = nil, extra: [Int : Int] = [:], range: ClosedRange<Int>? = nil, max: Int? = nil, dispOff: Int = 0, opts: [Int : String]? = nil, optArray: [String]? = nil, isoF: Iso<Float, Float>? = nil, isoS: Iso<Float, String>? = nil) {
+  public init(label: String? = nil, path: SynthPath = [], p: Int? = nil, b: Int? = nil, bit: Int? = nil, bits: ClosedRange<Int>? = nil, extra: [Int : Int] = [:], range: ClosedRange<Int>? = nil, max: Int? = nil, dispOff: Int = 0, opts: [Int : String]? = nil, optArray: [String]? = nil, isoF: IsoFF? = nil, isoS: IsoFS? = nil) {
     self.label = label
     self.path = path
     self.p = p
@@ -29,8 +29,8 @@ public struct ParamOptions {
   public var dispOff: Int = 0
   public var opts: [Int:String]? = nil
   public var optArray: [String]? = nil
-  public var isoF: Iso<Float,Float>? = nil
-  public var isoS: Iso<Float,String>? = nil
+  public var isoF: IsoFF? = nil
+  public var isoS: IsoFS? = nil
 
   public func param() -> Param {
     let bits = self.bits == nil ? (self.bit == nil ? nil : (self.bit!...self.bit!)) : self.bits!

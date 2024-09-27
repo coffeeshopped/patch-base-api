@@ -18,8 +18,8 @@ public extension PatchTrussWerk {
     dispOff: Int = 0,
     opts: [Int:String]? = nil,
     optArray: [String]? = nil,
-    isoF: Iso<Float,Float>? = nil,
-    isoS: Iso<Float,String>? = nil
+    isoF: IsoFF? = nil,
+    isoS: IsoFS? = nil
   ) -> ParamOptions {
     return ParamOptions(label: l, path: path, p: p ?? b, b: b, bit: bit, bits: bits, extra: extra, range: range, max: max, dispOff: dispOff, opts: opts, optArray: optArray, isoF: isoF, isoS: isoS)
   }

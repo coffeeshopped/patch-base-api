@@ -26,7 +26,7 @@ public typealias ParamValueFormatter = ((Int) -> String)
 public typealias ParamValueParser = ((String) -> Int)
 public typealias ParamValueMapper = (format: ParamValueFormatter, parse: ParamValueParser)
 
-public extension Iso where A == Float, B == String {
+public extension IsoFS {
 
   func pvm() -> ParamValueMapper {
     (
@@ -40,29 +40,29 @@ public extension Iso where A == Float, B == String {
 public struct MisoParam {
   
   public static func make(parm: Int = 0, byte: Int = 0, bits: ClosedRange<Int>? = nil, extra: [Int:Int] = [:], options: [String], startIndex: Int = 0) -> RangeParam {
-    let iso = Miso.options(options, startIndex: startIndex)
+    let iso = IsoFS.options(options, startIndex: startIndex)
     let mapper = iso.pvm()
     let r = RangeParam(parm: parm, byte: byte, bits: bits, extra: extra, range: startIndex...(startIndex + options.count - 1), formatter: mapper.format, parser: mapper.parse)
     return r
   }
   
-  public static func make(parm: Int = 0, byte: Int = 0, bits: ClosedRange<Int>? = nil, extra: [Int:Int] = [:], range: ClosedRange<Int> = 0...127, displayOffset: Int = 0, iso: Iso<Float, String>, packIso: PackIso? = nil) -> RangeParam {
+  public static func make(parm: Int = 0, byte: Int = 0, bits: ClosedRange<Int>? = nil, extra: [Int:Int] = [:], range: ClosedRange<Int> = 0...127, displayOffset: Int = 0, iso: IsoFS, packIso: PackIso? = nil) -> RangeParam {
     let r = RangeParam(parm: parm, byte: byte, bits: bits, extra: extra, range: range, displayOffset: displayOffset, mapper: iso.pvm(), packIso: packIso)
     return r
   }
 
-  public static func make(parm: Int = 0, byte: Int = 0, bits: ClosedRange<Int>? = nil, extra: [Int:Int] = [:], maxVal: Int, displayOffset: Int = 0, iso: Iso<Float, String>, packIso: PackIso? = nil) -> RangeParam {
+  public static func make(parm: Int = 0, byte: Int = 0, bits: ClosedRange<Int>? = nil, extra: [Int:Int] = [:], maxVal: Int, displayOffset: Int = 0, iso: IsoFS, packIso: PackIso? = nil) -> RangeParam {
     let r = RangeParam(parm: parm, byte: byte, bits: bits, extra: extra, maxVal: maxVal, displayOffset: displayOffset, mapper: iso.pvm(), packIso: packIso)
     return r
   }
 
-  public static func make(parm: Int = 0, byte: Int = 0, bits: ClosedRange<Int>? = nil, extra: [Int:Int] = [:], range: ClosedRange<Int> = 0...127, displayOffset: Int = 0, iso: Iso<Float, Float>, packIso: PackIso? = nil) -> RangeParam {
-    let r = RangeParam(parm: parm, byte: byte, bits: bits, extra: extra, range: range, displayOffset: displayOffset, mapper: (iso >>> Miso.str()).pvm(), packIso: packIso)
+  public static func make(parm: Int = 0, byte: Int = 0, bits: ClosedRange<Int>? = nil, extra: [Int:Int] = [:], range: ClosedRange<Int> = 0...127, displayOffset: Int = 0, iso: IsoFF, packIso: PackIso? = nil) -> RangeParam {
+    let r = RangeParam(parm: parm, byte: byte, bits: bits, extra: extra, range: range, displayOffset: displayOffset, mapper: (iso >>> .str()).pvm(), packIso: packIso)
     return r
   }
 
-  public static func make(parm: Int = 0, byte: Int = 0, bits: ClosedRange<Int>? = nil, extra: [Int:Int] = [:], maxVal: Int, displayOffset: Int = 0, iso: Iso<Float, Float>, packIso: PackIso? = nil) -> RangeParam {
-    let r = RangeParam(parm: parm, byte: byte, bits: bits, extra: extra, maxVal: maxVal, displayOffset: displayOffset, mapper: (iso >>> Miso.str()).pvm(), packIso: packIso)
+  public static func make(parm: Int = 0, byte: Int = 0, bits: ClosedRange<Int>? = nil, extra: [Int:Int] = [:], maxVal: Int, displayOffset: Int = 0, iso: IsoFF, packIso: PackIso? = nil) -> RangeParam {
+    let r = RangeParam(parm: parm, byte: byte, bits: bits, extra: extra, maxVal: maxVal, displayOffset: displayOffset, mapper: (iso >>> .str()).pvm(), packIso: packIso)
     return r
   }
 
