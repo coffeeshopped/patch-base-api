@@ -87,6 +87,11 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
         try .msg(.sysex(Yamaha.paramData(channel: Int(chan.call(b, e).bytes().first ?? 0), cmdBytes: cmdBytes?.call(b ,e).bytes() ?? b)))
       }
     }),
+    ("count", { _ in
+      return .b { b in
+          .bytes([UInt8(b.count)])
+      }
+    }),
     ("b", { _ in .ident }), // returns itself
     (".n", { .const([try $0.x()]) }), // number: return it as a byte array
     (".s", {

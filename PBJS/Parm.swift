@@ -75,6 +75,11 @@ extension Parm: JsParsable, JsArrayParsable {
       let parms: [Parm] = try $0.x("offset")
       return try parms.offset(b: $0.xq("b") ?? 0, p: $0.xq("p"))
     }),
+    (["b2p" : ".x"], {
+      let parms: [Parm] = try $0.x("b2p")
+      return parms.b2p()
+    }),
+    
   ], "parms")
 }
 

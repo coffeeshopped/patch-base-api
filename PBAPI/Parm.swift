@@ -227,4 +227,15 @@ public extension Array where Element == Parm {
     }
   }
   
+  /// Copy all b values to p. If b is nil, skip.
+  func b2p() -> Self {
+    map {
+      var newOpts = $0
+      if let bb = newOpts.b {
+        newOpts.p = bb
+      }
+      return newOpts
+    }
+  }
+  
 }
