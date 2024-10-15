@@ -34,11 +34,7 @@ public struct ModuleTrussCore {
   public let postAddMessage: String?
 
   public var commandEffects: [ModuleCommandEffect] = []
-  
-//  public var saveToSynthController: (_ module: AnySynthModule, _ indexPath: IndexPath) -> PBController? = { module, indexPath in
-//    module.basicSynthSaveController()
-//  }
-  
+    
   public var synthSaveInfoItems: (_ module: AnySynthModule, _ path: SynthPath) -> [InfoSaveItem] = { module, path in (try? module.defaultInfoItems(path: path)) ?? [] }
 
   public var onEditorLoad: (_ module: AnySynthModule) -> Void = { _ in }

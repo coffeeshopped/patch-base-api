@@ -2,7 +2,6 @@
 public struct RxMidi {
 
   public enum Command {
-    case send([Data], TimeInterval)
     case fetch([FetchCommand], SynthPath, any SysexTruss)
     case compositeFetch([(SynthPath, [FetchCommand])], SynthPath, any MultiSysexTruss)
     case sendMsg(MidiMessage)
@@ -12,15 +11,13 @@ public struct RxMidi {
       switch self {
       case .fetch, .compositeFetch:
         return true
-      case .send, .sendMsg, .sendMulti:
+      case .sendMsg, .sendMulti:
         return false
       }
     }
     
     public var totalBytes: Int {
       switch self {
-      case .send(let data, _):
-        return data.reduce(0) { $0 + $1.count }
       case .fetch(let subCmds, _, _):
         // if the subCmds have fetchIntents, then sum those
         // otherwise, return the size of the sysexType
@@ -52,8 +49,6 @@ public struct RxMidi {
     
     public var totalTime: TimeInterval {
       switch self {
-      case .send(let data, let interval):
-        return TimeInterval(data.count) * (interval + 0.05)
       case .fetch(let subcommands, _, _):
         return TimeInterval(subcommands.count) * (0.5)
       case .compositeFetch(let cmdMap, _, _):
@@ -67,8 +62,6 @@ public struct RxMidi {
   }
   
   public enum FetchCommand {
-    case send(Data)
-    case request(Data)
     case wait(TimeInterval)
     case sendMsg(MidiMessage)
     case requestMsg(MidiMessage, FetchIntent?)
@@ -77,14 +70,10 @@ public struct RxMidi {
       switch self {
       case .wait(let interval):
         return [.wait(interval)]
-      case .send(let data):
-        return [.send(data)]
       case .sendMsg(let msg):
         return [.sendMsg(msg)]
       case .requestMsg(let msg, let intent):
         return [.sendMsg(msg), .awaitMsg(intent, cmd)]
-      case .request(let data):
-        return [.send(data), .await(cmd)]
       }
     }
   }
@@ -123,7 +112,6 @@ public struct RxMidi {
   }
 
   public enum Subcommand {
-    case send(Data)
     case statusChange(Status)
     case wait(TimeInterval)
     case sendMsg(MidiMessage)
@@ -134,8 +122,6 @@ public struct RxMidi {
     
     public var byteCount: Int {
       switch self {
-      case .send(let data):
-        return data.count
       case .sendMsg(let msg):
         return msg.count
       case .await(let cmd):

@@ -77,7 +77,3 @@ public extension Sysexible {
 
   
 }
-
-public protocol ChannelizedSysexible : Sysexible {
-  func sysexData(channel: Int) -> Data
-}
