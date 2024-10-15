@@ -3,15 +3,14 @@ public struct RxMidi {
 
   public enum Command {
     case send([Data], TimeInterval)
-    case fetch([FetchCommand], SynthPath, Sysexible.Type)
-    case nufetch([FetchCommand], SynthPath, any SysexTruss)
+    case fetch([FetchCommand], SynthPath, any SysexTruss)
     case compositeFetch([(SynthPath, [FetchCommand])], SynthPath, any MultiSysexTruss)
     case sendMsg(MidiMessage)
     case sendMulti([(MidiMessage, TimeInterval)])
 
     public var isFetch: Bool {
       switch self {
-      case .fetch, .nufetch, .compositeFetch:
+      case .fetch, .compositeFetch:
         return true
       case .send, .sendMsg, .sendMulti:
         return false
@@ -22,15 +21,7 @@ public struct RxMidi {
       switch self {
       case .send(let data, _):
         return data.reduce(0) { $0 + $1.count }
-      case .fetch(let subCmds, _, let sysexType):
-        // if the subCmds have fetchIntents, then sum those
-        // otherwise, return the size of the sysexType
-        let intentBytes: [Int] = subCmds.compactMap {
-          guard case .requestMsg(_, let intent) = $0 else { return nil }
-          return intent?.byteCount
-        }
-        return intentBytes.count > 0 ? intentBytes.reduce(0, +) : sysexType.fileDataCount
-      case .nufetch(let subCmds, _, _):
+      case .fetch(let subCmds, _, _):
         // if the subCmds have fetchIntents, then sum those
         // otherwise, return the size of the sysexType
         let intentBytes: [Int] = subCmds.compactMap {
@@ -64,8 +55,6 @@ public struct RxMidi {
       case .send(let data, let interval):
         return TimeInterval(data.count) * (interval + 0.05)
       case .fetch(let subcommands, _, _):
-        return TimeInterval(subcommands.count) * (0.5)
-      case .nufetch(let subcommands, _, _):
         return TimeInterval(subcommands.count) * (0.5)
       case .compositeFetch(let cmdMap, _, _):
         return TimeInterval(cmdMap.map { $0.1.count }.reduce(0, +)) * (0.5)
@@ -104,8 +93,7 @@ public struct RxMidi {
     case idle
     case started(Command, remaining: Int)
     case updated(Command, bytes: Int, remaining: Int)
-    case finished(Command, Sysexible?, remaining: Int)
-    case nufinished(Command, AnySysexible?, remaining: Int)
+    case finished(Command, AnySysexible?, remaining: Int)
     case failed
     case canceled
     case error(Error)
@@ -114,7 +102,6 @@ public struct RxMidi {
       switch self {
       case .started(let cmd, _): return .started(cmd, remaining: r)
       case .updated(let cmd, let bytes, _): return .updated(cmd, bytes: bytes, remaining: r)
-      case .finished(let cmd, let sysexible, _): return .finished(cmd, sysexible, remaining: r)
       default: return self
       }
     }

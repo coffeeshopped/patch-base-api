@@ -8,11 +8,7 @@ public protocol PatchTruss : SysexTruss {
   func subpaths(_ path: SynthPath) -> [SynthPath]?
   
   func randomize() -> SynthPathInts
-  
-//  func createPatch(fileData: [UInt8]?, name: String?) throws -> AnySysexPatch
-  
-//  func createPatch(bodyData: BodyData?, name: String?) throws -> AnySysexPatch
-  
+    
   func getValue(_ bodyData: BodyData, path: SynthPath) -> Int?
   func setValue(_ bodyData: inout BodyData, path: SynthPath, _ value: Int)
   func allValues(_ bodyData: BodyData) -> SynthPathInts

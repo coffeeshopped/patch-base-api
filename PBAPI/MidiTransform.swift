@@ -58,7 +58,7 @@ public enum MidiTransform {
 
 /// For editors that should only send a patch
 //  static func pushOnlyPatch<T>(throttle: RxTimeInterval = .milliseconds(30),
-//                               input: Observable<(NuPatchChange, T, Bool)>,
+//                               input: Observable<(PatchChange, T, Bool)>,
 //                               patchTransform: @escaping (_ patch: T) -> [Data]?
 //  ) -> Observable<[Data]?> {
 //
@@ -77,7 +77,7 @@ public enum MidiTransform {
 
 //  /// For multi-patch editors that want to send the subpatch only for multiple changes
 //  static func multipatchChange(
-//    _ editor: NuSynthEditor,
+//    _ editor: SynthEditor,
 //    _ path: SynthPath,
 //    throttle: Int = 30,
 //    paramCoalesceCount: Int = 2,
@@ -87,7 +87,7 @@ public enum MidiTransform {
 //    nameT: Name? = nil
 //    ) -> Observable<[Data]?> {
 //
-//      guard let input = editor.patchStateManager(path)?.typedChangesOutput(NuSysexPatch<MultiPatchTruss>.self) else { return Observable.just(nil) } // TODO: should probably throw Error here.
+//      guard let input = editor.patchStateManager(path)?.typedChangesOutput(SysexPatch<MultiPatchTruss>.self) else { return Observable.just(nil) } // TODO: should probably throw Error here.
 //
 //    return input.throttle(throttle, scheduler:MainScheduler.instance).map { (change, patch, transmit) in
 //      guard transmit else { return nil }
@@ -99,13 +99,13 @@ public enum MidiTransform {
 //      case .replace(_), .push:
 //        return patchT(patch.bodyData)
 //      case .paramsChange(let params):
-//        var subchanges = [SynthPath:NuPatchChange]()
+//        var subchanges = [SynthPath:PatchChange]()
 //        // go through all the changes
 //        params.forEach { (key, value) in
 //          // for each change, find what subpatch it belongs to
 //          for prefix in patch.subpatches.keys {
 //            guard key.starts(with: prefix) else { continue }
-//            let newChange: NuPatchChange = .paramsChange([key.subpath(from: prefix.count) : value])
+//            let newChange: PatchChange = .paramsChange([key.subpath(from: prefix.count) : value])
 //            // collect them all
 //            subchanges[prefix] = (subchanges[prefix] ?? .paramsChange([:])).updated(withChange: newChange)
 //          }
@@ -141,7 +141,7 @@ public enum MidiTransform {
 
 //  /// For editors that only push the bank manually (bc they require being in a Load mode)
 //  static func pushOnlyBank<T>(throttle: RxTimeInterval = .milliseconds(30),
-//                                         input: Observable<(NuBankChange, T, Bool)>,
+//                                         input: Observable<(BankChange, T, Bool)>,
 //                                         bankTransform: @escaping (_ bank: T) -> [Data]?
 //    ) -> Observable<[Data]?> {
 //

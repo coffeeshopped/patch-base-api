@@ -157,14 +157,14 @@ public extension RolandEditorTrussWerk {
     let paramsT: MidiTransform.Fn<MultiPatchTruss>.Params = { editor, bodyData, values in
 
       let deviceId = try! UInt8(editor.intValue(deviceId))
-      var subchanges = [SynthPath:NuPatchChange]()
+      var subchanges = [SynthPath:PatchChange]()
       // go through all the changes
       values.forEach {
         // for each change, find what subpatch it belongs to
         for item in werk.map {
           let prefix = item.path
           guard $0.key.starts(with: prefix) else { continue }
-          let newChange: NuPatchChange = .paramsChange([$0.key.subpath(from: prefix.count) : $0.value])
+          let newChange: PatchChange = .paramsChange([$0.key.subpath(from: prefix.count) : $0.value])
           // collect them all
           subchanges[prefix] = (subchanges[prefix] ?? .paramsChange([:])).updated(withChange: newChange)
         }

@@ -1,5 +1,5 @@
 
-public enum NuBankChange : Change {
+public enum BankChange : Change {
   public typealias Sysex = AnySysexPatchBank
   
   case replace(AnySysexPatchBank)
@@ -8,7 +8,7 @@ public enum NuBankChange : Change {
   case nameChange(String)
   case push
  
-  public static func replace(_ sysex: AnySysexPatchBank) -> (NuBankChange, AnySysexPatchBank?) {
+  public static func replace(_ sysex: AnySysexPatchBank) -> (BankChange, AnySysexPatchBank?) {
     (.replace(sysex), sysex)
   }
 }

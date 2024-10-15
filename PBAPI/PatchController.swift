@@ -166,8 +166,8 @@ public indirect enum PatchController {
     case paramsChange(_ values: SynthPathInts)
     case unprefixedParamsChange(_ values: SynthPathInts)
 
-//    case patchChange(NuPatchChange)
-//    case unprefixedPatchChange(NuPatchChange)
+//    case patchChange(PatchChange)
+//    case unprefixedPatchChange(PatchChange)
     
     case midiNote(chan: Int, note: Int, velo: Int, len: Int)
     

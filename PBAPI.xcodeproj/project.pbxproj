@@ -113,10 +113,10 @@
 		AC414B212C6535FD0019DC1B /* RolandEditorTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B102C6535FD0019DC1B /* RolandEditorTrussWerk.swift */; };
 		AC414B222C6535FD0019DC1B /* RolandDeviceIdSettingsTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B112C6535FD0019DC1B /* RolandDeviceIdSettingsTruss.swift */; };
 		AC414B252C65361A0019DC1B /* AnySynthEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B242C65361A0019DC1B /* AnySynthEditor.swift */; };
-		AC414B2A2C65362C0019DC1B /* NuBackupChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B262C65362C0019DC1B /* NuBackupChange.swift */; };
+		AC414B2A2C65362C0019DC1B /* MultiSysexChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B262C65362C0019DC1B /* MultiSysexChange.swift */; };
 		AC414B2B2C65362C0019DC1B /* Change.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B272C65362C0019DC1B /* Change.swift */; };
-		AC414B2C2C65362C0019DC1B /* NuPatchChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B282C65362C0019DC1B /* NuPatchChange.swift */; };
-		AC414B2D2C65362C0019DC1B /* NuBankChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B292C65362C0019DC1B /* NuBankChange.swift */; };
+		AC414B2C2C65362C0019DC1B /* PatchChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B282C65362C0019DC1B /* PatchChange.swift */; };
+		AC414B2D2C65362C0019DC1B /* BankChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B292C65362C0019DC1B /* BankChange.swift */; };
 		AC414B3F2C653A7B0019DC1B /* PBJS.docc in Sources */ = {isa = PBXBuildFile; fileRef = AC414B3E2C653A7B0019DC1B /* PBJS.docc */; };
 		AC414B452C653A7B0019DC1B /* PBJS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC414B3B2C653A7B0019DC1B /* PBJS.framework */; };
 		AC414B4A2C653A7B0019DC1B /* PBJSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B492C653A7B0019DC1B /* PBJSTests.swift */; };
@@ -310,10 +310,10 @@
 		AC414B102C6535FD0019DC1B /* RolandEditorTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandEditorTrussWerk.swift; sourceTree = "<group>"; };
 		AC414B112C6535FD0019DC1B /* RolandDeviceIdSettingsTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RolandDeviceIdSettingsTruss.swift; sourceTree = "<group>"; };
 		AC414B242C65361A0019DC1B /* AnySynthEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnySynthEditor.swift; sourceTree = "<group>"; };
-		AC414B262C65362C0019DC1B /* NuBackupChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NuBackupChange.swift; sourceTree = "<group>"; };
+		AC414B262C65362C0019DC1B /* MultiSysexChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiSysexChange.swift; sourceTree = "<group>"; };
 		AC414B272C65362C0019DC1B /* Change.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Change.swift; sourceTree = "<group>"; };
-		AC414B282C65362C0019DC1B /* NuPatchChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NuPatchChange.swift; sourceTree = "<group>"; };
-		AC414B292C65362C0019DC1B /* NuBankChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NuBankChange.swift; sourceTree = "<group>"; };
+		AC414B282C65362C0019DC1B /* PatchChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchChange.swift; sourceTree = "<group>"; };
+		AC414B292C65362C0019DC1B /* BankChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankChange.swift; sourceTree = "<group>"; };
 		AC414B3B2C653A7B0019DC1B /* PBJS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PBJS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC414B3D2C653A7B0019DC1B /* PBJS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBJS.h; sourceTree = "<group>"; };
 		AC414B3E2C653A7B0019DC1B /* PBJS.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = PBJS.docc; sourceTree = "<group>"; };
@@ -608,9 +608,9 @@
 				AC414B232C6536020019DC1B /* Roland */,
 				AC414B242C65361A0019DC1B /* AnySynthEditor.swift */,
 				AC414AE32C6535C80019DC1B /* PBColor+Oklab.swift */,
-				AC414B282C65362C0019DC1B /* NuPatchChange.swift */,
-				AC414B292C65362C0019DC1B /* NuBankChange.swift */,
-				AC414B262C65362C0019DC1B /* NuBackupChange.swift */,
+				AC414B282C65362C0019DC1B /* PatchChange.swift */,
+				AC414B292C65362C0019DC1B /* BankChange.swift */,
+				AC414B262C65362C0019DC1B /* MultiSysexChange.swift */,
 				AC414B272C65362C0019DC1B /* Change.swift */,
 				AC4AC0F02C65335900358BF0 /* PBAPI.docc */,
 				ACE0BB772C6E6EF00099F3D9 /* PBError.swift */,
@@ -969,7 +969,7 @@
 				AC414B122C6535FD0019DC1B /* RolandSinglePatchTrussWerk.swift in Sources */,
 				AC414B1E2C6535FD0019DC1B /* RolandSingleBankTrussWerk.swift in Sources */,
 				AC414A592C65352C0019DC1B /* PatchController.swift in Sources */,
-				AC414B2D2C65362C0019DC1B /* NuBankChange.swift in Sources */,
+				AC414B2D2C65362C0019DC1B /* BankChange.swift in Sources */,
 				AC414A762C65354D0019DC1B /* Param.swift in Sources */,
 				AC414A782C65354D0019DC1B /* BitUtility.swift in Sources */,
 				AC414AD82C6535B10019DC1B /* ModuleTruss.swift in Sources */,
@@ -981,9 +981,9 @@
 				AC414B1F2C6535FD0019DC1B /* RolandAddress.swift in Sources */,
 				AC414A8F2C65356E0019DC1B /* EditorTruss.swift in Sources */,
 				AC414A872C65355A0019DC1B /* MIDIMessage.swift in Sources */,
-				AC414B2A2C65362C0019DC1B /* NuBackupChange.swift in Sources */,
+				AC414B2A2C65362C0019DC1B /* MultiSysexChange.swift in Sources */,
 				AC414AC52C65359D0019DC1B /* MemSlotTransform.swift in Sources */,
-				AC414B2C2C65362C0019DC1B /* NuPatchChange.swift in Sources */,
+				AC414B2C2C65362C0019DC1B /* PatchChange.swift in Sources */,
 				AC414A7B2C65354D0019DC1B /* PBTextAlignment.swift in Sources */,
 				AC414ACA2C65359D0019DC1B /* EditorCommand.swift in Sources */,
 				AC4AC0F12C65335900358BF0 /* PBAPI.docc in Sources */,

@@ -28,9 +28,9 @@ public protocol ModuleTruss : UrModuleTruss {
   
   func bankInfo(forPatchTruss patchTruss: any PatchTruss) -> [(SynthPath, String)]
   
-//  func synthSaveInfoItems(_ module: NuSynthModule, path: SynthPath) -> [NuInfoSaveItem]
+//  func synthSaveInfoItems(_ module: SynthModule, path: SynthPath) -> [InfoSaveItem]
   
-//  func onEditorLoad(_ module: NuSynthModule)
+//  func onEditorLoad(_ module: SynthModule)
 
 }
 
@@ -76,7 +76,7 @@ public extension ModuleTruss {
 //    set { core.saveToSynthController = newValue }
 //  }
 
-  var synthSaveInfoItems: (_ module: AnySynthModule, _ path: SynthPath) -> [NuInfoSaveItem] {
+  var synthSaveInfoItems: (_ module: AnySynthModule, _ path: SynthPath) -> [InfoSaveItem] {
     get { core.synthSaveInfoItems }
     set { core.synthSaveInfoItems = newValue }
   }

@@ -5,4 +5,4 @@ public enum InfoSaveOption : Equatable {
   case usedSlots(bankPath: SynthPath, [[MemSlot]]) // bankPath, [[paths used]]
 }
 
-public typealias NuInfoSaveItem = (title: String, srcPath: SynthPath, patch: AnySysexPatch, dest: MemSlot, saveOrder: Int, options: [InfoSaveOption])
+public typealias InfoSaveItem = (title: String, srcPath: SynthPath, patch: AnySysexPatch, dest: MemSlot, saveOrder: Int, options: [InfoSaveOption])

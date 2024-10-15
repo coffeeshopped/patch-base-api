@@ -9,8 +9,8 @@ public struct ParamOutTransform {
     self.transform = transform
   }
   
-  public typealias PatchOutFn = (_ change: NuPatchChange, _ patch: AnySysexPatch?) throws -> SynthPathParam
-  public typealias BankOutFn = (_ change: NuBankChange, _ bank: AnySysexPatchBank?) throws -> SynthPathParam
+  public typealias PatchOutFn = (_ change: PatchChange, _ patch: AnySysexPatch?) throws -> SynthPathParam
+  public typealias BankOutFn = (_ change: BankChange, _ bank: AnySysexPatchBank?) throws -> SynthPathParam
 
   public enum Transform {
     case patchOut(_ src: SynthPath, _ fn: PatchOutFn)
