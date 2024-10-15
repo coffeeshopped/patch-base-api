@@ -11,7 +11,7 @@ public struct MemSlot : Hashable {
     self.location = location
   }
   
-  public typealias TransformFn = (Int) -> String
+  public typealias TransformFn = (Int) throws -> String
   public enum Transform {
     case user(TransformFn)
     case preset(TransformFn, names: [String])
@@ -25,7 +25,7 @@ public struct MemSlot : Hashable {
       }
     }
     
-    public func slot(_ i: Int) -> String { fn(i) }
+    public func slot(_ i: Int) throws -> String { try fn(i) }
   }
 
 }

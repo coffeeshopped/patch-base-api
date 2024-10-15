@@ -1,6 +1,6 @@
 
 public enum MidiChannelTransform {
-  public typealias MapFn = ((Int) -> Int)
+  public typealias MapFn = ((Int) throws -> Int)
   
   case basic(map: MapFn? = nil)
   case patch(_ editorPath: SynthPath, _ paramPath: SynthPath, map: MapFn? = nil)
