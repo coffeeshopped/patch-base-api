@@ -1,7 +1,8 @@
 
 public indirect enum MultiSysexChange : Change {
-  public typealias Sysex = AnyMultiSysexible
   
+  public static var none: Self { .noop }
+
   case noop
   case replace(AnyMultiSysexible)
   case patch(SynthPath, PatchChange)

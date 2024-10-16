@@ -1,14 +1,15 @@
 
 public enum PatchChange : Change {
-  public typealias Sysex = AnySysexPatch
   
+  public static var none: Self { .noop }
+    
   case noop
   case replace(AnySysexPatch)
   case nameChange(SynthPath,String)
   case paramsChange(SynthPathInts)
   case push
   
-  public static func replace(_ sysex: AnySysexPatch) -> (PatchChange, AnySysexPatch?) {
+  public static func replace(_ sysex: AnySysexPatch) -> (Self, AnySysexPatch?) {
     (.replace(sysex), sysex)
   }
   
