@@ -7,11 +7,11 @@ public struct RolandMultiBankTrussWerk {
   public let size: RolandAddress
   public let patchCount: Int
   let initFile: String
-  let validBundle: MultiBankTruss.Core.ValidBundle?  
+  let validBundle: ValidBundle?  
   let patchWerk: RolandMultiPatchTrussWerk
   public let iso: RolandOffsetAddressIso
   
-  public init(_ patchWerk: RolandMultiPatchTrussWerk, _ patchCount: Int, initFile: String = "", iso: RolandOffsetAddressIso, createFileFn: CreateFileFn? = nil, validBundle: MultiBankTruss.Core.ValidBundle? = nil) {
+  public init(_ patchWerk: RolandMultiPatchTrussWerk, _ patchCount: Int, initFile: String = "", iso: RolandOffsetAddressIso, createFileFn: CreateFileFn? = nil, validBundle: ValidBundle? = nil) {
     self.patchWerk = patchWerk
     self.iso = iso
     self.size = iso.address(UInt8(patchCount - 1)) + patchWerk.size

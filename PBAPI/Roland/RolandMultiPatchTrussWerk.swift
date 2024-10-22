@@ -23,7 +23,7 @@ public struct RolandMultiPatchTrussWerk : RolandPatchTrussWerk {
   
   public let dict: [SynthPath:(address: RolandAddress, werk: RolandSinglePatchTrussWerk)]
 
-  public init(_ displayId: String, _ map: [MapItem], initFile: String = "", validBundle bundle: MultiPatchTruss.Core.ValidBundle? = nil) {
+  public init(_ displayId: String, _ map: [MapItem], initFile: String = "", validBundle bundle: ValidBundle? = nil) {
     self.displayId = displayId
     self.map = map
     self.initFile = initFile

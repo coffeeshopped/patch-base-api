@@ -24,9 +24,9 @@ public struct JSONPatchTruss : PatchTruss {
         return [String:Int]()
       }
     },
-                     isValidSize: { _ in true },
-                     isValidFileData: { _ in true },
-                     isCompleteFetch: { _ in true })
+                     isValidSize: .const(true),
+                     isValidFileData: .const(true),
+                     isCompleteFetch: .const(true))
   }
 
   public func getValue(_ bodyData: [String : Int], path: SynthPath) -> Int? {

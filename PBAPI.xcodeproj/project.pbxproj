@@ -162,6 +162,7 @@
 		AC4AC0F72C65335900358BF0 /* PBAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4AC0EC2C65335900358BF0 /* PBAPI.framework */; };
 		AC4AC0FC2C65335900358BF0 /* PBAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4AC0FB2C65335900358BF0 /* PBAPITests.swift */; };
 		AC4AC0FD2C65335900358BF0 /* PBAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = AC4AC0EF2C65335900358BF0 /* PBAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AC5618432CC8277D00D1B55F /* ValidBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5618422CC8277D00D1B55F /* ValidBundle.swift */; };
 		AC6659E72C9B42AF00CFDFFA /* RolandMultiBankTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6659E62C9B42AF00CFDFFA /* RolandMultiBankTrussWerk.swift */; };
 		AC6659E92C9B783C00CFDFFA /* PatchController.PageSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6659E82C9B783C00CFDFFA /* PatchController.PageSetup.swift */; };
 		AC6659EB2C9B893100CFDFFA /* PatchController.ConfigParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6659EA2C9B893100CFDFFA /* PatchController.ConfigParam.swift */; };
@@ -360,6 +361,7 @@
 		AC4AC0F02C65335900358BF0 /* PBAPI.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = PBAPI.docc; sourceTree = "<group>"; };
 		AC4AC0F62C65335900358BF0 /* PBAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PBAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4AC0FB2C65335900358BF0 /* PBAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBAPITests.swift; sourceTree = "<group>"; };
+		AC5618422CC8277D00D1B55F /* ValidBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidBundle.swift; sourceTree = "<group>"; };
 		AC58EC022C66A70400C1EEE5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AC6659E62C9B42AF00CFDFFA /* RolandMultiBankTrussWerk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolandMultiBankTrussWerk.swift; sourceTree = "<group>"; };
 		AC6659E82C9B783C00CFDFFA /* PatchController.PageSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchController.PageSetup.swift; sourceTree = "<group>"; };
@@ -573,6 +575,7 @@
 				AC414A922C6535760019DC1B /* BankTruss.swift */,
 				AC414A952C6535760019DC1B /* MultiSysexTruss.swift */,
 				AC414AA22C6535820019DC1B /* SysexTrussCore.swift */,
+				AC5618422CC8277D00D1B55F /* ValidBundle.swift */,
 				AC414AA02C6535820019DC1B /* SinglePatchTruss.swift */,
 				AC414A9D2C6535820019DC1B /* MultiPatchTruss.swift */,
 				AC414A9B2C6535820019DC1B /* SomeBankTruss.swift */,
@@ -1027,6 +1030,7 @@
 				AC414A8B2C6535660019DC1B /* SynthWerk.swift in Sources */,
 				AC3DB3DE2C65340A00375C37 /* JsSynthPath.swift in Sources */,
 				AC414AA32C6535830019DC1B /* JSONPatchTruss.swift in Sources */,
+				AC5618432CC8277D00D1B55F /* ValidBundle.swift in Sources */,
 				AC414AB32C6535940019DC1B /* SysexTrussError.swift in Sources */,
 				AC414B142C6535FD0019DC1B /* RolandMultiSysexTrussWerk.swift in Sources */,
 				AC414A772C65354D0019DC1B /* Iso.swift in Sources */,

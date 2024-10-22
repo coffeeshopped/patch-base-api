@@ -11,13 +11,19 @@ extension SinglePatchTruss: JsBankParsable {
       "validSizes" : ".a",
       "includeFileDataCount" : ".b",
     ], {
-      let patchTruss = try $0.obj("patchTruss").xform(jsParsers)
-      let initFile = (try $0.xq("initFile")) ?? ""
-      let validSizes = try $0.arr("validSizes").arrInt()
-      let includeFileDataCount: Bool = try $0.x("includeFileDataCount")
       let createFile = try $0.obj("createFile").xform(SingleBankTruss.toMidiRules)
       let parseBody = try $0.obj("parseBody").xform(SingleBankTruss.parseBodyRules)
-      return try .init(patchTruss: patchTruss, patchCount: $0.x("patchCount"), initFile: initFile, fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody)
+      return try .init(patchTruss: $0.x("patchTruss"), patchCount: $0.x("patchCount"), initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody, validSizes: $0.arr("validSizes").arrInt(), includeFileDataCount: $0.x("includeFileDataCount"))
+    }),
+    ([
+      "type" : "singleBank",
+      "patchTruss" : ".d",
+      "patchCount" : ".n",
+      "validBundle" : ".x",
+    ], {
+      let createFile = try $0.obj("createFile").xform(SingleBankTruss.toMidiRules)
+      let parseBody = try $0.obj("parseBody").xform(SingleBankTruss.parseBodyRules)
+      return try .init(patchTruss: $0.x("patchTruss"), patchCount: $0.x("patchCount"), initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody, validBundle: $0.x("validBundle"))
     }),
     ([
       "type" : "compactSingleBank",
@@ -27,7 +33,7 @@ extension SinglePatchTruss: JsBankParsable {
       "fileDataCount" : ".n",
       "compactTruss": ".d",
     ], {
-      let patchTruss: SinglePatchTruss = try $0.obj("patchTruss").x()
+      let patchTruss: SinglePatchTruss = try $0.x("patchTruss")
       let patchCount: Int = try $0.x("patchCount")
       let paddedPatchCount = (try $0.xq("paddedPatchCount")) ?? patchCount
       let initFile = (try $0.xq("initFile")) ?? ""

@@ -89,7 +89,7 @@ public struct FullRefTruss : MultiSysexTruss {
 
     let fileDataCount = trussMap.map { $0.1.fileDataCount }.reduce(0, +)
     let maxNameCount = trussDict[refPath]?.maxNameCount ?? 32
-    self.core = Core(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: { _ in true }, isValidFileData: { _ in true }, isCompleteFetch: { _ in true })
+    self.core = Core(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: .const(true), isValidFileData: .const(true), isCompleteFetch: .const(true))
   }
   
   public init(_ displayId: String, trussMap: [(SynthPath, any SysexTruss)], refPath: SynthPath = [.perf], isos: Isos, sections: [(String, [SynthPath])], initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, pathForData: @escaping PathForDataFn) {
@@ -112,7 +112,7 @@ public struct FullRefTruss : MultiSysexTruss {
     self.sections = sections
 
     let maxNameCount = refTruss.maxNameCount
-    self.core = Core(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: { _ in true }, isValidFileData: { _ in true }, isCompleteFetch: { _ in true })
+    self.core = Core(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: .const(true), isValidFileData: .const(true), isCompleteFetch: .const(true))
   }
   
   public let refTruss: any PatchTruss

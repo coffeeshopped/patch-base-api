@@ -32,7 +32,7 @@ public struct SinglePatchTruss : PatchTruss {
     self.core = core
   }
 
-  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.ParseBodyDataFn? = nil, validBundle: Core.ValidBundle? = nil, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
+  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.ParseBodyDataFn? = nil, validBundle: ValidBundle? = nil, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
 
     let fileDataCount: Int
     if let createFileData = createFileData {
@@ -55,7 +55,7 @@ public struct SinglePatchTruss : PatchTruss {
     self = Self.init(core, bodyDataCount: bodyDataCount, namePackIso: namePackIso, params: params, pack: pack, unpack: unpack, randomize: randomize)
   }
   
-  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseOffset: Int, validBundle: Core.ValidBundle? = nil, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
+  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseOffset: Int, validBundle: ValidBundle? = nil, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
     
     let parseBodyData = Self.parseBodyDataFn(parseOffset: parseOffset, bodyDataCount: bodyDataCount)
     self = try Self.init(displayId, bodyDataCount, namePackIso: namePackIso, params: params, initFile: initFile, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: validBundle, pack: pack, unpack: unpack, randomize: randomize)
@@ -71,7 +71,7 @@ public struct SinglePatchTruss : PatchTruss {
     self = try Self.init(displayId, bodyDataCount, namePackIso: namePackIso, params: params, initFile: initFile, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: validBundle, pack: pack, unpack: unpack, randomize: randomize)
   }
   
-  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, isValidSizeDataAndFetch validSizeFn: @escaping Core.ValidSizeFn, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
+  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, isValidSizeDataAndFetch validSizeFn: ValidSizeFn, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
     
     self = try Self.init(displayId, bodyDataCount, namePackIso: namePackIso, params: params, initFile: initFile, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: Core.validBundle(validSize: validSizeFn), pack: pack, unpack: unpack, randomize: randomize)
   }

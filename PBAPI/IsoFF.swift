@@ -15,7 +15,7 @@ extension Float {
 }
 
 public extension IsoFF {
-
+  
   /// Multiply
   static func m(_ x: Float) -> Self {
       .init(

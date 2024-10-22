@@ -62,6 +62,11 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
         return .bytes([b[byte]])
       }
     }),
+    (["msBytes7bit", ".n", ".n"], {
+      let value: Int = try $0.x(1)
+      let byteCount: Int = try $0.x(2)
+      return .const(value.bytes7bit(count: byteCount))
+    }),
     (["enc", ".s"], {
       .const((try $0.x(1) as String).sysexBytes())
     }),
@@ -88,8 +93,15 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
       }
     }),
     ("count", { _ in
-      return .b { b in
-          .bytes([UInt8(b.count)])
+      .b { b in .bytes([UInt8(b.count)]) }
+    }),
+    (["count", ".x", ".s", ".n"], {
+      let bytes: Self = try $0.x(1)
+      let encoding: String = try $0.x(2)
+      let byteCount: Int = try $0.x(3)
+      return .fn { b, e in
+        let arr = try bytes.call(b, e).count.bytes7bit(count: byteCount)
+        return .bytes(arr)
       }
     }),
     ("b", { _ in .ident }), // returns itself

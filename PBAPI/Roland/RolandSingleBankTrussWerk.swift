@@ -10,7 +10,7 @@ public struct RolandSingleBankTrussWerk {
   let patchWerk: RolandSinglePatchTrussWerk
   public let iso: RolandOffsetAddressIso
   
-  public init(_ patchWerk: RolandSinglePatchTrussWerk, _ patchCount: Int, start: RolandAddress, initFile: String = "", defaultName: String? = nil, iso: RolandOffsetAddressIso, parseBodyFn: ParseBodyFn? = nil, validBundle: SingleBankTruss.Core.ValidBundle? = nil) {
+  public init(_ patchWerk: RolandSinglePatchTrussWerk, _ patchCount: Int, start: RolandAddress, initFile: String = "", defaultName: String? = nil, iso: RolandOffsetAddressIso, parseBodyFn: ParseBodyFn? = nil, validBundle: ValidBundle? = nil) {
     self.patchWerk = patchWerk
     self.iso = iso
     self.start = start

@@ -114,6 +114,18 @@ extension Parm.Span: JsParsable {
       return try .rng(min...max, dispOff: $0.xq("dispOff") ?? 0)
     }),
     (["options" : ".a"], { .options(try $0.arr("options").optDict()) }),
+    ([
+      "iso" : ".x",
+      "rng" : ".a?",
+    ], {
+      var range: ClosedRange<Int>? = nil
+      if let rngArr = try? $0.arr("rng") {
+        let min: Int = try rngArr.x(0)
+        let max: Int = try rngArr.x(1) - 1
+        range = min...max
+      }
+      return try .isoS($0.x("iso"), range: range)
+    }),
     ([:], { _ in .rng() }),
   ])
   

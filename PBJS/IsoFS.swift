@@ -14,6 +14,9 @@ extension IsoFS : JsParsable {
     (".s", {
       try .const($0.x())
     }),
+    (["switch", ".a", ".x?"], {
+      try .switcher($0.x(1), default: $0.xq(2))
+    }),
     (["concat"], { v in
       let isos: [IsoFS] = try (1..<v.arrCount()).map { try v.x($0) }
       return .init { f in
@@ -62,6 +65,31 @@ extension IsoFS : JsParsable {
       guard let isoSMerge = isoSMerge else { throw JSError.error(msg: "No IsoFS found in iso array") }
       return isoSMerge
     }),
+    (".x", {
+      // last check: see if it's an IsoFF and if so, parse and pipe to String
+      let ff: IsoFF = try $0.x()
+      return ff >>> .str()
+    }),
   ])
 }
 
+extension IsoFS.SwitcherCheck: JsArrayParsable {
+  
+  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+    ([".n", ".s"], { try .int($0.x(0), $0.x(1)) }),
+    ([".a", ".s"], {
+      let rngArr = try $0.arr(0)
+      let min: Float = try rngArr.x(0)
+      let max: Float = try rngArr.x(1) - 1
+      return try .rangeString(min...max, $0.x(1))
+    }),
+    ([".a", ".x"], {
+      let rngArr = try $0.arr(0)
+      let min: Float = try rngArr.x(0)
+      let max: Float = try rngArr.x(1) - 1
+      return try .range(min...max, $0.x(1))
+    }),
+  ])
+  
+  static var jsArrayParsers = try! jsParsers.arrayParsers()
+}

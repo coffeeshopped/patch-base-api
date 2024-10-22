@@ -15,10 +15,10 @@ public struct JsModuleWerk: ModuleProvider {
   
   public var productId: String { "\(manufacturer).\(model)" }
 
-  private var _moduleTruss: BasicModuleTruss? = nil
+//  private var _moduleTruss: BasicModuleTruss? = nil
   
   public mutating func moduleTruss() throws -> BasicModuleTruss {
-    if let t = _moduleTruss { return t }
+//    if let t = _moduleTruss { return t }
     return try loadModuleTruss()
   }
   
@@ -117,8 +117,8 @@ public struct JsModuleWerk: ModuleProvider {
       throw JSError.error(msg: "createModule() failed")
     }
     // the exports of the eval'ed file should define a "module" property with the module truss
-    _moduleTruss = try moduleTemplate.x("module")
-    return _moduleTruss!
+//    _moduleTruss = try moduleTemplate.x("module")
+    return try moduleTemplate.x("module")
   }
   
   

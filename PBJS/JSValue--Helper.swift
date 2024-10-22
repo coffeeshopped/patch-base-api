@@ -262,6 +262,13 @@ extension UInt8: JsArrayParsable {
   static let jsArrayParsers = try! jsParsers.arrayParsers()
 }
 
+extension Float: JsArrayParsable {
+  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+    (".n", { try $0.num().floatValue }),
+  ])
+  static let jsArrayParsers = try! jsParsers.arrayParsers()
+}
+
 extension CGFloat: JsArrayParsable {
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     (".n", { CGFloat(truncating: try $0.num()) }),

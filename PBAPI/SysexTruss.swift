@@ -105,11 +105,11 @@ public extension SysexTruss {
   
   var fileDataCount: Int { core.fileDataCount }
 
-  var isValidSize: (Int) -> Bool { { core.isValidSize($0) } }
+  var isValidSize: (Int) -> Bool { { core.isValidSize.check($0) } }
 
-  var isValidFileData: ([UInt8]) -> Bool { { core.isValidFileData($0) } }
+  var isValidFileData: ([UInt8]) -> Bool { { core.isValidFileData.check($0) } }
 
-  var isCompleteFetch: ([UInt8]) -> Bool { { core.isCompleteFetch($0)} }
+  var isCompleteFetch: ([UInt8]) -> Bool { { core.isCompleteFetch.check($0) } }
 
   var createFileData: (BodyData) throws -> [UInt8] { { try core.createFileData.call($0, nil).bytes() } }
   

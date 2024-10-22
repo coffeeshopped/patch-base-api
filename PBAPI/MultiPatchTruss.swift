@@ -14,12 +14,12 @@ public struct MultiPatchTruss : PatchTruss {
   public let trussPaths: [SynthPath]
   public let trussDict: [SynthPath:SinglePatchTruss]
 
-  public init(_ displayId: String, trussMap: [(SynthPath, SinglePatchTruss)], namePath: SynthPath? = nil, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.ParseBodyDataFn? = nil, validBundle bundle: Core.ValidBundle? = nil) {
+  public init(_ displayId: String, trussMap: [(SynthPath, SinglePatchTruss)], namePath: SynthPath? = nil, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.ParseBodyDataFn? = nil, validBundle bundle: ValidBundle? = nil) {
     
     self = Self.init(displayId, trussMap: trussMap, namePath: namePath, initFile: initFile, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: bundle?.validSize, isValidFileData: bundle?.validData, isCompleteFetch: bundle?.completeFetch)
   }
   
-  public init(_ displayId: String, trussMap: [(SynthPath, SinglePatchTruss)], namePath: SynthPath? = nil, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.ParseBodyDataFn? = nil, isValidSize: Core.ValidSizeFn? = nil, isValidFileData: Core.ValidDataFn? = nil, isCompleteFetch: Core.ValidDataFn? = nil) {
+  public init(_ displayId: String, trussMap: [(SynthPath, SinglePatchTruss)], namePath: SynthPath? = nil, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.ParseBodyDataFn? = nil, isValidSize: ValidSizeFn? = nil, isValidFileData: ValidDataFn? = nil, isCompleteFetch: ValidDataFn? = nil) {
     self.trussMap = trussMap
     self.trussPaths = trussMap.map { $0.0 }
     self.trussDict = trussMap.dict { [$0.0 : $0.1] }
@@ -53,7 +53,7 @@ public struct MultiPatchTruss : PatchTruss {
   }
   
   /// Generate a ValidBundle using the default fileDataCount method plus any other valid sizes.
-  public static func fileDataCountBundle(trusses: [SinglePatchTruss], validSizes: [Int], includeFileDataCount: Bool) -> Core.ValidBundle {
+  public static func fileDataCountBundle(trusses: [SinglePatchTruss], validSizes: [Int], includeFileDataCount: Bool) -> ValidBundle {
     let finalValidSizes = (includeFileDataCount ? [fileDataCount(trusses: trusses)] : []) + validSizes
     return Core.validBundle(counts: finalValidSizes)
   }
