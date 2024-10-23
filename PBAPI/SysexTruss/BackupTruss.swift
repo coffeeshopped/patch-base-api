@@ -16,8 +16,7 @@ public struct BackupTruss : MultiSysexTruss {
     self.trussPaths = trussMap.map { $0.0 }
     
     let fileDataCount = trussMap.map { $0.1.fileDataCount }.reduce(0, +)
-    let validBundle = Core.validBundle(counts: [fileDataCount] + (otherValidSizes ?? []))
-    self.core = Core("\(synthName).backup", fileDataCount: fileDataCount, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: validBundle)
+    self.core = Core("\(synthName).backup", fileDataCount: fileDataCount, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: .init(sizes: [fileDataCount] + (otherValidSizes ?? [])))
     
   }
   

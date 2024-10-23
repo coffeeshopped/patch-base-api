@@ -33,6 +33,10 @@ extension ModuleTrussSection.Item: JsParsable, JsArrayParsable {
     }),
   ])
 
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
+  static let jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([
+    (["perfParts", ".n", ".f", ".x"], {
+      try .perfParts($0.x(1), $0.fn(2), pathPrefix: [.part], $0.x(3))
+    }),
+  ]).with(jsParsers.arrayParsers())
 
 }

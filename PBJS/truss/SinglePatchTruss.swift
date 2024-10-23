@@ -66,18 +66,48 @@ extension SinglePatchTruss: JsParsable {
 
   static let parseBodyRules: JsParseTransformSet<Core.ParseBodyDataFn> = try! .init([
     (["+"], { v in
-      let fns = try (1..<v.arrCount()).map { try v.atIndex($0).xform(parseBodyFnRules) }
+      let fns = try (1..<v.arrCount()).map { try v.atIndex($0).xform(parseBodyRules) }
       return { b in try fns.flatMap { try $0(b) } }
       }),
     ([">"], { v in
-      let fns = try (1..<v.arrCount()).map { try v.atIndex($0).xform(parseBodyFnRules) }
+      let fns = try (1..<v.arrCount()).map { try v.atIndex($0).xform(parseBodyRules) }
       return {
         try fns.reduce($0) { partialResult, fn in try fn(partialResult) }
       }
     }),
+    
+    
+    (["bytes", ".d"], {
+      let d = try $0.obj(1)
+      let start: Int = try d.x("start")
+      if let count: Int = try d.xq("count") {
+        return { $0.safeBytes(offset: start, count: count) }
+      }
+      else if let end: Int = try d.xq("end") {
+        if end < 0 {
+          return { $0.safeBytes(start..<($0.count - end)) }
+        }
+        else if end <= start {
+          throw JSError.error(msg: "'end' must be greater than 'start', or negative")
+        }
+        else {
+          return { $0.safeBytes(start..<end) }
+        }
+      }
+      throw JSError.error(msg: "No argument for end of byte range found.")
+    }),
+    ("denibblizeLSB", { _ in
+      return { bytes in
+        (bytes.count / 2).map {
+          UInt8(bytes[$0 * 2].bits(0...3) + (bytes[$0 * 2 + 1].bits(0...3) << 4))
+       }
+      }
+    }),
+    
+    
     (".a", { v in
       // otherwise, treat as an implicit "+"
-      let fns = try v.map { try $0.xform(parseBodyFnRules) }
+      let fns = try v.map { try $0.xform(parseBodyRules) }
       return { b in try fns.flatMap { try $0(b) } }
     }),
     (".f", { fn in
@@ -86,20 +116,34 @@ extension SinglePatchTruss: JsParsable {
     }),
   ], "singlePatchTruss parseBody")
   
-  static let parseBodyFnRules: JsParseTransformSet<(BodyData) throws -> BodyData> = try! .init([
-    (["bytes", ".n", ".n"], {
-      let start: Int = try $0.x(1)
-      let count: Int = try $0.x(2)
-      return { $0.safeBytes(offset: start, count: count) }
-    }),
-    ("denibblizeLSB", { _ in
-      return { bytes in
-        (bytes.count / 2).map {
-          UInt8(bytes[$0 * 2].bits(0...3) + (bytes[$0 * 2 + 1].bits(0...3) << 4))
-       }
-      }
-    })
-  ], "singlePatchTruss parseBody Functions")
+//  static let parseBodyFnRules: JsParseTransformSet<(BodyData) throws -> BodyData> = try! .init([
+//    (["bytes", ".d"], {
+//      let d = try $0.obj(1)
+//      let start: Int = try d.x("start")
+//      if let count: Int = try d.xq("count") {
+//        return { $0.safeBytes(offset: start, count: count) }
+//      }
+//      else if let end: Int = try d.xq("end") {
+//        if end < 0 {
+//          return { $0.safeBytes(start..<($0.count - end)) }
+//        }
+//        else if end <= start {
+//          throw JSError.error(msg: "'end' must be greater than 'start', or negative")
+//        }
+//        else {
+//          return { $0.safeBytes(start..<end) }
+//        }
+//      }
+//      throw JSError.error(msg: "No argument for end of byte range found.")
+//    }),
+//    ("denibblizeLSB", { _ in
+//      return { bytes in
+//        (bytes.count / 2).map {
+//          UInt8(bytes[$0 * 2].bits(0...3) + (bytes[$0 * 2 + 1].bits(0...3) << 4))
+//       }
+//      }
+//    }),
+//  ], "singlePatchTruss parseBody Functions")
       
   static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any?]) throws -> [(MidiMessage, Int)] {
     // fn can be a JS function

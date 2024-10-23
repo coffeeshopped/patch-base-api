@@ -66,14 +66,8 @@ public struct SinglePatchTruss : PatchTruss {
 
     let fileDataCount = try Self.fileDataCount(createFileData: createFileData, bodyDataCount: bodyDataCount)
     let finalValidSizes = (includeFileDataCount ? [fileDataCount] : []) + validSizes
-    let validBundle = Core.validBundle(counts: finalValidSizes)
     
-    self = try Self.init(displayId, bodyDataCount, namePackIso: namePackIso, params: params, initFile: initFile, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: validBundle, pack: pack, unpack: unpack, randomize: randomize)
-  }
-  
-  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, isValidSizeDataAndFetch validSizeFn: ValidSizeFn, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
-    
-    self = try Self.init(displayId, bodyDataCount, namePackIso: namePackIso, params: params, initFile: initFile, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: Core.validBundle(validSize: validSizeFn), pack: pack, unpack: unpack, randomize: randomize)
+    self = try Self.init(displayId, bodyDataCount, namePackIso: namePackIso, params: params, initFile: initFile, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: .init(sizes: finalValidSizes), pack: pack, unpack: unpack, randomize: randomize)
   }
   
   private static func fileDataCount(createFileData: Core.ToMidiFn, bodyDataCount: Int) throws -> Int {

@@ -160,7 +160,9 @@ public extension Parm {
 public extension Array where Element == Parm {
   
   func params() -> SynthPathParam {
-    dict { [$0.path : $0] }
+    var d = SynthPathParam(minimumCapacity: count)
+    forEach { d[$0.path] = $0 }
+    return d
   }
   
   var paths: [SynthPath] {

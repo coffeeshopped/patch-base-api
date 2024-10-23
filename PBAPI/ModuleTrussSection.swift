@@ -85,8 +85,8 @@ public extension ModuleTrussSection.Item {
 
 public extension Array where Element == ModuleTrussSection.Item {
   
-  static func perfParts(_ count: Int, _ title: (Int) -> String, pathPrefix: SynthPath = [.part], _ ctrlr: PatchController) -> Self {
-    count.map { .voice(title($0), path: pathPrefix + [.i($0)], ctrlr) }
+  static func perfParts(_ count: Int, _ title: (Int) throws -> String, pathPrefix: SynthPath = [.part], _ ctrlr: PatchController) throws -> Self {
+    try count.map { try .voice(title($0), path: pathPrefix + [.i($0)], ctrlr) }
   }
 
   static func banks(_ count: Int, _ title: (Int) -> String, _ pathPrefix: SynthPath) -> Self {

@@ -30,8 +30,7 @@ public struct SomeBankTruss<PT:PatchTruss> : BankTruss {
     
     let fileDataCount = Self.fileDataCount(patchTruss: patchTruss, patchCount: patchCount)
     let finalValidSizes = (includeFileDataCount ? [fileDataCount] : []) + validSizes
-    let validBundle = Core.validBundle(counts: finalValidSizes)
-    self = Self.init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: validBundle)
+    self = Self.init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: .init(sizes: finalValidSizes))
   }
   
   public static func fileDataCount(patchTruss: PT, patchCount: Int) -> Int {
@@ -41,7 +40,7 @@ public struct SomeBankTruss<PT:PatchTruss> : BankTruss {
   /// Generate a ValidBundle using the default fileDataCount method plus any other valid sizes.
   public static func fileDataCountBundle(patchTruss: PT, patchCount: Int, validSizes: [Int], includeFileDataCount: Bool) -> ValidBundle {
     let finalValidSizes = (includeFileDataCount ? [fileDataCount(patchTruss: patchTruss, patchCount: patchCount)] : []) + validSizes
-    return Core.validBundle(counts: finalValidSizes)
+    return .init(sizes: finalValidSizes)
   }
 
 

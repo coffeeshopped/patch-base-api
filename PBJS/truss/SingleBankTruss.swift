@@ -8,22 +8,31 @@ extension SinglePatchTruss: JsBankParsable {
       "type" : "singleBank",
       "patchTruss" : ".d",
       "patchCount" : ".n",
+      "locationIndex" : ".n",
       "validSizes" : ".a",
       "includeFileDataCount" : ".b",
     ], {
+      let patchTruss: Self = try $0.x("patchTruss")
+      let patchCount: Int = try $0.x("patchCount")
       let createFile = try $0.obj("createFile").xform(SingleBankTruss.toMidiRules)
-      let parseBody = try $0.obj("parseBody").xform(SingleBankTruss.parseBodyRules)
-      return try .init(patchTruss: $0.x("patchTruss"), patchCount: $0.x("patchCount"), initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody, validSizes: $0.arr("validSizes").arrInt(), includeFileDataCount: $0.x("includeFileDataCount"))
+      
+      let parseBody = try SingleBankTruss.sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: patchTruss.parseBodyData, patchCount: patchCount)
+
+      return try .init(patchTruss: patchTruss, patchCount: patchCount, initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody, validSizes: $0.arr("validSizes").arrInt(), includeFileDataCount: $0.x("includeFileDataCount"))
     }),
     ([
       "type" : "singleBank",
       "patchTruss" : ".d",
       "patchCount" : ".n",
-      "validBundle" : ".x",
+      "locationIndex" : ".n",
     ], {
+      let patchTruss: Self = try $0.x("patchTruss")
+      let patchCount: Int = try $0.x("patchCount")
       let createFile = try $0.obj("createFile").xform(SingleBankTruss.toMidiRules)
-      let parseBody = try $0.obj("parseBody").xform(SingleBankTruss.parseBodyRules)
-      return try .init(patchTruss: $0.x("patchTruss"), patchCount: $0.x("patchCount"), initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody, validBundle: $0.x("validBundle"))
+      
+      let parseBody = try SingleBankTruss.sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: patchTruss.parseBodyData, patchCount: patchCount)
+
+      return try .init(patchTruss: patchTruss, patchCount: patchCount, initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody, validBundle: $0.xq("validBundle"))
     }),
     ([
       "type" : "compactSingleBank",
@@ -84,15 +93,15 @@ extension SinglePatchTruss : JsBankToMidiParsable {
   
 }
 
-extension SingleBankTruss {
-  static let parseBodyRules: JsParseTransformSet<Core.ParseBodyDataFn> = try! .init([
-    ([
-      "locationIndex" : ".n",
-      "parseBody" : ".x",
-      "patchCount" : ".n",
-    ], {
-      let parseBody = try $0.any("parseBody").xform(SinglePatchTruss.parseBodyRules)
-      return try sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: parseBody, patchCount: $0.x("patchCount"))
-    }),
-  ], "singleBankTruss parseBody")
-}
+//extension SingleBankTruss {
+//  static let parseBodyRules: JsParseTransformSet<Core.ParseBodyDataFn> = try! .init([
+//    ([
+//      "locationIndex" : ".n",
+//      "parseBody" : ".x",
+//      "patchCount" : ".n",
+//    ], {
+//      let parseBody = try $0.any("parseBody").xform(SinglePatchTruss.parseBodyRules)
+//      return try sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: parseBody, patchCount: $0.x("patchCount"))
+//    }),
+//  ], "singleBankTruss parseBody")
+//}

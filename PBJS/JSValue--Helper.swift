@@ -88,6 +88,11 @@ extension JSValue {
     return item
   }
 
+  func fn<A:Any, B:JsParsable>(_ index: Int) throws -> ((A) throws -> B) {
+    let f = try fn(index)
+    return { try f.call([$0]).x() }
+  }
+
   func xform<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> Output {
     guard let rule = rules.rules.first(where: { $0.match.matches(self) }) else {
       throw JSError.error(msg: "No matching rule in set: \(rules.name)\n\n\(pbDebug())")

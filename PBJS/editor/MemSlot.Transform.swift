@@ -12,6 +12,6 @@ extension MemSlot.Transform: JsParsable {
       let fn = try $0.fn(1)
       return try .preset({ try fn.call([$0]).x() }, names: $0.x(2))
     }),
-  ], "slotTransform")
+  ])
 
 }

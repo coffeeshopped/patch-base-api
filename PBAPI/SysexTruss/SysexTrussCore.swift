@@ -160,10 +160,10 @@ public struct SysexTrussCore<BodyData> {
     self.createFileData = createFileData
     self.parseBodyData = parseBodyData
     
-    let isValidSize = isValidSize ?? .fn({ $0 == fileDataCount })
+    let isValidSize = isValidSize ?? .size(fileDataCount)
     self.isValidSize = isValidSize
-    self.isValidFileData = isValidFileData ?? Self.validDataFn(isValidSize)
-    self.isCompleteFetch = isCompleteFetch ?? Self.validDataFn(isValidSize)
+    self.isValidFileData = isValidFileData ?? .withValidSize(isValidSize)
+    self.isCompleteFetch = isCompleteFetch ?? .withValidSize(isValidSize)
   }
 
   public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: ToMidiFn, parseBodyData: @escaping ParseBodyDataFn, validBundle bundle: ValidBundle? = nil) {
@@ -172,25 +172,8 @@ public struct SysexTrussCore<BodyData> {
   }
 
   public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: ToMidiFn, parseBodyData: @escaping ParseBodyDataFn, isValidSizeDataAndFetch validSizeFn: ValidSizeFn) {
-    let validDataFn = Self.validDataFn(validSizeFn)
+    let validDataFn: ValidDataFn = .withValidSize(validSizeFn)
     self = Self.init(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: validSizeFn, isValidFileData: validDataFn, isCompleteFetch: validDataFn)
   }
-  
-  public static func validDataFn(_ validSizeFn: ValidSizeFn) -> ValidDataFn {
-    .fn({ validSizeFn.check($0.count) })
-  }
-  
-  public static func validBundle(counts: [Int]) -> ValidBundle {
-    validBundle(validSize: .fn({ counts.contains($0) }))
-  }
-  
-  public static func validBundle(validSize: ValidSizeFn) -> ValidBundle {
-    let validData = validDataFn(validSize)
-    return .init(
-      validSize: validSize,
-      validData: validData,
-      completeFetch: validData
-    )
-  }
-  
+      
 }

@@ -43,9 +43,8 @@ public struct MultiPatchTruss : PatchTruss {
     
     let fileDataCount = fileDataCount ?? Self.fileDataCount(trusses: trussMap.map { $0.1 })
     let finalValidSizes = (includeFileDataCount ? [fileDataCount] : []) + validSizes
-    let validBundle = Core.validBundle(counts: finalValidSizes)
     
-    self = Self.init(displayId, trussMap: trussMap, namePath: namePath, initFile: initFile, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: validBundle)
+    self = Self.init(displayId, trussMap: trussMap, namePath: namePath, initFile: initFile, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: .init(sizes: finalValidSizes))
   }
   
   private static func fileDataCount(trusses: [SinglePatchTruss]) -> Int {
@@ -55,7 +54,7 @@ public struct MultiPatchTruss : PatchTruss {
   /// Generate a ValidBundle using the default fileDataCount method plus any other valid sizes.
   public static func fileDataCountBundle(trusses: [SinglePatchTruss], validSizes: [Int], includeFileDataCount: Bool) -> ValidBundle {
     let finalValidSizes = (includeFileDataCount ? [fileDataCount(trusses: trusses)] : []) + validSizes
-    return Core.validBundle(counts: finalValidSizes)
+    return .init(sizes: finalValidSizes)
   }
 
   public static func defaultParseBodyData(fileData: [UInt8], trussMap: [(SynthPath, SinglePatchTruss)]) throws -> MultiPatchTruss.BodyData {
