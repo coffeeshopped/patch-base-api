@@ -205,6 +205,12 @@ extension JSValue {
     return item
   }
   
+  func fn<A:Any, B:JsParsable>(_ key: String) throws -> ((A) throws -> B) {
+    let f = try fn(key)
+    return { try f.call([$0]).x() }
+  }
+
+  
   var isFn: Bool {
     !isUndefined && call(withArguments: []) != nil
   }

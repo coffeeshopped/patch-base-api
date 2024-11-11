@@ -490,15 +490,15 @@ public extension PatchController.Constraint {
 public extension Array where Element == PatchController.Effect {
 
   /// Map a control (PBSelect) to have its options updated either when a value at `path` is changed, or mapped params are changed
-  static func patchSelector(id: SynthPath, bankValue: SynthPath, paramMap: @escaping (Int) -> PatchController.ConfigParam) -> Self {
+  static func patchSelector(id: SynthPath, bankValue: SynthPath, paramMap: @escaping (Int) throws -> PatchController.ConfigParam) -> Self {
     
-    patchSelector(id: id, bankValues: [bankValue]) { paramMap($0[bankValue] ?? 0) }
+    patchSelector(id: id, bankValues: [bankValue]) { try paramMap($0[bankValue] ?? 0) }
     
   }
 
-  static func patchSelector(id: SynthPath, bankValues: [SynthPath], paramMap: @escaping (SynthPathInts) -> PatchController.ConfigParam) -> Self {
+  static func patchSelector(id: SynthPath, bankValues: [SynthPath], paramMap: @escaping (SynthPathInts) throws -> PatchController.ConfigParam) -> Self {
     .patchSelector(id: id, bankValues: bankValues) { values, state, locals in
-      paramMap(values)
+      try paramMap(values)
     }
   }
 
