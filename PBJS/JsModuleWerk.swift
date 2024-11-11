@@ -5,7 +5,7 @@ import PBAPI
 #if os(macOS)
 let JS_BASE_PATH = "/Users/chadwickwood/Code/patch-base-editors/"
 #else
-let JS_BASE_PATH = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path + "/js/"
+let JS_BASE_PATH = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path + "/Code/"
 #endif
 
 /// On creation, loads the basic info about a Synth Module. On first access of moduleTruss, the moduleTruss is parsed from JS and cached.
