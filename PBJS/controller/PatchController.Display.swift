@@ -17,10 +17,13 @@ extension PatchController.Display: JsParsable {
       "display": "timeLevelEnv",
       "pointCount" : ".n",
       "sustain" : ".n",
-      "bipolar" : ".b",
+      "bipolar" : ".b?",
     ], {
-      try .timeLevelEnv(pointCount: $0.x("pointCount"), sustain: $0.x("sustain"), bipolar: $0.x("bipolar"))
+      try .timeLevelEnv(pointCount: $0.x("pointCount"), sustain: $0.x("sustain"), bipolar: $0.xq("bipolar"))
     }),
-  ], "controller display")
+    ([
+      "display" : "levelScaling",
+    ], { _ in .levelScaling() }),
+  ])
 
 }

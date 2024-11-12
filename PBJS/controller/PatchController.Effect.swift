@@ -19,10 +19,7 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
       return try .editMenu($0.xq(1), paths: paths, type: config.x("type"), init: innit, rand: nil, items: [])
     }),
     (["patchChange", ".p", ".f"], {
-      let fn = try $0.fn(2)
-      return .patchChange(try $0.x(1)) { v in
-        try fn.call([v]).x()
-      }
+      try .patchChange($0.x(1), $0.fn(2))
     }),
     (["patchChange", ".d"], {
       let config = try $0.obj(1)
@@ -43,14 +40,10 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
       return try .dimsOn($0.x(1), id: $0.xq(2), dimAlpha: obj?.xq("dimAlpha"), dimWhen: f)
     }),
     (["indexChange", ".f"], {
-      let fn = try $0.fn(1)
-      return .indexChange { try fn.call([$0]).x() }
+      try .indexChange($0.fn(1))
     }),
     (["paramChange", ".p", ".f"], {
-      let fn = try $0.fn(2)
-      return .paramChange(try $0.x(1)) { parm in
-        try fn.call([parm]).x()
-      }
+      try .paramChange($0.x(1), $0.fn(2))
     }),
     (["controlChange", ".p", ".f"], {
       let fn = try $0.fn(2)
@@ -59,8 +52,10 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
       }
     }),
     (["setup", ".a"], { .setup(try $0.x(1)) }),
-    (["basicControlChange", ".p"], { .basicControlChange(try $0.x(1)) }),
-    (["basicPatchChange", ".p"], { .basicPatchChange(try $0.x(1)) }),
+    (["basicControlChange", ".p"], { try .basicControlChange($0.x(1)) }),
+    (["basicPatchChange", ".p"], { try .basicPatchChange($0.x(1)) }),
+    (["click", ".p?", ".f"], { try .click($0.xq(1), $0.fn(2)) }),
+    (["listen", ".p", ".f"], { try .listen($0.x(1), $0.fn(2)) }),
   ])
   
   static let jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([

@@ -96,7 +96,7 @@ indirect enum MatchItem : Equatable, Hashable {
     case .opt(let item):
       return x.isUndefined || x.isNull || item.matches(x)
     case .path:
-      return x.isString || x.isArray
+      return x.isString || x.isNumber || x.isArray
     case .fn:
       return x.isFn
     case .num:

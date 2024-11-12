@@ -1,7 +1,7 @@
 
 public extension PatchController.Display {
   
-  static func timeLevelEnv(pointCount: Int, sustain: Int = 1000, bipolar: Bool = false) -> Self {
+  static func timeLevelEnv(pointCount: Int, sustain: Int = 1000, bipolar: Bool? = nil) -> Self {
     let pathFn: PatchController.DisplayPathFn = { values in
       var cmds = [PBBezier.PathCommand]()
 
@@ -34,7 +34,7 @@ public extension PatchController.Display {
       cmds.append(.addLine(to: CGPoint(x: 1, y: y)))
       cmds.append(.addLine(to: CGPoint(x: 1 + offscreenDelta, y: -offscreenDelta)))
       
-      if bipolar {
+      if (bipolar ?? false) {
         let t = CGAffineTransform.identity
           .scaledBy(x: 1, y: 0.5)
           .translatedBy(x: 0, y: 1)

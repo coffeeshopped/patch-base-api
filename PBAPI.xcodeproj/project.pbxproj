@@ -174,6 +174,9 @@
 		AC6778E02C98FD39002FE359 /* RolandMultiPatchTrussWerk.MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6778DF2C98FD39002FE359 /* RolandMultiPatchTrussWerk.MapItem.swift */; };
 		AC6778E22C98FF3E002FE359 /* AnyRolandSysexTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6778E12C98FF3E002FE359 /* AnyRolandSysexTrussWerk.swift */; };
 		AC6FBC3E2CC94299001B43C5 /* ValidBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6FBC3D2CC94299001B43C5 /* ValidBundle.swift */; };
+		ACB699FC2CE2C5A000738F63 /* SynthPathMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB699FB2CE2C5A000738F63 /* SynthPathMap.swift */; };
+		ACB699FE2CE3A18200738F63 /* SynthPathMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB699FD2CE3A18200738F63 /* SynthPathMap.swift */; };
+		ACB69A002CE3BDA500738F63 /* JsPassable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB699FF2CE3BDA500738F63 /* JsPassable.swift */; };
 		ACE0BB762C6E4E130099F3D9 /* PBBezier.PathCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB752C6E4E130099F3D9 /* PBBezier.PathCommand.swift */; };
 		ACE0BB782C6E6EF00099F3D9 /* PBError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB772C6E6EF00099F3D9 /* PBError.swift */; };
 		ACE0BB7A2C6E92710099F3D9 /* DXAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB792C6E92700099F3D9 /* DXAlgorithm.swift */; };
@@ -375,6 +378,9 @@
 		AC6778DF2C98FD39002FE359 /* RolandMultiPatchTrussWerk.MapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolandMultiPatchTrussWerk.MapItem.swift; sourceTree = "<group>"; };
 		AC6778E12C98FF3E002FE359 /* AnyRolandSysexTrussWerk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyRolandSysexTrussWerk.swift; sourceTree = "<group>"; };
 		AC6FBC3D2CC94299001B43C5 /* ValidBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidBundle.swift; sourceTree = "<group>"; };
+		ACB699FB2CE2C5A000738F63 /* SynthPathMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthPathMap.swift; sourceTree = "<group>"; };
+		ACB699FD2CE3A18200738F63 /* SynthPathMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthPathMap.swift; sourceTree = "<group>"; };
+		ACB699FF2CE3BDA500738F63 /* JsPassable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsPassable.swift; sourceTree = "<group>"; };
 		ACE0BB752C6E4E130099F3D9 /* PBBezier.PathCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBBezier.PathCommand.swift; sourceTree = "<group>"; };
 		ACE0BB772C6E6EF00099F3D9 /* PBError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBError.swift; sourceTree = "<group>"; };
 		ACE0BB792C6E92700099F3D9 /* DXAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DXAlgorithm.swift; sourceTree = "<group>"; };
@@ -465,10 +471,12 @@
 				AC414B592C653A900019DC1B /* JsModuleLoader.swift */,
 				AC414B632C653A900019DC1B /* JsConsole.swift */,
 				AC414BA02C653C290019DC1B /* JsParseTransform.swift */,
+				ACB699FF2CE3BDA500738F63 /* JsPassable.swift */,
 				AC414B622C653A900019DC1B /* JSValue--Helper.swift */,
 				AC414B582C653A900019DC1B /* JSError.swift */,
 				AC414B542C653A900019DC1B /* JsModuleWerk.swift */,
 				AC414B5B2C653A900019DC1B /* SynthPath.swift */,
+				ACB699FD2CE3A18200738F63 /* SynthPathMap.swift */,
 				AC414B5D2C653A900019DC1B /* Parm.swift */,
 				AC1B9E3C2CA60C19000C777F /* IsoFF.swift */,
 				AC1B9E432CA71314000C777F /* IsoFS.swift */,
@@ -532,6 +540,7 @@
 			children = (
 				AC4AC0EF2C65335900358BF0 /* PBAPI.h */,
 				AC3DB3DA2C65340A00375C37 /* SynthPath.swift */,
+				ACB699FB2CE2C5A000738F63 /* SynthPathMap.swift */,
 				AC3DB3DC2C65340A00375C37 /* SynthPathTree.swift */,
 				AC3DB3DB2C65340A00375C37 /* JsSynthPath.swift */,
 				AC414A4A2C6535150019DC1B /* Sysexible.swift */,
@@ -887,6 +896,7 @@
 				AC414B9B2C653AAF0019DC1B /* PatchController.Effect.swift in Sources */,
 				AC1B9E462CA730FC000C777F /* RolandOffsetAddressIso.swift in Sources */,
 				AC414B932C653AAF0019DC1B /* PatchController.DisplayMap.swift in Sources */,
+				ACB699FE2CE3A18200738F63 /* SynthPathMap.swift in Sources */,
 				AC414B892C653AA20019DC1B /* MultiPatchTruss.swift in Sources */,
 				AC414B9A2C653AAF0019DC1B /* PatchController.Prefix.swift in Sources */,
 				AC414B682C653A900019DC1B /* JsModuleWerk.swift in Sources */,
@@ -917,6 +927,7 @@
 				AC414B3F2C653A7B0019DC1B /* PBJS.docc in Sources */,
 				AC1B9E442CA71314000C777F /* IsoFS.swift in Sources */,
 				AC0BBF442C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift in Sources */,
+				ACB69A002CE3BDA500738F63 /* JsPassable.swift in Sources */,
 				AC6778E22C98FF3E002FE359 /* AnyRolandSysexTrussWerk.swift in Sources */,
 				AC6659E92C9B783C00CFDFFA /* PatchController.PageSetup.swift in Sources */,
 				AC414B782C653A900019DC1B /* Jiso.swift in Sources */,
@@ -964,6 +975,7 @@
 				AC414B2B2C65362C0019DC1B /* Change.swift in Sources */,
 				AC414A982C6535760019DC1B /* PatchTruss.swift in Sources */,
 				AC414AA92C6535830019DC1B /* SinglePatchTruss.swift in Sources */,
+				ACB699FC2CE2C5A000738F63 /* SynthPathMap.swift in Sources */,
 				AC414B252C65361A0019DC1B /* AnySynthEditor.swift in Sources */,
 				AC414A752C65354D0019DC1B /* PBLayoutConstraint.swift in Sources */,
 				AC414B152C6535FD0019DC1B /* RolandSysexTrussWerk.swift in Sources */,

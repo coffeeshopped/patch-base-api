@@ -2,7 +2,7 @@
 import PBAPI
 import JavaScriptCore
 
-extension Parm: JsParsable, JsArrayParsable {
+extension Parm: JsParsable, JsArrayParsable, JsPassable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     ([".p", ".d"], {
@@ -12,10 +12,10 @@ extension Parm: JsParsable, JsArrayParsable {
     }),
   ], "general parm")
   
-  func toJS() -> [String:Any?] {
+  func toJS() -> Any {
     [
-      "b" : b,
-      "p" : p,
+      "b" : b as Any,
+      "p" : p as Any,
       "path" : path.toJS(),
     ]
   }

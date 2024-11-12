@@ -5,7 +5,7 @@ public indirect enum PatchController {
   
   case paged(prefix: Prefix? = nil, color: Int? = nil, border: Int? = nil, _ builders: [Builder], effects: [Effect] = [], layout: [Constraint] = [], pages: PageSetup)
   
-  case fm(_ algos: [DXAlgorithm], opCtrlr: (Int) throws -> PatchController, algoPath: SynthPath = [.algo], reverse: Bool = false, selectable: Bool = false)
+  case fm(_ algos: [DXAlgorithm], opCtrlr: (Int) throws -> PatchController, algoPath: SynthPath? = nil, reverse: Bool? = nil, selectable: Bool? = nil)
   
   case data(_ dataCount: Int, _ range: ClosedRange<Int>, _ pathFn: (Int) -> SynthPath, effects: [Effect] = [])
     
@@ -26,7 +26,7 @@ public indirect enum PatchController {
   public enum Prefix {
     case fixed(SynthPath)
     case index(_ prefix: SynthPath)
-    case indexFn(_ fn: (Int) -> SynthPath)
+    case indexFn(_ fn: (Int) throws -> SynthPath)
     case select([SynthPath])
   }
   
@@ -625,7 +625,7 @@ public extension PatchController {
     ], layout: layout)
   }
 
-  static func fm(_ algos: [DXAlgorithm], _ opCtrlr: PatchController, algoPath: SynthPath = [.algo], reverse: Bool = false, selectable: Bool = false) -> Self {
+  static func fm(_ algos: [DXAlgorithm], _ opCtrlr: PatchController, algoPath: SynthPath? = nil, reverse: Bool? = nil, selectable: Bool? = nil) -> Self {
     .fm(algos, opCtrlr: { _ in opCtrlr }, algoPath: algoPath, reverse: reverse, selectable: selectable)
   }
 

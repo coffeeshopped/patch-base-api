@@ -65,7 +65,11 @@ extension JSValue {
   func map<X:Any>(_ fn: (JSValue) throws -> X) throws -> [X] {
     try (0..<arrCount()).map { try fn(any($0)) }
   }
-  
+
+  func flatMap<X:Any>(_ fn: (JSValue) throws -> [X]) throws -> [X] {
+    try (0..<arrCount()).flatMap { try fn(any($0)) }
+  }
+
   func forEach(_ fn: (JSValue) throws -> Void) throws {
     try (0..<arrCount()).forEach { try fn(any($0)) }
   }
@@ -88,9 +92,15 @@ extension JSValue {
     return item
   }
 
-  func fn<A:Any, B:JsParsable>(_ index: Int) throws -> ((A) throws -> B) {
+  func fn<A:JsPassable, B:JsParsable>(_ index: Int) throws -> ((A) throws -> B) {
     let f = try fn(index)
-    return { try f.call([$0]).x() }
+    return { try f.call([$0.toJS()]).x() }
+  }
+
+  // for 2-arg fns
+  func fn<A:JsPassable, B:JsParsable, C:JsPassable>(_ index: Int) throws -> ((A, C) throws -> B) {
+    let f = try fn(index)
+    return { try f.call([$0.toJS(), $1.toJS()]).x() }
   }
 
   func xform<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> Output {
@@ -192,7 +202,8 @@ extension JSValue {
   }
   
   func arrPath() throws -> [SynthPath] {
-    try map { try $0.x() }
+    try xform(SynthPath.arrPathRules)
+//    try map { try $0.x() }
   }
   
   func arrPath(_ key: String) throws -> [SynthPath] { try arr(key).arrPath() }
@@ -205,9 +216,9 @@ extension JSValue {
     return item
   }
   
-  func fn<A:Any, B:JsParsable>(_ key: String) throws -> ((A) throws -> B) {
+  func fn<A:JsPassable, B:JsParsable>(_ key: String) throws -> ((A) throws -> B) {
     let f = try fn(key)
-    return { try f.call([$0]).x() }
+    return { try f.call([$0.toJS()]).x() }
   }
 
   

@@ -20,14 +20,8 @@ extension SynthPathItem: JsArrayParsable {
         return .i(i)
       }
     }),
-    (".a", {
-      try $0.map {
-        guard $0.isNumber else {
-          return try parseSynthPathItem($0.toString())
-        }
-        return .i(Int($0.toInt32()))
-      }
-    })
+    (".n", { [.i(try $0.x())] }),
+    (".a", { try $0.flatMap { try $0.x() } })
   ], "SynthPath")
 
   private static func parseSynthPathItem(_ s: String) throws -> Self {
@@ -47,33 +41,25 @@ extension SynthPathItem: JsArrayParsable {
   }
 }
 
-extension SynthPath {
-  func toJS() -> [Any] { map { $0.scriptItem() } }
+extension SynthPath : JsPassable {
+  func toJS() -> Any { map { $0.scriptItem() } }
   func str() -> String { map { "\($0.scriptItem())" }.joined(separator: "/") }
-}
-
-extension Dictionary<SynthPath,Int> {
-  func toJS() -> [String:Int] {
-    dict { [$0.key.str() : $0.value] }
-  }
-}
-
-extension Dictionary<SynthPath,String> {
-  func toJS() -> [String:String] {
-    dict { [$0.key.str() : $0.value] }
-  }
-}
-
-extension SynthPathInts {
-  func toJS() -> [String:Int] {
-    dict { [$0.key.str() : $0.value] }
-  }
-}
-
-extension SynthPathParam {
-  func toJS() -> [String:Any?] {
-    dict { [$0.key.str() : $0.value.toJS()] }
-  }
+  
+  static let arrPathRules: JsParseTransformSet<[SynthPath]> = try! .init([
+    ([">", ".x"], { v in
+      // expect elem 1 to be Parms
+      let parms: [Parm] = try v.x(1)
+      // the rest should be SynthPathMap fns
+      let maps: [SynthPathMap] = try (2..<v.arrCount()).map {
+        try v.x($0)
+      }
+      // feed the parm paths through the chain of SynthPathMaps
+      return try maps.reduce(parms.map { $0.path }) { partialResult, m in
+        try partialResult.compactMap { try m.call($0) }
+      }
+    }),
+    (".a", { try $0.map { try $0.x() } }),
+  ])
 }
 
 enum JsSynthPath {

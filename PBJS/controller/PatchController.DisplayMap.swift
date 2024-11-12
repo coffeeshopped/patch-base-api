@@ -26,6 +26,9 @@ extension PatchController.DisplayMap: JsParsable, JsArrayParsable {
     (["u", ".p", ".p?"], {
       try .unit($0.x(1), dest: $0.xq(2))
     }),
+    (["=", ".p", ".p?"], {
+      try .ident($0.x(1), dest: $0.xq(2))
+    }),
   ])
 
   static let jsArrayParsers = try! jsParsers.arrayParsers()

@@ -42,6 +42,10 @@ extension PatchController.Builder: JsParsable, JsArrayParsable {
       let c = try? $0.obj(2)
       return try .button($0.x(1), color: c?.xq("color"))
     }),
+    (["nav", ".s", ".p", ".d?"], {
+      let c = try? $0.obj(3)
+      return try .nav($0.x(1), $0.x(2), color: c?.xq("color"))
+    }),
   ])
   
   static let jsArrayParsers = try! jsParsers.arrayParsers()

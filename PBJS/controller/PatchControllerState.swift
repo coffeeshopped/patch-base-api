@@ -7,8 +7,8 @@
 
 import PBAPI
 
-extension PatchControllerState {
-  func toJS() -> [String:Any?] {
+extension PatchControllerState : JsPassable {
+  func toJS() -> Any {
     [
       "event" : event,
       "index" : index,
