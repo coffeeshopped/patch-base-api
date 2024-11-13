@@ -8,9 +8,9 @@
 import PBAPI
 
 extension PatchControllerState : JsPassable {
-  func toJS() -> Any {
+  func toJS() -> AnyHashable {
     [
-      "event" : event,
+      "event" : event.toJS(),
       "index" : index,
       "prefix" : prefix?.toJS(),
       "params" : params.toJS(),

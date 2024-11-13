@@ -1,29 +1,29 @@
 import PBAPI
 
 protocol JsPassable {
-  func toJS() -> Any
+  func toJS() -> AnyHashable
 }
 
 extension Int : JsPassable {
-  func toJS() -> Any { self }
+  func toJS() -> AnyHashable { self }
 }
 
 extension String : JsPassable {
-  func toJS() -> Any { self }
+  func toJS() -> AnyHashable { self }
 }
 
 extension Dictionary : JsPassable where Key: JsPassable, Value: JsPassable {
-  func toJS() -> Any {
-    var d = [AnyHashable:Any]()
+  func toJS() -> AnyHashable {
+    var d = [AnyHashable:AnyHashable]()
     forEach {
-      d[$0.key.toJS() as! AnyHashable] = $0.value.toJS()
+      d[$0.key.toJS()] = $0.value.toJS()
     }
     return d
   }
 }
 
 extension SynthPathInts : JsPassable {
-  func toJS() -> Any {
+  func toJS() -> AnyHashable {
     dict { [$0.key.str() : $0.value] }
   }
 }

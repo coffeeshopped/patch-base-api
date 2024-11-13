@@ -182,6 +182,7 @@
 		ACE0BB7A2C6E92710099F3D9 /* DXAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB792C6E92700099F3D9 /* DXAlgorithm.swift */; };
 		ACE0BB7C2C6EAAC00099F3D9 /* PBErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB7B2C6EAAC00099F3D9 /* PBErrorHandler.swift */; };
 		ACE0BB7E2C6EAB450099F3D9 /* PBLogHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB7D2C6EAB450099F3D9 /* PBLogHandler.swift */; };
+		ACE8CA532CE536F700A99902 /* PatchControllerEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE8CA522CE536F700A99902 /* PatchControllerEvent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -386,6 +387,7 @@
 		ACE0BB792C6E92700099F3D9 /* DXAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DXAlgorithm.swift; sourceTree = "<group>"; };
 		ACE0BB7B2C6EAAC00099F3D9 /* PBErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBErrorHandler.swift; sourceTree = "<group>"; };
 		ACE0BB7D2C6EAB450099F3D9 /* PBLogHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBLogHandler.swift; sourceTree = "<group>"; };
+		ACE8CA522CE536F700A99902 /* PatchControllerEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchControllerEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -660,6 +662,7 @@
 				AC414B8B2C653AAE0019DC1B /* PatchController.Constraint.swift */,
 				AC6659E82C9B783C00CFDFFA /* PatchController.PageSetup.swift */,
 				AC3847642CA5B76E006531E6 /* PatchControllerState.swift */,
+				ACE8CA522CE536F700A99902 /* PatchControllerEvent.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -884,6 +887,7 @@
 				AC414BA12C653C290019DC1B /* JsParseTransform.swift in Sources */,
 				AC414B952C653AAF0019DC1B /* PatchController.Builder.swift in Sources */,
 				AC414B662C653A900019DC1B /* MidiMessage.swift in Sources */,
+				ACE8CA532CE536F700A99902 /* PatchControllerEvent.swift in Sources */,
 				AC6FBC3E2CC94299001B43C5 /* ValidBundle.swift in Sources */,
 				AC414B992C653AAF0019DC1B /* PatchController.PanelItem.swift in Sources */,
 				AC414B842C653AA20019DC1B /* JsBackupTruss.swift in Sources */,

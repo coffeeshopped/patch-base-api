@@ -46,10 +46,7 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
       try .paramChange($0.x(1), $0.fn(2))
     }),
     (["controlChange", ".p", ".f"], {
-      let fn = try $0.fn(2)
-      return .controlChangeParams(try $0.x(1)) { state, locals in
-        .init(try fn.call([state, locals.toJS()]).x())
-      }
+      try .controlChange($0.x(1), fn: $0.fn(2))
     }),
     (["setup", ".a"], { .setup(try $0.x(1)) }),
     (["basicControlChange", ".p"], { try .basicControlChange($0.x(1)) }),

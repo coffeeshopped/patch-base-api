@@ -135,10 +135,9 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
       let fns: [Self] = try v.map { try $0.x() }
       return .fn { b, e in .arr(try fns.flatMap { try $0.call(b, e).midi() }) }
     }),
-//    (".f", { fn in
-//      try fn.checkFn()
-//      return .fn { b, e in try fn.call([b, e]).x() }
-//    }),
+    (".f", { fn in
+      return .fn { b, e in .bytes(try fn.call([b]).x()) }
+    }),
   ], "singlePatchTruss createFile")
  
   static let singleArgCreateFileFnRules: [String:(BodyData) -> BodyData] = [

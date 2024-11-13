@@ -8,14 +8,18 @@ extension Parm: JsParsable, JsArrayParsable, JsPassable {
     ([".p", ".d"], {
       let path: SynthPath = try $0.x(0)
       let obj = try $0.obj(1)
-      return try .p(path, obj.xq("b"), p: obj.xq("p"), bits: nil, extra: [:], packIso: obj.xq("packIso"), obj.x())
+      var bits: ClosedRange<Int>? = try obj.xq("bits")
+      if let bit = try obj.xq("bit") as Int? {
+        bits = bit...bit
+      }
+      return try .p(path, obj.xq("b"), p: obj.xq("p"), bits: bits, extra: [:], packIso: obj.xq("packIso"), obj.x())
     }),
   ], "general parm")
   
-  func toJS() -> Any {
+  func toJS() -> AnyHashable {
     [
-      "b" : b as Any,
-      "p" : p as Any,
+      "b" : b,
+      "p" : p,
       "path" : path.toJS(),
     ]
   }

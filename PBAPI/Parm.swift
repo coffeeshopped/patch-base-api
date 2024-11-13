@@ -100,6 +100,16 @@ public struct Parm {
       }
     }
     
+    public func randomize() -> Int {
+      switch self {
+      case .options(let opts):
+        return range.lowerBound + Int(arc4random_uniform(UInt32(1 + range.upperBound - range.lowerBound)))
+      default:
+        return range.lowerBound + Int(arc4random_uniform(UInt32(1 + range.upperBound - range.lowerBound)))
+      }
+    }
+
+    
   }
   
   public func param() -> Param {
@@ -116,6 +126,7 @@ public struct Parm {
       return MisoParam.make(parm: p, byte: b, bits: bits, extra: extra, range: range ?? 0...127, iso: isoS, packIso: packIso)
     }
   }
+  
 }
 
 public extension Parm.Span {

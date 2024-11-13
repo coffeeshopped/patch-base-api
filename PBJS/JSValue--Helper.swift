@@ -100,7 +100,10 @@ extension JSValue {
   // for 2-arg fns
   func fn<A:JsPassable, B:JsParsable, C:JsPassable>(_ index: Int) throws -> ((A, C) throws -> B) {
     let f = try fn(index)
-    return { try f.call([$0.toJS(), $1.toJS()]).x() }
+    return {
+      let localsJS = $1.toJS()
+      return try f.call([$0.toJS(), localsJS]).x()
+    }
   }
 
   func xform<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> Output {

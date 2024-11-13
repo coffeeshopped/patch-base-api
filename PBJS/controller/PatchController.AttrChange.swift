@@ -1,5 +1,6 @@
 
 import PBAPI
+import JavaScriptCore
 
 extension PatchController.AttrChange: JsParsable, JsArrayParsable {
   
@@ -25,6 +26,9 @@ extension PatchController.AttrChange: JsParsable, JsArrayParsable {
     (["setValue", ".p", ".n"], {
       try .setValue($0.x(1), $0.x(2))
     }),
+  ] + moreTuples)
+  
+  static let moreTuples: [(Any, (JSValue) throws -> Self)] = [
     (["midiNote", ".d"], {
       let obj = try $0.obj(1)
       return try .midiNote(chan: obj.x("ch"), note: obj.x("n"), velo: obj.x("v"), len: obj.x("l"))
@@ -32,7 +36,17 @@ extension PatchController.AttrChange: JsParsable, JsArrayParsable {
     (["colorItem", ".p", ".n?", ".b?"], {
       try .colorItem($0.x(1), level: $0.xq(2) ?? 1, clearBG: $0.xq(3))
     }),
-  ], "PatchController.AttrChange")
+    (["setIndex", ".s?", ".n"], {
+      try .setIndex($0.xq(1), $0.x(2))
+    }),
+    (["paramsChange", ".a"], {
+      try .paramsChange(.init($0.x(1)))
+    }),
+    (".a", {
+      // an Array is assumed to be [SynthPath:Int]
+      try .paramsChange(.init($0.x()))
+    }),
+  ]
 
   // allow for a single AttrChange in places where an array is returned
   static let jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([

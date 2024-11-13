@@ -31,7 +31,7 @@ extension SynthPathItem: JsArrayParsable {
     return i
   }
   
-  func scriptItem() -> Any {
+  func scriptItem() -> AnyHashable {
     switch self {
     case .i(let i):
       return i
@@ -42,7 +42,7 @@ extension SynthPathItem: JsArrayParsable {
 }
 
 extension SynthPath : JsPassable {
-  func toJS() -> Any { map { $0.scriptItem() } }
+  func toJS() -> AnyHashable { str() }
   func str() -> String { map { "\($0.scriptItem())" }.joined(separator: "/") }
   
   static let arrPathRules: JsParseTransformSet<[SynthPath]> = try! .init([

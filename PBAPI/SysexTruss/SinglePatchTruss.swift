@@ -27,7 +27,7 @@ public struct SinglePatchTruss : PatchTruss {
     self.pack = pack ?? Self.defaultPack
     self.unpack = unpack ?? Self.defaultUnpack
     self._randomize = {
-      .init(params.dict { [$0.key : $0.value.param().randomize()] }) <<< (randomize?() ?? [:])
+      .init(params.dict { [$0.key : $0.value.span.randomize()] }) <<< (randomize?() ?? [:])
     }
     self.core = core
   }

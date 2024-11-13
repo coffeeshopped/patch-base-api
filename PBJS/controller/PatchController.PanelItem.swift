@@ -46,7 +46,11 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
     ([
       "maps" : ".a",
     ], {
-      return try .display($0.x(), $0.xq("l"), $0.x("maps"), id: $0.xq("id"), width: $0.xq("w"))
+      var maps: [PatchController.DisplayMap] = try $0.x("maps")
+      if let srcPrefix = try? $0.x("srcPrefix") as SynthPath {
+        maps = maps.map { $0.srcPrefix(srcPrefix) }
+      }
+      return try .display($0.x(), $0.xq("l"), maps, id: $0.xq("id"), width: $0.xq("w"))
     }),
     ("-", { _ in .spacer(2) }),
     ([
