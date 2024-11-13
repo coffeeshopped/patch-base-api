@@ -21,16 +21,3 @@ public protocol PatchTruss : SysexTruss {
 
   func allNames(_ bodyData: BodyData) -> [SynthPath:String]
 }
-
-public extension PatchTruss {
-
-  /// Transform array of ParamOptions to dictionary. Later entries in the array with duplicate paths will overwrite earlier entries in the resulting dictionary.
-  func paramsFromOpts(_ ins: [ParamOptions]) -> [SynthPath:Param] {
-    var dict = [SynthPath:Param]()
-    ins.forEach { po in
-      dict[po.path] = po.param()
-    }
-    return dict
-  }
-  
-}

@@ -8,11 +8,6 @@ public func <<<<K,V>(_ lhs: Dictionary<K, V>, _ rhs: Dictionary<K, V>) -> Dictio
 }
 
 @discardableResult
-public func <<<(_ lhs: [ParamOptions], _ rhs: [ParamOptions]) -> [ParamOptions] {
-  return lhs + rhs
-}
-
-@discardableResult
 public func <<<<T>(_ lhs: SynthPathTree<T>, _ rhs: SynthPathTree<T>) -> SynthPathTree<T> {
   return lhs.merging(rhs)
 }
@@ -111,27 +106,12 @@ public struct Parm {
 
     
   }
-  
-  public func param() -> Param {
-    let b = b ?? 0
-    let p = p ?? 0 // NOTE: THIS USED TO DEFAULT TO b, not 0. This is going to cause problems with some synths, no doubt.
-    switch span {
-    case .rng(let range, let dispOff):
-      return RangeParam(parm: p, byte: b, bits: bits, extra: extra, range: range ?? 0...127, displayOffset: dispOff, packIso: packIso)
-    case .options(let options):
-      return OptionsParam(parm: p, byte: b, bits: bits, extra: extra, options: options, packIso: packIso)
-    case .isoF(let isoF, let range):
-      return MisoParam.make(parm: p, byte: b, bits: bits, extra: extra, range: range ?? 0...127, iso: isoF, packIso: packIso)
-    case .isoS(let isoS, let range):
-      return MisoParam.make(parm: p, byte: b, bits: bits, extra: extra, range: range ?? 0...127, iso: isoS, packIso: packIso)
-    }
-  }
-  
+    
 }
 
 public extension Parm.Span {
   static func max(_ max: Int, dispOff: Int = 0) -> Self { .rng(0...max, dispOff: dispOff) }
-  static func opts(_ opts: [String]) -> Self { .options(OptionsParam.makeOptions(opts)) }
+  static func opts(_ opts: [String]) -> Self { .options(opts.enumerated().dict { [$0.offset: $0.element] }) }
   static func iso(_ iso: IsoFF, _ range: ClosedRange<Int>? = nil) -> Self {
     .isoF(iso, range: range)
   }

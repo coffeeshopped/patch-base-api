@@ -49,7 +49,6 @@
 		AC414A7F2C65354D0019DC1B /* DXAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A702C65354C0019DC1B /* DXAlgorithm.swift */; };
 		AC414A812C65354D0019DC1B /* NamePackIso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A722C65354C0019DC1B /* NamePackIso.swift */; };
 		AC414A822C65354D0019DC1B /* Collection-Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A732C65354C0019DC1B /* Collection-Extras.swift */; };
-		AC414A832C65354D0019DC1B /* ParamOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A742C65354D0019DC1B /* ParamOptions.swift */; };
 		AC414A872C65355A0019DC1B /* MIDIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A842C65355A0019DC1B /* MIDIMessage.swift */; };
 		AC414A882C65355A0019DC1B /* Algorithms.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC414A852C65355A0019DC1B /* Algorithms.plist */; };
 		AC414A892C65355A0019DC1B /* TX81Z Algorithms.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC414A862C65355A0019DC1B /* TX81Z Algorithms.plist */; };
@@ -69,7 +68,6 @@
 		AC414AA92C6535830019DC1B /* SinglePatchTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AA02C6535820019DC1B /* SinglePatchTruss.swift */; };
 		AC414AAA2C6535830019DC1B /* ChannelSettingsTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AA12C6535820019DC1B /* ChannelSettingsTruss.swift */; };
 		AC414AAB2C6535830019DC1B /* SysexTrussCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AA22C6535820019DC1B /* SysexTrussCore.swift */; };
-		AC414AAE2C65358B0019DC1B /* PatchTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AAC2C65358B0019DC1B /* PatchTrussWerk.swift */; };
 		AC414AB32C6535940019DC1B /* SysexTrussError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB02C6535940019DC1B /* SysexTrussError.swift */; };
 		AC414AB42C6535940019DC1B /* SysexData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB12C6535940019DC1B /* SysexData.swift */; };
 		AC414AB52C6535940019DC1B /* LocalTrussType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AB22C6535940019DC1B /* LocalTrussType.swift */; };
@@ -252,7 +250,6 @@
 		AC414A702C65354C0019DC1B /* DXAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DXAlgorithm.swift; sourceTree = "<group>"; };
 		AC414A722C65354C0019DC1B /* NamePackIso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamePackIso.swift; sourceTree = "<group>"; };
 		AC414A732C65354C0019DC1B /* Collection-Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection-Extras.swift"; sourceTree = "<group>"; };
-		AC414A742C65354D0019DC1B /* ParamOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParamOptions.swift; sourceTree = "<group>"; };
 		AC414A842C65355A0019DC1B /* MIDIMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIMessage.swift; sourceTree = "<group>"; };
 		AC414A852C65355A0019DC1B /* Algorithms.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Algorithms.plist; sourceTree = "<group>"; };
 		AC414A862C65355A0019DC1B /* TX81Z Algorithms.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TX81Z Algorithms.plist"; sourceTree = "<group>"; };
@@ -272,7 +269,6 @@
 		AC414AA02C6535820019DC1B /* SinglePatchTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglePatchTruss.swift; sourceTree = "<group>"; };
 		AC414AA12C6535820019DC1B /* ChannelSettingsTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelSettingsTruss.swift; sourceTree = "<group>"; };
 		AC414AA22C6535820019DC1B /* SysexTrussCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysexTrussCore.swift; sourceTree = "<group>"; };
-		AC414AAC2C65358B0019DC1B /* PatchTrussWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchTrussWerk.swift; sourceTree = "<group>"; };
 		AC414AB02C6535940019DC1B /* SysexTrussError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysexTrussError.swift; sourceTree = "<group>"; };
 		AC414AB12C6535940019DC1B /* SysexData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysexData.swift; sourceTree = "<group>"; };
 		AC414AB22C6535940019DC1B /* LocalTrussType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalTrussType.swift; sourceTree = "<group>"; };
@@ -562,7 +558,6 @@
 				AC414A5E2C65353F0019DC1B /* PatchController-LevelScaling.swift */,
 				AC414A6B2C65354C0019DC1B /* PBTypealiases.swift */,
 				AC414A662C65354C0019DC1B /* PBLayoutConstraint.swift */,
-				AC414A742C65354D0019DC1B /* ParamOptions.swift */,
 				AC414A6E2C65354C0019DC1B /* ParamHelper.swift */,
 				AC414A6C2C65354C0019DC1B /* PBTextAlignment.swift */,
 				AC414A6A2C65354C0019DC1B /* Parm.swift */,
@@ -698,7 +693,6 @@
 				AC414A9E2C6535820019DC1B /* BackupTruss.swift */,
 				AC414A9C2C6535820019DC1B /* FullRefTruss.swift */,
 				AC414AA12C6535820019DC1B /* ChannelSettingsTruss.swift */,
-				AC414AAC2C65358B0019DC1B /* PatchTrussWerk.swift */,
 				AC414AB22C6535940019DC1B /* LocalTrussType.swift */,
 				AC414AB02C6535940019DC1B /* SysexTrussError.swift */,
 			);
@@ -996,7 +990,6 @@
 				AC414A652C65353F0019DC1B /* PatchController-RateLevelEnv.swift in Sources */,
 				AC414B1D2C6535FD0019DC1B /* AnyRolandSysexTrussWerk.swift in Sources */,
 				AC414AC72C65359D0019DC1B /* ModuleCommand.swift in Sources */,
-				AC414A832C65354D0019DC1B /* ParamOptions.swift in Sources */,
 				AC414B122C6535FD0019DC1B /* RolandSinglePatchTrussWerk.swift in Sources */,
 				AC414B1E2C6535FD0019DC1B /* RolandSingleBankTrussWerk.swift in Sources */,
 				AC414A592C65352C0019DC1B /* PatchController.swift in Sources */,
@@ -1004,7 +997,6 @@
 				AC414A762C65354D0019DC1B /* Param.swift in Sources */,
 				AC414A782C65354D0019DC1B /* BitUtility.swift in Sources */,
 				AC414AD82C6535B10019DC1B /* ModuleTruss.swift in Sources */,
-				AC414AAE2C65358B0019DC1B /* PatchTrussWerk.swift in Sources */,
 				AC414AA62C6535830019DC1B /* MultiPatchTruss.swift in Sources */,
 				AC414B1B2C6535FD0019DC1B /* RolandModule.swift in Sources */,
 				AC414A7F2C65354D0019DC1B /* DXAlgorithm.swift in Sources */,

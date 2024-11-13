@@ -527,7 +527,7 @@ public extension Array where Element == PatchController.Effect {
     let paramEffect: PatchController.Effect
     let attrs: [PatchController.AttrChange] = [.configCtrl(path, param)]
     switch param {
-    case .opts, .param, .span:
+    case .span:
       paramEffect = .setup(attrs)
     case .fullPath, .localPath:
       paramEffect = .change { state, locals in
@@ -574,7 +574,7 @@ public extension Array where Element == PatchController.Effect {
           let sum = totalReserved - myValue
           let mx = Swift.max(total - sum, 0)
           return [
-            .configCtrl(ctrl, .param(RangeParam(maxVal: mx))),
+            .configCtrl(ctrl, .span(.max(mx))),
             .setValue(ctrl, myValue),
           ]
         }.reduce([], +)
@@ -602,8 +602,8 @@ public extension PatchController {
   enum ConfigParam {
     case fullPath(SynthPath)
     case localPath(SynthPath)
-    case opts(ParamOptions)
-    case param(Param)
+//    case opts(ParamOptions)
+//    case param(Param)
     case span(Parm.Span)
   }
   

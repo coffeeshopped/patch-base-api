@@ -55,7 +55,7 @@ public struct JSONPatchTruss : PatchTruss {
   public func createEmptyBodyData() throws -> BodyData { [:] }
     
   public func randomize() -> SynthPathInts {
-    .init(params.dict { [$0.key : $0.value.param().randomize()] })
+    .init(params.dict { [$0.key : $0.value.span.randomize()] })
   }
 
 }
