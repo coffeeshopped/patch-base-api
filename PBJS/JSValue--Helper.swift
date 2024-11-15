@@ -108,7 +108,8 @@ extension JSValue {
 
   func xform<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> Output {
     guard let rule = rules.rules.first(where: { $0.match.matches(self) }) else {
-      throw JSError.error(msg: "No matching rule in set: \(rules.name)\n\n\(pbDebug())")
+//      throw JSError.error(msg: "No matching rule in set: \(rules.name)\n\n\(pbDebug())")
+      throw JSError.error(msg: "\(rules.name): no parse rule found for JS Value:\n\(pbDebug(0, depth: 1))")
     }
     // TODO: catch and wrap any exceptions here to denote what rule was tried, with what data.
     return try rule.transform(self)
@@ -130,18 +131,23 @@ extension JSValue {
   }
 
 
-  public func pbDebug(_ indent: Int = 0) -> String {
+  public func pbDebug(_ indent: Int = 0, depth: Int = 1) -> String {
     if isString {
       return "\"\(toString()!)\""
     }
     else if isArray {
 //      return debugDescription
-      var str = "[ "
-      str.append(try! map {
-        $0.pbDebug(indent)
-      }.joined(separator: ", "))
-      str.append(" ]")
-      return str
+      if depth > 0 {
+        var str = "[ "
+        str.append(try! map {
+          $0.pbDebug(indent, depth: depth - 1)
+        }.joined(separator: ", "))
+        str.append(" ]")
+        return str
+      }
+      else {
+        return "Array"
+      }
     }
     else if isNumber {  
       return toString()
@@ -150,16 +156,20 @@ extension JSValue {
       return debugDescription
     }
     else if isObject {
-            
-      let inStr = String(repeating: "  ", count: indent)
-      var str = "\(inStr){\n"
-      toDictionary().keys.forEach {
-        str.append("\(inStr)\t\($0): ")
-        str.append(forProperty("\($0)").pbDebug(indent + 1))
-        str.append("\n")
+      if depth > 0 {
+        let inStr = String(repeating: "  ", count: indent)
+        var str = "\(inStr){\n"
+        toDictionary().keys.forEach {
+          str.append("\(inStr)\t\($0): ")
+          str.append(forProperty("\($0)").pbDebug(indent + 1, depth: depth - 1))
+          str.append("\n")
+        }
+        str.append("\(inStr)}")
+        return str
       }
-      str.append("\(inStr)}")
-      return str
+      else {
+        return "Object"
+      }
     }
     return debugDescription
   }

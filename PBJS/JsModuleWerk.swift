@@ -30,13 +30,29 @@ public struct JsModuleWerk: ModuleProvider {
   public let model: String
   public let moduleURL: URL
   public let localModuleURL: String
+  public let moduleBasePath: String
 
   private let packageName: String
   public var console = JsConsole()
   
+  private static let moduleBasePathKey: NSString = "MODULE_PATH"
+  static func moduleBasePath(_ value: JSValue) throws -> String {
+    try value.context.objectForKeyedSubscript(moduleBasePathKey).x()
+  }
+  
+  private static let currentPathKey: NSString = "CURRENT_PATH"
+  static func currentPath(_ value: JSValue) throws -> String {
+    try value.context.objectForKeyedSubscript(currentPathKey).x()
+  }
+  
+  static func setException(_ value: JSValue, _ str: String) {
+    value.context.exception = .init(object: str, in: value.context)
+  }
+
+  
   init(packageName: String, dict: [String:String]) throws {
     self.packageName = packageName
-    let moduleBasePath = "\(JS_BASE_PATH)\(packageName)/"
+    self.moduleBasePath = "\(JS_BASE_PATH)\(packageName)/"
 
     guard let name = dict["name"] else {
       throw JSError.error(msg: "name missing")
@@ -94,6 +110,7 @@ public struct JsModuleWerk: ModuleProvider {
 //      // Module code actually lives in here
 //      });
 
+      jsContext.setObject(expandedPath, forKeyedSubscript: Self.currentPathKey)
       let wrapped = Self.wrapScript(localBasePath: localBasePath, fileContent: fileContent)
       return jsContext.evaluateScript(wrapped)
     }
@@ -101,12 +118,16 @@ public struct JsModuleWerk: ModuleProvider {
     Self.register(jsContext, self.require!, "SUPERrequire")
     Self.register(jsContext, self.console, "console")
     Self.register(jsContext, JsSynthPath.pathEq, "pathEq")
+    Self.register(jsContext, JsSynthPath.pathLen, "pathLen")
+    Self.register(jsContext, JsSynthPath.pathPart, "pathPart")
 
     Self.registerWrapped3(jsContext, "trussValue", Self.trussValue)
 
     jsContext.exceptionHandler = { context, exception in
       context?.exception = exception
     }
+    jsContext.setObject(moduleBasePath, forKeyedSubscript: Self.moduleBasePathKey)
+    jsContext.setObject(moduleURL, forKeyedSubscript: Self.currentPathKey)
     
     guard let moduleScript = try? String(contentsOf: self.moduleURL) else {
       throw JSError.error(msg: "moduleScript missing")

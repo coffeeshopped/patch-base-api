@@ -31,6 +31,6 @@ extension BasicModuleTruss: JsParsable {
 
       return BasicModuleTruss(editor, manu: manu, model: editor.displayId, subid: subid, sections: sections, pathFn: nil, viewController: nil, dirMap: [:], colorGuide: colorGuide, indexPath: nil, configPaths: nil, postAddMsg: nil)
     }),
-  ], "module")
+  ])
 
 }

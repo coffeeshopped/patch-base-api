@@ -9,7 +9,7 @@ public indirect enum JSError : Error {
       return msg
     case .wrap(let msg, let err):
       if let err = err as? JSError {
-        return "\(msg):\n\(err.display())"
+        return "\(msg)\n\(err.display())"
       }
       else {
         return "\(msg):\n\(err.localizedDescription)"

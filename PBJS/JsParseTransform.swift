@@ -63,7 +63,7 @@ enum Match {
     switch self {
     case .a(let items): return "[\(items.map { $0.string() }.joined(separator: ", "))]"
     case .single(let item): return item.string()
-    case .obj(let dict): return "[\n\(dict.map { "\t\($0.key): \($0.value.string())" }.joined(separator: "\n"))\n]"
+    case .obj(let dict): return "{ \(dict.map { "\($0.key): \($0.value.string())" }.joined(separator: ", ")) }"
     }
   }
 }
@@ -140,7 +140,7 @@ indirect enum MatchItem : Equatable, Hashable {
 
   func string() -> String {
     switch self {
-    case .c(let str): return str
+    case .c(let str): return "\"\(str)\""
     case .opt(let item): return "\(item.string())?"
     default:
       return Self.prettyKeys[self] ?? "_"
@@ -168,7 +168,8 @@ struct JsParseTransform<Output:Any> {
       return try xform(x)
     }
     catch {
-      throw JSError.wrap("Error in transform (\(name)). Match was: \n\(match.string())\nJS Value:\n\(x.pbDebug())", error)
+//      throw JSError.wrap("Error in transform (\(name)). Match was: \n\(match.string())\nJS Value:\n\(x.pbDebug())", error)
+      throw JSError.wrap("\(name): \(match.string()) --\n\(x.pbDebug())", error)
     }
   }
 }
@@ -210,7 +211,7 @@ extension JsParseTransformSet where Output: JsParsable {
   func arrayParsers() throws -> JsParseTransformSet<[Output]> {
     try .init([
       (".a", { try $0.map { try $0.x() } })
-    ], "\(self.name) array")
+    ], "[\(self.name)]")
   }
 
 }

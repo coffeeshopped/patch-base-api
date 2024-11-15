@@ -37,7 +37,12 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
       case "select":
         return .select(l, path, id: id, width: w)
       case "imgSelect":
-        return .imgSelect(l, path, w: w!, h: h!, images: nil, spacing: nil, id: id, width: nil)
+        let moduleBasePath = try JsModuleWerk.moduleBasePath($0)
+        var images: [String]? = nil
+        if let imgs = try obj.xq("images") as [String]? {
+          images = imgs.map { "\(moduleBasePath)\($0)" }
+        }
+        return .imgSelect(l, path, w: w!, h: h!, images: images, spacing: nil, id: id, width: nil)
       default:
         throw JSError.error(msg: "Unknown PanelItem type: \(t)")
       }
