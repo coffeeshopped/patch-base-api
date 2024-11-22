@@ -3,7 +3,7 @@ import JavaScriptCore
 import PBAPI
 
 #if os(macOS)
-let JS_BASE_PATH = "/Users/chadwickwood/Code/patch-base-editors/"
+let JS_BASE_PATH = "/Users/chadwickwood/Code/synth-editors/"
 #else
 let JS_BASE_PATH = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path + "/Code/"
 #endif
