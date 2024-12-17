@@ -32,6 +32,7 @@ public struct JsModuleWerk: ModuleProvider {
   public let localModuleURL: String
   public let moduleBasePath: String
 
+  private let packageDir: URL
   private let packageName: String
   public var console = JsConsole()
   
@@ -50,9 +51,11 @@ public struct JsModuleWerk: ModuleProvider {
   }
 
   
-  init(packageName: String, dict: [String:String]) throws {
+  public init(packageDir: URL, packageName: String, dict: [String:String]) throws {
+    self.packageDir = packageDir
     self.packageName = packageName
-    self.moduleBasePath = "\(JS_BASE_PATH)\(packageName)/"
+    let moduleBaseURL = packageDir.appendingPathComponent(packageName, isDirectory: true)
+    self.moduleBasePath = moduleBaseURL.path
 
     guard let name = dict["name"] else {
       throw JSError.error(msg: "name missing")
@@ -74,8 +77,7 @@ public struct JsModuleWerk: ModuleProvider {
     }
     self.localModuleURL = moduleURL
     
-    self.moduleURL = URL(fileURLWithPath: "\(moduleBasePath)\(moduleURL)")
-
+    self.moduleURL = moduleBaseURL.appendingPathComponent(moduleURL)
   }
   
   
@@ -84,17 +86,17 @@ public struct JsModuleWerk: ModuleProvider {
       throw JSError.error(msg: "JSContext couldn't be created")
      }
     self.jsContext = jsContext
-    
+    let packageDir = self.packageDir
     require = { [unowned jsContext] path, localSubPath in
       let expandedPath: String
       let localBasePath: String
       if path.starts(with: "/") {
-        expandedPath = "\(JS_BASE_PATH)\(path)"
+        expandedPath = packageDir.appendingPathComponent(path, isDirectory: false).path
         localBasePath = URL(fileURLWithPath: path).deletingLastPathComponent().path + "/"
 //        localBasePath = "/"
       }
       else {
-        expandedPath = "\(JS_BASE_PATH)\(localSubPath)\(path)"
+        expandedPath = packageDir.appendingPathComponent(localSubPath, isDirectory: true).appendingPathComponent(path, isDirectory: false).path
         localBasePath = localSubPath + URL(fileURLWithPath: path).deletingLastPathComponent().path + "/"
       }
       
@@ -130,7 +132,7 @@ public struct JsModuleWerk: ModuleProvider {
     jsContext.setObject(moduleURL, forKeyedSubscript: Self.currentPathKey)
     
     guard let moduleScript = try? String(contentsOf: self.moduleURL) else {
-      throw JSError.error(msg: "moduleScript missing")
+      throw JSError.error(msg: "moduleScript missing: \(self.moduleURL)")
      }
     
     let lbp = URL(fileURLWithPath: "\(packageName)/\(localModuleURL)").deletingLastPathComponent().path + "/"
@@ -138,7 +140,6 @@ public struct JsModuleWerk: ModuleProvider {
       throw JSError.error(msg: "createModule() failed")
     }
     // the exports of the eval'ed file should define a "module" property with the module truss
-//    _moduleTruss = try moduleTemplate.x("module")
     return try moduleTemplate.x("module")
   }
   

@@ -125,7 +125,6 @@
 		AC414B6A2C653A900019DC1B /* MidiTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B562C653A900019DC1B /* MidiTransform.swift */; };
 		AC414B6B2C653A900019DC1B /* RxMidi.FetchCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B572C653A900019DC1B /* RxMidi.FetchCommand.swift */; };
 		AC414B6C2C653A900019DC1B /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B582C653A900019DC1B /* JSError.swift */; };
-		AC414B6D2C653A900019DC1B /* JsModuleLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B592C653A900019DC1B /* JsModuleLoader.swift */; };
 		AC414B6E2C653A900019DC1B /* FetchTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5A2C653A900019DC1B /* FetchTransform.swift */; };
 		AC414B6F2C653A900019DC1B /* SynthPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5B2C653A900019DC1B /* SynthPath.swift */; };
 		AC414B702C653A900019DC1B /* MemSlot.Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B5C2C653A900019DC1B /* MemSlot.Transform.swift */; };
@@ -327,7 +326,6 @@
 		AC414B562C653A900019DC1B /* MidiTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiTransform.swift; sourceTree = "<group>"; };
 		AC414B572C653A900019DC1B /* RxMidi.FetchCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMidi.FetchCommand.swift; sourceTree = "<group>"; };
 		AC414B582C653A900019DC1B /* JSError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSError.swift; sourceTree = "<group>"; };
-		AC414B592C653A900019DC1B /* JsModuleLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsModuleLoader.swift; sourceTree = "<group>"; };
 		AC414B5A2C653A900019DC1B /* FetchTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchTransform.swift; sourceTree = "<group>"; };
 		AC414B5B2C653A900019DC1B /* SynthPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynthPath.swift; sourceTree = "<group>"; };
 		AC414B5C2C653A900019DC1B /* MemSlot.Transform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemSlot.Transform.swift; sourceTree = "<group>"; };
@@ -466,7 +464,6 @@
 				AC414B3D2C653A7B0019DC1B /* PBJS.h */,
 				AC414B642C653A900019DC1B /* Jiso.swift */,
 				AC414B602C653A900019DC1B /* JsByte.swift */,
-				AC414B592C653A900019DC1B /* JsModuleLoader.swift */,
 				AC414B632C653A900019DC1B /* JsConsole.swift */,
 				AC414BA02C653C290019DC1B /* JsParseTransform.swift */,
 				ACB699FF2CE3BDA500738F63 /* JsPassable.swift */,
@@ -932,7 +929,6 @@
 				AC6659EB2C9B893100CFDFFA /* PatchController.ConfigParam.swift in Sources */,
 				AC0BBF422C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift in Sources */,
 				AC414B772C653A900019DC1B /* JsConsole.swift in Sources */,
-				AC414B6D2C653A900019DC1B /* JsModuleLoader.swift in Sources */,
 				AC414B972C653AAF0019DC1B /* PatchController.Display.swift in Sources */,
 				AC414B6B2C653A900019DC1B /* RxMidi.FetchCommand.swift in Sources */,
 				AC414B762C653A900019DC1B /* JSValue--Helper.swift in Sources */,
