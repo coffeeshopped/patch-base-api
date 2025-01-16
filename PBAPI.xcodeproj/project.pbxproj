@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC0307082D39945D00948682 /* JsModuleTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0307072D39945D00948682 /* JsModuleTruss.swift */; };
 		AC0BBF422C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */; };
 		AC0BBF442C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */; };
 		AC1B9E3D2CA60C19000C777F /* IsoFF.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1B9E3C2CA60C19000C777F /* IsoFF.swift */; };
@@ -207,6 +208,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AC0307072D39945D00948682 /* JsModuleTruss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsModuleTruss.swift; sourceTree = "<group>"; };
 		AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePatchTruss.Core.ToMidiFn.swift; sourceTree = "<group>"; };
 		AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPatchTruss.Core.ToMidiFn.swift; sourceTree = "<group>"; };
 		AC1B9E3C2CA60C19000C777F /* IsoFF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoFF.swift; sourceTree = "<group>"; };
@@ -470,6 +472,7 @@
 				AC414B622C653A900019DC1B /* JSValue--Helper.swift */,
 				AC414B582C653A900019DC1B /* JSError.swift */,
 				AC414B542C653A900019DC1B /* JsModuleWerk.swift */,
+				AC0307072D39945D00948682 /* JsModuleTruss.swift */,
 				AC414B5B2C653A900019DC1B /* SynthPath.swift */,
 				ACB699FD2CE3A18200738F63 /* SynthPathMap.swift */,
 				AC414B5D2C653A900019DC1B /* Parm.swift */,
@@ -894,6 +897,7 @@
 				ACB699FE2CE3A18200738F63 /* SynthPathMap.swift in Sources */,
 				AC414B892C653AA20019DC1B /* MultiPatchTruss.swift in Sources */,
 				AC414B9A2C653AAF0019DC1B /* PatchController.Prefix.swift in Sources */,
+				AC0307082D39945D00948682 /* JsModuleTruss.swift in Sources */,
 				AC414B682C653A900019DC1B /* JsModuleWerk.swift in Sources */,
 				AC414B712C653A900019DC1B /* Parm.swift in Sources */,
 				AC414B942C653AAF0019DC1B /* PatchController.Constraint.swift in Sources */,
