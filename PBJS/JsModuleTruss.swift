@@ -11,7 +11,7 @@ public struct JsModuleTruss {
 
   init(packageDir: URL, packageName: String, localModuleURL: String) throws {
     
-    let moduleBaseURL = packageDir.appendingPathComponent(packageName, isDirectory: true)
+    let moduleBaseURL = packageDir
     let moduleBasePath = moduleBaseURL.path
     let moduleURL = moduleBaseURL.appendingPathComponent(localModuleURL)
 
@@ -34,13 +34,12 @@ public struct JsModuleTruss {
       }
       
       // Return void or throw an error here.
-//      guard FileManager.default.fileExists(atPath: expandedPath)
-//          else { debugPrint("Require: filename \(expandedPath) does not exist")
-//                 return nil }
-//
-//      guard let fileContent = try? String(contentsOfFile: expandedPath)
-//          else { return nil }
-      let fileContent = ""
+      guard FileManager.default.fileExists(atPath: expandedPath)
+          else { debugPrint("Require: filename \(expandedPath) does not exist")
+                 return nil }
+
+      guard let fileContent = try? String(contentsOfFile: expandedPath)
+          else { return nil }
 //      (function(exports, require, module, __filename, __dirname) {
 //      // Module code actually lives in here
 //      });
@@ -68,8 +67,8 @@ public struct JsModuleTruss {
       throw JSError.error(msg: "moduleScript missing: \(moduleURL)")
      }
     
-    let lbp = URL(fileURLWithPath: "\(packageName)/\(localModuleURL)").deletingLastPathComponent().path + "/"
-    guard let moduleTemplate = jsContext.evaluateScript(Self.wrapScript(localBasePath: lbp, fileContent: moduleScript), withSourceURL: moduleURL) else {
+//    let lbp = URL(fileURLWithPath: "\(packageName)/\(localModuleURL)").deletingLastPathComponent().path + "/"
+    guard let moduleTemplate = jsContext.evaluateScript(Self.wrapScript(localBasePath: "" /*lbp*/, fileContent: moduleScript), withSourceURL: moduleURL) else {
       throw JSError.error(msg: "createModule() failed")
     }
     // the exports of the eval'ed file should define a "module" property with the module truss
