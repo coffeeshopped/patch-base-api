@@ -9,7 +9,7 @@ let JS_BASE_PATH = FileManager.default.urls(for: .documentDirectory, in: .userDo
 #endif
 
 /// On creation, loads the basic info about a Synth Module. Can generate a ModuleTruss.
-public struct JsModuleWerk: ModuleProvider {
+public struct JsModuleProvider: ModuleProvider {
   
   public var postAddMessage: String? = nil // TODO
   
@@ -19,7 +19,6 @@ public struct JsModuleWerk: ModuleProvider {
     try JsModuleTruss(packageDir: packageDir, packageName: packageName, localModuleURL: localModuleURL)
   }
   
-  public let id: String
   public let manufacturer: String
   public let model: String
   public let localModuleURL: String
@@ -39,7 +38,6 @@ public struct JsModuleWerk: ModuleProvider {
     guard let name = dict["name"] else {
       throw JSError.error(msg: "name missing")
     }
-    self.id = "\(packageName)/\(name)"
 
     guard let manu = dict["manufacturer"] else {
       throw JSError.error(msg: "manufacturer missing")

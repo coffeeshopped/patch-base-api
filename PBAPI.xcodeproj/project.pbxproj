@@ -85,7 +85,7 @@
 		AC414ACB2C65359D0019DC1B /* ParamOutTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AC02C65359D0019DC1B /* ParamOutTransform.swift */; };
 		AC414ACD2C6535A50019DC1B /* RxMidi.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ACC2C6535A50019DC1B /* RxMidi.swift */; };
 		AC414AD62C6535B10019DC1B /* BasicModuleTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ACE2C6535B00019DC1B /* BasicModuleTruss.swift */; };
-		AC414AD72C6535B10019DC1B /* UrModuleTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ACF2C6535B00019DC1B /* UrModuleTruss.swift */; };
+		AC414AD72C6535B10019DC1B /* ModuleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414ACF2C6535B00019DC1B /* ModuleProvider.swift */; };
 		AC414AD82C6535B10019DC1B /* ModuleTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AD02C6535B00019DC1B /* ModuleTruss.swift */; };
 		AC414AD92C6535B10019DC1B /* Manufacturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AD12C6535B00019DC1B /* Manufacturer.swift */; };
 		AC414ADA2C6535B10019DC1B /* AnySynthModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414AD22C6535B00019DC1B /* AnySynthModule.swift */; };
@@ -122,7 +122,7 @@
 		AC414B4B2C653A7B0019DC1B /* PBJS.h in Headers */ = {isa = PBXBuildFile; fileRef = AC414B3D2C653A7B0019DC1B /* PBJS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AC414B662C653A900019DC1B /* MidiMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B522C653A8F0019DC1B /* MidiMessage.swift */; };
 		AC414B672C653A900019DC1B /* EditorValueTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B532C653A900019DC1B /* EditorValueTransform.swift */; };
-		AC414B682C653A900019DC1B /* JsModuleWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B542C653A900019DC1B /* JsModuleWerk.swift */; };
+		AC414B682C653A900019DC1B /* JsModuleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B542C653A900019DC1B /* JsModuleProvider.swift */; };
 		AC414B6A2C653A900019DC1B /* MidiTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B562C653A900019DC1B /* MidiTransform.swift */; };
 		AC414B6B2C653A900019DC1B /* RxMidi.FetchCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B572C653A900019DC1B /* RxMidi.FetchCommand.swift */; };
 		AC414B6C2C653A900019DC1B /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B582C653A900019DC1B /* JSError.swift */; };
@@ -286,7 +286,7 @@
 		AC414AC02C65359D0019DC1B /* ParamOutTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParamOutTransform.swift; sourceTree = "<group>"; };
 		AC414ACC2C6535A50019DC1B /* RxMidi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMidi.swift; sourceTree = "<group>"; };
 		AC414ACE2C6535B00019DC1B /* BasicModuleTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicModuleTruss.swift; sourceTree = "<group>"; };
-		AC414ACF2C6535B00019DC1B /* UrModuleTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrModuleTruss.swift; sourceTree = "<group>"; };
+		AC414ACF2C6535B00019DC1B /* ModuleProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleProvider.swift; sourceTree = "<group>"; };
 		AC414AD02C6535B00019DC1B /* ModuleTruss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleTruss.swift; sourceTree = "<group>"; };
 		AC414AD12C6535B00019DC1B /* Manufacturer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manufacturer.swift; sourceTree = "<group>"; };
 		AC414AD22C6535B00019DC1B /* AnySynthModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnySynthModule.swift; sourceTree = "<group>"; };
@@ -324,7 +324,7 @@
 		AC414B492C653A7B0019DC1B /* PBJSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBJSTests.swift; sourceTree = "<group>"; };
 		AC414B522C653A8F0019DC1B /* MidiMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiMessage.swift; sourceTree = "<group>"; };
 		AC414B532C653A900019DC1B /* EditorValueTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorValueTransform.swift; sourceTree = "<group>"; };
-		AC414B542C653A900019DC1B /* JsModuleWerk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsModuleWerk.swift; sourceTree = "<group>"; };
+		AC414B542C653A900019DC1B /* JsModuleProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsModuleProvider.swift; sourceTree = "<group>"; };
 		AC414B562C653A900019DC1B /* MidiTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiTransform.swift; sourceTree = "<group>"; };
 		AC414B572C653A900019DC1B /* RxMidi.FetchCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMidi.FetchCommand.swift; sourceTree = "<group>"; };
 		AC414B582C653A900019DC1B /* JSError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSError.swift; sourceTree = "<group>"; };
@@ -471,7 +471,7 @@
 				ACB699FF2CE3BDA500738F63 /* JsPassable.swift */,
 				AC414B622C653A900019DC1B /* JSValue--Helper.swift */,
 				AC414B582C653A900019DC1B /* JSError.swift */,
-				AC414B542C653A900019DC1B /* JsModuleWerk.swift */,
+				AC414B542C653A900019DC1B /* JsModuleProvider.swift */,
 				AC0307072D39945D00948682 /* JsModuleTruss.swift */,
 				AC414B5B2C653A900019DC1B /* SynthPath.swift */,
 				ACB699FD2CE3A18200738F63 /* SynthPathMap.swift */,
@@ -592,7 +592,7 @@
 				AC414ABC2C65359D0019DC1B /* ModuleCommand.swift */,
 				AC414ABB2C65359C0019DC1B /* ModuleCommandEffect.swift */,
 				AC414ACC2C6535A50019DC1B /* RxMidi.swift */,
-				AC414ACF2C6535B00019DC1B /* UrModuleTruss.swift */,
+				AC414ACF2C6535B00019DC1B /* ModuleProvider.swift */,
 				AC414AD02C6535B00019DC1B /* ModuleTruss.swift */,
 				AC414ACE2C6535B00019DC1B /* BasicModuleTruss.swift */,
 				AC414AD32C6535B00019DC1B /* ModuleTrussCore.swift */,
@@ -898,7 +898,7 @@
 				AC414B892C653AA20019DC1B /* MultiPatchTruss.swift in Sources */,
 				AC414B9A2C653AAF0019DC1B /* PatchController.Prefix.swift in Sources */,
 				AC0307082D39945D00948682 /* JsModuleTruss.swift in Sources */,
-				AC414B682C653A900019DC1B /* JsModuleWerk.swift in Sources */,
+				AC414B682C653A900019DC1B /* JsModuleProvider.swift in Sources */,
 				AC414B712C653A900019DC1B /* Parm.swift in Sources */,
 				AC414B942C653AAF0019DC1B /* PatchController.Constraint.swift in Sources */,
 				AC3847672CA5BECB006531E6 /* ParamOutTransform.swift in Sources */,
@@ -1015,7 +1015,7 @@
 				AC414A962C6535760019DC1B /* BankTruss.swift in Sources */,
 				AC414A792C65354D0019DC1B /* Parm.swift in Sources */,
 				AC414A4F2C6535150019DC1B /* Sysexible.swift in Sources */,
-				AC414AD72C6535B10019DC1B /* UrModuleTruss.swift in Sources */,
+				AC414AD72C6535B10019DC1B /* ModuleProvider.swift in Sources */,
 				AC414B1C2C6535FD0019DC1B /* SRXBoard.swift in Sources */,
 				AC414AC82C65359D0019DC1B /* MidiChannelTransform.swift in Sources */,
 				AC3DB3DF2C65340A00375C37 /* SynthPathTree.swift in Sources */,

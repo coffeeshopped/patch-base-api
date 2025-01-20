@@ -1,5 +1,5 @@
 
-public protocol ModuleTruss : UrModuleTruss {
+public protocol ModuleTruss : ModuleProvider {
   
   var core: ModuleTrussCore { get set }
   

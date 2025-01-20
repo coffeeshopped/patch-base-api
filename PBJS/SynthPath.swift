@@ -75,7 +75,7 @@ enum JsSynthPath {
       let p1: SynthPath = try $0.x()
       return p1.count
     } catch let error {
-      JsModuleWerk.setException($0, "pathLen: passed value is not a valid path: \($0.pbDebug())")
+      JsModuleProvider.setException($0, "pathLen: passed value is not a valid path: \($0.pbDebug())")
     }
     return -1
   }
