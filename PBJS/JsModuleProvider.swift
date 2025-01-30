@@ -16,7 +16,7 @@ public struct JsModuleProvider: ModuleProvider {
   public var productId: String { "\(manufacturer).\(model)" }
   
   public func moduleTruss() throws -> JsModuleTruss {
-    try JsModuleTruss(packageDir: packageDir, packageName: packageName, localModuleURL: localModuleURL)
+    try JsModuleTruss(packageDir: packageDir, package: package, localModuleURL: localModuleURL)
   }
   
   public let manufacturer: String
@@ -24,16 +24,16 @@ public struct JsModuleProvider: ModuleProvider {
   public let localModuleURL: String
 
   private let packageDir: URL
-  private let packageName: String
+  private let package: JsPackage
     
   static func setException(_ value: JSValue, _ str: String) {
     value.context.exception = .init(object: str, in: value.context)
   }
 
   
-  public init(packageDir: URL, packageName: String, dict: [String:String]) throws {
+  public init(packageDir: URL, package: JsPackage, dict: [String:String]) throws {
     self.packageDir = packageDir
-    self.packageName = packageName
+    self.package = package
 
     guard let name = dict["name"] else {
       throw JSError.error(msg: "name missing")

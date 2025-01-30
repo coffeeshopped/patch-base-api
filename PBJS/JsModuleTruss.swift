@@ -4,12 +4,15 @@ import JavaScriptCore
 
 public struct JsModuleTruss {
   
+  public var console = JsConsole()
+  public let package: JsPackage
+
   private var basicModuleTruss: BasicModuleTruss
   private let jsContext: JSContext
   private let require: @convention(block) (String, String) -> JSValue?
-  public var console = JsConsole()
 
-  init(packageDir: URL, packageName: String, localModuleURL: String) throws {
+  init(packageDir: URL, package: JsPackage, localModuleURL: String) throws {
+    self.package = package
     
     let moduleBaseURL = packageDir
     let moduleBasePath = moduleBaseURL.path

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AC0307082D39945D00948682 /* JsModuleTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0307072D39945D00948682 /* JsModuleTruss.swift */; };
+		AC0427702D4ABC47006C7EFB /* JsPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC04276F2D4ABC47006C7EFB /* JsPackage.swift */; };
 		AC0BBF422C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */; };
 		AC0BBF442C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */; };
 		AC1B9E3D2CA60C19000C777F /* IsoFF.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1B9E3C2CA60C19000C777F /* IsoFF.swift */; };
@@ -209,6 +210,7 @@
 
 /* Begin PBXFileReference section */
 		AC0307072D39945D00948682 /* JsModuleTruss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsModuleTruss.swift; sourceTree = "<group>"; };
+		AC04276F2D4ABC47006C7EFB /* JsPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsPackage.swift; sourceTree = "<group>"; };
 		AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePatchTruss.Core.ToMidiFn.swift; sourceTree = "<group>"; };
 		AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPatchTruss.Core.ToMidiFn.swift; sourceTree = "<group>"; };
 		AC1B9E3C2CA60C19000C777F /* IsoFF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoFF.swift; sourceTree = "<group>"; };
@@ -469,6 +471,7 @@
 				AC414B632C653A900019DC1B /* JsConsole.swift */,
 				AC414BA02C653C290019DC1B /* JsParseTransform.swift */,
 				ACB699FF2CE3BDA500738F63 /* JsPassable.swift */,
+				AC04276F2D4ABC47006C7EFB /* JsPackage.swift */,
 				AC414B622C653A900019DC1B /* JSValue--Helper.swift */,
 				AC414B582C653A900019DC1B /* JSError.swift */,
 				AC414B542C653A900019DC1B /* JsModuleProvider.swift */,
@@ -904,6 +907,7 @@
 				AC3847672CA5BECB006531E6 /* ParamOutTransform.swift in Sources */,
 				AC414B852C653AA20019DC1B /* SinglePatchTruss.swift in Sources */,
 				AC6778DC2C98D9B7002FE359 /* NamePackIso.swift in Sources */,
+				AC0427702D4ABC47006C7EFB /* JsPackage.swift in Sources */,
 				AC6659E72C9B42AF00CFDFFA /* RolandMultiBankTrussWerk.swift in Sources */,
 				ACE0BB7A2C6E92710099F3D9 /* DXAlgorithm.swift in Sources */,
 				AC414B822C653AA20019DC1B /* MultiBankTruss.swift in Sources */,
