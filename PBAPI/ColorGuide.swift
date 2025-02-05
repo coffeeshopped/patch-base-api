@@ -1,9 +1,10 @@
 
 public struct ColorGuide {
   
-  public let colors: [PBColor]
-  public let tints: [[PBColor]]
-  public let shades: [[PBColor]]
+  private let colors: [PBColor]
+  private let tints: [[PBColor]]
+  private let shades: [[PBColor]]
+  public var darkMode: Bool
 
   public init() {
     self.init([
@@ -14,17 +15,18 @@ public struct ColorGuide {
     ])
   }
   
-  public init(_ c: [String]) {
+  public init(_ c: [String], darkMode: Bool = false) {
     self.init(colors: c.map { PBColor(hexString: $0)})
   }
   
-  public init(colors c: [PBColor]) {
+  public init(colors c: [PBColor], darkMode: Bool = false) {
     // just pull the hue from each.
     let colors: [PBColor] = c.map {
       let lch = $0.toOklabLchComponents()
       return PBColor(okL: 0.9, chroma: 0.22, hue: lch.hue)
     }
     self.colors = colors
+    self.darkMode = darkMode
     
 //    tints = c.map { [
 //        $0.tinted(amount: 0.3),
@@ -61,5 +63,33 @@ public struct ColorGuide {
     ] }
 
   }
+
+  public func textColor(level: Int = 1) -> PBColor {
+    darkMode ? tints[level][4] : shades[level][4]
+  }
+
+  public func tintColor(level: Int = 1) -> PBColor {
+    colors[level]
+  }
+
+  public func backgroundColor(level: Int = 1) -> PBColor {
+    darkMode ? shades[level][4] : tints[level][4]
+  }
   
+  public func secondaryBackgroundColor(level: Int = 1) -> PBColor {
+    darkMode ? shades[level][2] : tints[level][2]
+  }
+
+  public func tertiaryBackgroundColor(level: Int = 1) -> PBColor {
+    darkMode ? shades[level][3] : tints[level][3]
+  }
+  
+  public func borderColor(level: Int = 1) -> PBColor {
+    darkMode ? shades[level][1] : tints[level][1]
+  }
+  
+  public func hintColor(level: Int = 1) -> PBColor {
+    darkMode ? tints[level][0] : shades[level][0]
+  }
+
 }
