@@ -67,6 +67,10 @@ public struct ColorGuide {
   public func textColor(level: Int = 1) -> PBColor {
     darkMode ? tints[level][4] : shades[level][4]
   }
+  
+  public func secondaryTextColor(level: Int = 1) -> PBColor {
+    darkMode ? tints[level][3] : shades[level][3]
+  }
 
   public func tintColor(level: Int = 1) -> PBColor {
     colors[level]
