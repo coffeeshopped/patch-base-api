@@ -24,7 +24,7 @@ public struct JsModuleProvider: ModuleProvider {
   public let localModuleURL: String
 
   private let packageDir: URL
-  private let package: JsPackage
+  public let package: JsPackage
     
   static func setException(_ value: JSValue, _ str: String) {
     value.context.exception = .init(object: str, in: value.context)
