@@ -5,7 +5,11 @@ public struct ColorGuide {
   private let tints: [[PBColor]]
   private let shades: [[PBColor]]
   public var darkMode: Bool
-
+  
+  private let lightPanels: [PBColor]
+  private let lightValueBackgrounds: [PBColor]
+  private let lightValues: [PBColor]
+  
   public init() {
     self.init([
       "#db8a2d",
@@ -27,21 +31,6 @@ public struct ColorGuide {
     }
     self.colors = colors
     self.darkMode = darkMode
-    
-//    tints = c.map { [
-//        $0.tinted(amount: 0.3),
-//        $0.tinted(amount: 0.5),
-//        $0.tinted(amount: 0.7),
-//        $0.tinted(amount: 0.8),
-//        $0.tinted(amount: 0.9),
-//      ] }
-//    shades = c.map { [
-//        $0.shaded(amount: 0.3),
-//        $0.shaded(amount: 0.5),
-//        $0.shaded(amount: 0.7).desaturated(amount: 0.19),
-//        $0.shaded(amount: 0.75).desaturated(amount: 0.38),
-//        $0.shaded(amount: 0.95),
-//      ] }
         
     tints = colors.map {
       let lch = $0.toOklabLchComponents()
@@ -61,6 +50,16 @@ public struct ColorGuide {
         PBColor(okL: 0.2, chroma: 0.025, hue: lch.hue), // tertiary bg (control value bg)
         PBColor(okL: 0.1, chroma: 0.025, hue: lch.hue), // background
     ] }
+    
+    lightPanels = colors.map {
+      PBColor(okL: 0.98, chroma: 0.01, hue: $0.toOklabLchComponents().hue)
+    }
+    lightValueBackgrounds = colors.map {
+      PBColor(okL: 0.95, chroma: 0.01, hue: $0.toOklabLchComponents().hue)
+    }
+    lightValues = colors.map {
+      PBColor(okL: 0.95, chroma: 0.5, hue: $0.toOklabLchComponents().hue)
+    }
 
   }
 
@@ -77,7 +76,7 @@ public struct ColorGuide {
   }
 
   public func backgroundColor(level: Int = 1) -> PBColor {
-    darkMode ? shades[level][4] : tints[level][4]
+    darkMode ? shades[level][4] : .white// tints[level][4]
   }
   
   public func secondaryBackgroundColor(level: Int = 1) -> PBColor {
@@ -94,6 +93,18 @@ public struct ColorGuide {
   
   public func hintColor(level: Int = 1) -> PBColor {
     darkMode ? tints[level][0] : shades[level][0]
+  }
+  
+  public func panelBackgroundColor(level: Int) -> PBColor {
+    darkMode ? secondaryBackgroundColor(level: level) : lightPanels[level]
+  }
+
+  public func ctrlValueColor(level: Int) -> PBColor {
+    darkMode ? tintColor(level: level) : lightValues[level]
+  }
+
+  public func ctrlValueBackgroundColor(level: Int) -> PBColor {
+    darkMode ? tertiaryBackgroundColor(level: level) : lightValueBackgrounds[level]
   }
 
 }
