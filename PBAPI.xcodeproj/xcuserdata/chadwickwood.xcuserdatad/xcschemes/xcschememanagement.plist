@@ -7,7 +7,7 @@
 		<key>PBAPI.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>81</integer>
+			<integer>80</integer>
 		</dict>
 		<key>PBAPITests.xcscheme_^#shared#^_</key>
 		<dict>
@@ -17,7 +17,7 @@
 		<key>PBJS.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>80</integer>
+			<integer>78</integer>
 		</dict>
 		<key>PBJSTests.xcscheme_^#shared#^_</key>
 		<dict>
