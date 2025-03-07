@@ -42,6 +42,11 @@ extension PatchController.AttrChange: JsParsable, JsArrayParsable {
     (["paramsChange", ".a"], {
       try .paramsChange(.init($0.x(1)))
     }),
+    ([".p", ".n"], {
+      // TODO: see if this makes things funky with multiple paramsChange's being returned
+      // ... leading to extra MIDI traffic.
+      try .paramsChange(.init([$0.x(0) : $0.x(1)]))
+    }),
     (".a", {
       // an Array is assumed to be [SynthPath:Int]
       try .paramsChange(.init($0.x()))
