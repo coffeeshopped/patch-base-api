@@ -48,7 +48,7 @@ extension BasicEditorTruss: JsParsable {
   static func pathPairRules<Output:Any>(_ subrules: JsParseTransformSet<Output>) throws -> JsParseTransformSet<(SynthPath, Output)> {
     try JsParseTransformSet<(SynthPath, Output)>.init([
       ([".p", ".x"], { try ($0.x(0), $0.any(1).xform(subrules)) }),
-    ], "\(subrules.name) pairs")
+    ], "(SynthPath, \(subrules.name))")
   }
   
 }

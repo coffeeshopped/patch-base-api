@@ -109,7 +109,7 @@ extension JSValue {
   func xform<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> Output {
     guard let rule = rules.rules.first(where: { $0.match.matches(self) }) else {
 //      throw JSError.error(msg: "No matching rule in set: \(rules.name)\n\n\(pbDebug())")
-      throw JSError.error(msg: "\(rules.name): no parse rule found for JS Value:\n\(pbDebug(0, depth: 1))")
+      throw JSError.noParseRule(parseRuleSetName: rules.name, value: self)
     }
     // TODO: catch and wrap any exceptions here to denote what rule was tried, with what data.
     return try rule.transform(self)

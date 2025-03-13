@@ -6,6 +6,9 @@ extension MidiChannelTransform: JsParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     ("basic", { _ in .basic(map: nil) }),
+    (["basic", ".f"], {
+      return try .basic(map: $0.fn(1))
+    }),
     (["patch", ".p", ".p", ".f?"], {
       var fn: MidiChannelTransform.MapFn? = nil
       if let f = try? $0.fn(3) {

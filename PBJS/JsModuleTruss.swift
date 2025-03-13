@@ -24,31 +24,31 @@ public struct JsModuleTruss {
     self.jsContext = jsContext
     
     self.require = { [unowned jsContext] path, localSubPath in
-      let expandedPath: String
+      let expandedURL: URL
       let localBasePath: String
       if path.starts(with: "/") {
-        expandedPath = packageDir.appendingPathComponent(path, isDirectory: false).path
+        expandedURL = packageDir.appendingPathComponent(path, isDirectory: false)
         localBasePath = URL(fileURLWithPath: path).deletingLastPathComponent().path + "/"
 //        localBasePath = "/"
       }
       else {
-        expandedPath = packageDir.appendingPathComponent(localSubPath, isDirectory: true).appendingPathComponent(path, isDirectory: false).path
+        expandedURL = packageDir.appendingPathComponent(localSubPath, isDirectory: true).appendingPathComponent(path, isDirectory: false)
         localBasePath = localSubPath + URL(fileURLWithPath: path).deletingLastPathComponent().path + "/"
       }
       
       // Return void or throw an error here.
-      guard FileManager.default.fileExists(atPath: expandedPath)
-          else { debugPrint("Require: filename \(expandedPath) does not exist")
+      guard FileManager.default.fileExists(atPath: expandedURL.path)
+          else { debugPrint("Require: filename \(expandedURL) does not exist")
                  return nil }
 
-      guard let fileContent = try? String(contentsOfFile: expandedPath)
+      guard let fileContent = try? String(contentsOfFile: expandedURL.path)
           else { return nil }
 //      (function(exports, require, module, __filename, __dirname) {
 //      // Module code actually lives in here
 //      });
 
-      jsContext.setObject(expandedPath, forKeyedSubscript: Self.currentPathKey)
-      let wrapped = Self.wrapScript(localBasePath: localBasePath, fileContent: fileContent)
+      jsContext.setObject(expandedURL, forKeyedSubscript: Self.currentPathKey)
+      let wrapped = Self.wrapScript(localBasePath: localBasePath, fileContent: fileContent, currentPath: expandedURL.standardizedFileURL.path)
       return jsContext.evaluateScript(wrapped)
     }
     
@@ -71,7 +71,7 @@ public struct JsModuleTruss {
      }
     
 //    let lbp = URL(fileURLWithPath: "\(packageName)/\(localModuleURL)").deletingLastPathComponent().path + "/"
-    guard let moduleTemplate = jsContext.evaluateScript(Self.wrapScript(localBasePath: "" /*lbp*/, fileContent: moduleScript), withSourceURL: moduleURL) else {
+    guard let moduleTemplate = jsContext.evaluateScript(Self.wrapScript(localBasePath: "" /*lbp*/, fileContent: moduleScript, currentPath: moduleURL.path), withSourceURL: moduleURL) else {
       throw JSError.error(msg: "createModule() failed")
     }
     // the exports of the eval'ed file should define a "module" property with the module truss
@@ -114,12 +114,7 @@ public struct JsModuleTruss {
       }
     }
     catch {
-      switch error {
-      case let err as JSError:
-        jsContext.exception = JSValue(object: err.display(), in: jsContext)
-      default:
-        jsContext.exception = JSValue(object: error.localizedDescription, in: jsContext)
-      }
+      jsContext.exception = JSValue(object: error.localizedDescription, in: jsContext)
     }
     return nil
   }
@@ -128,8 +123,30 @@ public struct JsModuleTruss {
     jsContext.setObject(object, forKeyedSubscript: key as NSString)
   }
   
-  private static func wrapScript(localBasePath: String, fileContent: String) -> String {
-    "(function() { const module = { exports: {} }; function req(module, exports) { function require(path) { return SUPERrequire(path, \"\(localBasePath)\"); }; \(fileContent) \n }; req(module, module.exports); return module.exports; })()"
+  private static func wrapScript(localBasePath: String, fileContent: String, currentPath: String) -> String {
+    """
+(function() { 
+  const module = { exports: {} };
+  function req(module, exports) {
+    function require(path) {
+      return SUPERrequire(path, \"\(localBasePath)\");
+    }; 
+    \(fileContent)
+  };
+  req(module, module.exports);
+
+  if (module.exports) {
+    for (let key in module.exports) {
+      try {
+        Object.defineProperty(module.exports[key], "EXPORT_ORIGIN", {
+          value: \"\(currentPath)\",
+        });
+      } catch(error) { }
+    }
+  }
+  return module.exports;
+})()
+"""
   }
   
   private static func trussValue(truss: JSValue, bodyData: JSValue, path: JSValue) throws -> Int? {

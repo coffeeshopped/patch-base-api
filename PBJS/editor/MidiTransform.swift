@@ -29,6 +29,16 @@ extension MidiTransform: JsParsable {
       }, name: name))
     }),
     ([
+      "type" : "singleWholePatch",
+    ], {
+      let throttle = try $0.xq("throttle") ?? 30
+      let patchFn = try $0.any("patch")
+      
+      return .single(throttle: throttle, .wholePatch({ editor, bodyData in
+        try SinglePatchTruss.makeMidiPairs(patchFn, bodyData, editor, [])
+      }))
+    }),
+    ([
       "type" : "multiDictPatch",
     ], {
       let throttle = try $0.xq("throttle") ?? 30
@@ -69,6 +79,6 @@ extension MidiTransform: JsParsable {
       }
       throw JSError.error(msg: "Midi Transform: wholeBank: must specify either 'single' or 'multi' property with transform function")
     }),
-  ], "midiTransform")
+  ])
 
 }

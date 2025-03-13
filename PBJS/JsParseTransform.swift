@@ -2,7 +2,7 @@
 import PBAPI
 import JavaScriptCore
 
-enum Match {
+public enum Match {
   case a([MatchItem])
   case obj(Dictionary<String,MatchItem>)
   case single(MatchItem)
@@ -68,7 +68,7 @@ enum Match {
   }
 }
 
-indirect enum MatchItem : Equatable, Hashable {
+public indirect enum MatchItem : Equatable, Hashable {
   case c(String)
   case ci(Int)
   case arr
@@ -168,8 +168,7 @@ struct JsParseTransform<Output:Any> {
       return try xform(x)
     }
     catch {
-//      throw JSError.wrap("Error in transform (\(name)). Match was: \n\(match.string())\nJS Value:\n\(x.pbDebug())", error)
-      throw JSError.wrap("\(name): \(match.string()) --\n\(x.pbDebug())", error)
+      throw JSError.transformFailure(name: name, match: match, value: x, err: error)
     }
   }
 }

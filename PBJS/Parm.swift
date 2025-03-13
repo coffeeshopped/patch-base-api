@@ -14,6 +14,10 @@ extension Parm: JsParsable, JsArrayParsable, JsPassable {
       }
       return try .p(path, obj.xq("b"), p: obj.xq("p"), bits: bits, extra: [:], packIso: obj.xq("packIso"), obj.x())
     }),
+    ([".p"], {
+      let path: SynthPath = try $0.x(0)
+      return .p(path, 0)
+    }),
   ], "general parm")
   
   func toJS() -> AnyHashable {
@@ -84,7 +88,7 @@ extension Parm: JsParsable, JsArrayParsable, JsPassable {
       return parms.b2p()
     }),
     
-  ], "parms")
+  ], "[Parm]")
 }
 
 extension Parm.Span: JsParsable {

@@ -11,6 +11,6 @@ enum JsSysex {
     MultiBankTruss.jsParsers.anyTrussRules(),
   ].flatMap({ $0 })
   
-  static let trussRules: JsParseTransformSet<any SysexTruss> = .init(combinedRules, "truss")
+  static let trussRules: JsParseTransformSet<any SysexTruss> = .init(combinedRules, "PBAPI.SysexTruss")
   
 }
