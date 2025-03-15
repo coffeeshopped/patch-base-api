@@ -16,6 +16,10 @@ extension MidiChannelTransform: JsParsable {
       }
       return try .patch($0.x(1), $0.x(2), map: fn)
     }),
+    (["custom", ".a", ".f"], {
+      let f = try $0.fn(2)
+      return try .custom($0.x(1), { try f.call([$0]).x() })
+    }),
   ])
 
   
