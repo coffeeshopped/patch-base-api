@@ -14,11 +14,21 @@ public indirect enum JSError : LocalizedError {
       return "\(msg):\n\(err.localizedDescription)"
     case .noParseRule(let parseRuleSetName, let value):
       let debugString = value.pbDebug(0, depth: 1)
-      let origin: String = (try? value.x("EXPORT_ORIGIN")) ?? "?"
-      return "in \(origin)\n\(parseRuleSetName): no parse rule found for JS Value:\n\(debugString)"
+      let errMsg = "\(parseRuleSetName): no parse rule found for JS Value:\n\(debugString)"
+      if let origin = value.exportOrigin() {
+        return "in \(origin)\n\(errMsg)"
+      }
+      else {
+        return errMsg
+      }
     case .transformFailure(let name, let match, let value, let err):
-      let origin: String = (try? value.x("EXPORT_ORIGIN")) ?? "?"
-      return "\(err.localizedDescription)\nin \(origin)\nContext: \(name): \(match.string()) --\n\(value.pbDebug())"
+      let errMsg = "Parse rule failed: \(name): \(match.string()) --\n\(value.pbDebug())"
+      if let origin = value.exportOrigin() {
+        return "\(err.localizedDescription)\nin \(origin)\n\(errMsg)"
+      }
+      else {
+        return "\(err.localizedDescription)\n\(errMsg)"
+      }
     }
   }
 }

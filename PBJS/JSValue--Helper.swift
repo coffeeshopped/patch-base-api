@@ -130,6 +130,8 @@ extension JSValue {
     return try xformArr(t)
   }
 
+  /// The JS file (if any) that this Value was exported from.
+  public func exportOrigin() -> String? { try? x("EXPORT_ORIGIN") }
 
   public func pbDebug(_ indent: Int = 0, depth: Int = 1) -> String {
     if isString {
