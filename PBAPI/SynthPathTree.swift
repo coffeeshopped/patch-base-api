@@ -82,8 +82,8 @@ public struct SynthPathTree<T> : Sequence, ExpressibleByDictionaryLiteral {
   }
 
   public subscript(path: SynthPath) -> T? {
-    get { self[path[...]] }
-    set { self[path[...]] = newValue }
+    get { self[path[0..<path.count]] }
+    set { self[path[0..<path.count]] = newValue }
   }
 
   public subscript(path: ArraySlice<SynthPathItem>) -> T? {
@@ -127,7 +127,7 @@ public struct SynthPathTree<T> : Sequence, ExpressibleByDictionaryLiteral {
   
   public func filtered(forPrefix path: SynthPath?) -> SynthPathTree<T> {
     guard let path = path else { return self }
-    return filtered(forPrefix: path[...])
+    return filtered(forPrefix: path[0..<path.count])
   }
 
   public func filtered(forPrefix path: ArraySlice<SynthPathItem>) -> SynthPathTree<T> {
@@ -136,7 +136,7 @@ public struct SynthPathTree<T> : Sequence, ExpressibleByDictionaryLiteral {
   }
 
   public func prefixed(_ path: SynthPath) -> SynthPathTree<T> {
-    prefixed(path[...])
+    prefixed(path[0..<path.count])
   }
 
   public func prefixed(_ path: ArraySlice<SynthPathItem>) -> SynthPathTree<T> {
@@ -203,7 +203,7 @@ public struct SynthPathTree<T> : Sequence, ExpressibleByDictionaryLiteral {
 
 
   public mutating func removeValue(forKey key: SynthPath) {
-    removeValue(forKey: key[...])
+    removeValue(forKey: key[0..<key.count])
   }
 
   public mutating func removeValue(forKey key: ArraySlice<SynthPathItem>) {

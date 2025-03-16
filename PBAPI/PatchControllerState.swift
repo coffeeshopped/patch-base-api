@@ -30,7 +30,7 @@ public struct PatchControllerState {
   // given a full path, filter it based on the current prefix
   func localPath(fullPath: SynthPath) -> SynthPath {
     guard let prefix = prefix else { return fullPath }
-    return fullPath.starts(with: prefix) ? Array(fullPath.suffix(from: prefix.count)) : []
+    return fullPath.starts(with: prefix) ? .init(fullPath[prefix.count...]) : []
   }
   
   public func prefixTransform(_ path: SynthPath) -> SynthPath {

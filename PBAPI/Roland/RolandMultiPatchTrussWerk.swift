@@ -42,7 +42,7 @@ public struct RolandMultiPatchTrussWerk : RolandPatchTrussWerk {
   public func truss(_ werk: RolandSysexTrussWerk, start: RolandAddress) throws -> MultiPatchTruss {
     
     let sysexDataFn = sysexData(werk)
-    return MultiPatchTruss(displayId, trussMap: try map.map { ($0.path, try $0.werk.truss(werk, start: start)) }, namePath: [.common], initFile: initFile, createFileData: .fn({ b, e in
+    return MultiPatchTruss(displayId, trussMap: try map.map { ($0.path, try $0.werk.truss(werk, start: start)) }, namePath: .init([.common]), initFile: initFile, createFileData: .fn({ b, e in
         .arr(try sysexDataFn(b, e, start))
     }), parseBodyData: { fileData in
       let rData = RolandWerkData(data: Data(fileData), werk: werk)

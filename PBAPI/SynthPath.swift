@@ -1,5 +1,105 @@
 
-public typealias SynthPath = Array<SynthPathItem>
+//public typealias SynthPath = Array<SynthPathItem>
+
+public struct SynthPath : ExpressibleByArrayLiteral {
+  
+  public typealias ArrayLiteralElement = SynthPathItem
+  public init(arrayLiteral elements: SynthPathItem...) {
+    self.arr = elements
+  }
+
+  
+  private var arr: [SynthPathItem]
+  
+  public init(_ arr: [SynthPathItem]) {
+    self.arr = arr
+  }
+  
+  public init(_ slice: ArraySlice<SynthPathItem>) {
+    self.arr = .init(slice)
+  }
+  
+  public var count: Int { arr.count }
+  
+  public subscript(_ index: Int) -> SynthPathItem {
+    arr[index]
+  }
+  
+  public subscript(_ range: Range<Int>) -> ArraySlice<SynthPathItem> {
+    arr[range]
+  }
+  
+  public subscript(_ range: ClosedRange<Int>) -> ArraySlice<SynthPathItem> {
+    arr[range]
+  }
+  
+  public subscript(_ range: PartialRangeFrom<Int>) -> ArraySlice<SynthPathItem> {
+    arr[range]
+  }
+  
+  public mutating func removeLast() -> SynthPathItem {
+    arr.removeLast()
+  }
+    
+}
+
+public struct SynthPathIterator: IteratorProtocol {
+  public typealias Element = SynthPathItem
+
+  private var i = 0
+  private let synthPath: SynthPath
+  
+  init(_ synthPath: SynthPath) {
+    self.synthPath = synthPath
+  }
+  
+  public mutating func next() -> SynthPathItem? {
+    guard i < synthPath.count else { return nil }
+    let item = synthPath[i]
+    self.i += 1
+    return item
+  }
+}
+
+extension SynthPath : Sequence {
+  public func makeIterator() -> SynthPathIterator {
+    SynthPathIterator(self)
+  }
+}
+
+extension SynthPath : BidirectionalCollection {
+  public func index(before i: Int) -> Int {
+    arr.index(before: i)
+  }
+  
+  public func index(after i: Int) -> Int {
+    arr.index(after: i)
+  }
+  
+  public var startIndex: Int {
+    arr.startIndex
+  }
+  
+  public var endIndex: Int {
+    arr.endIndex
+  }
+  
+  
+}
+
+extension SynthPath : Hashable {
+  
+}
+
+extension SynthPath : Equatable {
+  
+}
+
+extension SynthPath {
+  public static func + (left: Self, right: Self) -> Self {
+    return .init(left.arr + right.arr)
+  }
+}
 
 public extension SynthPath {
 
@@ -90,7 +190,7 @@ public extension Array where Element == SynthPath {
 }
 
 
-public enum SynthPathItem: Hashable, Codable {
+public enum SynthPathItem: Hashable, Codable, Equatable {
   
   enum CodableError: Error {
     case encodeError(String)

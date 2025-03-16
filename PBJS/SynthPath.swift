@@ -24,7 +24,7 @@ extension SynthPathItem: JsArrayParsable {
     (".a", { try $0.flatMap { try $0.x() } })
   ], "SynthPath")
 
-  private static func parseSynthPathItem(_ s: String) throws -> Self {
+  fileprivate static func parseSynthPathItem(_ s: String) throws -> Self {
     guard let i = SynthPathItem.parseMap[s] else {
       throw JSError.error(msg: "Unknown Synth Path element: \(s)")
     }
@@ -39,6 +39,24 @@ extension SynthPathItem: JsArrayParsable {
       return "\(self)"
     }
   }
+}
+
+extension SynthPath : JsParsable {
+  static var jsParsers: JsParseTransformSet<Self> = try! .init([
+    (".s", {
+      let items = try $0.toString().split(separator: "/").map {
+        guard let i = Int($0) else {
+          return try SynthPathItem.parseSynthPathItem(String($0))
+        }
+        return .i(i)
+      }
+      return SynthPath(items)
+    }),
+    (".n", { [.i(try $0.x())] }),
+    (".a", { .init(try $0.flatMap { try $0.x() }) })
+  ])
+  
+  
 }
 
 extension SynthPath : JsPassable {

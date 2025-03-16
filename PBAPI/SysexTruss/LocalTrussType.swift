@@ -57,14 +57,14 @@ public extension SynthPath {
   // some cases have legacy directories.
   func directory(_ desc: (SynthPath) -> String?) -> String {
     // first, pull out numbers.
-    let noNums = filter { item in
+    let noNums = SynthPath(filter { item in
       switch item {
       case .i(_):
         return false
       default:
         return true
       }
-    }
+    })
 
     // first, see if passed in func gives a match
     if let d = desc(noNums) {
@@ -77,7 +77,7 @@ public extension SynthPath {
       }
 
       // remove bank
-      let filtered = noNums.filter { $0 != .bank }
+      let filtered = SynthPath(noNums.filter { $0 != .bank })
       var d = desc(filtered) ?? Self.description(filtered)
       // remove any trailing *
       if d.hasSuffix("*") {

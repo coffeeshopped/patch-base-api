@@ -21,10 +21,10 @@ public struct JsSynthPath {
     default:
       break
     }
-    return []
+    return .init([])
   }
   
-  public static func decode(array: [Any]) -> SynthPath { array.map { $0 as! SynthPathItem } }
+  public static func decode(array: [Any]) -> SynthPath { .init(array.map { $0 as! SynthPathItem }) }
 
   public static func decode(string: String) -> SynthPath {
     let parts: [Any] = string.split(separator: "/").map {
