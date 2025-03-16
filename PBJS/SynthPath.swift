@@ -41,7 +41,7 @@ extension SynthPathItem: JsArrayParsable {
   }
 }
 
-extension SynthPath : JsParsable {
+extension SynthPath : JsArrayParsable {
   static var jsParsers: JsParseTransformSet<Self> = try! .init([
     (".s", {
       let items = try $0.toString().split(separator: "/").map {
@@ -56,14 +56,7 @@ extension SynthPath : JsParsable {
     (".a", { .init(try $0.flatMap { try $0.x() }) })
   ])
   
-  
-}
-
-extension SynthPath : JsPassable {
-  func toJS() -> AnyHashable { str() }
-  func str() -> String { map { "\($0.scriptItem())" }.joined(separator: "/") }
-  
-  static let arrPathRules: JsParseTransformSet<[SynthPath]> = try! .init([
+  static var jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([
     ([">", ".x"], { v in
       // expect elem 1 to be Parms
       let parms: [Parm] = try v.x(1)
@@ -77,7 +70,13 @@ extension SynthPath : JsPassable {
       }
     }),
     (".a", { try $0.map { try $0.x() } }),
-  ])
+  ]).with(try! jsParsers.arrayParsers())
+  
+}
+
+extension SynthPath : JsPassable {
+  func toJS() -> AnyHashable { str() }
+  func str() -> String { map { "\($0.scriptItem())" }.joined(separator: "/") }
 }
 
 enum JsSynthPath {

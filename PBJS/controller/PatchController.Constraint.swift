@@ -27,10 +27,10 @@ extension PatchController.Constraint: JsParsable, JsArrayParsable {
     }),
     (["colFixed", ".a", ".d"], {
       let cfg = try $0.obj(2)
-      return try .colFixed($0.arrStr(1), fixed: cfg.x("fixed"), height: cfg.x("height"), opts: [], spacing: cfg.x("spacing"))
+      return try .colFixed($0.x(1), fixed: cfg.x("fixed"), height: cfg.x("height"), opts: [], spacing: cfg.x("spacing"))
     }),
     (["eq", ".a", ".s"], {
-      return try .eq($0.arr(1).arrStr(), parseConstraintAttribute($0.x(2)))
+      return try .eq($0.arr(1).x(), parseConstraintAttribute($0.x(2)))
     })
   ], "controller constraint")
   

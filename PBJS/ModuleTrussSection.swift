@@ -37,6 +37,18 @@ extension ModuleTrussSection.Item: JsParsable, JsArrayParsable {
     (["perfParts", ".n", ".f", ".x"], {
       try .perfParts($0.x(1), $0.fn(2), pathPrefix: [.part], $0.x(3))
     }),
+    (["banks", ".n", ".f", ".p"], {
+      try .banks($0.x(1), $0.fn(2), $0.x(3))
+    }),
+    (".a", {
+      guard $0.arrCount() > 0 else { return [] }
+      return try $0.map {
+        guard let x = try? $0.xform(jsParsers) else {
+          return try $0.x()
+        }
+        return [x]
+      }.reduce([], +)
+    }),
   ]).with(jsParsers.arrayParsers())
 
 }

@@ -43,7 +43,7 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
     }),
     (["e.values", ".p", ".a", ".f"], {
       let editorPath: SynthPath = try $0.x(1)
-      let paths: [SynthPath] = try $0.arrPath(2)
+      let paths: [SynthPath] = try $0.x(2)
       let fn = try $0.fn(3)
       let evts: [EditorValueTransform] = paths.map { .value(editorPath, $0, defaultValue: 0) }
       return .fn { bodyData, e in

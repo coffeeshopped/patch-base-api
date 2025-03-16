@@ -42,7 +42,7 @@ public indirect enum JSError : LocalizedError {
       let debugString = value.pbDebug(0, depth: 1)
       return "\(parseRuleSetName): no parse rule found for JS Value:\n\(debugString)"
     case .transformFailure(let name, let match, let value, let err):
-      return "Parse rule failed: \(name):\nPattern: \(match.string())\nValue:\n\(value.pbDebug())"
+      return "\(name): parse rule failed:\nPattern: \(match.string())\nValue:\n\(value.pbDebug())"
     }
   }
   
@@ -89,6 +89,20 @@ public indirect enum JSError : LocalizedError {
       }
       else {
         return nil
+      }
+    }
+  }
+  
+  public func invert() -> [JSError] {
+    switch self {
+    case .error, .noParseRule:
+      return [self]
+    case .wrap(_, let err), .transformFailure(_, _, _, let err):
+      if let err = err as? JSError {
+        return err.invert() + [self]
+      }
+      else {
+        return [self]
       }
     }
   }

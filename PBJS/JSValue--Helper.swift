@@ -54,14 +54,7 @@ extension JSValue {
     guard item.isArray else { throw JSError.error(msg: "Expected Array at index") }
     return item
   }
-  
-  func arrStr() throws -> [String] {
-    try map { try $0.x() }
-  }
-
-  func arrStr(_ key: String) throws -> [String] { try arr(key).arrStr() }
-  func arrStr(_ index: Int) throws -> [String] { try arr(index).arrStr() }
-  
+    
   func map<X:Any>(_ fn: (JSValue) throws -> X) throws -> [X] {
     try (0..<arrCount()).map { try fn(any($0)) }
   }
@@ -192,14 +185,6 @@ extension JSValue {
           item.isArray else { throw JSError.error(msg: "Expected Array at key: \(key)") }
     return item
   }
-
-
-  func arrInt() throws -> [Int] {
-    try map { try $0.x() }
-  }
-
-  func arrInt(_ index: Int) throws -> [Int] { try arr(index).arrInt() }
-  func arrInt(_ key: String) throws -> [Int] { try arr(key).arrInt() }
   
   func optDict() throws -> [Int:String] {
     try checkArr()
@@ -215,15 +200,6 @@ extension JSValue {
           item.isObject else { throw JSError.error(msg: "Expected Object at key: \(key)") }
     return item
   }
-  
-  func arrPath() throws -> [SynthPath] {
-    try xform(SynthPath.arrPathRules)
-//    try map { try $0.x() }
-  }
-  
-  func arrPath(_ key: String) throws -> [SynthPath] { try arr(key).arrPath() }
-  func arrPath(_ index: Int) throws -> [SynthPath] { try arr(index).arrPath() }
-
   
   func fn(_ key: String) throws -> JSValue {
     guard let item = try checkForProperty(key),
@@ -254,10 +230,6 @@ extension JSValue {
 
 }
 
-//protocol JSX {
-//  static func x(_ v: JSValue) throws -> Self
-//}
-
 extension String: JsArrayParsable {
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     (".s", {
@@ -274,12 +246,7 @@ extension String: JsArrayParsable {
       let iso: IsoFS = try $0.x(1)
       return (count).map { iso.forward(Float($0)) }
     }),
-    (".a", { 
-      try $0.map {
-        try $0.x()
-      }
-    }),
-  ])
+  ]).with(try! jsParsers.arrayParsers())
 
 }
 

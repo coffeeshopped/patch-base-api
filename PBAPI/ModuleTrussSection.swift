@@ -89,8 +89,8 @@ public extension Array where Element == ModuleTrussSection.Item {
     try count.map { try .voice(title($0), path: pathPrefix + [.i($0)], ctrlr) }
   }
 
-  static func banks(_ count: Int, _ title: (Int) -> String, _ pathPrefix: SynthPath) -> Self {
-    count.map { .bank(title($0), pathPrefix + [.i($0)]) }
+  static func banks(_ count: Int, _ title: (Int) throws -> String, _ pathPrefix: SynthPath) throws -> Self {
+    try count.map { try .bank(title($0), pathPrefix + [.i($0)]) }
   }
 
 }

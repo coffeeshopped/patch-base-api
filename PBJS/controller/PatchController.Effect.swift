@@ -8,24 +8,22 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
       let config = try $0.obj(2)
       // paths can be an [SynthPath], or [Parm].
       let paths: [SynthPath]
-      if let p = try? config.arrPath("paths") {
+      if let p = try? config.x("paths") as [SynthPath] {
         paths = p
       }
       else {
         let p: [Parm] = try config.x("paths")
         paths = p.map { $0.path }
       }
-      let innit = try? config.arrInt("init")
-      return try .editMenu($0.xq(1), paths: paths, type: config.x("type"), init: innit, rand: nil, items: [])
+      return try .editMenu($0.xq(1), paths: paths, type: config.x("type"), init: config.xq("init"), rand: nil, items: [])
     }),
     (["patchChange", ".p", ".f"], {
       try .patchChange($0.x(1), $0.fn(2))
     }),
     (["patchChange", ".d"], {
       let config = try $0.obj(1)
-      let paths = try config.arrPath("paths")
       let fn = try config.fn("fn")
-      return .patchChange(paths: paths) { values in
+      return .patchChange(paths: try config.x("paths")) { values in
         var v = [String:Int]()
         values.forEach { v[$0.str()] = $1 }
         return try fn.call([v]).x()
@@ -57,7 +55,7 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
   
   static let jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([
     (["voiceReserve", ".a", ".n", ".a"], {
-      try .voiceReserve(paths: $0.arrPath(1), total: $0.x(2), ctrls: $0.arrPath(3))
+      try .voiceReserve(paths: $0.x(1), total: $0.x(2), ctrls: $0.x(3))
     }),
     ([ "ctrlBlocks", ".p"], {
       try .ctrlBlocks($0.x(1), value: nil, cc: nil, param: nil)
@@ -65,13 +63,13 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
     (["patchSelector", ".p", ".d"], {
       let obj = try $0.obj(2)
       if let fn = try? obj.fn("paramMapWithContext") {
-        return try .patchSelector(id: $0.x(1), bankValues: obj.arrPath("bankValues")) { values, state, locals in
+        return try .patchSelector(id: $0.x(1), bankValues: obj.x("bankValues")) { values, state, locals in
           try fn.call([values.toJS(), state.toJS(), locals.toJS()]).x()
         }
       }
       else {
         let fn = try obj.fn("paramMap")
-        if let bankValues = try? obj.arrPath("bankValues") {
+        if let bankValues = try? obj.x("bankValues") as [SynthPath] {
           return try .patchSelector(id: $0.x(1), bankValues: bankValues, paramMap: obj.fn("paramMap"))
         }
         else {
