@@ -1,7 +1,7 @@
 
 import PBAPI
 
-extension PatchController: JsParsable {
+extension PatchController: JsArrayParsable {
   
   static let jsParsers: JsParseTransformSet<Self> = try! .init([
     ([
@@ -56,5 +56,5 @@ extension PatchController: JsParsable {
     }),
   ])
   
-
+  static var jsArrayParsers: JsParseTransformSet<[Self]> = try! jsParsers.arrayParsers()
 }

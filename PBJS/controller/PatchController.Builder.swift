@@ -8,8 +8,9 @@ extension PatchController.Builder: JsParsable, JsArrayParsable {
       let opts = try? $0.obj(3)
       return try .child($0.x(1), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"))
     }),
-    (["children", ".n", ".s"], {
-      try .children($0.x(1), $0.x(2), color: nil, clearBG: false, $0.any(3).x(), indexFn: nil)
+    (["children", ".n", ".s", ".d?"], {
+      let opts = try? $0.obj(3)
+      return try .children($0.x(1), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), $0.any(3).x(), indexFn: nil)
     }),
     (["panel", ".s", ".d", ".a"], {
       let opts = try? $0.obj(2)

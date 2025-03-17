@@ -8,7 +8,7 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
       let c = try? $0.obj(2)
       return try .switcher(label: c?.xq("l"), $0.x(1), id: c?.xq("id"), width: c?.xq("w"), cols: c?.xq("cols"))
     }),
-    ([".s?", ".p"], { .knob(try $0.xq(0), try $0.x(1)) }),
+    ([".s?", ".p"], { try .knob($0.xq(0), $0.x(1)) }),
     ([".d", ".p?"], {
       let obj = try $0.obj(0)
       let path: SynthPath? = try $0.xq(1)
@@ -63,6 +63,9 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
     ], {
       let bold = (try $0.xq("bold")) ?? true
       return try .label($0.x("l"), align: .center, size: $0.xq("size") ?? 13, bold: bold, id: $0.xq("id"), width: $0.xq("w"))
+    }),
+    (".p", {
+      try .knob(nil, $0.x())
     })
   ])
   

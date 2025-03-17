@@ -42,12 +42,12 @@ extension ModuleTrussSection.Item: JsParsable, JsArrayParsable {
     }),
     (".a", {
       guard $0.arrCount() > 0 else { return [] }
-      return try $0.map {
-        guard let x = try? $0.xform(jsParsers) else {
+      return try $0.flatMap {
+        guard let x: Self = try? $0.x() else {
           return try $0.x()
         }
         return [x]
-      }.reduce([], +)
+      }
     }),
   ]).with(jsParsers.arrayParsers())
 

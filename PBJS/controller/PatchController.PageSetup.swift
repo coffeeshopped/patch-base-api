@@ -7,6 +7,9 @@ extension PatchController.PageSetup: JsParsable {
     (["map", ".a", ".a"], {
       try .map($0.x(1), $0.x(2))
     }),
+    (["controllers", ".a"], {
+      try .controllers($0.x(1))
+    }),
   ])
 
 }
