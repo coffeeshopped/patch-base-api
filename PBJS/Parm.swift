@@ -49,10 +49,11 @@ extension Parm: JsParsable, JsArrayParsable, JsPassable {
       "block" : ".x",
     ], {
       let block = try $0.any("block")
+      let exportOrigin = $0.exportOrigin()
       return try .prefix($0.x("prefix"), count: $0.x("count"), bx: $0.xq("bx") ?? 0, px: $0.xq("px"), block: {
         let parms: JSValue
         if block.isFn {
-          guard let p = try block.call([$0]) else {
+          guard let p = try block.call([$0], exportOrigin: exportOrigin) else {
             throw JSError.error(msg: "Parms: prefix: block fn returned null")
           }
           parms = p

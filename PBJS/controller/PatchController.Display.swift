@@ -7,10 +7,11 @@ extension PatchController.Display: JsParsable {
     (["display" : "dadsrEnv"], { _ in .dadsrEnv() }),
     (["env" : ".f"], {
       let fn = try $0.fn("env")
+      let exportOrigin = $0.exportOrigin()
       return .env { values in
         var v = [String:CGFloat]()
         values.forEach { v[$0.key.str()] = $0.value }
-        return try fn.call([v]).x()
+        return try fn.call([v], exportOrigin: exportOrigin).x()
       }
     }),
     ([

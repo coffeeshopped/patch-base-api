@@ -58,7 +58,7 @@ extension SinglePatchTruss: JsParsable {
     (".f", { fn in
       try fn.checkFn()
       return { bodyData, parm in
-        try fn.call([bodyData, parm.toJS()])?.x()
+        try fn.call([bodyData, parm.toJS()], exportOrigin: nil)?.x()
       }
     }),
   ], "singlePatchUnpack")
@@ -112,7 +112,7 @@ extension SinglePatchTruss: JsParsable {
     }),
     (".f", { fn in
       try fn.checkFn()
-      return { try fn.call([$0]).x() }
+      return { try fn.call([$0], exportOrigin: nil).x() }
     }),
   ], "singlePatchTruss parseBody")
   
@@ -148,7 +148,7 @@ extension SinglePatchTruss: JsParsable {
   static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any?]) throws -> [(MidiMessage, Int)] {
     // fn can be a JS function
     // or it can be something that should be parsed as a createFile...
-    let mapVal = fn.isFn ? try fn.call(vals) : fn
+    let mapVal = fn.isFn ? try fn.call(vals, exportOrigin: nil) : fn
     return try mapVal!.map {
       if let msg = try? $0.arr(0).xform(MidiMessage.jsParsers) {
         return (msg, try $0.any(1).x())

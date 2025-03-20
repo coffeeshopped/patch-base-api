@@ -135,14 +135,19 @@ public struct JsModuleTruss {
   };
   req(module, module.exports);
 
-  if (module.exports) {
-    for (let key in module.exports) {
+  function setExportOrigin(obj) {
+    for (let key in obj) {
       try {
-        Object.defineProperty(module.exports[key], "EXPORT_ORIGIN", {
+        Object.defineProperty(obj[key], "EXPORT_ORIGIN", {
           value: \"\(currentPath)\",
         });
+        setExportOrigin(obj[key])
       } catch(error) { }
     }
+  }
+
+  if (module.exports) {
+    setExportOrigin(module.exports)
   }
   return module.exports;
 })()

@@ -14,6 +14,7 @@ extension JSValue {
     guard isFn else { throw JSError.error(msg: "Expected a function.") }
   }
   
+  
   func any(_ index: Int) throws -> JSValue {
     try checkArr()
     
@@ -31,17 +32,25 @@ extension JSValue {
   func x<Out:JsParsable>(_ k: String) throws -> Out { try any(k).x() }
   func x<Out:JsParsable>(_ i: Int) throws -> Out { try any(i).x() }
 
+  private func some(_ k: String) -> JSValue? {
+    guard let e = try? any(k) else { return nil }
+    return e.isNull ? nil : e
+  }
+
+  private func some(_ i: Int) -> JSValue? {
+    guard let e = try? any(i) else { return nil }
+    return e.isNull ? nil : e
+  }
+
   // look for a value at the given key.
   // if it exists, parse an expected type
   // if it doesn't exist, return nil
   // used for optional (but type-checked) values
   func xq<Out:JsParsable>(_ k: String) throws -> Out? {
-    guard let e = try? any(k), !e.isNull else { return nil }
-    return try e.x()
+    try some(k)?.x()
   }
   func xq<Out:JsParsable>(_ i: Int) throws -> Out? {
-    guard let e = try? any(i), !e.isNull else { return nil }
-    return try e.x()
+    try some(i)?.x()
   }
     
   fileprivate func num() throws -> NSNumber {
@@ -85,18 +94,10 @@ extension JSValue {
     return item
   }
 
-  func fn<A:JsPassable, B:JsParsable>(_ index: Int) throws -> ((A) throws -> B) {
-    let f = try fn(index)
-    return { try f.call([$0.toJS()]).x() }
-  }
-
-  // for 2-arg fns
-  func fn<A:JsPassable, B:JsParsable, C:JsPassable>(_ index: Int) throws -> ((A, C) throws -> B) {
-    let f = try fn(index)
-    return {
-      let localsJS = $1.toJS()
-      return try f.call([$0.toJS(), localsJS]).x()
-    }
+  func fnq(_ index: Int) throws -> JSValue? {
+    guard let item = some(index) else { return nil }
+    guard item.isFn else { throw JSError.error(msg: "Expected Function at index: \(index)") }
+    return item
   }
 
   func xform<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> Output {
@@ -125,6 +126,9 @@ extension JSValue {
 
   /// The JS file (if any) that this Value was exported from.
   public func exportOrigin() -> String? { try? x("EXPORT_ORIGIN") }
+  public func setExportOrigin(_ str: String?) {
+    self.setValue(str, forProperty: "EXPORT_ORIGIN")
+  }
 
   public func pbDebug(_ indent: Int = 0, depth: Int = 1) -> String {
     if isString {
@@ -207,9 +211,95 @@ extension JSValue {
     return item
   }
   
+  func fnq(_ key: String) throws -> JSValue? {
+    guard let item = some(key) else { return nil }
+    guard item.isFn else { throw JSError.error(msg: "Expected Function at key: \(key)") }
+    return item
+  }
+
+  
+  // MARK: Automatic function signature parsing!
+  
+  // int-based
+  
+  func fn<A:JsPassable, B:JsParsable>(_ index: Int) throws -> ((A) throws -> B) {
+    try fn(fn(index))
+  }
+
+  func fn<A:JsPassable, B:JsParsable, C:JsPassable>(_ index: Int) throws -> ((A, C) throws -> B) {
+    try fn(fn(index))
+  }
+  
+  func fn<A:JsPassable, B:JsParsable, C:JsPassable, D:JsPassable>(_ index: Int) throws -> ((A, C, D) throws -> B) {
+    try fn(fn(index))
+  }
+
+  func fnq<A:JsPassable, B:JsParsable>(_ index: Int) throws -> ((A) throws -> B)? {
+    guard let f = try fnq(index) else { return nil }
+    return try fn(f)
+  }
+
+  func fnq<A:JsPassable, B:JsParsable, C:JsPassable>(_ index: Int) throws -> ((A, C) throws -> B)? {
+    guard let f = try fnq(index) else { return nil }
+    return try fn(f)
+  }
+
+  func fnq<A:JsPassable, B:JsParsable, C:JsPassable, D:JsPassable>(_ index: Int) throws -> ((A, C, D) throws -> B)? {
+    guard let f = try fnq(index) else { return nil }
+    return try fn(f)
+  }
+
+  // key-based
+  
   func fn<A:JsPassable, B:JsParsable>(_ key: String) throws -> ((A) throws -> B) {
-    let f = try fn(key)
-    return { try f.call([$0.toJS()]).x() }
+    try fn(fn(key))
+  }
+
+  func fn<A:JsPassable, B:JsParsable, C:JsPassable>(_ key: String) throws -> ((A, C) throws -> B) {
+    try fn(fn(key))
+  }
+  
+  func fn<A:JsPassable, B:JsParsable, C:JsPassable, D:JsPassable>(_ key: String) throws -> ((A, C, D) throws -> B) {
+    try fn(fn(key))
+  }
+  
+  func fnq<A:JsPassable, B:JsParsable>(_ key: String) throws -> ((A) throws -> B)? {
+    guard let f = try fnq(key) else { return nil }
+    return try fn(f)
+  }
+
+  func fnq<A:JsPassable, B:JsParsable, C:JsPassable>(_ key: String) throws -> ((A, C) throws -> B)? {
+    guard let f = try fnq(key) else { return nil }
+    return try fn(f)
+  }
+
+  func fnq<A:JsPassable, B:JsParsable, C:JsPassable, D:JsPassable>(_ key: String) throws -> ((A, C, D) throws -> B)? {
+    guard let f = try fnq(key) else { return nil }
+    return try fn(f)
+  }
+
+
+  private func fn<A:JsPassable, B:JsParsable>(_ f: JSValue) throws -> ((A) throws -> B) {
+    let exportOrigin = self.exportOrigin()
+    return {
+      try f.call([$0.toJS()], exportOrigin: exportOrigin).x()
+    }
+  }
+
+  // for 2-arg fns
+  private func fn<A:JsPassable, B:JsParsable, C:JsPassable>(_ f: JSValue) throws -> ((A, C) throws -> B) {
+    let exportOrigin = self.exportOrigin()
+    return {
+      try f.call([$0.toJS(), $1.toJS()], exportOrigin: exportOrigin).x()
+    }
+  }
+
+  // for 3-arg fns
+  private func fn<A:JsPassable, B:JsParsable, C:JsPassable, D:JsPassable>(_ f: JSValue) throws -> ((A, C, D) throws -> B) {
+    let exportOrigin = self.exportOrigin()
+    return {
+      try f.call([$0.toJS(), $1.toJS(), $2.toJS()], exportOrigin: exportOrigin).x()
+    }
   }
 
   
@@ -218,12 +308,11 @@ extension JSValue {
   }
   
   // calls as a function, throwing any JS Exceptions
-  func call(_ args: [Any]) throws -> JSValue! {
+  func call(_ args: [Any], exportOrigin: String?) throws -> JSValue! {
     context.exception = nil
     let value = call(withArguments: args)
     if let exc = context.exception {
-      let excStr = exc.toString() ?? "Unknown exception."
-      throw JSError.error(msg: "JS Exception thrown when calling function: \(excStr)\n\(pbDebug())")
+      throw JSError.fnException(fn: self, exception: exc, exportOrigin: exportOrigin ?? self.exportOrigin())
     }
     return value
   }

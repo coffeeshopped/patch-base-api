@@ -46,10 +46,11 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
       let paths: [SynthPath] = try $0.x(2)
       let fn = try $0.fn(3)
       let evts: [EditorValueTransform] = paths.map { .value(editorPath, $0, defaultValue: 0) }
+      let exportOrigin = $0.exportOrigin()
       return .fn { bodyData, e in
         .bytes(try evts.map {
           let v = try e?.intValue($0) ?? 0
-          return try fn.call([v]).x()
+          return try fn.call([v], exportOrigin: exportOrigin).x()
         })
       }
     }),
@@ -136,7 +137,8 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
       return .fn { b, e in .arr(try fns.flatMap { try $0.call(b, e).midi() }) }
     }),
     (".f", { fn in
-      return .fn { b, e in .bytes(try fn.call([b]).x()) }
+      let exportOrigin = fn.exportOrigin()
+      return .fn { b, e in .bytes(try fn.call([b], exportOrigin: exportOrigin).x()) }
     }),
   ], "singlePatchTruss createFile")
  

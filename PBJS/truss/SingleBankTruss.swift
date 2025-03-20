@@ -84,8 +84,9 @@ extension SinglePatchTruss : JsBankToMidiParsable {
       "locationMap" : ".f",
     ], {
       let locationMap = try $0.fn("locationMap")
+      let exportOrigin = $0.exportOrigin()
       let fn: SomeBankTruss<Self>.Core.ToMidiFn =  SomeBankTruss<Self>.createFileDataWithLocationMap { bodyData, location in
-        let f: Core.ToMidiFn = try locationMap.call([location]).x()
+        let f: Core.ToMidiFn = try locationMap.call([location], exportOrigin: exportOrigin).x()
         return try f.call(bodyData, nil).bytes()
       }
       return fn

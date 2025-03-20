@@ -207,9 +207,37 @@ extension JsParseTransform where Output: SysexTruss {
 
 extension JsParseTransformSet where Output: JsParsable {
 
-  func arrayParsers() throws -> JsParseTransformSet<[Output]> {
-    try .init([
-      (".a", { try $0.map { try $0.x() } })
+  func arrayParsers(_ primaryRules: [(Any, (JSValue) throws -> [Output])] = []) throws -> JsParseTransformSet<[Output]> {
+    try .init(primaryRules + [
+      (".a", {
+        // ok, so what are we doing here?
+        guard $0.arrCount() > 0 else { return [] }
+        // go through each item
+        return try $0.flatMap {
+          do {
+            // if the item parses as a single element, return it (as an array for flattening)
+            let x: Output = try $0.x()
+            return [x]
+          }
+          catch {
+            // if that item doesn't parse, try parsing the item as an array of elements
+            let e = error
+            do {
+              // if it parses as an array, return that array
+              let arr: [Output] = try $0.xform(arrayParsers(primaryRules))
+              return arr
+            }
+            catch {
+              // but if it doesn't parse, throw the error from parsing THE FIRST ELEMENT,
+              // rather than the error from parsing an array
+              // WHY?
+              // because that's a "deeper" error and more likely to yield useful debug info.
+              throw e
+            }
+          }
+
+        }
+      }),
     ], "[\(self.name)]")
   }
 
@@ -284,7 +312,7 @@ extension SomeBankTruss: JsToMidiParsable where PT: JsBankToMidiParsable {
   static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any?]) throws -> [(MidiMessage, Int)] {
     // fn can be a JS function
     // or it can be something that should be parsed as a createFile...
-    let mapVal = fn.isFn ? try fn.call(vals) : fn
+    let mapVal = fn.isFn ? try fn.call(vals, exportOrigin: nil) : fn
     return try mapVal!.map {
       if let msg = try? $0.arr(0).xform(MidiMessage.jsParsers) {
         return (msg, try $0.any(1).x())

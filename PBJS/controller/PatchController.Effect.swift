@@ -26,14 +26,14 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
       return .patchChange(paths: try config.x("paths")) { values in
         var v = [String:Int]()
         values.forEach { v[$0.str()] = $1 }
-        return try fn.call([v]).x()
+        return try fn.call([v], exportOrigin: nil).x()
       }
     }),
     (["dimsOn", ".p", ".s?", ".d?"], {
       let obj = try? $0.obj(3)
       var f: ((Int) throws -> Bool)? = nil
       if let fn = try? obj?.fn("dimWhen") {
-        f = { try fn.call([$0]).x() }
+        f = { try fn.call([$0], exportOrigin: nil).x() }
       }
       return try .dimsOn($0.x(1), id: $0.xq(2), dimAlpha: obj?.xq("dimAlpha"), dimWhen: f)
     }),
@@ -67,12 +67,9 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
     (["patchSelector", ".p", ".d"], {
       let obj = try $0.obj(2)
       if let fn = try? obj.fn("paramMapWithContext") {
-        return try .patchSelector(id: $0.x(1), bankValues: obj.x("bankValues")) { values, state, locals in
-          try fn.call([values.toJS(), state.toJS(), locals.toJS()]).x()
-        }
+        return try .patchSelector(id: $0.x(1), bankValues: obj.x("bankValues"), paramMapWithContext: obj.fn("paramMapWithContext"))
       }
       else {
-        let fn = try obj.fn("paramMap")
         if let bankValues = try? obj.x("bankValues") as [SynthPath] {
           return try .patchSelector(id: $0.x(1), bankValues: bankValues, paramMap: obj.fn("paramMap"))
         }

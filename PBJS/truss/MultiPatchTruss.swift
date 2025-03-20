@@ -30,7 +30,7 @@ extension MultiPatchTruss : JsParsable {
   static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any?]) throws -> [(MidiMessage, Int)] {
     // fn can be a JS function
     // or it can be something that should be parsed as a createFile...
-    let mapVal = fn.isFn ? try fn.call(vals) : fn
+    let mapVal = fn.isFn ? try fn.call(vals, exportOrigin: nil) : fn
     return try mapVal!.map {
       if let msg = try? $0.arr(0).xform(MidiMessage.jsParsers) {
         return (msg, try $0.x(1))

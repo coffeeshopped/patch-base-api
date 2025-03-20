@@ -57,7 +57,7 @@ extension NamePackIso : JsParsable {
     (".f", { fn in
       try fn.checkFn()
       return {
-        let result = try fn.call([$0])!
+        let result = try fn.call([$0], exportOrigin: nil)!
         if result.isNumber {
           return result.toNumber().uint8Value
         }

@@ -23,7 +23,7 @@ extension ModuleTrussSection.Item: JsParsable, JsArrayParsable {
       let config = try? $0.obj(2)
       let title = try config?.xq("title") ?? "Performance"
       let path: SynthPath = try config?.xq("path") ?? [.perf]
-      return .perf(title: title, path: path, try $0.x(1))
+      return try .perf(title: title, path: path, $0.x(1))
     }),
     (["bank", ".s", ".p"], { try .bank($0.x(1), $0.x(2)) }),
     ("channel", { _ in .channel() } ),
@@ -33,22 +33,13 @@ extension ModuleTrussSection.Item: JsParsable, JsArrayParsable {
     }),
   ])
 
-  static let jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([
+  static let jsArrayParsers: JsParseTransformSet<[Self]> = try! jsParsers.arrayParsers([
     (["perfParts", ".n", ".f", ".x"], {
       try .perfParts($0.x(1), $0.fn(2), pathPrefix: [.part], $0.x(3))
     }),
     (["banks", ".n", ".f", ".p"], {
       try .banks($0.x(1), $0.fn(2), $0.x(3))
     }),
-    (".a", {
-      guard $0.arrCount() > 0 else { return [] }
-      return try $0.flatMap {
-        guard let x: Self = try? $0.x() else {
-          return try $0.x()
-        }
-        return [x]
-      }
-    }),
-  ]).with(jsParsers.arrayParsers())
+  ])
 
 }

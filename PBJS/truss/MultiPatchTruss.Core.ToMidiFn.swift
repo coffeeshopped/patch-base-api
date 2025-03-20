@@ -40,7 +40,8 @@ extension SysexTrussCore<[SynthPath:[UInt8]]>.ToMidiFn {
     }),
     (".f", { fn in
       try fn.checkFn()
-      return .fn { b, e in .bytes(try fn.call([b, e]).x() as [UInt8]) }
+      let exportOrigin = fn.exportOrigin()
+      return .fn { b, e in .bytes(try fn.call([b, e], exportOrigin: exportOrigin).x() as [UInt8]) }
     }),
   ], "multiPatchTruss toMidiRules")
   

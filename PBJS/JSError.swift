@@ -5,6 +5,7 @@ public indirect enum JSError : LocalizedError {
   case wrap(_ msg: String, _ err: Error)
   case noParseRule(parseRuleSetName: String, value: JSValue)
   case transformFailure(name: String, match: Match, value: JSValue, err: Error)
+  case fnException(fn: JSValue, exception: JSValue, exportOrigin: String?)
     
   public var errorDescription: String? {
     switch self {
@@ -29,6 +30,9 @@ public indirect enum JSError : LocalizedError {
       else {
         return "\(err.localizedDescription)\n\(errMsg)"
       }
+    case .fnException(let fn, let exception, let exportOrigin):
+      let excStr = exception.toString() ?? "Unknown exception."
+      return "JS Exception thrown when calling function: \(excStr)\n\(fn.pbDebug())"
     }
   }
   
@@ -43,12 +47,15 @@ public indirect enum JSError : LocalizedError {
       return "\(parseRuleSetName): no parse rule found for JS Value:\n\(debugString)"
     case .transformFailure(let name, let match, let value, let err):
       return "\(name): parse rule failed:\nPattern: \(match.string())\nValue:\n\(value.pbDebug())"
+    case .fnException(let fn, let exception, let exportOrigin):
+      let excStr = exception.toString() ?? "Unknown exception."
+      return "JS Exception thrown when calling function: \(excStr)\n\(fn.pbDebug())"
     }
   }
   
   public var innermostError: JSError {
     switch self {
-    case .error, .wrap, .noParseRule:
+    case .error, .wrap, .noParseRule, .fnException:
       return self
     case .transformFailure(_, _, let value, let err):
       if let err = err as? JSError {
@@ -71,6 +78,8 @@ public indirect enum JSError : LocalizedError {
       else {
         return value.exportOrigin()
       }
+    case .fnException(_, _, let exportOrigin):
+      return exportOrigin
     }
   }
   
@@ -90,12 +99,14 @@ public indirect enum JSError : LocalizedError {
       else {
         return nil
       }
+    case .fnException(_, _, let exportOrigin):
+      return exportOrigin
     }
   }
   
   public func invert() -> [JSError] {
     switch self {
-    case .error, .noParseRule:
+    case .error, .noParseRule, .fnException:
       return [self]
     case .wrap(_, let err), .transformFailure(_, _, _, let err):
       if let err = err as? JSError {

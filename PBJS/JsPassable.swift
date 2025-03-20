@@ -12,6 +12,10 @@ extension String : JsPassable {
   func toJS() -> AnyHashable { self }
 }
 
+extension CGFloat : JsPassable {
+  func toJS() -> AnyHashable { self }
+}
+
 extension Dictionary : JsPassable where Key: JsPassable, Value: JsPassable {
   func toJS() -> AnyHashable {
     var d = [AnyHashable:AnyHashable]()
@@ -22,8 +26,18 @@ extension Dictionary : JsPassable where Key: JsPassable, Value: JsPassable {
   }
 }
 
+extension Array : JsPassable where Element: JsPassable {
+  func toJS() -> AnyHashable {
+    map { $0.toJS() }
+  }
+}
+
 extension SynthPathInts : JsPassable {
   func toJS() -> AnyHashable {
-    dict { [$0.key.str() : $0.value] }
+    var d = [AnyHashable:AnyHashable]()
+    forEach {
+      d[$0.key.str()] = $0.value
+    }
+    return d
   }
 }
