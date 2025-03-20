@@ -9,7 +9,7 @@ import PBAPI
 
 extension DXAlgorithm : JsParsable, JsArrayParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     (".a", {
       guard let arr = $0.toArray() as? [[String:[Int]]] else {
         throw JSError.error(msg: "DXAlgorithm: expected array of objects ([[String:[Int]]])")

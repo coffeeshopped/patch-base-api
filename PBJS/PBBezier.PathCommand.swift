@@ -7,19 +7,18 @@
 
 import PBAPI
 
-extension PBBezier.PathCommand: JsParsable, JsArrayParsable {
+extension PBBezier.PathCommand: JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (["move", ".n", ".n"], {
+  static let jsRules: [JsParseRule<Self>] = [
+    .a(["move", ".n", ".n"], {
       .move(to: CGPoint(x: try $0.x(1) as CGFloat, y: try $0.x(2)))
     }),
-    (["line", ".n", ".n"], {
+    .a(["line", ".n", ".n"], {
       .addLine(to: CGPoint(x: try $0.x(1) as CGFloat, y: try $0.x(2)))
     }),
-    (["scale", ".n", ".n"], {
+    .a(["scale", ".n", ".n"], {
       .apply(.identity.scaledBy(x: try $0.x(1) as CGFloat, y: try $0.x(2)))
     }),
-  ])
+  ]
   
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
 }

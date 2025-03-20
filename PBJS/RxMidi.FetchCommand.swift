@@ -2,15 +2,13 @@
 import PBAPI
 import JavaScriptCore
 
-extension RxMidi.FetchCommand: JsParsable, JsArrayParsable {
+extension RxMidi.FetchCommand: JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (["send", ".a"], {
+  static let jsRules: [JsParseRule<Self>] = [
+    .a(["send", ".a"], {
       return .sendMsg(try $0.arr(1).xform(MidiMessage.jsParsers))
     }),
-  ], "fetch command")
-
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
+  ]
 
   static let dynamicRules: JsParseTransformSet<(AnySynthEditor) throws -> Self> = try! .init([
     (["send", ".x"], {

@@ -1,28 +1,26 @@
 
 import PBAPI
 
-extension ParamOutTransform : JsArrayParsable {
+extension ParamOutTransform : JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    ([".p", ".a"], { try .init($0.x(0), $0.x(1)) }),
-  ])
-  
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
+  static let jsRules: [JsParseRule<Self>] = [
+    .a([".p", ".a"], { try .init($0.x(0), $0.x(1)) }),
+  ]
 }
 
 extension ParamOutTransform.Transform : JsParsable {
 
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (["bankNames", ".p", ".p"], {
+  static let jsRules: [JsParseRule<Self>] = [
+    .a(["bankNames", ".p", ".p"], {
       try .bankNames($0.x(1), $0.x(2), nameBlock: nil)
     }),
-    (["patchOut", ".p", ".f"], {
+    .a(["patchOut", ".p", ".f"], {
       let fn = try $0.fn(2)
       let exportOrigin = fn.exportOrigin()
       return try .patchOut($0.x(1)) { change, patch in
         try fn.call([change, patch], exportOrigin: exportOrigin).x()
       }
     }),
-  ])
+  ]
 
 }

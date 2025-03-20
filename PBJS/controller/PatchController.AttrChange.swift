@@ -4,7 +4,7 @@ import JavaScriptCore
 
 extension PatchController.AttrChange: JsParsable, JsArrayParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     (["dimItem"], {
       try .dimItem($0.x(1), $0.x(2), dimAlpha: $0.xq(3))
     }),

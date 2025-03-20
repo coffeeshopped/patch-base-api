@@ -3,7 +3,7 @@ import PBAPI
 
 extension PatchController.Display: JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     (["display" : "dadsrEnv"], { _ in .dadsrEnv() }),
     (["env" : ".f"], {
       let fn = try $0.fn("env")

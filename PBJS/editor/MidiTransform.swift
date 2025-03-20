@@ -4,7 +4,7 @@ import JavaScriptCore
 
 extension MidiTransform: JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     ([
       "type" : "singlePatch",
     ], {

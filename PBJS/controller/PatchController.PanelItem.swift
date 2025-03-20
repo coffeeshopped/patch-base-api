@@ -3,7 +3,7 @@ import PBAPI
 
 extension PatchController.PanelItem: JsParsable, JsArrayParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     (["switcher", ".a", ".d?"], {
       let c = try? $0.obj(2)
       return try .switcher(label: c?.xq("l"), $0.x(1), id: c?.xq("id"), width: c?.xq("w"), cols: c?.xq("cols"))

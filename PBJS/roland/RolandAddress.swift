@@ -10,8 +10,8 @@ import JavaScriptCore
 
 extension RolandAddress: JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (".n", { RolandAddress(try $0.x() as Int) }),
-    (".a", { RolandAddress(try $0.x() as [UInt8]) }),
-  ])
+  static let jsRules: [JsParseRule<Self>] = [
+    .s(".n", { RolandAddress(try $0.x() as Int) }),
+    .s(".a", { RolandAddress(try $0.x() as [UInt8]) }),
+  ]
 }

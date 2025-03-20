@@ -4,8 +4,8 @@ import JavaScriptCore
 
 extension BasicModuleTruss: JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    ([
+  static let jsRules: [JsParseRule<Self>] = [
+    .d([
       "editor" : ".d",
       "sections" : ".a",
     ], {
@@ -31,6 +31,6 @@ extension BasicModuleTruss: JsParsable {
 
       return BasicModuleTruss(editor, manu: manu, model: editor.displayId, subid: subid, sections: sections, pathFn: nil, viewController: nil, dirMap: [:], colorGuide: colorGuide, indexPath: nil, configPaths: nil, postAddMsg: nil)
     }),
-  ])
+  ]
 
 }

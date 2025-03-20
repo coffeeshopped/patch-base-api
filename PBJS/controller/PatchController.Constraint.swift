@@ -4,35 +4,35 @@ import JavaScriptCore
 
 extension PatchController.Constraint: JsParsable, JsArrayParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (["row", ".a", ".d?"], {
+  static let jsRules: [JsParseRule<Self>] = [
+    .a(["row", ".a", ".d?"], {
       let options = try? $0.obj(2)
       let opts = try parseConstraintFormatOptions(options) ?? [.alignAllTop, .alignAllBottom]
       return .row(try $0.x(1), opts: opts, spacing: nil)
     }),
-    (["rowPart", ".a", ".d?"], {
+    .a(["rowPart", ".a", ".d?"], {
       let options = try? $0.obj(2)
       let opts = try parseConstraintFormatOptions(options) ?? [.alignAllTop, .alignAllBottom]
       return .rowPart(try $0.x(1), opts: opts, spacing: nil)
     }),
-    (["col", ".a", ".d?"], {
+    .a(["col", ".a", ".d?"], {
       let options = try? $0.obj(2)
       let opts = try parseConstraintFormatOptions(options) ?? [.alignAllLeading]
       return .col(try $0.x(1), opts: opts, spacing: nil)
     }),
-    (["colPart", ".a", ".d?"], {
+    .a(["colPart", ".a", ".d?"], {
       let options = try? $0.obj(2)
       let opts = try parseConstraintFormatOptions(options) ?? [.alignAllLeading]
       return .colPart(try $0.x(1), opts: opts, spacing: nil)
     }),
-    (["colFixed", ".a", ".d"], {
+    .a(["colFixed", ".a", ".d"], {
       let cfg = try $0.obj(2)
       return try .colFixed($0.x(1), fixed: cfg.x("fixed"), height: cfg.x("height"), opts: [], spacing: cfg.x("spacing"))
     }),
-    (["eq", ".a", ".s"], {
+    .a(["eq", ".a", ".s"], {
       return try .eq($0.arr(1).x(), parseConstraintAttribute($0.x(2)))
     })
-  ], "controller constraint")
+  ]
   
   static let jsArrayParsers = try! jsParsers.arrayParsers()
   
@@ -80,7 +80,7 @@ extension PatchController.Constraint: JsParsable, JsArrayParsable {
 }
 
 extension PatchController.Constraint.Item: JsParsable, JsArrayParsable {
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     ([".s", ".n"], { try .init($0.x(0), $0.x(1)) }),
   ])
   

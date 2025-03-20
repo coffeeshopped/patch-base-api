@@ -3,7 +3,7 @@ import PBAPI
 
 extension JSONPatchTruss {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     ([
       "type" : "json",
       "id" : ".s",

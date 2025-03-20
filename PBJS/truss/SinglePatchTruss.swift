@@ -3,7 +3,7 @@ import JavaScriptCore
 
 extension SinglePatchTruss: JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     ([
       "type" : "singlePatch",
       "id" : ".s",

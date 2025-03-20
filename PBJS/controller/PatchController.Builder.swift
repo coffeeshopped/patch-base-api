@@ -3,7 +3,7 @@ import PBAPI
 
 extension PatchController.Builder: JsParsable, JsArrayParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     (["child", ".x", ".s", ".d?"], {
       let opts = try? $0.obj(3)
       return try .child($0.x(1), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"))

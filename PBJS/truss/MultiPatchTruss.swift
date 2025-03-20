@@ -4,7 +4,7 @@ import JavaScriptCore
 
 extension MultiPatchTruss : JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     ([
       "type" : "multiPatch",
       "id" : ".s",

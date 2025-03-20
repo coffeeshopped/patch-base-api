@@ -27,7 +27,7 @@ extension SysexTrussCore.ToMidiFn : JsParsable {
 
 extension SysexTrussCore<[UInt8]>.ToMidiFn {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     (["+"], { v in
       let fns: [Self] = try (1..<v.arrCount()).map { try v.x($0) }
       return .fn { b, e in

@@ -28,7 +28,8 @@ extension JSValue {
     return s
   }
 
-  func x<Out:JsParsable>() throws -> Out { try xform(Out.jsParsers) }
+  func x<Out:JsParsable>() throws -> Out { try xform(Out.jsRules) }
+//  func x<Out:JsParsable>() throws -> Out { try xform(Out.jsParsers) }
   func x<Out:JsParsable>(_ k: String) throws -> Out { try any(k).x() }
   func x<Out:JsParsable>(_ i: Int) throws -> Out { try any(i).x() }
 
@@ -46,6 +47,13 @@ extension JSValue {
   // if it exists, parse an expected type
   // if it doesn't exist, return nil
   // used for optional (but type-checked) values
+  func x<Out:JsParsable>(_ k: String) throws -> Out? {
+    try some(k)?.x()
+  }
+  func x<Out:JsParsable>(_ i: Int) throws -> Out? {
+    try some(i)?.x()
+  }
+
   func xq<Out:JsParsable>(_ k: String) throws -> Out? {
     try some(k)?.x()
   }
@@ -100,29 +108,38 @@ extension JSValue {
     return item
   }
 
-  func xform<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> Output {
-    guard let rule = rules.rules.first(where: { $0.match.matches(self) }) else {
+  func xform<Output:Any>(_ rules: [JsParseRule<Output>]) throws -> Output {
+    guard let rule = rules.first(where: { $0.matches(self) }) else {
 //      throw JSError.error(msg: "No matching rule in set: \(rules.name)\n\n\(pbDebug())")
-      throw JSError.noParseRule(parseRuleSetName: rules.name, value: self)
+      throw JSError.noParseRule(parseRuleSetName: String(reflecting: Output.self), value: self)
     }
     // TODO: catch and wrap any exceptions here to denote what rule was tried, with what data.
     return try rule.transform(self)
   }
 
+//  func xform<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> Output {
+//    guard let rule = rules.rules.first(where: { $0.match.matches(self) }) else {
+////      throw JSError.error(msg: "No matching rule in set: \(rules.name)\n\n\(pbDebug())")
+//      throw JSError.noParseRule(parseRuleSetName: rules.name, value: self)
+//    }
+//    // TODO: catch and wrap any exceptions here to denote what rule was tried, with what data.
+//    return try rule.transform(self)
+//  }
 
-  func xform<A:JsParsable, B:JsParsable>() throws -> (A, B) {
-    let t = try JsParseTransformSet<(A,B)>([
-      ([".x", ".x"], { (try $0.any(0).x(), try $0.any(1).x()) }),
-    ], "(\(A.self), \(B.self)) pairs")
-    return try xform(t)
-  }
-  
-  func xform<Output:JsParsable>() throws -> [(SynthPath, Output)] {
-    let t = try JsParseTransformSet<(SynthPath, Output)>.init([
-      ([".p", ".x"], { (try $0.x(0), try $0.x(1)) }),
-    ], "(SynthPath, \(Output.self)) pairs")
-    return try xformArr(t)
-  }
+
+//  func xform<A:JsParsable, B:JsParsable>() throws -> (A, B) {
+//    let t = try JsParseTransformSet<(A,B)>([
+//      ([".x", ".x"], { (try $0.any(0).x(), try $0.any(1).x()) }),
+//    ], "(\(A.self), \(B.self)) pairs")
+//    return try xform(t)
+//  }
+//  
+//  func xform<Output:JsParsable>() throws -> [(SynthPath, Output)] {
+//    let t = try JsParseTransformSet<(SynthPath, Output)>.init([
+//      ([".p", ".x"], { (try $0.x(0), try $0.x(1)) }),
+//    ], "(SynthPath, \(Output.self)) pairs")
+//    return try xformArr(t)
+//  }
 
   /// The JS file (if any) that this Value was exported from.
   public func exportOrigin() -> String? { try? x("EXPORT_ORIGIN") }
@@ -173,11 +190,15 @@ extension JSValue {
     return debugDescription
   }
   
-  func xformArr<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> [Output] {
+//  func xformArr<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> [Output] {
+//    try checkArr()
+//    return try map { try $0.xform(rules) }
+//  }
+  func xformArr<Output:Any>(_ rules: [JsParseRule<Output>]) throws -> [Output] {
     try checkArr()
     return try map { try $0.xform(rules) }
   }
-    
+
   fileprivate func checkForProperty(_ key: String) throws -> JSValue? {
     guard isObject else { throw JSError.error(msg: "Expected Object") }
     guard hasProperty(key) else { throw JSError.error(msg: "Object should have property '\(key)'") }
@@ -319,70 +340,65 @@ extension JSValue {
 
 }
 
-extension String: JsArrayParsable {
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (".s", {
+extension String: JsParsable {
+  static let jsRules: [JsParseRule<Self>] = [
+    .s(".s", {
       guard $0.isString else {
         throw JSError.error(msg: "Expected String")
       }
       return $0.toString()
     }),
-  ])
+  ]
   
-  static let jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([
-    ([".n", ".a"], {
+  static var jsArrayRules: [JsParseRule<[Self]>] = [
+    .a([".n", ".a"], {
       let count: Int = try $0.x(0)
       let iso: IsoFS = try $0.x(1)
       return (count).map { iso.forward(Float($0)) }
     }),
-  ]).with(try! jsParsers.arrayParsers())
+  ]
 
 }
 
 
-extension Int: JsArrayParsable {
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (".n", { try $0.num().intValue }),
-  ])
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
+extension Int: JsParsable {
+  static let jsRules: [JsParseRule<Self>] = [
+    .s(".n", { try $0.num().intValue }),
+  ]
 }
 
 
-extension UInt8: JsArrayParsable {
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (".n", { try $0.num().uint8Value }),
-  ])
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
+extension UInt8: JsParsable {
+  static let jsRules: [JsParseRule<Self>] = [
+    .s(".n", { try $0.num().uint8Value }),
+  ]
 }
 
-extension Float: JsArrayParsable {
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (".n", { try $0.num().floatValue }),
-  ])
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
+extension Float: JsParsable {
+  static let jsRules: [JsParseRule<Self>] = [
+    .s(".n", { try $0.num().floatValue }),
+  ]
 }
 
-extension CGFloat: JsArrayParsable {
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (".n", { CGFloat(truncating: try $0.num()) }),
-  ])
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
+extension CGFloat: JsParsable {
+  static let jsRules: [JsParseRule<Self>] = [
+    .s(".n", { CGFloat(truncating: try $0.num()) }),
+  ]
 }
 
-extension Bool: JsArrayParsable {
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (".b", {
+extension Bool: JsParsable {
+  static let jsRules: [JsParseRule<Self>] = [
+    .s(".b", {
       guard $0.isBoolean else { throw JSError.error(msg: "Expected Boolean") }
       return $0.toBool()
     }),
-  ])
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
+  ]
 }
 
 extension ClosedRange<Int> : JsParsable {
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (".a", { try .init(($0.x(0))..<($0.x(1))) }),
-  ])
+  static let jsRules: [JsParseRule<Self>] = [
+    .s(".a", { try .init(($0.x(0))..<($0.x(1))) }),
+  ]
 }
 
 //extension Array: JSX where Element: JSX {

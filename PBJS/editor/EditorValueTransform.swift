@@ -1,15 +1,12 @@
 
 import PBAPI
 
-extension EditorValueTransform : JsParsable, JsArrayParsable {
+extension EditorValueTransform : JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (["e", ".p", ".p", ".n?"], {
+  static let jsRules: [JsParseRule<Self>] = [
+    .a(["e", ".p", ".p", ".n?"], {
       try .value($0.x(1), $0.x(2), defaultValue: $0.xq(3) ?? 0)
     }), // returns editorValue
-    ("channel", { _ in .basicChannel }),
-  ])
-
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
-
+    .s("channel", { _ in .basicChannel }),
+  ]
 }

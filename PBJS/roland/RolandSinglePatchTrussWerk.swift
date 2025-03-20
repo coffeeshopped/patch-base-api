@@ -9,7 +9,7 @@ import PBAPI
 
 extension RolandSinglePatchTrussWerk: JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     ([
       "single" : ".s",
       "parms" : ".x",

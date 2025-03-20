@@ -3,7 +3,7 @@ import PBAPI
 
 extension PatchController: JsArrayParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     ([
       "pages" : ".a",
       "builders" : ".a",

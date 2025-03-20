@@ -4,7 +4,7 @@ import PBAPI
 
 extension BasicEditorTruss: JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     ([
       "rolandModelId" : ".a",
       "addressCount" : ".n",

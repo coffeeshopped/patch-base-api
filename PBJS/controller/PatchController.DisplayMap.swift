@@ -3,11 +3,11 @@ import PBAPI
 
 extension PatchController.DisplayMap: JsParsable, JsArrayParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (["src", ".p", ".f"], {
+  static let jsRules: [JsParseRule<Self>] = [
+    .a(["src", ".p", ".f"], {
       return try .src($0.x(1), dest: nil, $0.fn(2))
     }),
-    (["src", ".p", ".p", ".f?"], {
+    .a(["src", ".p", ".p", ".f?"], {
       if let fn = try? $0.fn(3) {
         return try .src($0.x(1), dest: $0.x(2), $0.fn(3))
       }
@@ -15,16 +15,16 @@ extension PatchController.DisplayMap: JsParsable, JsArrayParsable {
         return try .src($0.x(1), dest: $0.x(2)) { $0 }
       }
     }),
-    (["u", ".p", ".n", ".p?"], {
+    .a(["u", ".p", ".n", ".p?"], {
       try .unit($0.x(1), dest: $0.xq(3), max: $0.x(2))
     }),
-    (["u", ".p", ".p?"], {
+    .a(["u", ".p", ".p?"], {
       try .unit($0.x(1), dest: $0.xq(2))
     }),
-    (["=", ".p", ".p?"], {
+    .a(["=", ".p", ".p?"], {
       try .ident($0.x(1), dest: $0.xq(2))
     }),
-  ])
+  ]
 
   static let jsArrayParsers = try! jsParsers.arrayParsers()
   

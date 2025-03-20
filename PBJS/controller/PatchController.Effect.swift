@@ -3,7 +3,7 @@ import PBAPI
 
 extension PatchController.Effect: JsParsable, JsArrayParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
+  static let jsRules: [JsParseRule<Self>] = [
     (["editMenu", ".p", ".d"], {
       let config = try $0.obj(2)
       // paths can be an [SynthPath], or [Parm].

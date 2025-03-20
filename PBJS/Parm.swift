@@ -4,8 +4,8 @@ import JavaScriptCore
 
 extension Parm: JsParsable, JsArrayParsable, JsPassable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    ([".p", ".d"], {
+  static let jsRules: [JsParseRule<Self>] = [
+    .a([".p", ".d"], {
       let path: SynthPath = try $0.x(0)
       let obj = try $0.obj(1)
       var bits: ClosedRange<Int>? = try obj.xq("bits")
@@ -14,11 +14,11 @@ extension Parm: JsParsable, JsArrayParsable, JsPassable {
       }
       return try .p(path, obj.xq("b"), p: obj.xq("p"), bits: bits, extra: [:], packIso: obj.xq("packIso"), obj.x())
     }),
-    ([".p"], {
+    .a([".p"], {
       let path: SynthPath = try $0.x(0)
       return .p(path, 0)
     }),
-  ], "general parm")
+  ]
   
   func toJS() -> AnyHashable {
     [
@@ -94,8 +94,8 @@ extension Parm: JsParsable, JsArrayParsable, JsPassable {
 
 extension Parm.Span: JsParsable {
   
-  static let jsParsers: JsParseTransformSet<Self> = try! .init([
-    (["opts" : ".a"], {
+  static let jsRules: [JsParseRule<Self>] = [
+    .d(["opts" : ".a"], {
       // allow for sparse arrays.
       // TODO: follow up and see if this causes weirdness with controls.
       let arr = try $0.arr("opts")
@@ -109,11 +109,11 @@ extension Parm.Span: JsParsable {
       return .options(options)
 //      return .opts(try $0.arrStr("opts"))
     }),
-    ([
+    .d([
       "max" : ".n",
       "dispOff" : ".n?",
     ], { try .max($0.x("max"), dispOff: $0.xq("dispOff") ?? 0) }),
-    ([
+    .d([
       "rng" : ".a",
       "dispOff" : ".n?",
     ], {
@@ -122,8 +122,8 @@ extension Parm.Span: JsParsable {
       let max: Int = try rngArr.x(1) - 1
       return try .rng(min...max, dispOff: $0.xq("dispOff") ?? 0)
     }),
-    (["options" : ".a"], { .options(try $0.arr("options").optDict()) }),
-    ([
+    .d(["options" : ".a"], { .options(try $0.arr("options").optDict()) }),
+    .d([
       "iso" : ".x",
       "rng" : ".a?",
     ], {
@@ -135,7 +135,7 @@ extension Parm.Span: JsParsable {
       }
       return try .isoS($0.x("iso"), range: range)
     }),
-    ([:], { _ in .rng() }),
-  ])
+    .d([:], { _ in .rng() }),
+  ]
   
 }
