@@ -2,7 +2,7 @@
 import PBAPI
 import JavaScriptCore
 
-extension Parm: JsParsable, JsArrayParsable, JsPassable {
+extension Parm: JsParsable, JsPassable {
   
   static let jsRules: [JsParseRule<Self>] = [
     .a([".p", ".d"], {
@@ -28,8 +28,8 @@ extension Parm: JsParsable, JsArrayParsable, JsPassable {
     ]
   }
   
-  static let jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([
-    (".a", {
+  static var jsArrayRules: [JsParseRule<[Parm]>] = [
+    .s(".a", {
       guard $0.arrCount() > 0 else { return [] }
       
       if (try? $0.x(0) as SynthPath) != nil {
@@ -41,7 +41,7 @@ extension Parm: JsParsable, JsArrayParsable, JsPassable {
         return try $0.map { try $0.x() }.reduce([], +)
       }
     }),
-    ([
+    .d([
       "prefix" : ".p",
       "count" : ".n",
       "bx" : ".n?",
@@ -52,44 +52,39 @@ extension Parm: JsParsable, JsArrayParsable, JsPassable {
       let exportOrigin = $0.exportOrigin()
       return try .prefix($0.x("prefix"), count: $0.x("count"), bx: $0.xq("bx") ?? 0, px: $0.xq("px"), block: {
         let parms: JSValue
-        if block.isFn {
-          guard let p = try block.call([$0], exportOrigin: exportOrigin) else {
-            throw JSError.error(msg: "Parms: prefix: block fn returned null")
-          }
-          parms = p
+        guard block.isFn else { return try block.x() }
+        guard let p = try block.call([$0], exportOrigin: exportOrigin) else {
+          throw JSError.error(msg: "Parms: prefix: block fn returned null")
         }
-        else {
-          parms = block
-        }
-        return try parms.xform(jsArrayParsers)
+        return try p.x()
       })
     }),
-    ([
+    .d([
       "prefix" : ".p",
       "block" : ".x",
     ], {
       let parms: [Parm] = try $0.x("block")
       return parms.prefix(try $0.x("prefix"))
     }),
-    ([
+    .d([
       "inc" : ".n",
       "block" : ".x",
     ], {
       let parms: [Parm] = try $0.x("block")
       return try parms.inc(b: $0.xq("b"), p: $0.xq("p"), inc: $0.x("inc"))
     }),
-    ([
+    .d([
       "offset" : ".x",
     ], {
       let parms: [Parm] = try $0.x("offset")
       return try parms.offset(b: $0.xq("b") ?? 0, p: $0.xq("p"))
     }),
-    (["b2p" : ".x"], {
+    .d(["b2p" : ".x"], {
       let parms: [Parm] = try $0.x("b2p")
       return parms.b2p()
     }),
     
-  ], "[Parm]")
+  ]
 }
 
 extension Parm.Span: JsParsable {

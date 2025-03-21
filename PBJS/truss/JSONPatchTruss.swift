@@ -4,15 +4,14 @@ import PBAPI
 extension JSONPatchTruss {
   
   static let jsRules: [JsParseRule<Self>] = [
-    ([
+    .d([
       "type" : "json",
       "id" : ".s",
       "parms" : ".a",
     ], {
-      let parms = try $0.arr("parms").xform([Parm].jsParsers)
-      return .init(try $0.x("id"), parms: parms)
+      return try .init($0.x("id"), parms: $0.x("parms"))
     }),
-    ("channel", { _ in ChannelSettingsTruss }),
-  ], "JSONPatchTruss")
+    .s("channel", ChannelSettingsTruss),
+  ]
 
 }

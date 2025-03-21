@@ -1,10 +1,10 @@
 
 import PBAPI
 
-extension PatchController.Effect: JsParsable, JsArrayParsable {
+extension PatchController.Effect: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
-    (["editMenu", ".p", ".d"], {
+    .a(["editMenu", ".p", ".d"], {
       let config = try $0.obj(2)
       // paths can be an [SynthPath], or [Parm].
       let paths: [SynthPath]
@@ -17,10 +17,10 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
       }
       return try .editMenu($0.xq(1), paths: paths, type: config.x("type"), init: config.xq("init"), rand: nil, items: [])
     }),
-    (["patchChange", ".p", ".f"], {
+    .a(["patchChange", ".p", ".f"], {
       try .patchChange($0.x(1), $0.fn(2))
     }),
-    (["patchChange", ".d"], {
+    .a(["patchChange", ".d"], {
       let config = try $0.obj(1)
       let fn = try config.fn("fn")
       return .patchChange(paths: try config.x("paths")) { values in
@@ -29,7 +29,7 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
         return try fn.call([v], exportOrigin: nil).x()
       }
     }),
-    (["dimsOn", ".p", ".s?", ".d?"], {
+    .a(["dimsOn", ".p", ".s?", ".d?"], {
       let obj = try? $0.obj(3)
       var f: ((Int) throws -> Bool)? = nil
       if let fn = try? obj?.fn("dimWhen") {
@@ -37,34 +37,34 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
       }
       return try .dimsOn($0.x(1), id: $0.xq(2), dimAlpha: obj?.xq("dimAlpha"), dimWhen: f)
     }),
-    (["dimsOn", ".d", ".s?"], {
+    .a(["dimsOn", ".d", ".s?"], {
       let obj = try $0.obj(1)
       return try .dimsOn(obj.x("paths"), id: $0.xq(2))
     }),
-    (["indexChange", ".f"], {
+    .a(["indexChange", ".f"], {
       try .indexChange($0.fn(1))
     }),
-    (["paramChange", ".p", ".f"], {
+    .a(["paramChange", ".p", ".f"], {
       try .paramChange($0.x(1), $0.fn(2))
     }),
-    (["controlChange", ".p", ".f"], {
+    .a (["controlChange", ".p", ".f"], {
       try .controlChange($0.x(1), fn: $0.fn(2))
     }),
-    (["setup", ".a"], { .setup(try $0.x(1)) }),
-    (["basicControlChange", ".p"], { try .basicControlChange($0.x(1)) }),
-    (["basicPatchChange", ".p"], { try .basicPatchChange($0.x(1)) }),
-    (["click", ".p?", ".f"], { try .click($0.xq(1), $0.fn(2)) }),
-    (["listen", ".p", ".f"], { try .listen($0.x(1), $0.fn(2)) }),
-  ])
+    .a(["setup", ".a"], { .setup(try $0.x(1)) }),
+    .a(["basicControlChange", ".p"], { try .basicControlChange($0.x(1)) }),
+    .a(["basicPatchChange", ".p"], { try .basicPatchChange($0.x(1)) }),
+    .a(["click", ".p?", ".f"], { try .click($0.xq(1), $0.fn(2)) }),
+    .a(["listen", ".p", ".f"], { try .listen($0.x(1), $0.fn(2)) }),
+  ]
   
-  static let jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([
-    (["voiceReserve", ".a", ".n", ".a"], {
+  static var jsArrayRules: [JsParseRule<[PatchController.Effect]>] = [
+    .a(["voiceReserve", ".a", ".n", ".a"], {
       try .voiceReserve(paths: $0.x(1), total: $0.x(2), ctrls: $0.x(3))
     }),
-    ([ "ctrlBlocks", ".p"], {
+    .a(["ctrlBlocks", ".p"], {
       try .ctrlBlocks($0.x(1), value: nil, cc: nil, param: nil)
     }),
-    (["patchSelector", ".p", ".d"], {
+    .a(["patchSelector", ".p", ".d"], {
       let obj = try $0.obj(2)
       if let fn = try? obj.fn("paramMapWithContext") {
         return try .patchSelector(id: $0.x(1), bankValues: obj.x("bankValues"), paramMapWithContext: obj.fn("paramMapWithContext"))
@@ -78,16 +78,7 @@ extension PatchController.Effect: JsParsable, JsArrayParsable {
         }
       }
     }),
-    ([".s"], { [try $0.x()] }),
-    (".a", {
-      guard $0.arrCount() > 0 else { return [] }
-      return try $0.map {
-        guard let x = try? $0.xform(jsParsers) else {
-          return try $0.x()
-        }
-        return [x]
-      }.reduce([], +)
-    }),
-  ])
+    .a([".s"], { [try $0.x()] }),
+  ]
 }
 

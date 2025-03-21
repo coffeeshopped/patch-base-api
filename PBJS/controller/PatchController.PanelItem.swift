@@ -1,15 +1,15 @@
 
 import PBAPI
 
-extension PatchController.PanelItem: JsParsable, JsArrayParsable {
+extension PatchController.PanelItem: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
-    (["switcher", ".a", ".d?"], {
+    .a(["switcher", ".a", ".d?"], {
       let c = try? $0.obj(2)
       return try .switcher(label: c?.xq("l"), $0.x(1), id: c?.xq("id"), width: c?.xq("w"), cols: c?.xq("cols"))
     }),
-    ([".s?", ".p"], { try .knob($0.xq(0), $0.x(1)) }),
-    ([".d", ".p?"], {
+    .a([".s?", ".p"], { try .knob($0.xq(0), $0.x(1)) }),
+    .a([".d", ".p?"], {
       let obj = try $0.obj(0)
       let path: SynthPath? = try $0.xq(1)
       var t: String = (try obj.xq("t")) ?? "knob"
@@ -48,7 +48,7 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
       }
     }),
     // maps: PatchController.Display
-    ([
+    .d([
       "maps" : ".a",
     ], {
       var maps: [PatchController.DisplayMap] = try $0.x("maps")
@@ -57,30 +57,28 @@ extension PatchController.PanelItem: JsParsable, JsArrayParsable {
       }
       return try .display($0.x(), $0.xq("l"), maps, id: $0.xq("id"), width: $0.xq("w"))
     }),
-    ("-", { _ in .spacer(2) }),
-    ([
+    .s("-", { _ in .spacer(2) }),
+    .d([
       "l" : ".s",
     ], {
       let bold = (try $0.xq("bold")) ?? true
       return try .label($0.x("l"), align: .center, size: $0.xq("size") ?? 13, bold: bold, id: $0.xq("id"), width: $0.xq("w"))
     }),
-    (".p", {
+    .s(".p", {
       try .knob(nil, $0.x())
     })
-  ])
-  
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
-  
-  static let rowRules: JsParseTransformSet<([Self], CGFloat)> = try! .init([
-    (".a", { (try $0.x(), CGFloat(1)) }),
-    ([
+  ]
+    
+  static let rowRules: [JsParseRule<([Self], CGFloat)>] = [
+    .s(".a", { (try $0.x(), CGFloat(1)) }),
+    .d([
       "row": ".a",
       "h": ".n",
     ], { (try $0.x("row"), try $0.x("h")) }),
-  ], "panel row item")
+  ]
 
-  static let itemsRules: JsParseTransformSet<(Self, String)> = try! .init([
-    ([".d", ".s"], { (try $0.any(0).x(), try $0.x(1)) }),
-  ])
+  static let itemsRules: [JsParseRule<(Self, String)>] = [
+    .a([".d", ".s"], { (try $0.any(0).x(), try $0.x(1)) }),
+  ]
 
 }

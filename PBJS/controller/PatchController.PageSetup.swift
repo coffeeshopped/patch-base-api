@@ -4,12 +4,12 @@ import PBAPI
 extension PatchController.PageSetup: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
-    (["map", ".a", ".a"], {
+    .a(["map", ".a", ".a"], {
       try .map($0.x(1), $0.x(2))
     }),
-    (["controllers", ".a"], {
+    .a(["controllers", ".a"], {
       try .controllers($0.x(1))
     }),
-  ])
+  ]
 
 }

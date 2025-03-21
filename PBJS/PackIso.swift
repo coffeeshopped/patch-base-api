@@ -8,7 +8,7 @@ extension PackIso : JsParsable {
   ]
 }
 
-extension PackIso.Blitter : JsArrayParsable {
+extension PackIso.Blitter : JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
     .d([
@@ -20,5 +20,4 @@ extension PackIso.Blitter : JsArrayParsable {
     })
   ]
   
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
 }

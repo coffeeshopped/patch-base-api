@@ -5,7 +5,7 @@ import JavaScriptCore
 extension MultiPatchTruss : JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
-    ([
+    .d([
       "type" : "multiPatch",
       "id" : ".s",
       "trussMap" : ".a",
@@ -22,9 +22,9 @@ extension MultiPatchTruss : JsParsable {
 //      let parseBody = try $0.any("parseBody").xform(parseBodyRules)
 //      let namePack = try? $0.any("namePack").xform(namePackRules)
 //      let unpack = try? $0.any("unpack").xform(jsUnpackParsers)
-      return try .init($0.x("id"), trussMap: $0.any("trussMap").xform(), namePath: $0.x("namePath"), initFile: $0.x("initFile"), fileDataCount: nil, defaultName: nil, createFileData: nil, parseBodyData: nil, validSizes: $0.x("validSizes"), includeFileDataCount: $0.x("includeFileDataCount"))
+      return try .init($0.x("id"), trussMap: $0.any("trussMap").x(), namePath: $0.x("namePath"), initFile: $0.x("initFile"), fileDataCount: nil, defaultName: nil, createFileData: nil, parseBodyData: nil, validSizes: $0.x("validSizes"), includeFileDataCount: $0.x("includeFileDataCount"))
     }),
-  ], "multiPatchTruss")
+  ]
 
   
   static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any?]) throws -> [(MidiMessage, Int)] {
@@ -32,7 +32,7 @@ extension MultiPatchTruss : JsParsable {
     // or it can be something that should be parsed as a createFile...
     let mapVal = fn.isFn ? try fn.call(vals, exportOrigin: nil) : fn
     return try mapVal!.map {
-      if let msg = try? $0.arr(0).xform(MidiMessage.jsParsers) {
+      if let msg: MidiMessage = try? $0.x(0) {
         return (msg, try $0.x(1))
       }
       else {

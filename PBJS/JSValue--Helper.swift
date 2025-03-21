@@ -110,36 +110,21 @@ extension JSValue {
 
   func xform<Output:Any>(_ rules: [JsParseRule<Output>]) throws -> Output {
     guard let rule = rules.first(where: { $0.matches(self) }) else {
-//      throw JSError.error(msg: "No matching rule in set: \(rules.name)\n\n\(pbDebug())")
       throw JSError.noParseRule(parseRuleSetName: String(reflecting: Output.self), value: self)
     }
     // TODO: catch and wrap any exceptions here to denote what rule was tried, with what data.
     return try rule.transform(self)
   }
 
-//  func xform<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> Output {
-//    guard let rule = rules.rules.first(where: { $0.match.matches(self) }) else {
-////      throw JSError.error(msg: "No matching rule in set: \(rules.name)\n\n\(pbDebug())")
-//      throw JSError.noParseRule(parseRuleSetName: rules.name, value: self)
-//    }
-//    // TODO: catch and wrap any exceptions here to denote what rule was tried, with what data.
-//    return try rule.transform(self)
-//  }
-
-
-//  func xform<A:JsParsable, B:JsParsable>() throws -> (A, B) {
-//    let t = try JsParseTransformSet<(A,B)>([
-//      ([".x", ".x"], { (try $0.any(0).x(), try $0.any(1).x()) }),
-//    ], "(\(A.self), \(B.self)) pairs")
-//    return try xform(t)
-//  }
-//  
-//  func xform<Output:JsParsable>() throws -> [(SynthPath, Output)] {
-//    let t = try JsParseTransformSet<(SynthPath, Output)>.init([
-//      ([".p", ".x"], { (try $0.x(0), try $0.x(1)) }),
-//    ], "(SynthPath, \(Output.self)) pairs")
-//    return try xformArr(t)
-//  }
+  func x<A:JsParsable, B:JsParsable>() throws -> (A, B) {
+    let t: JsParseRule<(A,B)> = .a([".x", ".x"], { (try $0.x(0), try $0.x(1)) })
+    return try t.transform(self)
+  }
+  
+  func x<Output:JsParsable>() throws -> [(SynthPath, Output)] {
+    let t: JsParseRule<(SynthPath, Output)> = .a([".p", ".x"], { (try $0.x(0), try $0.x(1)) })
+    return try map { try t.transform($0) }
+  }
 
   /// The JS file (if any) that this Value was exported from.
   public func exportOrigin() -> String? { try? x("EXPORT_ORIGIN") }
@@ -190,10 +175,6 @@ extension JSValue {
     return debugDescription
   }
   
-//  func xformArr<Output:Any>(_ rules: JsParseTransformSet<Output>) throws -> [Output] {
-//    try checkArr()
-//    return try map { try $0.xform(rules) }
-//  }
   func xformArr<Output:Any>(_ rules: [JsParseRule<Output>]) throws -> [Output] {
     try checkArr()
     return try map { try $0.xform(rules) }
@@ -331,10 +312,19 @@ extension JSValue {
   // calls as a function, throwing any JS Exceptions
   func call(_ args: [Any], exportOrigin: String?) throws -> JSValue! {
     context.exception = nil
-    let value = call(withArguments: args)
+    let value = call(withArguments: args)!
+    let exportOrigin = exportOrigin ?? self.exportOrigin()
     if let exc = context.exception {
-      throw JSError.fnException(fn: self, exception: exc, exportOrigin: exportOrigin ?? self.exportOrigin())
+      throw JSError.fnException(fn: self, exception: exc, exportOrigin: exportOrigin)
     }
+    value.setExportOrigin(exportOrigin)
+    // TODO: PBBezier.Command. draw fn returns an array of them
+    // the export origin is not getting set on them
+    // why? is it just bad array-setting (like below)?
+    // or something else?
+//    if value.isArray {
+//      try value.map { $0.setExportOrigin(exportOrigin) }
+//    }
     return value
   }
 

@@ -3,9 +3,9 @@ import PBAPI
 extension SynthPathMap : JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
-    (["removePrefix", ".p"], { try .removePrefix($0.x(1)) }),
-    (["from", ".n"], { try .from($0.x(1)) }),
-    (["fn", ".f"], { try .fn($0.fn(1)) }),
-  ])
+    .a(["removePrefix", ".p"], { try .removePrefix($0.x(1)) }),
+    .a(["from", ".n"], { try .from($0.x(1)) }),
+    .a(["fn", ".f"], { try .fn($0.fn(1)) }),
+  ]
   
 }

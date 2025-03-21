@@ -2,7 +2,7 @@
 import PBAPI
 import JavaScriptCore
 
-extension PatchController.Constraint: JsParsable, JsArrayParsable {
+extension PatchController.Constraint: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
     .a(["row", ".a", ".d?"], {
@@ -34,15 +34,13 @@ extension PatchController.Constraint: JsParsable, JsArrayParsable {
     })
   ]
   
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
-  
-  static let gridRowRules: JsParseTransformSet<([Self.Item], CGFloat)> = try! .init([
+  static let gridRowRules: [JsParseRule<([Self.Item], CGFloat)>] = [
 //    (".a", { (try $0.xform(), CGFloat(1)) }),
-    ([
+    .d([
       "row": ".a",
       "h": ".n",
     ], { (try $0.x("row"), try $0.x("h")) }),
-  ], "layoutConstraint grid row item")
+  ]
   
   static func parseConstraintFormatOptions(_ options: JSValue?) throws -> [PBLayoutConstraint.FormatOption]? {
     return try (try? options?.arr("opts"))?.map({
@@ -79,10 +77,8 @@ extension PatchController.Constraint: JsParsable, JsArrayParsable {
   
 }
 
-extension PatchController.Constraint.Item: JsParsable, JsArrayParsable {
+extension PatchController.Constraint.Item: JsParsable {
   static let jsRules: [JsParseRule<Self>] = [
-    ([".s", ".n"], { try .init($0.x(0), $0.x(1)) }),
-  ])
-  
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
+    .a([".s", ".n"], { try .init($0.x(0), $0.x(1)) }),
+  ]
 }

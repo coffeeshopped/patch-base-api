@@ -15,6 +15,10 @@ struct JsParseRule<Output:Any> {
     .init(match, transform)
   }
 
+  static func a(_ match: [Int], _ transform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(match, transform)
+  }
+
   static func d(_ match: [String:String], _ transform: @escaping (JSValue) throws -> Output) -> Self {
     .init(match, transform)
   }
@@ -215,80 +219,7 @@ struct JsParseTransform<Output:Any> {
   }
 }
 
-//struct JsParseTransformSet<Output:Any> {
-//  let rules: [JsParseTransform<Output>]
-//  let name: String
-//  
-//  init(_ rules: [JsParseTransform<Output>], _ name: String) {
-//    self.rules = rules
-//    self.name = name
-//  }
-//  
-//  init(_ tuples: [(Any, (JSValue) throws -> Output)], _ name: String) throws {
-//    self.name = name
-//    self.rules = try tuples.map { .init(try .from(any: $0.0), $0.1, name) }
-//  }
-//  
-//  init(_ tuples: [(Any, (JSValue) throws -> Output)]) throws {
-//    try self.init(tuples, String(reflecting: Output.self))
-//  }
-//  
-//  func with(_ other: Self) -> Self {
-//    .init(rules + other.rules, name)
-//  }
-//  
-//}
 
-extension JsParseTransform where Output: SysexTruss {
-  
-  func anyTrussXform() -> JsParseTransform<any SysexTruss> {
-    .init(match, { try xform($0) as any SysexTruss }, "any truss")
-  }
-}
-
-//extension JsParseTransformSet where Output: JsParsable {
-//
-//  func arrayParsers(_ primaryRules: [(Any, (JSValue) throws -> [Output])] = []) throws -> JsParseTransformSet<[Output]> {
-//    try .init(primaryRules + [
-//      (".a", {
-//        // ok, so what are we doing here?
-//        guard $0.arrCount() > 0 else { return [] }
-//        // go through each item
-//        return try $0.flatMap {
-//          do {
-//            // if the item parses as a single element, return it (as an array for flattening)
-//            let x: Output = try $0.x()
-//            return [x]
-//          }
-//          catch {
-//            // if that item doesn't parse, try parsing the item as an array of elements
-//            let e = error
-//            do {
-//              // if it parses as an array, return that array
-//              let arr: [Output] = try $0.xform(arrayParsers(primaryRules))
-//              return arr
-//            }
-//            catch {
-//              // but if it doesn't parse, throw the error from parsing THE FIRST ELEMENT,
-//              // rather than the error from parsing an array
-//              // WHY?
-//              // because that's a "deeper" error and more likely to yield useful debug info.
-//              throw e
-//            }
-//          }
-//
-//        }
-//      }),
-//    ], "[\(self.name)]")
-//  }
-//
-//}
-
-//extension JsParseTransformSet where Output: SysexTruss {
-//  func anyTrussRules() -> [JsParseTransform<any SysexTruss>] {
-//    rules.map { $0.anyTrussXform() }
-//  }
-//}
 
 protocol JsParsable {
   
@@ -347,15 +278,6 @@ extension Array: JsParsable where Element: JsParsable {
 }
 
 extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
-//  static var jsParsers: JsParseTransformSet<Dictionary<Key, Value>> {
-//    try! JsParseTransformSet<Self>([
-//      (".a", {
-//        try $0.map {
-//          try [$0.x(0) : $0.x(1)]
-//        }.dict { $0 }
-//      }),
-//    ], "[\(Key.self) : \(Value.self)] pairs")
-//  }
   static var jsRules: [JsParseRule<Self>] {
     [
       .s(".a", {
@@ -368,17 +290,14 @@ extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
 }
 
 protocol JsBankParsable: PatchTruss {
-//  static var jsBankParsers: JsParseTransformSet<SomeBankTruss<Self>> { get }
   static var jsBankRules: [JsParseRule<SomeBankTruss<Self>>] { get }
 }
 
 extension SomeBankTruss: JsParsable where PT: JsBankParsable {
-//  static var jsParsers: JsParseTransformSet<SomeBankTruss<PT>> { PT.jsBankParsers }
   static var jsRules: [JsParseRule<Self>] { PT.jsBankRules }
 }
 
 protocol JsToMidiParsable : SysexTruss {
-//  static var toMidiRules: JsParseTransformSet<Core.ToMidiFn> { get }
   static var toMidiRules: [JsParseRule<Core.ToMidiFn>] { get }
 
   static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any?]) throws -> [(MidiMessage, Int)]
@@ -401,7 +320,7 @@ extension SomeBankTruss: JsToMidiParsable where PT: JsBankToMidiParsable {
     // or it can be something that should be parsed as a createFile...
     let mapVal = fn.isFn ? try fn.call(vals, exportOrigin: nil) : fn
     return try mapVal!.map {
-      if let msg = try? $0.arr(0).xform(MidiMessage.jsParsers) {
+      if let msg: MidiMessage = try? $0.x(0) {
         return (msg, try $0.any(1).x())
       }
       else {

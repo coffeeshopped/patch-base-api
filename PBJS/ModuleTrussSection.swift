@@ -1,7 +1,7 @@
 
 import PBAPI
 
-extension ModuleTrussSection: JsParsable, JsArrayParsable {
+extension ModuleTrussSection: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
     .a(["first", ".a"], { .first(try $0.x(1)) }),
@@ -9,10 +9,9 @@ extension ModuleTrussSection: JsParsable, JsArrayParsable {
     .a(["banks", ".a"], { .banks(try $0.x(1)) }),
   ]
 
-  static let jsArrayParsers = arrayParsers()
 }
 
-extension ModuleTrussSection.Item: JsParsable, JsArrayParsable {
+extension ModuleTrussSection.Item: JsParsable {
 
   static let jsRules: [JsParseRule<Self>] = [
     .a(["global", ".d", ".s?"], { try .global($0.x(1), title: $0.xq(2)) }),

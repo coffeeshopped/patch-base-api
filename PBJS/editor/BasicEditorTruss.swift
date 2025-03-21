@@ -5,7 +5,7 @@ import PBAPI
 extension BasicEditorTruss: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
-    ([
+    .d([
       "rolandModelId" : ".a",
       "addressCount" : ".n",
       "name" : ".s",
@@ -22,7 +22,7 @@ extension BasicEditorTruss: JsParsable {
       t.extraParamOuts = try $0.x("extraParamOuts")
       return t
     }),
-    ([
+    .d([
       "name" : ".s",
       "trussMap" : ".a",
       "fetchTransforms" : ".a",
@@ -30,10 +30,11 @@ extension BasicEditorTruss: JsParsable {
       "midiChannels" : ".a",
       "slotTransforms" : ".a?",
     ], {
-      let trussMap = try $0.arr("trussMap").xformArr(pathPairRules(JsSysex.trussRules))
+      let ppr = pathPairRule(JsSysex.trussRules)
+      let trussMap = try $0.arr("trussMap").map { try ppr.transform($0) }
       var t = BasicEditorTruss(try $0.x("name"), truss: trussMap)
       t.fetchTransforms = try $0.arr("fetchTransforms").x()
-      t.midiOuts = try $0.arr("midiOuts").xform()
+      t.midiOuts = try $0.arr("midiOuts").x()
       t.midiChannels = try $0.x("midiChannels")
       
       t.slotTransforms = [:]
@@ -43,12 +44,10 @@ extension BasicEditorTruss: JsParsable {
       
       return t
     }),
-  ])
+  ]
 
-  static func pathPairRules<Output:Any>(_ subrules: JsParseTransformSet<Output>) throws -> JsParseTransformSet<(SynthPath, Output)> {
-    try JsParseTransformSet<(SynthPath, Output)>.init([
-      ([".p", ".x"], { try ($0.x(0), $0.any(1).xform(subrules)) }),
-    ], "(SynthPath, \(subrules.name))")
+  static func pathPairRule<Output:Any>(_ subrules: [JsParseRule<Output>]) -> JsParseRule<(SynthPath, Output)> {
+    .a([".p", ".x"], { try ($0.x(0), $0.any(1).xform(subrules)) })
   }
   
 }

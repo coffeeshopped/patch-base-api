@@ -4,17 +4,11 @@ import PBAPI
 extension PatchController.Display: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
-    (["display" : "dadsrEnv"], { _ in .dadsrEnv() }),
-    (["env" : ".f"], {
-      let fn = try $0.fn("env")
-      let exportOrigin = $0.exportOrigin()
-      return .env { values in
-        var v = [String:CGFloat]()
-        values.forEach { v[$0.key.str()] = $0.value }
-        return try fn.call([v], exportOrigin: exportOrigin).x()
-      }
+    .d(["display" : "dadsrEnv"], { _ in .dadsrEnv() }),
+    .d(["env" : ".f"], {
+      try .env($0.fn("env"))
     }),
-    ([
+    .d([
       "display": "timeLevelEnv",
       "pointCount" : ".n",
       "sustain" : ".n",
@@ -22,9 +16,9 @@ extension PatchController.Display: JsParsable {
     ], {
       try .timeLevelEnv(pointCount: $0.x("pointCount"), sustain: $0.x("sustain"), bipolar: $0.xq("bipolar"))
     }),
-    ([
+    .d([
       "display" : "levelScaling",
     ], { _ in .levelScaling() }),
-  ])
+  ]
 
 }

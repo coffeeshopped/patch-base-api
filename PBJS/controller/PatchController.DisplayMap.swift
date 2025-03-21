@@ -1,7 +1,7 @@
 
 import PBAPI
 
-extension PatchController.DisplayMap: JsParsable, JsArrayParsable {
+extension PatchController.DisplayMap: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
     .a(["src", ".p", ".f"], {
@@ -25,7 +25,5 @@ extension PatchController.DisplayMap: JsParsable, JsArrayParsable {
       try .ident($0.x(1), dest: $0.xq(2))
     }),
   ]
-
-  static let jsArrayParsers = try! jsParsers.arrayParsers()
   
 }

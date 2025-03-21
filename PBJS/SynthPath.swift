@@ -2,17 +2,17 @@
 import JavaScriptCore
 import PBAPI
 
-extension SynthPathItem: JsArrayParsable {
+extension SynthPathItem: JsParsable {
   
-  static var jsParsers: JsParseTransformSet<Self> = try! .init([
-    (".s", { 
+  static let jsRules: [JsParseRule<Self>] = [
+    .s(".s", {
       let s: String = try $0.x()
       return try parseSynthPathItem(s)
     })
-  ])
+  ]
   
-  static let jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([
-    (".s", {
+  static let jsArrayRules: [JsParseRule<[Self]>] = [
+    .s(".s", {
       try $0.toString().split(separator: "/").map {
         guard let i = Int($0) else {
           return try parseSynthPathItem(String($0))
@@ -20,9 +20,9 @@ extension SynthPathItem: JsArrayParsable {
         return .i(i)
       }
     }),
-    (".n", { [.i(try $0.x())] }),
-    (".a", { try $0.flatMap { try $0.x() } })
-  ], "SynthPath")
+    .s(".n", { [.i(try $0.x())] }),
+    .s(".a", { try $0.flatMap { try $0.x() } })
+  ]
 
   fileprivate static func parseSynthPathItem(_ s: String) throws -> Self {
     guard let i = SynthPathItem.parseMap[s] else {
@@ -41,9 +41,10 @@ extension SynthPathItem: JsArrayParsable {
   }
 }
 
-extension SynthPath : JsArrayParsable {
-  static var jsParsers: JsParseTransformSet<Self> = try! .init([
-    (".s", {
+extension SynthPath : JsParsable {
+  
+  static var jsRules: [JsParseRule<Self>] = [
+    .s(".s", {
       let items = try $0.toString().split(separator: "/").map {
         guard let i = Int($0) else {
           return try SynthPathItem.parseSynthPathItem(String($0))
@@ -52,12 +53,12 @@ extension SynthPath : JsArrayParsable {
       }
       return SynthPath(items)
     }),
-    (".n", { [.i(try $0.x())] }),
-    (".a", { .init(try $0.flatMap { try $0.x() }) })
-  ])
+    .s(".n", { [.i(try $0.x())] }),
+    .s(".a", { .init(try $0.flatMap { try $0.x() }) })
+  ]
   
-  static var jsArrayParsers: JsParseTransformSet<[Self]> = try! .init([
-    ([">", ".x"], { v in
+  static var jsArrayRules: [JsParseRule<[SynthPath]>] = [
+    .a([">", ".x"], { v in
       // expect elem 1 to be Parms
       let parms: [Parm] = try v.x(1)
       // the rest should be SynthPathMap fns
@@ -69,8 +70,7 @@ extension SynthPath : JsArrayParsable {
         try partialResult.compactMap { try m.call($0) }
       }
     }),
-    (".a", { try $0.map { try $0.x() } }),
-  ]).with(try! jsParsers.arrayParsers())
+  ]
   
 }
 

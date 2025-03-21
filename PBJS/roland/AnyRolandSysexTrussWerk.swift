@@ -7,14 +7,14 @@
 
 import PBAPI
 
-extension JsParseTransformSet where Output: AnyRolandSysexTrussWerk {
-  func anyWerkRules() -> [JsParseTransform<AnyRolandSysexTrussWerk>] {
-    rules.map { r in .init(r.match, { try r.xform($0) as AnyRolandSysexTrussWerk }, "any werk")}
+extension JsParseRule where Output: AnyRolandSysexTrussWerk {
+  func anyWerkRule() -> JsParseRule<AnyRolandSysexTrussWerk> {
+    .init(match, { try transform($0) as AnyRolandSysexTrussWerk })
   }
 }
 
-let RolandSysexTrussWerkRules: JsParseTransformSet<AnyRolandSysexTrussWerk> = .init([
-  RolandSinglePatchTrussWerk.jsParsers.anyWerkRules(),
-  RolandMultiPatchTrussWerk.jsParsers.anyWerkRules(),
-  RolandMultiBankTrussWerk.jsParsers.anyWerkRules(),
-].flatMap({ $0 }), "werk")
+let RolandSysexTrussWerkRules: [JsParseRule<AnyRolandSysexTrussWerk>] = [
+  RolandSinglePatchTrussWerk.jsRules.map { $0.anyWerkRule()},
+  RolandMultiPatchTrussWerk.jsRules.map { $0.anyWerkRule()},
+  RolandMultiBankTrussWerk.jsRules.map { $0.anyWerkRule()},
+].flatMap({ $0 })

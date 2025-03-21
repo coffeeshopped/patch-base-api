@@ -5,16 +5,14 @@ import JavaScriptCore
 extension RxMidi.FetchCommand: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
-    .a(["send", ".a"], {
-      return .sendMsg(try $0.arr(1).xform(MidiMessage.jsParsers))
-    }),
+    .a(["send", ".a"], { try .sendMsg($0.x(1)) }),
   ]
 
-  static let dynamicRules: JsParseTransformSet<(AnySynthEditor) throws -> Self> = try! .init([
-    (["send", ".x"], {
+  static let dynamicRules: [JsParseRule<(AnySynthEditor) throws -> Self>] = [
+    .a(["send", ".x"], {
       let msg = try $0.any(1).xform(MidiMessage.dynamicRules)
       return { .sendMsg(try msg($0)) }
     }),
-  ], "dynamic midi msg")
+  ]
 
 }

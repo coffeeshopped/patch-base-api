@@ -9,13 +9,13 @@ import PBAPI
 
 extension NamePackIso : JsParsable {
   
-  static var jsParsers: JsParseTransformSet<Self> = try! .init([
-    ([".n", ".n"], {
+  static var jsRules: [JsParseRule<NamePackIso>] = [
+    .a([".n", ".n"], {
       let start: Int = try $0.x(0)
       let end: Int = try $0.x(1)
       return .basic(start..<end)
     }),
-    ([
+    .d([
       "type" : "filtered",
       "range" : ".a",
       "toBytes" : ".a",
@@ -45,16 +45,16 @@ extension NamePackIso : JsParsable {
       }
 
     }),
-  ])
+  ]
   
-  static let nameFilterRules: JsParseTransformSet<(UInt8) throws -> UInt8?> = try! .init([
-    ("upper", { _ in
+  static let nameFilterRules: [JsParseRule<(UInt8) throws -> UInt8?>] = [
+    .s("upper", { _ in
       { Character(Unicode.Scalar($0)).uppercased().first?.asciiValue }
     }),
-    ("clean", { _ in
+    .s("clean", { _ in
       { (32...126).contains($0) ? $0 : nil }
     }),
-    (".f", { fn in
+    .s(".f", { fn in
       try fn.checkFn()
       return {
         let result = try fn.call([$0], exportOrigin: nil)!
@@ -67,5 +67,5 @@ extension NamePackIso : JsParsable {
         throw JSError.error(msg: "Name byte filter returned an unexpected type.")
       }
     })
-  ], "nameByteFilter")
+  ]
 }

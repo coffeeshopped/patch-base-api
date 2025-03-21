@@ -3,8 +3,8 @@ import PBAPI
 
 extension SinglePatchTruss: JsBankParsable {
   
-  static let jsBankParsers: JsParseTransformSet<SingleBankTruss> = try! .init([
-    ([
+  static let jsBankRules: [JsParseRule<SingleBankTruss>] = [
+    .d([
       "type" : "singleBank",
       "patchTruss" : ".d",
       "patchCount" : ".n",
@@ -20,7 +20,7 @@ extension SinglePatchTruss: JsBankParsable {
 
       return try .init(patchTruss: patchTruss, patchCount: patchCount, initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody, validSizes: $0.x("validSizes"), includeFileDataCount: $0.x("includeFileDataCount"))
     }),
-    ([
+    .d([
       "type" : "singleBank",
       "patchTruss" : ".d",
       "patchCount" : ".n",
@@ -34,7 +34,7 @@ extension SinglePatchTruss: JsBankParsable {
 
       return try .init(patchTruss: patchTruss, patchCount: patchCount, initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody, validBundle: $0.xq("validBundle"))
     }),
-    ([
+    .d([
       "type" : "compactSingleBank",
       "patchTruss" : ".d",
       "patchCount" : ".n",
@@ -74,13 +74,13 @@ extension SinglePatchTruss: JsBankParsable {
       
       return .init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: fileDataCount, defaultName: nil, createFileData: createFile, parseBodyData: parseBody)
     }),
-  ], "singleBankTruss")
+  ]
 }
 
 extension SinglePatchTruss : JsBankToMidiParsable {
   
-  static let bankToMidiRules: JsParseTransformSet<SomeBankTruss<Self>.Core.ToMidiFn> = try! .init([
-    ([
+  static let bankToMidiRules: [JsParseRule<SomeBankTruss<Self>.Core.ToMidiFn>] = [
+    .d([
       "locationMap" : ".f",
     ], {
       let locationMap = try $0.fn("locationMap")
@@ -91,7 +91,7 @@ extension SinglePatchTruss : JsBankToMidiParsable {
       }
       return fn
     }),
-  ], "singleBankTruss createFile")
+  ]
   
 }
 

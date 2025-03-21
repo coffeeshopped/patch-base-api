@@ -5,7 +5,7 @@ import JavaScriptCore
 extension MidiTransform: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
-    ([
+    .d([
       "type" : "singlePatch",
     ], {
       let throttle = try $0.xq("throttle") ?? 30
@@ -28,7 +28,7 @@ extension MidiTransform: JsParsable {
         try SinglePatchTruss.makeMidiPairs(patchFn, bodyData, editor, [])
       }, name: name))
     }),
-    ([
+    .d([
       "type" : "singleWholePatch",
     ], {
       let throttle = try $0.xq("throttle") ?? 30
@@ -38,7 +38,7 @@ extension MidiTransform: JsParsable {
         try SinglePatchTruss.makeMidiPairs(patchFn, bodyData, editor, [])
       }))
     }),
-    ([
+    .d([
       "type" : "multiDictPatch",
     ], {
       let throttle = try $0.xq("throttle") ?? 30
@@ -54,7 +54,7 @@ extension MidiTransform: JsParsable {
         return try MultiPatchTruss.makeMidiPairs(nameFn, bodyData, editor, [path, name])
       }))
     }),    
-    ([
+    .d([
       "type" : "singleBank",
     ], {
       let throttle = try $0.xq("throttle") ?? 30
@@ -63,7 +63,7 @@ extension MidiTransform: JsParsable {
         try SinglePatchTruss.makeMidiPairs(bankFn, bodyData, editor, [location])
       }))
     }),
-    ([
+    .d([
       "type" : "wholeBank",
     ], {
       let throttle = try $0.xq("throttle") ?? 30
@@ -79,6 +79,6 @@ extension MidiTransform: JsParsable {
       }
       throw JSError.error(msg: "Midi Transform: wholeBank: must specify either 'single' or 'multi' property with transform function")
     }),
-  ])
+  ]
 
 }
