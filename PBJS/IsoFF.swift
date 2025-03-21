@@ -11,6 +11,11 @@ extension IsoFF : JsParsable {
     .a(["switch", ".a", ".x?"], {
       try .switcher($0.x(1), default: $0.xq(2))
     }),
+    .a(["lerp", ".a", ".a"], {
+      let inn: ClosedRange<Float> = try $0.x(1)
+      return try .lerp(in: inn, out: $0.x(2))
+    })
+
   ]
 
 }

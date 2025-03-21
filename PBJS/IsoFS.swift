@@ -25,6 +25,9 @@ extension IsoFS : JsParsable {
         isos.first?.backward(s) ?? .outOfRange
       }
     }),
+    .a(["units", ".s"], {
+      try .unitFormat($0.x(1))
+    }),
     .a([">"], {
       var floatOut = true
       var isoFMerge: IsoFF?

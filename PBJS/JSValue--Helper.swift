@@ -29,7 +29,7 @@ extension JSValue {
   }
 
   func x<Out:JsParsable>() throws -> Out { try xform(Out.jsRules) }
-//  func x<Out:JsParsable>() throws -> Out { try xform(Out.jsParsers) }
+  func x<Out:JsParsable>(exportOrigin: String?) throws -> Out { try xform(Out.jsRules, exportOrigin: exportOrigin) }
   func x<Out:JsParsable>(_ k: String) throws -> Out { try any(k).x() }
   func x<Out:JsParsable>(_ i: Int) throws -> Out { try any(i).x() }
 
@@ -108,9 +108,10 @@ extension JSValue {
     return item
   }
 
-  func xform<Output:Any>(_ rules: [JsParseRule<Output>]) throws -> Output {
+  func xform<Output:Any>(_ rules: [JsParseRule<Output>], exportOrigin: String? = nil) throws -> Output {
+    let exportOrigin = exportOrigin ?? self.exportOrigin()
     guard let rule = rules.first(where: { $0.matches(self) }) else {
-      throw JSError.noParseRule(parseRuleSetName: String(reflecting: Output.self), value: self)
+      throw JSError.noParseRule(parseRuleSetName: String(reflecting: Output.self), value: self, exportOrigin: exportOrigin)
     }
     // TODO: catch and wrap any exceptions here to denote what rule was tried, with what data.
     return try rule.transform(self)
@@ -128,8 +129,15 @@ extension JSValue {
 
   /// The JS file (if any) that this Value was exported from.
   public func exportOrigin() -> String? { try? x("EXPORT_ORIGIN") }
-  public func setExportOrigin(_ str: String?) {
-    self.setValue(str, forProperty: "EXPORT_ORIGIN")
+  public func setExportOrigin(_ str: String?) throws {
+    self.defineProperty("EXPORT_ORIGIN", descriptor: [
+      JSPropertyDescriptorValueKey : str
+    ])
+    if isArray {
+      try forEach {
+        try $0.setExportOrigin(str)
+      }
+    }
   }
 
   public func pbDebug(_ indent: Int = 0, depth: Int = 1) -> String {
@@ -284,7 +292,7 @@ extension JSValue {
   private func fn<A:JsPassable, B:JsParsable>(_ f: JSValue) throws -> ((A) throws -> B) {
     let exportOrigin = self.exportOrigin()
     return {
-      try f.call([$0.toJS()], exportOrigin: exportOrigin).x()
+      try f.call([$0.toJS()], exportOrigin: exportOrigin).x(exportOrigin: exportOrigin)
     }
   }
 
@@ -292,7 +300,7 @@ extension JSValue {
   private func fn<A:JsPassable, B:JsParsable, C:JsPassable>(_ f: JSValue) throws -> ((A, C) throws -> B) {
     let exportOrigin = self.exportOrigin()
     return {
-      try f.call([$0.toJS(), $1.toJS()], exportOrigin: exportOrigin).x()
+      try f.call([$0.toJS(), $1.toJS()], exportOrigin: exportOrigin).x(exportOrigin: exportOrigin)
     }
   }
 
@@ -300,7 +308,7 @@ extension JSValue {
   private func fn<A:JsPassable, B:JsParsable, C:JsPassable, D:JsPassable>(_ f: JSValue) throws -> ((A, C, D) throws -> B) {
     let exportOrigin = self.exportOrigin()
     return {
-      try f.call([$0.toJS(), $1.toJS(), $2.toJS()], exportOrigin: exportOrigin).x()
+      try f.call([$0.toJS(), $1.toJS(), $2.toJS()], exportOrigin: exportOrigin).x(exportOrigin: exportOrigin)
     }
   }
 
@@ -317,14 +325,7 @@ extension JSValue {
     if let exc = context.exception {
       throw JSError.fnException(fn: self, exception: exc, exportOrigin: exportOrigin)
     }
-    value.setExportOrigin(exportOrigin)
-    // TODO: PBBezier.Command. draw fn returns an array of them
-    // the export origin is not getting set on them
-    // why? is it just bad array-setting (like below)?
-    // or something else?
-//    if value.isArray {
-//      try value.map { $0.setExportOrigin(exportOrigin) }
-//    }
+    try value.setExportOrigin(exportOrigin)
     return value
   }
 
@@ -385,10 +386,21 @@ extension Bool: JsParsable {
   ]
 }
 
-extension ClosedRange<Int> : JsParsable {
-  static let jsRules: [JsParseRule<Self>] = [
-    .s(".a", { try .init(($0.x(0))..<($0.x(1))) }),
-  ]
+extension ClosedRange : JsParsable where Bound: JsParsable {
+  static var jsRules: [JsParseRule<Self>] { 
+    [
+      .s(".a", {
+        if Bound.self == Int.self {
+          let lower: Int = try $0.x(0)
+          let upper: Int = try $0.x(1) - 1
+          return (lower as! Bound)...(upper as! Bound)
+        }
+        else {
+          return try ($0.x(0))...($0.x(1))
+        }
+      }),
+    ]
+  }
 }
 
 //extension Array: JSX where Element: JSX {

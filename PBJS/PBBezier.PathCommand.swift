@@ -11,14 +11,17 @@ extension PBBezier.PathCommand: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
     .a(["move", ".n", ".n"], {
-      .move(to: CGPoint(x: try $0.x(1) as CGFloat, y: try $0.x(2)))
+      try .move(to: CGPoint(x: $0.x(1) as CGFloat, y: $0.x(2)))
     }),
     .a(["line", ".n", ".n"], {
-      .addLine(to: CGPoint(x: try $0.x(1) as CGFloat, y: try $0.x(2)))
+      try .addLine(to: CGPoint(x: $0.x(1) as CGFloat, y: $0.x(2)))
     }),
     .a(["scale", ".n", ".n"], {
-      .apply(.identity.scaledBy(x: try $0.x(1) as CGFloat, y: try $0.x(2)))
+      try .apply(.identity.scaledBy(x: $0.x(1) as CGFloat, y: $0.x(2)))
     }),
+    .a(["curve", ".n", ".n", ".n?"], {
+      try .addWeightedCurve(to: CGPoint(x: $0.x(1) as CGFloat, y: $0.x(2)), weight: $0.xq(3) ?? 0)
+    })
   ]
   
 }

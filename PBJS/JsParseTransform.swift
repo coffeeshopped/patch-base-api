@@ -4,27 +4,27 @@ import JavaScriptCore
 
 struct JsParseRule<Output:Any> {
   let match: Any
-  let transform: (JSValue) throws -> Output
+  let xform: (JSValue) throws -> Output
   
-  init(_ match: Any, _ transform: @escaping (JSValue) throws -> Output) {
+  init(_ match: Any, _ xform: @escaping (JSValue) throws -> Output) {
     self.match = match
-    self.transform = transform
+    self.xform = xform
   }
   
-  static func a(_ match: [String], _ transform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(match, transform)
+  static func a(_ match: [String], _ xform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(match, xform)
   }
 
-  static func a(_ match: [Int], _ transform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(match, transform)
+  static func a(_ match: [Int], _ xform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(match, xform)
   }
 
-  static func d(_ match: [String:String], _ transform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(match, transform)
+  static func d(_ match: [String:String], _ xform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(match, xform)
   }
 
-  static func s(_ match: String, _ transform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(match, transform)
+  static func s(_ match: String, _ xform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(match, xform)
   }
 
   static func s(_ match: String, _ output: Output) -> Self {
@@ -38,7 +38,7 @@ struct JsParseRule<Output:Any> {
   func transform(_ x: JSValue) throws -> Output {
     // first, check for match
     do {
-      return try transform(x)
+      return try xform(x)
     }
     catch {
       throw JSError.transformFailure(name: String(reflecting: Output.self), match: try! Match.from(any: match), value: x, err: error)
@@ -195,30 +195,6 @@ public indirect enum MatchItem : Equatable, Hashable {
 
   
 }
-
-struct JsParseTransform<Output:Any> {
-  
-  let match: Match
-  let xform: (JSValue) throws -> Output
-  let name: String
-  
-  init(_ match: Match, _ xform: @escaping (JSValue) throws -> Output, _ name: String) {
-    self.match = match
-    self.xform = xform
-    self.name = name
-  }
-    
-  func transform(_ x: JSValue) throws -> Output {
-    // first, check for match
-    do {
-      return try xform(x)
-    }
-    catch {
-      throw JSError.transformFailure(name: name, match: match, value: x, err: error)
-    }
-  }
-}
-
 
 
 protocol JsParsable {

@@ -5,10 +5,17 @@ extension PatchController: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
     .d([
+      "builders" : ".a",
+      "pages" : ".a",
+      "gridLayout": ".a",
+    ], {
+      try .paged(prefix: $0.xq("prefix"), color: nil, border: nil, $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.arr("gridLayout").xformArr(Constraint.gridRowRules))], pages: $0.x("pages"))
+    }),
+    .d([
       "pages" : ".a",
       "builders" : ".a",
     ], {
-      return try .paged(prefix: $0.xq("prefix"), color: nil, border: nil, $0.x("builders"), effects: $0.xq("effects") ?? [], layout: $0.xq("layout") ?? [], pages: $0.x("pages"))
+      try .paged(prefix: $0.xq("prefix"), color: nil, border: nil, $0.x("builders"), effects: $0.xq("effects") ?? [], layout: $0.xq("layout") ?? [], pages: $0.x("pages"))
     }),
     .a(["index", ".p", ".p", ".f", ".d"], {
       let obj = try $0.obj(4)

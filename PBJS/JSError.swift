@@ -3,7 +3,7 @@ import JavaScriptCore
 public indirect enum JSError : LocalizedError {
   case error(msg: String)
   case wrap(_ msg: String, _ err: Error)
-  case noParseRule(parseRuleSetName: String, value: JSValue)
+  case noParseRule(parseRuleSetName: String, value: JSValue, exportOrigin: String?)
   case transformFailure(name: String, match: Match, value: JSValue, err: Error)
   case fnException(fn: JSValue, exception: JSValue, exportOrigin: String?)
     
@@ -13,15 +13,15 @@ public indirect enum JSError : LocalizedError {
       return msg
     case .wrap(let msg, let err):
       return "\(msg):\n\(err.localizedDescription)"
-    case .noParseRule(let parseRuleSetName, let value):
+    case .noParseRule(let parseRuleSetName, let value, let exportOrigin):
       let debugString = value.pbDebug(0, depth: 1)
       let errMsg = "\(parseRuleSetName): no parse rule found for JS Value:\n\(debugString)"
-//      if let origin = exportOrigin {
-//        return "in \(origin)\n\(errMsg)"
-//      }
-//      else {
+      if let origin = exportOrigin {
+        return "in \(origin)\n\(errMsg)"
+      }
+      else {
         return errMsg
-//      }
+      }
     case .transformFailure(let name, let match, let value, let err):
       let errMsg = "Parse rule failed: \(name):\nPattern: \(match.string())\nValue:\n\(value.pbDebug())"
       if let origin = exportOrigin {
@@ -42,7 +42,7 @@ public indirect enum JSError : LocalizedError {
       return msg
     case .wrap(let msg, let err):
       return "\(msg):\n\(err.localizedDescription)"
-    case .noParseRule(let parseRuleSetName, let value):
+    case .noParseRule(let parseRuleSetName, let value, _):
       let debugString = value.pbDebug(0, depth: 1)
       return "\(parseRuleSetName): no parse rule found for JS Value:\n\(debugString)"
     case .transformFailure(let name, let match, let value, let err):
@@ -69,7 +69,7 @@ public indirect enum JSError : LocalizedError {
   
   public var innermostOrigin: String? {
     switch self {
-    case .error, .wrap, .noParseRule:
+    case .error, .wrap:
       return nil
     case .transformFailure(_, _, let value, let err):
       if let err = err as? JSError {
@@ -80,6 +80,8 @@ public indirect enum JSError : LocalizedError {
       }
     case .fnException(_, _, let exportOrigin):
       return exportOrigin
+    case .noParseRule(_, let value, let exportOrigin):
+      return exportOrigin ?? value.exportOrigin()
     }
   }
   
@@ -87,8 +89,8 @@ public indirect enum JSError : LocalizedError {
     switch self {
     case .error, .wrap:
       return nil
-    case .noParseRule(_, let value):
-      return value.exportOrigin()
+    case .noParseRule(_, let value, let exportOrigin):
+      return exportOrigin ?? value.exportOrigin()
     case .transformFailure(_, _, let value, let err):
       if let o = value.exportOrigin() {
         return o
@@ -115,6 +117,19 @@ public indirect enum JSError : LocalizedError {
       else {
         return [self]
       }
+    }
+  }
+  
+  public var value: JSValue? {
+    switch self {
+    case .error, .wrap:
+      return nil
+    case .fnException(let fn, _, _):
+      return fn
+    case .noParseRule(_, let value, _):
+      return value
+    case .transformFailure(_, _, let value, _):
+      return value
     }
   }
 }
