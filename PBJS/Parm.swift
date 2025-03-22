@@ -14,10 +14,6 @@ extension Parm: JsParsable, JsPassable {
       }
       return try .p(path, obj.xq("b"), p: obj.xq("p"), bits: bits, extra: [:], packIso: obj.xq("packIso"), obj.x())
     }),
-    .a([".p"], {
-      let path: SynthPath = try $0.x(0)
-      return .p(path, 0)
-    }),
   ]
   
   func toJS() -> AnyHashable {
@@ -117,6 +113,9 @@ extension Parm.Span: JsParsable {
       let max: Int = try rngArr.x(1) - 1
       return try .rng(min...max, dispOff: $0.xq("dispOff") ?? 0)
     }),
+    .d([
+      "dispOff" : ".n",
+    ], { try .rng(dispOff: $0.x("dispOff")) }),
     .d(["options" : ".a"], { .options(try $0.arr("options").optDict()) }),
     .d([
       "iso" : ".x",

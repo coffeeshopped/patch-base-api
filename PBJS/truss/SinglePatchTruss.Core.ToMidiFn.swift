@@ -63,6 +63,15 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
         return .bytes([b[byte]])
       }
     }),
+    .a(["bits", ".a"], {
+      let bitRange: ClosedRange<Int> = try $0.x(1)
+      // second arg is optional, defaults to "b"
+      let bodyData: Self? = try $0.xq(2)
+      return .fn { b, e in
+        let bytes = try bodyData?.call(b ,e).bytes() ?? b
+        return .bytes([UInt8((bytes.first ?? 0).bits(bitRange))])
+      }
+    }),
     .a(["msBytes7bit", ".n", ".n"], {
       let value: Int = try $0.x(1)
       let byteCount: Int = try $0.x(2)

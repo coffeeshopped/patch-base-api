@@ -28,21 +28,21 @@ public struct JsModuleTruss {
       let localBasePath: String
       if path.starts(with: "/") {
         expandedURL = packageDir.appendingPathComponent(path, isDirectory: false)
-        localBasePath = URL(fileURLWithPath: path).deletingLastPathComponent().path + "/"
+        localBasePath = URL(string: path)!.deletingLastPathComponent().path + "/"
 //        localBasePath = "/"
       }
       else {
         expandedURL = packageDir.appendingPathComponent(localSubPath, isDirectory: true).appendingPathComponent(path, isDirectory: false)
-        localBasePath = localSubPath + URL(fileURLWithPath: path).deletingLastPathComponent().path + "/"
+        localBasePath = localSubPath + URL(string: path)!.deletingLastPathComponent().path + "/"
       }
       
       // Return void or throw an error here.
-      guard FileManager.default.fileExists(atPath: expandedURL.path)
-          else { debugPrint("Require: filename \(expandedURL) does not exist")
-                 return nil }
+      guard FileManager.default.fileExists(atPath: expandedURL.path),
+            let fileContent = try? String(contentsOfFile: expandedURL.path) else {
+        jsContext.exception = JSValue(newErrorFromMessage: "File for require() does not exist: \(expandedURL.path)\n\n\(path)\n\n\(expandedURL.path)", in: jsContext)
+        return nil
+      }
 
-      guard let fileContent = try? String(contentsOfFile: expandedURL.path)
-          else { return nil }
 //      (function(exports, require, module, __filename, __dirname) {
 //      // Module code actually lives in here
 //      });
@@ -75,6 +75,10 @@ public struct JsModuleTruss {
       throw JSError.error(msg: "createModule() failed")
     }
     // the exports of the eval'ed file should define a "module" property with the module truss
+    
+    if let exception = jsContext.exception {
+      throw JSError.error(msg: exception.debugDescription)
+    }
     
     self.basicModuleTruss = try moduleTemplate.x("module")
   }

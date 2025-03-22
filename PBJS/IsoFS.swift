@@ -65,8 +65,17 @@ extension IsoFS : JsParsable {
           // TODO: here is where String->String isos would be... IsoSS?
         }
       }
-      guard let isoSMerge = isoSMerge else { throw JSError.error(msg: "No IsoFS found in iso array") }
-      return isoSMerge
+
+      if let isoSMerge = isoSMerge {
+        return isoSMerge
+      }
+      else if let isoFMerge = isoFMerge {
+        // if all the isos were float-out, then tack on a string iso at the end
+        return isoFMerge >>> .str()
+      }
+      else {
+        return .str()
+      }
     }),
     .s(".x", {
       // last check: see if it's an IsoFF and if so, parse and pipe to String

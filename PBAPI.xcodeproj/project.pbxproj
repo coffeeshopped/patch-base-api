@@ -46,7 +46,6 @@
 		AC414A7A2C65354D0019DC1B /* PBTypealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6B2C65354C0019DC1B /* PBTypealiases.swift */; };
 		AC414A7B2C65354D0019DC1B /* PBTextAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6C2C65354C0019DC1B /* PBTextAlignment.swift */; };
 		AC414A7C2C65354D0019DC1B /* PackIso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6D2C65354C0019DC1B /* PackIso.swift */; };
-		AC414A7D2C65354D0019DC1B /* ParamHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6E2C65354C0019DC1B /* ParamHelper.swift */; };
 		AC414A7E2C65354D0019DC1B /* Yamaha.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A6F2C65354C0019DC1B /* Yamaha.swift */; };
 		AC414A7F2C65354D0019DC1B /* DXAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A702C65354C0019DC1B /* DXAlgorithm.swift */; };
 		AC414A812C65354D0019DC1B /* NamePackIso.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414A722C65354C0019DC1B /* NamePackIso.swift */; };
@@ -248,7 +247,6 @@
 		AC414A6B2C65354C0019DC1B /* PBTypealiases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PBTypealiases.swift; sourceTree = "<group>"; };
 		AC414A6C2C65354C0019DC1B /* PBTextAlignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PBTextAlignment.swift; sourceTree = "<group>"; };
 		AC414A6D2C65354C0019DC1B /* PackIso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackIso.swift; sourceTree = "<group>"; };
-		AC414A6E2C65354C0019DC1B /* ParamHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParamHelper.swift; sourceTree = "<group>"; };
 		AC414A6F2C65354C0019DC1B /* Yamaha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Yamaha.swift; sourceTree = "<group>"; };
 		AC414A702C65354C0019DC1B /* DXAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DXAlgorithm.swift; sourceTree = "<group>"; };
 		AC414A722C65354C0019DC1B /* NamePackIso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamePackIso.swift; sourceTree = "<group>"; };
@@ -561,7 +559,6 @@
 				AC414A5E2C65353F0019DC1B /* PatchController-LevelScaling.swift */,
 				AC414A6B2C65354C0019DC1B /* PBTypealiases.swift */,
 				AC414A662C65354C0019DC1B /* PBLayoutConstraint.swift */,
-				AC414A6E2C65354C0019DC1B /* ParamHelper.swift */,
 				AC414A6C2C65354C0019DC1B /* PBTextAlignment.swift */,
 				AC414A6A2C65354C0019DC1B /* Parm.swift */,
 				AC414A6D2C65354C0019DC1B /* PackIso.swift */,
@@ -960,7 +957,6 @@
 				AC414AB42C6535940019DC1B /* SysexData.swift in Sources */,
 				ACE0BB7E2C6EAB450099F3D9 /* PBLogHandler.swift in Sources */,
 				AC414A4E2C6535150019DC1B /* AnySysexPatch.swift in Sources */,
-				AC414A7D2C65354D0019DC1B /* ParamHelper.swift in Sources */,
 				AC414ADD2C6535B10019DC1B /* ModuleTrussSection.swift in Sources */,
 				AC414AB52C6535940019DC1B /* LocalTrussType.swift in Sources */,
 				AC414B182C6535FD0019DC1B /* RolandPatchTrussWerk.swift in Sources */,

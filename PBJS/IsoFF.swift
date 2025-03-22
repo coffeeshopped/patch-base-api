@@ -14,8 +14,9 @@ extension IsoFF : JsParsable {
     .a(["lerp", ".a", ".a"], {
       let inn: ClosedRange<Float> = try $0.x(1)
       return try .lerp(in: inn, out: $0.x(2))
-    })
-
+    }),
+    .s("round", .round()),
+    .a(["round", ".n"], { try .round($0.x(1)) }),
   ]
 
 }

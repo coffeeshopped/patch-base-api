@@ -3,17 +3,6 @@ public typealias ParamValueFormatter = ((Int) -> String)
 public typealias ParamValueParser = ((String) -> Int)
 public typealias ParamValueMapper = (format: ParamValueFormatter, parse: ParamValueParser)
 
-public extension IsoFS {
-
-  func pvm() -> ParamValueMapper {
-    (
-      format: { forward(Float($0)) },
-      parse: { Int(round(backward($0))) }
-    )
-  }
-
-}
-
 public struct OptionsParam {
   public static func makeOptions(_ values: [String]) -> [Int:String] {
     return values.enumerated().reduce([Int:String](), { (dict, e) -> [Int:String] in

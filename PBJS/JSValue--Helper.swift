@@ -402,10 +402,3 @@ extension ClosedRange : JsParsable where Bound: JsParsable {
     ]
   }
 }
-
-//extension Array: JSX where Element: JSX {
-//  static func x(_ v: JSValue) throws -> Array<Element> {
-//    try v.map { try $0.x() }
-//  }
-//}
-
