@@ -10,9 +10,12 @@ public struct JsModuleTruss {
   private var basicModuleTruss: BasicModuleTruss
   private let jsContext: JSContext
   private let require: @convention(block) (String, String) -> JSValue?
+  
+  private let debugMode: Bool
 
-  init(packageDir: URL, package: JsPackage, localModuleURL: String) throws {
+  init(packageDir: URL, package: JsPackage, localModuleURL: String, debugMode: Bool) throws {
     self.package = package
+    self.debugMode = debugMode
     
     let moduleBaseURL = packageDir
     let moduleBasePath = moduleBaseURL.path
@@ -48,7 +51,7 @@ public struct JsModuleTruss {
 //      });
 
       jsContext.setObject(expandedURL, forKeyedSubscript: Self.currentPathKey)
-      let wrapped = Self.wrapScript(localBasePath: localBasePath, fileContent: fileContent, currentPath: expandedURL.standardizedFileURL.path)
+      let wrapped = Self.wrapScript(localBasePath: localBasePath, fileContent: fileContent, currentPath: expandedURL.standardizedFileURL.path, debugMode: debugMode)
       return jsContext.evaluateScript(wrapped)
     }
     
@@ -71,7 +74,7 @@ public struct JsModuleTruss {
      }
     
 //    let lbp = URL(fileURLWithPath: "\(packageName)/\(localModuleURL)").deletingLastPathComponent().path + "/"
-    guard let moduleTemplate = jsContext.evaluateScript(Self.wrapScript(localBasePath: "" /*lbp*/, fileContent: moduleScript, currentPath: moduleURL.path), withSourceURL: moduleURL) else {
+    guard let moduleTemplate = jsContext.evaluateScript(Self.wrapScript(localBasePath: "" /*lbp*/, fileContent: moduleScript, currentPath: moduleURL.path, debugMode: debugMode), withSourceURL: moduleURL) else {
       throw JSError.error(msg: "createModule() failed")
     }
     // the exports of the eval'ed file should define a "module" property with the module truss
@@ -127,7 +130,7 @@ public struct JsModuleTruss {
     jsContext.setObject(object, forKeyedSubscript: key as NSString)
   }
   
-  private static func wrapScript(localBasePath: String, fileContent: String, currentPath: String) -> String {
+  private static func wrapScript(localBasePath: String, fileContent: String, currentPath: String, debugMode: Bool) -> String {
     """
 (function() { 
   const module = { exports: {} };
@@ -150,7 +153,7 @@ public struct JsModuleTruss {
     }
   }
 
-  if (module.exports) {
+  if (\(debugMode ? "true" : "false") && module.exports) {
     setExportOrigin(module.exports)
   }
   return module.exports;

@@ -42,7 +42,6 @@ public indirect enum PatchController {
   
   public typealias ControlChangeFn = (_ state: PatchControllerState, _ locals: PatchControllerLocals) throws -> [AttrChange]
 
-  public typealias PasteTransformFn = (_ values: SynthPathInts, _ state: PatchControllerState, _ locals: PatchControllerLocals) -> SynthPathInts
   public enum Effect {
     
     case change(_ fn: ControlChangeFn)
@@ -53,7 +52,7 @@ public indirect enum PatchController {
     case controlCommand(_ id: SynthPath, latestValues: [SynthPath], _ fn: (_ value: Int, _ latestValues: SynthPathInts, _ index: Int) -> [AttrChange])
     
     // nil paths == controlledPaths
-    case editMenu(_ id: SynthPath?, pathsFn: ((Int) -> [SynthPath])?, type: String, init: ((Int) -> [Int])?, rand: ((Int) -> [Int])?, pasteTransform: PasteTransformFn? = nil, items: [MenuItem] = [])
+    case editMenu(_ id: SynthPath?, pathsFn: ((Int) -> [SynthPath])?, type: String, init: ((Int) -> [Int])?, rand: ((Int) -> [Int])?, pasteTransform: MenuItemFn? = nil, items: [MenuItem] = [])
     
     case setup(_ changes: [AttrChange])
     
@@ -61,10 +60,11 @@ public indirect enum PatchController {
     case listen(_ id: SynthPath, _ fn: ControlChangeFn)
   }
   
-  public typealias MenuItemCustomFn = (_ values: SynthPathInts, _ state: PatchControllerState, _ locals: PatchControllerLocals) -> [AttrChange]
+  public typealias MenuItemFn = (_ values: SynthPathInts, _ state: PatchControllerState, _ locals: PatchControllerLocals) -> [AttrChange]
+  
   public enum MenuItem {
     case filePopover(_ label: String, _ path: SynthPath)
-    case custom(_ label: String, _ fn: MenuItemCustomFn)
+    case custom(_ label: String, _ fn: MenuItemFn)
   }
   
   public enum PanelItem {
@@ -175,6 +175,7 @@ public indirect enum PatchController {
     
     case colorItem(_ id: SynthPath, level: Int = 1, clearBG: Bool? = nil)
     case colorPanel(_ id: String?, level: Int = 1, clearBG: Bool? = nil)
+    case showPopover(_ id: SynthPath)
   }
   
   public enum Constraint {

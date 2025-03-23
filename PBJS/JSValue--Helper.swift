@@ -129,7 +129,7 @@ extension JSValue {
 
   /// The JS file (if any) that this Value was exported from.
   public func exportOrigin() -> String? { try? x("EXPORT_ORIGIN") }
-  public func setExportOrigin(_ str: String?) throws {
+  public func setExportOrigin(_ str: String) throws {
     self.defineProperty("EXPORT_ORIGIN", descriptor: [
       JSPropertyDescriptorValueKey : str
     ])
@@ -325,7 +325,9 @@ extension JSValue {
     if let exc = context.exception {
       throw JSError.fnException(fn: self, exception: exc, exportOrigin: exportOrigin)
     }
-    try value.setExportOrigin(exportOrigin)
+    if let exportOrigin = exportOrigin {
+      try value.setExportOrigin(exportOrigin)
+    }
     return value
   }
 

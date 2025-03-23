@@ -16,7 +16,7 @@ public struct JsModuleProvider: ModuleProvider {
   public var productId: String { "\(manufacturer).\(model)" }
   
   public func moduleTruss() throws -> JsModuleTruss {
-    try JsModuleTruss(packageDir: packageDir, package: package, localModuleURL: localModuleURL)
+    try JsModuleTruss(packageDir: packageDir, package: package, localModuleURL: localModuleURL, debugMode: false)
   }
   
   public let manufacturer: String
