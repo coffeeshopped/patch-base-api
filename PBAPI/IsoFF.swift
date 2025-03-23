@@ -16,6 +16,13 @@ extension Float {
 
 public extension IsoFF {
   
+  static func ident() -> Self {
+    .init(
+        forward: { $0 },
+        backward: { $0 }
+    )
+  }
+  
   /// Multiply
   static func m(_ x: Float) -> Self {
       .init(

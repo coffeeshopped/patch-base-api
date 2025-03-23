@@ -17,6 +17,7 @@ extension IsoFF : JsParsable {
     }),
     .s("round", .round()),
     .a(["round", ".n"], { try .round($0.x(1)) }),
+    .s("=", .ident()),
   ]
 
 }
@@ -25,17 +26,7 @@ extension IsoFF.SwitcherCheck: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
     .a([".n", ".n"], { try .int($0.x(0), $0.x(1)) }),
-    .a([".a", ".n"], {
-      let rngArr = try $0.arr(0)
-      let min: Float = try rngArr.x(0)
-      let max: Float = try rngArr.x(1) - 1
-      return try .rangeString(min...max, $0.x(1))
-    }),
-    .a([".a", ".x"], {
-      let rngArr = try $0.arr(0)
-      let min: Float = try rngArr.x(0)
-      let max: Float = try rngArr.x(1) - 1
-      return try .range(min...max, $0.x(1))
-    }),
+    .a([".a", ".n"], { try .rangeString($0.x(0), $0.x(1)) }),
+    .a([".a", ".x"], { try .range($0.x(0), $0.x(1)) }),
   ]
 }

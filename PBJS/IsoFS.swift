@@ -89,17 +89,7 @@ extension IsoFS.SwitcherCheck: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
     .a([".n", ".s"], { try .int($0.x(0), $0.x(1)) }),
-    .a([".a", ".s"], {
-      let rngArr = try $0.arr(0)
-      let min: Float = try rngArr.x(0)
-      let max: Float = try rngArr.x(1) - 1
-      return try .rangeString(min...max, $0.x(1))
-    }),
-    .a([".a", ".x"], {
-      let rngArr = try $0.arr(0)
-      let min: Float = try rngArr.x(0)
-      let max: Float = try rngArr.x(1) - 1
-      return try .range(min...max, $0.x(1))
-    }),
+    .a([".a", ".s"], { try .rangeString($0.x(0), $0.x(1)) }),
+    .a([".a", ".x"], { try .range($0.x(0), $0.x(1)) }),
   ]
 }

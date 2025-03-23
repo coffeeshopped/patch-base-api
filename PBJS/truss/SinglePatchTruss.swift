@@ -157,8 +157,13 @@ extension SinglePatchTruss: JsParsable {
         // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
         // TODO: here is where some caching needs to happen. Perhaps that caching
         // could be implemented in the JsParseTransformSet struct.
-        let fn: Core.ToMidiFn = try $0.x(0)
-        return (.sysex(try fn.call(bodyData, editor).bytes()), try $0.x(1))
+        do {
+          let fn: Core.ToMidiFn = try $0.x(0)
+          return (.sysex(try fn.call(bodyData, editor).bytes()), try $0.x(1))
+        }
+        catch {
+          throw JSError.wrap("Error parsing SinglePatchTruss ToMidiFn:\n\($0.pbDebug())", error)
+        }
       }
     }
   }
