@@ -47,12 +47,12 @@ extension JSValue {
   // if it exists, parse an expected type
   // if it doesn't exist, return nil
   // used for optional (but type-checked) values
-  func x<Out:JsParsable>(_ k: String) throws -> Out? {
-    try some(k)?.x()
-  }
-  func x<Out:JsParsable>(_ i: Int) throws -> Out? {
-    try some(i)?.x()
-  }
+//  func x<Out:JsParsable>(_ k: String) throws -> Out? {
+//    try some(k)?.x()
+//  }
+//  func x<Out:JsParsable>(_ i: Int) throws -> Out? {
+//    try some(i)?.x()
+//  }
 
   func xq<Out:JsParsable>(_ k: String) throws -> Out? {
     try some(k)?.x()
@@ -121,11 +121,20 @@ extension JSValue {
     let t: JsParseRule<(A,B)> = .a([".x", ".x"], { (try $0.x(0), try $0.x(1)) })
     return try t.transform(self)
   }
-  
-  func x<Output:JsParsable>() throws -> [(SynthPath, Output)] {
-    let t: JsParseRule<(SynthPath, Output)> = .a([".p", ".x"], { (try $0.x(0), try $0.x(1)) })
-    return try map { try t.transform($0) }
+
+  func x<A:JsParsable, B:JsParsable>() throws -> [(A, B)] {
+    let t: JsParseRule<[(A,B)]> = .s(".a", { try $0.map { try ($0.x(0), $0.x(1)) } })
+    return try t.transform(self)
   }
+
+  func x<A:JsParsable, B:JsParsable>(_ key: String) throws -> [(A, B)] {
+    try any(key).x()
+  }
+
+//  func x<Output:JsParsable>() throws -> [(SynthPath, Output)] {
+//    let t: JsParseRule<(SynthPath, Output)> = .a([".p", ".x"], { (try $0.x(0), try $0.x(1)) })
+//    return try map { try t.transform($0) }
+//  }
 
   /// The JS file (if any) that this Value was exported from.
   public func exportOrigin() -> String? { try? x("EXPORT_ORIGIN") }

@@ -34,7 +34,7 @@ extension BasicEditorTruss: JsParsable {
       let trussMap = try $0.arr("trussMap").map { try ppr.transform($0) }
       var t = BasicEditorTruss(try $0.x("name"), truss: trussMap)
       t.fetchTransforms = try $0.arr("fetchTransforms").x()
-      t.midiOuts = try $0.arr("midiOuts").x()
+      t.midiOuts = try $0.x("midiOuts")
       t.midiChannels = try $0.x("midiChannels")
       
       t.slotTransforms = [:]

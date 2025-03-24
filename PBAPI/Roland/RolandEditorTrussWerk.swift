@@ -101,19 +101,17 @@ public extension RolandEditorTrussWerk {
         
       case let b as RolandSingleBankTrussWerk:
         let sysexData = RolandSinglePatchTrussWerk.sysexData(sysexWerk)
-        return (item.path, .single(throttle: 0, .bank({ editor, bodyData, location in
+        return (item.path, .single(throttle: 0, .bank(.init({ editor, bodyData, location in
           let offset = b.iso.address(UInt8(location))
-          let deviceId = try! UInt8(editor.intValue(deviceId))
           return Self.mm(try sysexData(bodyData, editor, item.address + offset))
-        })))
+        }))))
         
       case let b as RolandMultiBankTrussWerk:
         let sysexData = b.patchWerk.sysexData(sysexWerk)
-        return (item.path, .multi(throttle: 0, .bank({ editor, bodyData, location in
+        return (item.path, .multi(throttle: 0, .bank(.init({ editor, bodyData, location in
           let offset = b.iso.address(UInt8(location))
-          let deviceId = try! UInt8(editor.intValue(deviceId))
           return Self.mm(try sysexData(bodyData, editor, item.address + offset))
-        })))
+        }))))
         
       default:
         return nil

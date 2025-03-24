@@ -154,7 +154,7 @@
 		AC414B992C653AAF0019DC1B /* PatchController.PanelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B902C653AAF0019DC1B /* PatchController.PanelItem.swift */; };
 		AC414B9A2C653AAF0019DC1B /* PatchController.Prefix.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B912C653AAF0019DC1B /* PatchController.Prefix.swift */; };
 		AC414B9B2C653AAF0019DC1B /* PatchController.Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414B922C653AAF0019DC1B /* PatchController.Effect.swift */; };
-		AC414BA12C653C290019DC1B /* JsParseTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414BA02C653C290019DC1B /* JsParseTransform.swift */; };
+		AC414BA12C653C290019DC1B /* JsParseRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC414BA02C653C290019DC1B /* JsParseRule.swift */; };
 		AC414BA32C653C540019DC1B /* PBAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4AC0EC2C65335900358BF0 /* PBAPI.framework */; };
 		AC4AC0F12C65335900358BF0 /* PBAPI.docc in Sources */ = {isa = PBXBuildFile; fileRef = AC4AC0F02C65335900358BF0 /* PBAPI.docc */; };
 		AC4AC0F72C65335900358BF0 /* PBAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4AC0EC2C65335900358BF0 /* PBAPI.framework */; };
@@ -172,6 +172,7 @@
 		AC6778E02C98FD39002FE359 /* RolandMultiPatchTrussWerk.MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6778DF2C98FD39002FE359 /* RolandMultiPatchTrussWerk.MapItem.swift */; };
 		AC6778E22C98FF3E002FE359 /* AnyRolandSysexTrussWerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6778E12C98FF3E002FE359 /* AnyRolandSysexTrussWerk.swift */; };
 		AC6FBC3E2CC94299001B43C5 /* ValidBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6FBC3D2CC94299001B43C5 /* ValidBundle.swift */; };
+		AC7A6A2E2D91E6B2004523F7 /* SomeBankTruss.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7A6A2D2D91E6B2004523F7 /* SomeBankTruss.swift */; };
 		ACB699FC2CE2C5A000738F63 /* SynthPathMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB699FB2CE2C5A000738F63 /* SynthPathMap.swift */; };
 		ACB699FE2CE3A18200738F63 /* SynthPathMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB699FD2CE3A18200738F63 /* SynthPathMap.swift */; };
 		ACB69A002CE3BDA500738F63 /* JsPassable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB699FF2CE3BDA500738F63 /* JsPassable.swift */; };
@@ -356,7 +357,7 @@
 		AC414B902C653AAF0019DC1B /* PatchController.PanelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.PanelItem.swift; sourceTree = "<group>"; };
 		AC414B912C653AAF0019DC1B /* PatchController.Prefix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.Prefix.swift; sourceTree = "<group>"; };
 		AC414B922C653AAF0019DC1B /* PatchController.Effect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchController.Effect.swift; sourceTree = "<group>"; };
-		AC414BA02C653C290019DC1B /* JsParseTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsParseTransform.swift; sourceTree = "<group>"; };
+		AC414BA02C653C290019DC1B /* JsParseRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsParseRule.swift; sourceTree = "<group>"; };
 		AC4AC0EC2C65335900358BF0 /* PBAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PBAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4AC0EF2C65335900358BF0 /* PBAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBAPI.h; sourceTree = "<group>"; };
 		AC4AC0F02C65335900358BF0 /* PBAPI.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = PBAPI.docc; sourceTree = "<group>"; };
@@ -375,6 +376,7 @@
 		AC6778DF2C98FD39002FE359 /* RolandMultiPatchTrussWerk.MapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolandMultiPatchTrussWerk.MapItem.swift; sourceTree = "<group>"; };
 		AC6778E12C98FF3E002FE359 /* AnyRolandSysexTrussWerk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyRolandSysexTrussWerk.swift; sourceTree = "<group>"; };
 		AC6FBC3D2CC94299001B43C5 /* ValidBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidBundle.swift; sourceTree = "<group>"; };
+		AC7A6A2D2D91E6B2004523F7 /* SomeBankTruss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeBankTruss.swift; sourceTree = "<group>"; };
 		ACB699FB2CE2C5A000738F63 /* SynthPathMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthPathMap.swift; sourceTree = "<group>"; };
 		ACB699FD2CE3A18200738F63 /* SynthPathMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthPathMap.swift; sourceTree = "<group>"; };
 		ACB699FF2CE3BDA500738F63 /* JsPassable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsPassable.swift; sourceTree = "<group>"; };
@@ -467,7 +469,7 @@
 				AC414B642C653A900019DC1B /* Jiso.swift */,
 				AC414B602C653A900019DC1B /* JsByte.swift */,
 				AC414B632C653A900019DC1B /* JsConsole.swift */,
-				AC414BA02C653C290019DC1B /* JsParseTransform.swift */,
+				AC414BA02C653C290019DC1B /* JsParseRule.swift */,
 				ACB699FF2CE3BDA500738F63 /* JsPassable.swift */,
 				AC04276F2D4ABC47006C7EFB /* JsPackage.swift */,
 				AC414B622C653A900019DC1B /* JSValue--Helper.swift */,
@@ -631,6 +633,7 @@
 				AC414B7D2C653AA20019DC1B /* SinglePatchTruss.swift */,
 				AC6778DB2C98D9B7002FE359 /* NamePackIso.swift */,
 				AC414B7B2C653AA20019DC1B /* SingleBankTruss.swift */,
+				AC7A6A2D2D91E6B2004523F7 /* SomeBankTruss.swift */,
 				AC414B7F2C653AA20019DC1B /* JSONPatchTruss.swift */,
 				AC414B812C653AA20019DC1B /* MultiPatchTruss.swift */,
 				AC414B7A2C653AA20019DC1B /* MultiBankTruss.swift */,
@@ -878,7 +881,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC414B792C653A900019DC1B /* BasicEditorTruss.swift in Sources */,
-				AC414BA12C653C290019DC1B /* JsParseTransform.swift in Sources */,
+				AC414BA12C653C290019DC1B /* JsParseRule.swift in Sources */,
+				AC7A6A2E2D91E6B2004523F7 /* SomeBankTruss.swift in Sources */,
 				AC414B952C653AAF0019DC1B /* PatchController.Builder.swift in Sources */,
 				AC414B662C653A900019DC1B /* MidiMessage.swift in Sources */,
 				ACE8CA532CE536F700A99902 /* PatchControllerEvent.swift in Sources */,

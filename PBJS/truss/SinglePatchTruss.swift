@@ -144,28 +144,5 @@ extension SinglePatchTruss: JsParsable {
 //      }
 //    }),
 //  ], "singlePatchTruss parseBody Functions")
-      
-  static func makeMidiPairs(_ fn: JSValue, _ bodyData: BodyData, _ editor: AnySynthEditor, _ vals: [Any?]) throws -> [(MidiMessage, Int)] {
-    // fn can be a JS function
-    // or it can be something that should be parsed as a createFile...
-    let mapVal = fn.isFn ? try fn.call(vals, exportOrigin: nil) : fn
-    return try mapVal!.map {
-      if let msg: MidiMessage = try? $0.x(0) {
-        return (msg, try $0.x(1))
-      }
-      else {
-        // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
-        // TODO: here is where some caching needs to happen. Perhaps that caching
-        // could be implemented in the JsParseTransformSet struct.
-        do {
-          let fn: Core.ToMidiFn = try $0.x(0)
-          return (.sysex(try fn.call(bodyData, editor).bytes()), try $0.x(1))
-        }
-        catch {
-          throw JSError.wrap("Error parsing SinglePatchTruss ToMidiFn:\n\($0.pbDebug())", error)
-        }
-      }
-    }
-  }
 
 }

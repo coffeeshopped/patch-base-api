@@ -14,7 +14,7 @@ extension SinglePatchTruss: JsBankParsable {
     ], {
       let patchTruss: Self = try $0.x("patchTruss")
       let patchCount: Int = try $0.x("patchCount")
-      let createFile = try $0.obj("createFile").xform(SingleBankTruss.toMidiRules)
+      let createFile = try $0.obj("createFile").xform(SingleBankTruss.bankToMidiRules)
       
       let parseBody = try SingleBankTruss.sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: patchTruss.parseBodyData, patchCount: patchCount)
 
@@ -28,7 +28,7 @@ extension SinglePatchTruss: JsBankParsable {
     ], {
       let patchTruss: Self = try $0.x("patchTruss")
       let patchCount: Int = try $0.x("patchCount")
-      let createFile = try $0.obj("createFile").xform(SingleBankTruss.toMidiRules)
+      let createFile = try $0.obj("createFile").xform(SingleBankTruss.bankToMidiRules)
       
       let parseBody = try SingleBankTruss.sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: patchTruss.parseBodyData, patchCount: patchCount)
 
@@ -75,24 +75,6 @@ extension SinglePatchTruss: JsBankParsable {
       return .init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: fileDataCount, defaultName: nil, createFileData: createFile, parseBodyData: parseBody)
     }),
   ]
-}
-
-extension SinglePatchTruss : JsBankToMidiParsable {
-  
-  static let bankToMidiRules: [JsParseRule<SomeBankTruss<Self>.Core.ToMidiFn>] = [
-    .d([
-      "locationMap" : ".f",
-    ], {
-      let locationMap = try $0.fn("locationMap")
-      let exportOrigin = $0.exportOrigin()
-      let fn: SomeBankTruss<Self>.Core.ToMidiFn =  SomeBankTruss<Self>.createFileDataWithLocationMap { bodyData, location in
-        let f: Core.ToMidiFn = try locationMap.call([location], exportOrigin: exportOrigin).x()
-        return try f.call(bodyData, nil).bytes()
-      }
-      return fn
-    }),
-  ]
-  
 }
 
 //extension SingleBankTruss {

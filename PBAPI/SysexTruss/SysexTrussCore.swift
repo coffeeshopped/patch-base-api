@@ -94,6 +94,7 @@ public struct SysexTrussCore<BodyData> {
     case b((_ b: BodyData) throws -> MidiBuilder)
     case e((_ e: AnySynthEditor?) throws -> MidiBuilder)
     case const([UInt8])
+    case msg(MidiMessage)
     case ident
     
     public func call(_ b: BodyData, _ e: AnySynthEditor?) throws -> MidiBuilder {
@@ -106,6 +107,8 @@ public struct SysexTrussCore<BodyData> {
         return try fn(e)
       case .const(let bytes):
         return .bytes(bytes)
+      case .msg(let msg):
+        return .msg(msg)
       case .ident:
         guard let b = b as? [UInt8] else {
           throw SysexTrussError.incorrectSysexType(msg: "ident should only be called on SinglePatchTruss")

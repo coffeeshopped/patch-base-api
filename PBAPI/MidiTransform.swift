@@ -35,7 +35,7 @@ public enum MidiTransform {
     public struct Whole {
       public let fn: (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData) throws -> [(MidiMessage, Int)]?
       
-      public init(_ fn: @escaping (_: AnySynthEditor, _: Truss.BodyData) throws -> [(MidiMessage, Int)]?) {
+      public init(_ fn: @escaping (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData) throws -> [(MidiMessage, Int)]?) {
         self.fn = fn
       }
     }
@@ -44,7 +44,7 @@ public enum MidiTransform {
     public struct Param {
       public let fn: (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ path: SynthPath, _ parm: Parm?, _ value: Int) throws -> [(MidiMessage, Int)]?
       
-      public init(_ fn: @escaping (_: AnySynthEditor, _: Truss.BodyData, _: SynthPath, _: Parm?, _: Int) throws -> [(MidiMessage, Int)]?) {
+      public init(_ fn: @escaping (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ path: SynthPath, _ parm: Parm?, _ value: Int) throws -> [(MidiMessage, Int)]?) {
         self.fn = fn
       }
     }
@@ -53,7 +53,7 @@ public enum MidiTransform {
     public struct Params {
       public let fn: (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ values: SynthPathTree<Int>) throws -> [(MidiMessage, Int)]?
       
-      public init(_ fn: @escaping (_: AnySynthEditor, _: Truss.BodyData, _: SynthPathTree<Int>) throws -> [(MidiMessage, Int)]?) {
+      public init(_ fn: @escaping (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ values: SynthPathTree<Int>) throws -> [(MidiMessage, Int)]?) {
         self.fn = fn
       }
     }
@@ -62,17 +62,28 @@ public enum MidiTransform {
     public struct Name {
       public let fn: (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ path: SynthPath, _ name: String) throws -> [(MidiMessage, Int)]?
       
-      public init(_ fn: @escaping (_: AnySynthEditor, _: Truss.BodyData, _: SynthPath, _: String) throws -> [(MidiMessage, Int)]?) {
+      public init(_ fn: @escaping (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ path: SynthPath, _ name: String) throws -> [(MidiMessage, Int)]?) {
         self.fn = fn
       }
     }
 
     /// Transforms bodyData to a series of MidiMessages / send intervals representing a patch within a bank (in memory). editor provided for possible extra data needed
-    public typealias BankPatch = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ location: Int) throws -> [(MidiMessage, Int)]?
+    public struct BankPatch {
+      public let fn: (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ location: Int) throws -> [(MidiMessage, Int)]?
+      
+      public init(_ fn: @escaping (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ location: Int) throws -> [(MidiMessage, Int)]?) {
+        self.fn = fn
+      }
+    }
 
-    public typealias WholeBank = (_ editor: AnySynthEditor, _ bodyData: [Truss.BodyData]) throws -> [(MidiMessage, Int)]?
+    public struct WholeBank {
+      public let fn: (_ editor: AnySynthEditor, _ bodyData: [Truss.BodyData]) throws -> [(MidiMessage, Int)]?
+      
+      public init(_ fn: @escaping (_ editor: AnySynthEditor, _ bodyData: [Truss.BodyData]) throws -> [(MidiMessage, Int)]?) {
+        self.fn = fn
+      }
+    }
 
-    
   }
   
 }
