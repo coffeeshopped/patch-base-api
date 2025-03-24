@@ -32,16 +32,40 @@ public enum MidiTransform {
     case wholeBank(WholeBank)
             
     /// Transforms bodyData to a series of MidiMessages / send intervals representing an entire patch. editor provided for possible extra data needed
-    public typealias Whole = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData) throws -> [(MidiMessage, Int)]?
+    public struct Whole {
+      public let fn: (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData) throws -> [(MidiMessage, Int)]?
+      
+      public init(_ fn: @escaping (_: AnySynthEditor, _: Truss.BodyData) throws -> [(MidiMessage, Int)]?) {
+        self.fn = fn
+      }
+    }
 
     /// Transforms bodyData to a series of MidiMessages / send intervals representing a single parameter change. editor provided for possible extra data needed
-    public typealias Param = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ path: SynthPath, _ parm: Parm?, _ value: Int) throws -> [(MidiMessage, Int)]?
+    public struct Param {
+      public let fn: (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ path: SynthPath, _ parm: Parm?, _ value: Int) throws -> [(MidiMessage, Int)]?
+      
+      public init(_ fn: @escaping (_: AnySynthEditor, _: Truss.BodyData, _: SynthPath, _: Parm?, _: Int) throws -> [(MidiMessage, Int)]?) {
+        self.fn = fn
+      }
+    }
 
     /// Transforms bodyData to a series of MidiMessages / send intervals representing multiple parameter changes. editor provided for possible extra data needed.
-    public typealias Params = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ values: SynthPathTree<Int>) throws -> [(MidiMessage, Int)]?
+    public struct Params {
+      public let fn: (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ values: SynthPathTree<Int>) throws -> [(MidiMessage, Int)]?
+      
+      public init(_ fn: @escaping (_: AnySynthEditor, _: Truss.BodyData, _: SynthPathTree<Int>) throws -> [(MidiMessage, Int)]?) {
+        self.fn = fn
+      }
+    }
 
     /// Transforms bodyData to a series of MidiMessages / send intervals representing a patch name change. editor provided for possible extra data needed
-    public typealias Name = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ path: SynthPath, _ name: String) throws -> [(MidiMessage, Int)]?
+    public struct Name {
+      public let fn: (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ path: SynthPath, _ name: String) throws -> [(MidiMessage, Int)]?
+      
+      public init(_ fn: @escaping (_: AnySynthEditor, _: Truss.BodyData, _: SynthPath, _: String) throws -> [(MidiMessage, Int)]?) {
+        self.fn = fn
+      }
+    }
 
     /// Transforms bodyData to a series of MidiMessages / send intervals representing a patch within a bank (in memory). editor provided for possible extra data needed
     public typealias BankPatch = (_ editor: AnySynthEditor, _ bodyData: Truss.BodyData, _ location: Int) throws -> [(MidiMessage, Int)]?

@@ -151,7 +151,7 @@ extension SinglePatchTruss: JsParsable {
     let mapVal = fn.isFn ? try fn.call(vals, exportOrigin: nil) : fn
     return try mapVal!.map {
       if let msg: MidiMessage = try? $0.x(0) {
-        return (msg, try $0.any(1).x())
+        return (msg, try $0.x(1))
       }
       else {
         // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
