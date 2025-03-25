@@ -19,6 +19,20 @@ public struct SinglePatchTruss : PatchTruss {
   public let pack: PackFn //= defaultPack
   private let _randomize: RandomizeFn
 
+  public indirect enum Error : LocalizedError {
+    case msg(String)
+    case wrap(String, Swift.Error)
+    
+    public var errorDescription: String? {
+      switch self {
+      case .msg(let s):
+        return s
+      case .wrap(let s, let e):
+        return "\(s): \(e.localizedDescription)"
+      }
+    }
+  }
+  
   public init(_ core: Core, bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) {
 
     self.bodyDataCount = bodyDataCount
@@ -89,13 +103,18 @@ public struct SinglePatchTruss : PatchTruss {
     [UInt8](repeating: 0, count: bodyDataCount)
   }
   
-  public func getValue(_ bodyData: BodyData, path: SynthPath) -> Int? {
+  public func getValue(_ bodyData: BodyData, path: SynthPath) throws -> Int? {
     guard let param = params[path] else { return nil }
     if let unpack = param.packIso?.unpack {
       return unpack(bodyData)
     }
     else {
-      return try! unpack(bodyData, param)
+      do {
+        return try unpack(bodyData, param)
+      }
+      catch {
+        throw Error.wrap("Error in Truss (\(displayId) getValue (path: \(path.str()))", error)
+      }
     }
   }
   
@@ -110,10 +129,10 @@ public struct SinglePatchTruss : PatchTruss {
     }
   }
     
-  public func allValues(_ bodyData: BodyData) -> SynthPathInts {
+  public func allValues(_ bodyData: BodyData) throws -> SynthPathInts {
     var v = SynthPathInts()
-    params.keys.forEach {
-      guard let value = getValue(bodyData, path: $0) else { return }
+    try params.keys.forEach {
+      guard let value = try getValue(bodyData, path: $0) else { return }
       v[$0] = value
     }
     return v
@@ -123,8 +142,11 @@ public struct SinglePatchTruss : PatchTruss {
     bodyData[param.b!] = defaultPackedByte(value: value, forParam: param, byte: bodyData[param.b!])
   }
 
-  public static func defaultUnpack(bodyData: BodyData, param: Parm) -> Int? {
-    defaultUnpackedByte(byte: param.b!, bits: param.bits, bytes: bodyData)
+  public static func defaultUnpack(bodyData: BodyData, param: Parm) throws -> Int? {
+    guard let b = param.b else {
+      throw Error.msg("default Unpack method used for Param without a 'b' value (required)")
+    }
+    return defaultUnpackedByte(byte: b, bits: param.bits, bytes: bodyData)
   }
 
   public static func defaultUnpackedByte(byte: Int, bits: ClosedRange<Int>?, bytes: [UInt8]) -> Int? {
@@ -181,25 +203,25 @@ public struct SinglePatchTruss : PatchTruss {
 public extension SinglePatchTruss {
   
   /// Take some bodyDataA based on trussA, and parse out the name/params then merge them into bodyDataB based on trussB
-  static func transform(_ bodyDataA: BodyData, withTruss trussA: Self, into bodyDataB: inout BodyData, using trussB: Self) {
+  static func transform(_ bodyDataA: BodyData, withTruss trussA: Self, into bodyDataB: inout BodyData, using trussB: Self) throws {
     if let name = trussA.getName(bodyDataA) {
       trussB.setName(&bodyDataB, name)
     }
     
-    trussA.params.keys.forEach {
-      guard let v = trussA.getValue(bodyDataA, path: $0) else { return }
+    try trussA.params.keys.forEach {
+      guard let v = try trussA.getValue(bodyDataA, path: $0) else { return }
       trussB.setValue(&bodyDataB, path: $0, v)
     }
   }
 
-  func transform(_ bodyDataA: BodyData, into bodyDataB: inout BodyData, using trussB: Self) {
-    Self.transform(bodyDataA, withTruss: self, into: &bodyDataB, using: trussB)
+  func transform(_ bodyDataA: BodyData, into bodyDataB: inout BodyData, using trussB: Self) throws {
+    try Self.transform(bodyDataA, withTruss: self, into: &bodyDataB, using: trussB)
   }
 
   /// Take bodyData based on some other truss and return bodyData with this Truss' length (bodyDataCount) and data transformed to it
-  func parse(otherData: BodyData, otherTruss: Self) -> BodyData {
+  func parse(otherData: BodyData, otherTruss: Self) throws -> BodyData {
     var bodyData = [UInt8](repeating: 0, count: bodyDataCount)
-    otherTruss.transform(otherData, into: &bodyData, using: self)
+    try otherTruss.transform(otherData, into: &bodyData, using: self)
     return bodyData
   }
 

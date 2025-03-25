@@ -52,8 +52,8 @@ extension SinglePatchTruss: JsBankParsable {
 
       let singleCreateFile: SinglePatchTruss.Core.ToMidiFn = try $0.x("createFile")
       let createFile: SingleBankTruss.Core.ToMidiFn = .fn({ bodyData, e in
-        var patchData: [UInt8] = bodyData.flatMap {
-          compactTruss.parse(otherData: $0, otherTruss: patchTruss)
+        var patchData: [UInt8] = try bodyData.flatMap {
+          try compactTruss.parse(otherData: $0, otherTruss: patchTruss)
         }
         let remaining = paddedPatchCount - patchCount
         patchData += [UInt8](repeating: 0, count: remaining * compactByteCount)
@@ -64,8 +64,8 @@ extension SinglePatchTruss: JsBankParsable {
       let offset: Int = try $0.x("parseBody")
       let parseBody: SomeBankTruss<Self>.Core.ParseBodyDataFn = {
         let compactData = SomeBankTruss<Self>.compactData(fileData: $0, offset: offset, patchByteCount: compactByteCount)
-        let bodyData = compactData.map {
-          patchTruss.parse(otherData: $0, otherTruss: compactTruss)
+        let bodyData = try compactData.map {
+          try patchTruss.parse(otherData: $0, otherTruss: compactTruss)
         }
         
         // TX81Z (maybe others?) have patchCount lower than the number of compactChunks that maybe be present in the passed in data, hence the line below

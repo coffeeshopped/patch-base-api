@@ -31,14 +31,6 @@ extension SynthPathItem: JsParsable {
     return i
   }
   
-  func scriptItem() -> AnyHashable {
-    switch self {
-    case .i(let i):
-      return i
-    default:
-      return "\(self)"
-    }
-  }
 }
 
 extension SynthPath : JsParsable {
@@ -76,7 +68,6 @@ extension SynthPath : JsParsable {
 
 extension SynthPath : JsPassable {
   func toJS() -> AnyHashable { str() }
-  func str() -> String { map { "\($0.scriptItem())" }.joined(separator: "/") }
 }
 
 enum JsSynthPath {

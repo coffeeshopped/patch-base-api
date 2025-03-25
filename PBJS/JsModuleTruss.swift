@@ -167,7 +167,7 @@ public struct JsModuleTruss {
     
     switch t {
     case let single as SinglePatchTruss:
-      return single.getValue(try bodyData.x(), path: p)
+      return try single.getValue(try bodyData.x(), path: p)
     default:
       throw JSError.error(msg: "Unknown truss type passed to trussValue.")
     }

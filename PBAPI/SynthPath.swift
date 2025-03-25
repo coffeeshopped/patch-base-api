@@ -7,7 +7,6 @@ public struct SynthPath : ExpressibleByArrayLiteral {
   public init(arrayLiteral elements: SynthPathItem...) {
     self.arr = elements
   }
-
   
   private var arr: [SynthPathItem]
   
@@ -21,6 +20,8 @@ public struct SynthPath : ExpressibleByArrayLiteral {
   
   public var count: Int { arr.count }
   
+  public func str() -> String { map { "\($0.scriptItem())" }.joined(separator: "/") }
+
   public subscript(_ index: Int) -> SynthPathItem {
     arr[index]
   }
@@ -225,6 +226,16 @@ public enum SynthPathItem: Hashable, Codable, Equatable {
     }
     try container.encode(s)
   }
+  
+  public func scriptItem() -> AnyHashable {
+    switch self {
+    case .i(let i):
+      return i
+    default:
+      return "\(self)"
+    }
+  }
+
   
   
   case i(Int)

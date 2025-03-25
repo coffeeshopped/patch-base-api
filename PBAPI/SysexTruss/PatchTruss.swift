@@ -9,9 +9,9 @@ public protocol PatchTruss : SysexTruss {
   
   func randomize() -> SynthPathInts
     
-  func getValue(_ bodyData: BodyData, path: SynthPath) -> Int?
+  func getValue(_ bodyData: BodyData, path: SynthPath) throws -> Int?
   func setValue(_ bodyData: inout BodyData, path: SynthPath, _ value: Int)
-  func allValues(_ bodyData: BodyData) -> SynthPathInts
+  func allValues(_ bodyData: BodyData) throws -> SynthPathInts
 
   func getName(_ bodyData: BodyData) -> String?
   func setName(_ bodyData: inout BodyData, _ value: String)

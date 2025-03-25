@@ -5,7 +5,7 @@ public protocol AnySysexPatch : AnySysexible {
   subscript(path: SynthPath) -> Int? { get set }
 
   func values(_ paths: [SynthPath]) -> SynthPathInts
-  func allValues() -> SynthPathInts
+  func allValues() throws -> SynthPathInts
   
   mutating func randomize()
 

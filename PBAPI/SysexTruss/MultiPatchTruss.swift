@@ -119,13 +119,13 @@ public struct MultiPatchTruss : PatchTruss {
     return bodyData
   }
   
-  public func getValue(_ bodyData: BodyData, path: SynthPath) -> Int? {
+  public func getValue(_ bodyData: BodyData, path: SynthPath) throws -> Int? {
     for (subpath, patchTruss) in trussMap {
       guard path.starts(with: subpath) else { continue }
       
       let paramPath = path.subpath(from: subpath.count)
       guard let data = bodyData[subpath] else { return nil }
-      return patchTruss.getValue(data, path: paramPath)
+      return try patchTruss.getValue(data, path: paramPath)
     }
     return nil
   }
@@ -141,11 +141,11 @@ public struct MultiPatchTruss : PatchTruss {
     }
   }
   
-  public func allValues(_ bodyData: BodyData) -> SynthPathInts {
+  public func allValues(_ bodyData: BodyData) throws -> SynthPathInts {
     var v = SynthPathInts()
-    trussMap.forEach {
+    try trussMap.forEach {
       guard let data = bodyData[$0.0] else { return }
-      v.merge(new: $0.1.allValues(data).prefixed($0.0))
+      try v.merge(new: $0.1.allValues(data).prefixed($0.0))
     }
     return v
   }

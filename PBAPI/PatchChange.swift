@@ -25,7 +25,7 @@ public enum PatchChange : Change {
     return .paramsChange(dict)
   }
   
-  public func filtered(forPrefix prefix: SynthPath?) -> PatchChange {
+  public func filtered(forPrefix prefix: SynthPath?) throws -> PatchChange {
     switch self {
     case .nameChange(let path, let name):
       guard let prefix = prefix else { return self }
@@ -36,8 +36,8 @@ public enum PatchChange : Change {
       return .paramsChange(params.filtered(forPrefix: prefix))
     case let .replace(patch):
       // TODO: what about names? maybe return should be [PatchChange]
-      guard let prefix = prefix else { return .paramsChange(patch.allValues()) }
-      return .paramsChange(patch.allValues().filtered(forPrefix: prefix))
+      guard let prefix = prefix else { return .paramsChange(try patch.allValues()) }
+      return try .paramsChange(patch.allValues().filtered(forPrefix: prefix))
     default:
       return self
     }
@@ -54,7 +54,7 @@ public enum PatchChange : Change {
     }
   }
   
-  public func prefixed(_ prefix: SynthPath?) -> PatchChange {
+  public func prefixed(_ prefix: SynthPath?) throws -> PatchChange {
     switch self {
     case .nameChange(let path, let name):
       guard let prefix = prefix else { return self }
@@ -64,8 +64,8 @@ public enum PatchChange : Change {
       return .paramsChange(params.prefixed(prefix))
     case let .replace(patch):
       // TODO: what about names? maybe return should be [PatchChange]
-      guard let prefix = prefix else { return .paramsChange(patch.allValues()) }
-      return .paramsChange(patch.allValues().prefixed(prefix))
+      guard let prefix = prefix else { return .paramsChange(try patch.allValues()) }
+      return .paramsChange(try patch.allValues().prefixed(prefix))
     default:
       return self
     }

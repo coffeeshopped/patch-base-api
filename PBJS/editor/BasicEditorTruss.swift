@@ -29,6 +29,7 @@ extension BasicEditorTruss: JsParsable {
       "midiOuts" : ".a",
       "midiChannels" : ".a",
       "slotTransforms" : ".a?",
+      "extraParamOuts" : ".a?",
     ], {
       let ppr = pathPairRule(JsSysex.trussRules)
       let trussMap = try $0.arr("trussMap").map { try ppr.transform($0) }
@@ -36,6 +37,7 @@ extension BasicEditorTruss: JsParsable {
       t.fetchTransforms = try $0.arr("fetchTransforms").x()
       t.midiOuts = try $0.x("midiOuts")
       t.midiChannels = try $0.x("midiChannels")
+      t.extraParamOuts = try $0.xq("extraParamOuts") ?? []
       
       t.slotTransforms = [:]
       if let x = try? $0.any("slotTransforms") {
