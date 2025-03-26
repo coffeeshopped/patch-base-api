@@ -18,7 +18,12 @@ extension ParamOutTransform.Transform : JsParsable {
       let fn = try $0.fn(2)
       let exportOrigin = fn.exportOrigin()
       return try .patchOut($0.x(1)) { change, patch in
-        try fn.call([change, patch], exportOrigin: exportOrigin).x()
+        do {
+          return try fn.call([change, patch], exportOrigin: exportOrigin).x()
+        }
+        catch {
+          throw JSError.wrap("in 'patchOut' JS function", error)
+        }
       }
     }),
   ]

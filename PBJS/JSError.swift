@@ -41,7 +41,8 @@ public indirect enum JSError : LocalizedError {
     case .error(let msg):
       return msg
     case .wrap(let msg, let err):
-      return "\(msg):\n\(err.localizedDescription)"
+      return msg
+//      return "\(msg):\n\(err.localizedDescription)"
     case .noParseRule(let parseRuleSetName, let value, _):
       let debugString = value.pbDebug(0, depth: 1)
       return "\(parseRuleSetName): no parse rule found for JS Value:\n\(debugString)"
@@ -69,15 +70,12 @@ public indirect enum JSError : LocalizedError {
   
   public var innermostOrigin: String? {
     switch self {
-    case .error, .wrap:
+    case .error:
       return nil
+    case .wrap(_, let error):
+      return (error as? Self)?.innermostOrigin
     case .transformFailure(_, _, let value, let err):
-      if let err = err as? JSError {
-        return err.innermostOrigin ?? value.exportOrigin()
-      }
-      else {
-        return value.exportOrigin()
-      }
+      return (err as? Self)?.innermostOrigin ?? value.exportOrigin()
     case .fnException(_, _, let exportOrigin):
       return exportOrigin
     case .noParseRule(_, let value, let exportOrigin):
