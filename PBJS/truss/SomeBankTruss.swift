@@ -18,7 +18,7 @@ extension SomeBankTruss {
         let exportOrigin = $0.exportOrigin()
         let fn: Core.ToMidiFn =  createFileDataWithLocationMap { bodyData, location in
           let f: PT.Core.ToMidiFn = try locationMap.call([location], exportOrigin: exportOrigin).x()
-          return try f.call(bodyData, nil).bytes()
+          return try f.call(bodyData, nil)
         }
         return fn
       }),

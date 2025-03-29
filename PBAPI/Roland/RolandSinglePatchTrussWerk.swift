@@ -30,7 +30,7 @@ public struct RolandSinglePatchTrussWerk : RolandPatchTrussWerk {
 
 //     valid sizes should be based on both passed in size as well as the default createFileData
     return try SinglePatchTruss(displayId, bodyDataCount, namePackIso: name, params: parms, initFile: initFile, defaultName: defaultName, createFileData: .fn({
-      .arr(try sysexDataFn($0, $1, start))
+      try sysexDataFn($0, $1, start)
     }), parseBodyData: parseBodyData, validSizes: [werk.sysexMsgCount(size: size)], includeFileDataCount: true, pack: Self.defaultPack, unpack: Self.defaultUnpack, randomize: randomize)
   }
   
@@ -38,9 +38,10 @@ public struct RolandSinglePatchTrussWerk : RolandPatchTrussWerk {
     try truss(werk, start: start)
   }
   
+  public static let deviceId: EditorValueTransform = .value([.deviceId], [.deviceId], defaultValue: RolandDefaultDeviceId)
   public static func sysexData(_ werk: RolandSysexTrussWerk) -> SysexDataFn {
     { b, e, address in
-      let deviceId = try e?.byteValue(.value([.deviceId], [.deviceId], defaultValue: RolandDefaultDeviceId)) ?? UInt8(RolandDefaultDeviceId)
+      let deviceId = try deviceId.byteValue(e)
       return [.sysex(werk.sysexMsg(deviceId: deviceId, address: address, bytes: b))]
     }
   }

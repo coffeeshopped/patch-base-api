@@ -31,141 +31,53 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
     .a(["+"], { v in
       let fns: [Self] = try (1..<v.arrCount()).map { try v.x($0) }
       return .fn { b, e in
-        try .bytes(fns.flatMap { try $0.call(b, e).bytes() })
+        try fns.flatMap { try $0.call(b, e) }
       }
     }),
     .a([">"], { v in
       // treat as an array of functions, with the output of each function being fed as input to the next function (chaining).
-      let fns: [Self] = try (1..<v.arrCount()).map { try v.x($0) }
+      let fns: [ByteTransform] = try (1..<v.arrCount()).map { try v.x($0) }
       return .fn { b, e in
-          .bytes(try fns.reduce(b) { partialResult, fn in try fn.call(partialResult, e).bytes() })
+        try [.sysex(fns.reduce(b) { partialResult, fn in try fn.call(partialResult, e) })]
       }
-    }),
-    .a(["e.values", ".p", ".a", ".f"], {
-      let editorPath: SynthPath = try $0.x(1)
-      let paths: [SynthPath] = try $0.x(2)
-      let fn = try $0.fn(3)
-      let evts: [EditorValueTransform] = paths.map { .value(editorPath, $0, defaultValue: 0) }
-      let exportOrigin = $0.exportOrigin()
-      return .fn { bodyData, e in
-        .bytes(try evts.map {
-          let v = try e?.intValue($0) ?? 0
-          return try fn.call([v], exportOrigin: exportOrigin).x()
-        })
-      }
-    }),
-    .a(["byte", ".n"], {
-      let byte: Int = try $0.x(1)
-      return .b { b in
-        guard byte < b.count else {
-          throw JSError.error(msg: "byte: index (\(byte)) must be less than data length (\(b.count)")
-        }
-        return .bytes([b[byte]])
-      }
-    }),
-    .a(["bits", ".a"], {
-      let bitRange: ClosedRange<Int> = try $0.x(1)
-      // second arg is optional, defaults to "b"
-      let bodyData: Self? = try $0.xq(2)
-      return .fn { b, e in
-        let bytes = try bodyData?.call(b ,e).bytes() ?? b
-        return .bytes([UInt8((bytes.first ?? 0).bits(bitRange))])
-      }
-    }),
-    .a(["msBytes7bit", ".n", ".n"], {
-      let value: Int = try $0.x(1)
-      let byteCount: Int = try $0.x(2)
-      return .const(value.bytes7bit(count: byteCount))
-    }),
-    .a(["enc", ".s"], {
-      .const((try $0.x(1) as String).sysexBytes())
     }),
     .a(["yamCmd", ".x"], {
-      let cmdBytes: Self = try $0.x(1)
+      let cmdBytes: ByteTransform = try $0.x(1)
       // second arg is optional, defaults to "b"
-      let bodyData: Self? = try $0.xq(2)
-      return .fn { b, e in try .msg(.sysex(Yamaha.sysexData(cmdBytesWithChannel: cmdBytes.call(b, e).bytes(), bodyBytes: bodyData?.call(b ,e).bytes() ?? b))) }
+      let bodyData: ByteTransform = try $0.xq(2) ?? .ident
+      return .fn { b, e in
+        try [.sysex(Yamaha.sysexData(cmdBytesWithChannel: cmdBytes.call(b, e), bodyBytes: bodyData.call(b ,e)))]
+      }
     }),
     .a(["yamFetch", ".x"], {
-      let chan: Self = try $0.x(1)
+      let chan: ByteTransform = try $0.x(1)
       // second arg is optional, defaults to "b"
-      let cmdBytes: Self? = try $0.xq(2)
+      let cmdBytes: ByteTransform = try $0.xq(2) ?? .ident
       return .fn { b, e in
-        try .msg(.sysex(Yamaha.fetchRequestBytes(channel: Int(chan.call(b, e).bytes().first ?? 0), cmdBytes: cmdBytes?.call(b ,e).bytes() ?? b)))
+        try [.sysex(Yamaha.fetchRequestBytes(channel: Int(chan.call(b, e).first ?? 0), cmdBytes: cmdBytes.call(b ,e)))]
       }
     }),
     .a(["yamParm", ".x"], {
-      let chan: Self = try $0.x(1)
+      let chan: ByteTransform = try $0.x(1)
       // second arg is optional, defaults to "b"
-      let cmdBytes: Self? = try $0.xq(2)
+      let cmdBytes: ByteTransform = try $0.xq(2) ?? .ident
       return .fn { b, e in
-        try .msg(.sysex(Yamaha.paramData(channel: Int(chan.call(b, e).bytes().first ?? 0), cmdBytes: cmdBytes?.call(b ,e).bytes() ?? b)))
+        try [.sysex(Yamaha.paramData(channel: Int(chan.call(b, e).first ?? 0), cmdBytes: cmdBytes.call(b ,e)))]
       }
     }),
-    .s("count", { _ in
-      .b { b in .bytes([UInt8(b.count)]) }
-    }),
-    .a(["count", ".x", ".s", ".n"], {
-      let bytes: Self = try $0.x(1)
-      let encoding: String = try $0.x(2)
-      let byteCount: Int = try $0.x(3)
+
+    .s(".a", {
+      // assume it's a byte transform
+      let bt: ByteTransform = try $0.x()
       return .fn { b, e in
-        let arr = try bytes.call(b, e).count.bytes7bit(count: byteCount)
-        return .bytes(arr)
+        try [.sysex(bt.call(b, e))]
       }
-    }),
-    .s("b", { _ in .ident }), // returns itself
-    .s(".n", { .const([try $0.x()]) }), // number: return it as a byte array
-    .s(".s", {
-      // if string, first see if it's an editorValueTransform
-      if let fn = tryAsEditorValueTransform($0) {
-        return fn
-      }
-
-      // string: treat as singleArg fn
-      let fnKey: String = try $0.x()
-      guard let fn = singleArgCreateFileFnRules[fnKey] else {
-        throw JSError.error(msg: "Unknown singleArgCreateFileFn: \(fnKey)")
-      }
-      
-      guard let arg = try? $0.any(1) else {
-        return .b({ .bytes(fn($0)) })
-      }
-      let bb: Self = try arg.x()
-      return .fn { b, e in .bytes(fn(try bb.call(b, e).bytes())) }
-    }),
-    .s(".a", { v in
-      // if array, first see if it's an editorValueTransform
-      if let fn = tryAsEditorValueTransform(v) {
-        return fn
-      }
-
-      // otherwise, treat as an implicit "+" -- NO MORE
-      // now return a fn that returns an array of midimessages
-      let fns: [Self] = try v.map { try $0.x() }
-      return .fn { b, e in .arr(try fns.flatMap { try $0.call(b, e).midi() }) }
     }),
     .s(".f", { fn in
       let exportOrigin = fn.exportOrigin()
-      return .fn { b, e in .bytes(try fn.call([b], exportOrigin: exportOrigin).x()) }
+      return .b { b in try fn.call([b], exportOrigin: exportOrigin).x() }
     }),
   ]
- 
-  static let singleArgCreateFileFnRules: [String:(BodyData) -> BodyData] = [
-    "nibblizeLSB": {
-      $0.flatMap { [UInt8($0.bits(0...3)), UInt8($0.bits(4...7))] }
-    },
-    "checksum": {
-      [UInt8($0.map{ Int($0) }.reduce(0, +) & 0x7f)]
-    },
-  ]
-  
-  static func tryAsEditorValueTransform(_ value: JSValue) -> Self? {
-    guard let evt: EditorValueTransform = try? value.x() else {
-      return nil
-    }
-    return .e { .bytes([try $0?.byteValue(evt) ?? 0]) }
-  }
-
+   
 }
 

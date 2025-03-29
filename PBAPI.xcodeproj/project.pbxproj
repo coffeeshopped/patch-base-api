@@ -182,6 +182,8 @@
 		ACE0BB7C2C6EAAC00099F3D9 /* PBErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB7B2C6EAAC00099F3D9 /* PBErrorHandler.swift */; };
 		ACE0BB7E2C6EAB450099F3D9 /* PBLogHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB7D2C6EAB450099F3D9 /* PBLogHandler.swift */; };
 		ACE8CA532CE536F700A99902 /* PatchControllerEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE8CA522CE536F700A99902 /* PatchControllerEvent.swift */; };
+		ACF20BCF2D9885CF00528F1A /* ByteTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF20BCE2D9885CF00528F1A /* ByteTransform.swift */; };
+		ACF20BD12D98866100528F1A /* ByteTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF20BD02D98866100528F1A /* ByteTransform.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -386,6 +388,8 @@
 		ACE0BB7B2C6EAAC00099F3D9 /* PBErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBErrorHandler.swift; sourceTree = "<group>"; };
 		ACE0BB7D2C6EAB450099F3D9 /* PBLogHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBLogHandler.swift; sourceTree = "<group>"; };
 		ACE8CA522CE536F700A99902 /* PatchControllerEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchControllerEvent.swift; sourceTree = "<group>"; };
+		ACF20BCE2D9885CF00528F1A /* ByteTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteTransform.swift; sourceTree = "<group>"; };
+		ACF20BD02D98866100528F1A /* ByteTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteTransform.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -641,6 +645,7 @@
 				AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */,
 				AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */,
 				AC6FBC3D2CC94299001B43C5 /* ValidBundle.swift */,
+				ACF20BD02D98866100528F1A /* ByteTransform.swift */,
 			);
 			path = truss;
 			sourceTree = "<group>";
@@ -688,6 +693,7 @@
 				AC414A922C6535760019DC1B /* BankTruss.swift */,
 				AC414A952C6535760019DC1B /* MultiSysexTruss.swift */,
 				AC414AA22C6535820019DC1B /* SysexTrussCore.swift */,
+				ACF20BCE2D9885CF00528F1A /* ByteTransform.swift */,
 				AC5618422CC8277D00D1B55F /* ValidBundle.swift */,
 				AC414AA02C6535820019DC1B /* SinglePatchTruss.swift */,
 				AC414A9D2C6535820019DC1B /* MultiPatchTruss.swift */,
@@ -942,6 +948,7 @@
 				AC414B6B2C653A900019DC1B /* RxMidi.FetchCommand.swift in Sources */,
 				AC414B762C653A900019DC1B /* JSValue--Helper.swift in Sources */,
 				AC6778D52C98B257002FE359 /* RolandEditorTrussWerk.MapItem.swift in Sources */,
+				ACF20BD12D98866100528F1A /* ByteTransform.swift in Sources */,
 				AC414B6C2C653A900019DC1B /* JSError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1028,6 +1035,7 @@
 				AC414ADA2C6535B10019DC1B /* AnySynthModule.swift in Sources */,
 				AC414AC62C65359D0019DC1B /* ModuleCommandEffect.swift in Sources */,
 				AC1B9E482CA731D7000C777F /* RolandOffsetAddressIso.swift in Sources */,
+				ACF20BCF2D9885CF00528F1A /* ByteTransform.swift in Sources */,
 				AC414AA52C6535830019DC1B /* FullRefTruss.swift in Sources */,
 				AC414AD92C6535B10019DC1B /* Manufacturer.swift in Sources */,
 				ACE0BB7C2C6EAAC00099F3D9 /* PBErrorHandler.swift in Sources */,

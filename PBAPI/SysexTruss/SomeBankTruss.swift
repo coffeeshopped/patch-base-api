@@ -124,10 +124,12 @@ public extension SomeBankTruss {
   }
 
   static func createFileDataWithLocationMap(_ fn: @escaping (PT.BodyData, Int) -> [UInt8]) -> Core.ToMidiFn {
-    .fn({ b, e in .arr(b.enumerated().map { .sysex(fn($0.element, $0.offset)) }) })
+    .b({ b in b.enumerated().map { .sysex(fn($0.element, $0.offset)) } })
   }
 
-  static func createFileDataWithLocationMap(_ fn: @escaping (PT.BodyData, Int) throws -> [UInt8]) -> Core.ToMidiFn {
-    .fn({ b, e in .arr(try b.enumerated().map { .sysex(try fn($0.element, $0.offset)) }) })
+  static func createFileDataWithLocationMap(_ fn: @escaping (PT.BodyData, Int) throws -> [MidiMessage]) -> Core.ToMidiFn {
+    .b({ b in
+      try b.enumerated().flatMap { try fn($0.element, $0.offset) }
+    })
   }
 }

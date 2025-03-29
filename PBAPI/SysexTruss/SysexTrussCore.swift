@@ -48,56 +48,17 @@ public func optimizedCompose<BodyData>(_ fns: [SysexTrussCore<BodyData>.ToMidiFn
   return optimizedCompose(optFns)
 }
 
-public enum MidiBuilder {
-  case msg(MidiMessage)
-  case bytes([UInt8])
-  case arr([MidiMessage])
-  
-  public func bytes() -> [UInt8] {
-    switch self {
-    case .msg(let msg):
-      return msg.bytes()
-    case .bytes(let b):
-      return b
-    case .arr(let arr):
-      return arr.flatMap { $0.bytes() }
-    }
-  }
-  
-  public func midi() -> [MidiMessage] {
-    switch self {
-    case .msg(let msg):
-      return [msg]
-    case .bytes(let b): // TODO: maybe should throw here.
-      return [.sysex(b)]
-    case .arr(let arr):
-      return arr
-    }
-  }
-  
-  public var count: Int {
-    switch self {
-    case .msg(let msg):
-      return msg.count
-    case .bytes(let b):
-      return b.count
-    case .arr(let arr):
-      return arr.reduce(0, { $0 + $1.count })
-    }
-  }
-}
-
 public struct SysexTrussCore<BodyData> {
   
   public enum ToMidiFn {
-    case fn((_ b: BodyData, _ e: AnySynthEditor?) throws -> MidiBuilder)
-    case b((_ b: BodyData) throws -> MidiBuilder)
-    case e((_ e: AnySynthEditor?) throws -> MidiBuilder)
-    case const([UInt8])
-    case msg(MidiMessage)
+    case fn((_ b: BodyData, _ e: AnySynthEditor?) throws -> [MidiMessage])
+    case b((_ b: BodyData) throws -> [MidiMessage])
+    case e((_ e: AnySynthEditor?) throws -> [MidiMessage])
+//    case const([UInt8])
+    case msg([MidiMessage])
     case ident
     
-    public func call(_ b: BodyData, _ e: AnySynthEditor?) throws -> MidiBuilder {
+    public func call(_ b: BodyData, _ e: AnySynthEditor?) throws -> [MidiMessage] {
       switch self {
       case .fn(let fn):
         return try fn(b, e)
@@ -105,23 +66,23 @@ public struct SysexTrussCore<BodyData> {
         return try fn(b)
       case .e(let fn):
         return try fn(e)
-      case .const(let bytes):
-        return .bytes(bytes)
+//      case .const(let bytes):
+//        return .bytes(bytes)
       case .msg(let msg):
-        return .msg(msg)
+        return msg
       case .ident:
         guard let b = b as? [UInt8] else {
           throw SysexTrussError.incorrectSysexType(msg: "ident should only be called on SinglePatchTruss")
         }
-        return .bytes(b)
+        return [.sysex(b)]
       }
     }
     
     // if possible, return an optimized fn for the concatenation of these 2 fns
     public func optConcat(_ other: ToMidiFn) -> ToMidiFn? {
-      guard case .const(let myBytes) = self else { return nil }
-      guard case .const(let otherBytes) = other else { return nil }
-      return .const(myBytes + otherBytes)
+      guard case .msg(let myBytes) = self else { return nil }
+      guard case .msg(let otherBytes) = other else { return nil }
+      return .msg(myBytes + otherBytes)
     }
     
     // if possible, return an optimized composition of these 2 fns

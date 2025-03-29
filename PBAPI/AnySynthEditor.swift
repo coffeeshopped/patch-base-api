@@ -5,20 +5,24 @@ public protocol AnySynthEditor {
   func patch(forPath path: SynthPath) -> AnySysexPatch?
   func value(_ transform: EditorValueTransform?) -> Any?
 
+  func parameter(_ patchPath: SynthPath, _ paramPath: SynthPath) -> Int?
+  func basicChannel() -> Int
+  func getExtra(patch: SynthPath, param: SynthPath) -> Int?
+
 }
 
 public extension AnySynthEditor {
   
-  func intValue(_ transform: EditorValueTransform?) throws -> Int {
-    guard let v = value(transform) as? Int else {
-      throw SysexTrussError.incorrectSysexType(msg: "Bad transform!")
-    }
-    return v
-  }
-
-  // force Int to UInt8 using 2's complement
-  func byteValue(_ transform: EditorValueTransform?) throws -> UInt8 {
-    UInt8(bitPattern: Int8(try intValue(transform)))
-  }
+//  func intValue(_ transform: EditorValueTransform?) throws -> Int {
+//    guard let v = value(transform) as? Int else {
+//      throw SysexTrussError.incorrectSysexType(msg: "Bad transform!")
+//    }
+//    return v
+//  }
+//
+//  // force Int to UInt8 using 2's complement
+//  func byteValue(_ transform: EditorValueTransform?) throws -> UInt8 {
+//    UInt8(bitPattern: Int8(try intValue(transform)))
+//  }
 
 }

@@ -14,7 +14,7 @@ extension MidiMessage: JsParsable {
       let chan: EditorValueTransform = try $0.x(1)
       let val: EditorValueTransform = try $0.x(2)
       return {
-        .pgmChange(channel: UInt8(try $0.intValue(chan)), value: UInt8(try $0.intValue(val)))
+        try .pgmChange(channel: chan.byteValue($0), value: val.byteValue($0))
       }
     }),
     .s(".a", { v in
@@ -23,7 +23,9 @@ extension MidiMessage: JsParsable {
         try v.x($0)
       }
       return { e in
-        .sysex(try fns.reduce([]) { try $0 + $1.call([], e).bytes() })
+        .sysex(try fns.reduce([]) {
+          try $0 + $1.call([], e).reduce([], { $0 + $1.bytes() })
+        })
       }
     }),
   ]

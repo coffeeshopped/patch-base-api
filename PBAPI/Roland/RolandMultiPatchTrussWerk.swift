@@ -43,7 +43,7 @@ public struct RolandMultiPatchTrussWerk : RolandPatchTrussWerk {
     
     let sysexDataFn = sysexData(werk)
     return MultiPatchTruss(displayId, trussMap: try map.map { ($0.path, try $0.werk.truss(werk, start: start)) }, namePath: .init([.common]), initFile: initFile, createFileData: .fn({ b, e in
-        .arr(try sysexDataFn(b, e, start))
+        try sysexDataFn(b, e, start)
     }), parseBodyData: { fileData in
       let rData = RolandWerkData(data: Data(fileData), werk: werk)
       return parseBodyData(rData, 0)

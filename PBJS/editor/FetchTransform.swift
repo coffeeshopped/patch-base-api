@@ -7,12 +7,10 @@ extension FetchTransform: JsParsable {
   static let jsRules: [JsParseRule<Self>] = [
     .a(["sequence", ".x",], { .sequence(try $0.x(1)) }),
     .a(["truss", ".x"], {
-      let fn: SinglePatchTruss.Core.ToMidiFn = try $0.x(1)
-      return .truss({ try fn.call([], $0).bytes() })
+      try .truss($0.x(1))
     }),
     .a(["bankTruss", ".x"], {
-      let fn: SinglePatchTruss.Core.ToMidiFn = try $0.x(1)
-      return .bankTruss({ editor, loc in try fn.call([loc], editor).bytes() }, waitInterval: 0)
+      try .bankTruss($0.x(1), waitInterval: 0)
     }),
     .a(["custom", ".x"], {
       let fns = try $0.any(1).map {

@@ -83,8 +83,8 @@ public extension SysexTruss {
     url.deletingPathExtension().lastPathComponent
   }
     
-  func fetchRequest(_ bytes: [UInt8]) -> RxMidi.FetchCommand {
-    .requestMsg(.sysex(bytes), .eq(fileDataCount))
+  func fetchRequest(_ msg: MidiMessage) -> RxMidi.FetchCommand {
+    .requestMsg(msg, .eq(fileDataCount))
   }
 
 
@@ -111,7 +111,9 @@ public extension SysexTruss {
 
   var isCompleteFetch: ([UInt8]) -> Bool { { core.isCompleteFetch.check($0) } }
 
-  var createFileData: (BodyData) throws -> [UInt8] { { try core.createFileData.call($0, nil).bytes() } }
+  var createFileData: (BodyData) throws -> [MidiMessage] {
+    { try core.createFileData.call($0, nil) }
+  }
   
   var parseBodyData: ([UInt8]) throws -> BodyData { { try core.parseBodyData($0) } }
     
@@ -136,7 +138,7 @@ public extension SysexTruss {
     try sysexBodyData(parseBodyData(fileData))
   }
 
-  func createFileData(anyBodyData: SysexBodyData) throws -> [UInt8] {
+  func createFileData(anyBodyData: SysexBodyData) throws -> [MidiMessage] {
     guard let bodyData = anyBodyData.data() as? BodyData else {
       throw SysexTrussError.incorrectSysexType(msg: "Bad body data type!")
     }

@@ -15,7 +15,7 @@ public struct JSONPatchTruss : PatchTruss {
     self.core = Core(displayId,
                      initFile: initFile,
                      fileDataCount: 0,
-                     createFileData: .fn({ b, e in try .bytes(Self.encoder.encode(b).bytes()) }),
+                     createFileData: .b({ b in try [.sysex(Self.encoder.encode(b).bytes())] }),
                      parseBodyData: {
       do {
         return try Self.decoder.decode([String:Int].self, from: Data($0))

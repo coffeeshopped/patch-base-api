@@ -153,24 +153,24 @@ public extension FullRefTruss {
   // iterates over truss map, looking for data for that path, then creating fileData from it
   // really only appropriate for a ref that has only one of each patch type
   // if there are multiple (parts), then index/location probably needs to be in the file data
-  static func defaultCreateFileData(trussMap: [(SynthPath, any SysexTruss)], bodyData: FullRefTruss.BodyData) throws -> [UInt8] {
-    // map over the types to ensure ordering of data
-    try trussMap.compactMap {
-      guard let bd = bodyData[$0.0] else { return nil }
-      return try $0.1.createFileData(anyBodyData: bd)
-    }.reduce([], +)
-  }
+//  static func defaultCreateFileData(trussMap: [(SynthPath, any SysexTruss)], bodyData: FullRefTruss.BodyData) throws -> [UInt8] {
+//    // map over the types to ensure ordering of data
+//    try trussMap.compactMap {
+//      guard let bd = bodyData[$0.0] else { return nil }
+//      return try $0.1.createFileData(anyBodyData: bd)
+//    }.reduce([], +)
+//  }
     
   // iterates over truss map, looking for data for that path, then creating fileData from it
   // really only appropriate for a ref that has only one of each patch type
   // if there are multiple (parts), then index/location probably needs to be in the file data
   static func defaultCreateFileData(trussMap: [(SynthPath, any SysexTruss)]) -> FullRefTruss.Core.ToMidiFn {
-    .fn({ bodyData, e in
+    .b({ bodyData in
       // map over the types to ensure ordering of data
-      .arr(try trussMap.compactMap {
-        guard let bd = bodyData[$0.0] else { return nil }
-        return .sysex(try $0.1.createFileData(anyBodyData: bd))
-      })
+      try trussMap.flatMap {
+        guard let bd = bodyData[$0.0] else { return [] as [MidiMessage] }
+        return try $0.1.createFileData(anyBodyData: bd)
+      }
     })
   }
 

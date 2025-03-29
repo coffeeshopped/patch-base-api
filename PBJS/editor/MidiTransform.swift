@@ -47,14 +47,15 @@ extension MidiTransform.Fn.Param : JsParsable {
       .s(".f", { fn in
         return .init { editor, bodyData, path, parm, value in
           let mapVal = try fn.call([path.toJS(), parm?.toJS(), value], exportOrigin: nil)
-          return try mapVal!.map {
+          return try mapVal!.flatMap {
             if let msg: MidiMessage = try? $0.x(0) {
-              return (msg, try $0.x(1) as Int)
+              return [(msg, try $0.x(1) as Int)]
             }
             else {
               // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
               let fn: Truss.Core.ToMidiFn = try $0.x(0)
-              return (.sysex(try fn.call(bodyData, editor).bytes()), try $0.x(1))
+              let interval: Int = try $0.x(1)
+              return try fn.call(bodyData, editor).map { ($0, interval) }
             }
           }
         }
@@ -72,9 +73,7 @@ extension MidiTransform.Fn.Whole : JsParsable {
         let fnPairs: [(Truss.Core.ToMidiFn, Int)] = try $0.x()
         return .init { editor, bodyData in
           try fnPairs.flatMap { fn, n in
-            try fn.call(bodyData, editor).midi().map {
-              ($0, n)
-            }
+            try fn.call(bodyData, editor).map { ($0, n) }
           }
         }
       }),
@@ -92,9 +91,7 @@ extension MidiTransform.Fn.Name: JsParsable {
         let fnPairs: [(Truss.Core.ToMidiFn, Int)] = try $0.x()
         return .init { editor, bodyData, path, name in
           try fnPairs.flatMap { fn, n in
-            try fn.call(bodyData, editor).midi().map {
-              ($0, n)
-            }
+            try fn.call(bodyData, editor).map { ($0, n) }
           }
         }
       }),
@@ -109,14 +106,15 @@ extension MidiTransform.Fn.BankPatch : JsParsable {
       .s(".f", { fn in
         return .init { editor, bodyData, location in
           let mapVal = try fn.call([location], exportOrigin: nil)
-          return try mapVal!.map {
+          return try mapVal!.flatMap {
             if let msg: MidiMessage = try? $0.x(0) {
-              return (msg, try $0.x(1) as Int)
+              return [(msg, try $0.x(1) as Int)]
             }
             else {
               // if what's returned doesn't match a midi msg rule, then treat it like a createFileFn
               let fn: Truss.Core.ToMidiFn = try $0.x(0)
-              return (.sysex(try fn.call(bodyData, editor).bytes()), try $0.x(1))
+              let interval: Int = try $0.x(1)
+              return try fn.call(bodyData, editor).map { ($0, interval) }
             }
           }
         }
@@ -134,9 +132,7 @@ extension MidiTransform.Fn.WholeBank : JsParsable {
         let fnPairs: [(SomeBankTruss<Truss>.Core.ToMidiFn, Int)] = try $0.x()
         return .init { editor, bodyData in
           try fnPairs.flatMap { fn, n in
-            try fn.call(bodyData, editor).midi().map {
-              ($0, n)
-            }
+            try fn.call(bodyData, editor).map { ($0, n) }
           }
         }
       }),

@@ -29,8 +29,8 @@ public struct MultiPatchTruss : PatchTruss {
     let maxNameCount = trussMap.first { $0.0 == namePath }?.1.maxNameCount ?? 32
     let fileDataCount = fileDataCount ?? Self.fileDataCount(trusses: trussMap.map { $0.1 })
     
-    let createFileData = createFileData ?? .fn({ b, e in
-      .bytes(try Self.defaultCreateFileData(bodyData: b, trussMap: trussMap))
+    let createFileData = createFileData ?? .b({ b in
+      try Self.defaultCreateFileData(bodyData: b, trussMap: trussMap)
     })
     let parseBodyData = parseBodyData ?? {
       try Self.defaultParseBodyData(fileData: $0, trussMap: trussMap)
@@ -77,12 +77,12 @@ public struct MultiPatchTruss : PatchTruss {
     return bodyData
   }
   
-  public static func defaultCreateFileData(bodyData: MultiPatchTruss.BodyData, trussMap: [(SynthPath, SinglePatchTruss)]) throws -> [UInt8] {
+  public static func defaultCreateFileData(bodyData: MultiPatchTruss.BodyData, trussMap: [(SynthPath, SinglePatchTruss)]) throws -> [MidiMessage] {
     // map over the types to ensure ordering of data
-    return try trussMap.compactMap {
-      guard let bytes = bodyData[$0.0] else { return nil }
+    return try trussMap.flatMap {
+      guard let bytes = bodyData[$0.0] else { return [] as [MidiMessage] }
       return try $0.1.createFileData(bytes)
-    }.reduce([], +)
+    }
   }
       
   func subpatchType(_ path: SynthPath) -> SinglePatchTruss? {

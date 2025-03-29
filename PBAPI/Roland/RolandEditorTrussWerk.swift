@@ -38,14 +38,15 @@ public extension RolandEditorTrussWerk {
     }
   }
   
-  func fetchBytes(forAddress address: RolandAddress, size: RolandAddress, addressCount: Int) -> (_ editor: AnySynthEditor) -> [UInt8] {
+  func fetchBytes(forAddress address: RolandAddress, size: RolandAddress, addressCount: Int) -> SinglePatchTruss.Core.ToMidiFn {
     let addressBytes = address.sysexBytes(count: addressCount)
     let sizeBytes = size.sysexBytes(count: addressCount)
     let checksum = RolandChecksum(address: address, dataBytes: sizeBytes, addressCount: addressCount)
     let data = sysexWerk.modelId + [0x11] + addressBytes + sizeBytes + [checksum, 0xf7]
-    return {
-      [0xf0, 0x41, UInt8(try! $0.intValue(deviceId))] + data
-    }
+    return .e({
+      let devId = try deviceId.byteValue($0)
+      return [.sysex([0xf0, 0x41, devId] + data)]
+    })
   }
   
   func fetchTransform(forAddress address: RolandAddress, size: RolandAddress, addressCount: Int) -> FetchTransform {
@@ -123,7 +124,7 @@ public extension RolandEditorTrussWerk {
     
     let params = try werk.truss(sysexWerk, start: address).params
     let paramT: MidiTransform.Fn<SinglePatchTruss>.Param = .init({ editor, bodyData, path, parm, value in
-      let deviceId = try! UInt8(editor.intValue(deviceId))
+      let deviceId = try deviceId.byteValue(editor)
       let data = sysexWerk.paramSetData(bodyData, deviceId: deviceId, address: address, path: path, params: params)
       return Self.mm([.sysex(data)])
     })
@@ -154,7 +155,7 @@ public extension RolandEditorTrussWerk {
     let sysexData = werk.sysexData(sysexWerk)
     let paramsT: MidiTransform.Fn<MultiPatchTruss>.Params = .init({ editor, bodyData, values in
 
-      let deviceId = try! UInt8(editor.intValue(deviceId))
+      let deviceId = try deviceId.byteValue(editor)
       var subchanges = [SynthPath:PatchChange]()
       // go through all the changes
       values.forEach {
@@ -198,7 +199,7 @@ public extension RolandEditorTrussWerk {
     })
     
     let nameT: MidiTransform.Fn<MultiPatchTruss>.Name = .init({ editor, bodyData, path, name in
-      let deviceId = try! UInt8(editor.intValue(deviceId))
+      let deviceId = try deviceId.byteValue(editor)
       // for now, assume that top-level name is always stored at .common path
       let p = path.count == 0 ? try werk.truss(sysexWerk, start: address).namePath ?? [.common] : path
       guard let item = werk.dict[p] else { return nil }

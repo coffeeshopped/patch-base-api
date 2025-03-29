@@ -24,9 +24,9 @@ public struct RolandMultiBankTrussWerk {
 //    let createFileFn = /*createFileFn ??*/ Self.defaultCreateFileData
         
     return MultiBankTruss(patchTruss: try patchWerk.truss(werk, start: start), patchCount: patchCount, initFile: initFile, createFileData: .fn({ b, e in
-      .arr(try b.enumerated().flatMap({ (index, bd) in
+      try b.enumerated().flatMap({ (index, bd) in
         try patchWerk.sysexData(werk)(bd, e, start + iso.address(UInt8(index)))
-      }))
+      })
 
 //      try createFileFn(b, UInt8(RolandDefaultDeviceId), start, patchWerk, iso).reduce([], +)
     }), parseBodyData: { fileData in
