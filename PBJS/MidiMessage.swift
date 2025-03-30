@@ -19,13 +19,11 @@ extension MidiMessage: JsParsable {
     }),
     .s(".a", { v in
       let count = v.arrCount()
-      let fns: [SinglePatchTruss.Core.ToMidiFn] = try (1..<count).map {
+      let fns: [ByteTransform] = try (1..<count).map {
         try v.x($0)
       }
       return { e in
-        .sysex(try fns.reduce([]) {
-          try $0 + $1.call([], e).reduce([], { $0 + $1.bytes() })
-        })
+        .sysex(try fns.flatMap { try $0.call([], e) })
       }
     }),
   ]
