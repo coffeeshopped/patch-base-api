@@ -35,12 +35,12 @@ extension JSValue {
 
   private func some(_ k: String) -> JSValue? {
     guard let e = try? any(k) else { return nil }
-    return e.isNull ? nil : e
+    return (e.isNull || e.isUndefined) ? nil : e
   }
 
   private func some(_ i: Int) -> JSValue? {
     guard let e = try? any(i) else { return nil }
-    return e.isNull ? nil : e
+    return (e.isNull || e.isUndefined) ? nil : e
   }
 
   // look for a value at the given key.

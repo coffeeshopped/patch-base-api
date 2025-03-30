@@ -104,7 +104,7 @@ public indirect enum JSError : LocalizedError {
     }
   }
   
-  public func invert() -> [JSError] {
+  public func invert() -> [any Error] {
     switch self {
     case .error, .noParseRule, .fnException:
       return [self]
@@ -113,7 +113,7 @@ public indirect enum JSError : LocalizedError {
         return err.invert() + [self]
       }
       else {
-        return [self]
+        return [err, self]
       }
     }
   }

@@ -26,11 +26,10 @@ extension SinglePatchTruss: JsParsable {
         }
       }
       
-      let namePack: NamePackIso? = try $0.xq("namePack")
       let unpack = try? $0.any("unpack").xform(jsUnpackParsers)
       let initFile = (try $0.xq("initFile")) ?? ""
       
-      return try .init(try $0.x("id"), bodyDataCount, namePackIso: namePack, params: parms.params(), initFile: initFile, defaultName: nil, createFileData: $0.xq("createFile"), parseBodyData: parseBodyFn, validBundle: nil, pack: nil, unpack: unpack, randomize: nil)
+      return try .init($0.x("id"), bodyDataCount, namePackIso: $0.xq("namePack"), params: parms.params(), initFile: initFile, defaultName: nil, createFileData: $0.xq("createFile"), parseBodyData: parseBodyFn, validBundle: nil, pack: nil, unpack: unpack, randomize: nil)
     }),
   ]
   

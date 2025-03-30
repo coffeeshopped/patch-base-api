@@ -1,10 +1,10 @@
 
-public enum SysexTrussError : Error {
+public enum SysexTrussError : LocalizedError {
   case blockNotSet(msg: String)
   case incorrectSysexType(msg: String)
   case fileNotFound(msg: String)
   
-  public func display() -> String {
+  public var errorDescription: String? {
     switch self {
     case .blockNotSet(let msg):
       return "Block not set: \(msg)"

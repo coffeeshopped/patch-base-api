@@ -15,17 +15,14 @@ extension SysexTrussCore<[SynthPath:[UInt8]]>.ToMidiFn {
       let fns: [Self] = try (1..<count).map { try v.x($0) }
       return .fn { b, e in try fns.flatMap { try $0.call(b, e) } }
     }),
-    .a([".p"], { v in
+    .a([".p"], {
       // the first element of the array is a path to fetch subdata
-      // the rest of the elements map [UInt8] -> [UInt8]
-      let path: SynthPath = try v.x(0)
-      let singleFns: [ByteTransform] = try (1..<v.arrCount()).map {
-        try v.x($0)
-      }
-
+      // the rest of the elements map make a SinglePatchTruss ToMidiFn
+      let path: SynthPath = try $0.x(0)
+      let chainRule: SysexTrussCore<[UInt8]>.ToMidiFn = try .chainRule($0)
       return .fn { b, e in
-        let sub = b[path] ?? []
-        return try [.sysex(singleFns.reduce(sub) { partialResult, fn in try fn.call(partialResult, e) })]
+        let sub = b[path] ?? [] // TODO: throw here?
+        return try chainRule.call(sub, e)
       }
     }),
     .s(".n", {

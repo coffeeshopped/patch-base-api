@@ -12,7 +12,7 @@ public enum EditorValueTransform: Hashable {
     case .value(let editorPath, let paramPath, let defaultValue):
       return editor?.parameter(editorPath, paramPath) ?? defaultValue
     case .basicChannel:
-      return editor?.basicChannel()
+      return editor?.basicChannel() ?? 0
     case .constant(let value):
       return value
     case .patch(let editorPath):

@@ -18,6 +18,10 @@ extension SysexTrussCore.ToMidiFn : JsParsable {
       return SysexTrussCore<[UInt8]>.ToMidiFn.jsRules as! [JsParseRule<Self>]
     case is [SynthPath:[UInt8]].Type:
       return SysexTrussCore<[SynthPath:[UInt8]]>.ToMidiFn.jsRules as! [JsParseRule<Self>]
+    case is [[UInt8]].Type:
+      return SomeBankTruss<SinglePatchTruss>.bankToMidiRules as! [JsParseRule<Self>]
+    case is [[SynthPath:[UInt8]]].Type:
+      return SomeBankTruss<MultiPatchTruss>.bankToMidiRules as! [JsParseRule<Self>]
     default:
       fatalError("Unimplemented JsParsable")
     }
@@ -27,7 +31,22 @@ extension SysexTrussCore.ToMidiFn : JsParsable {
 
 extension SysexTrussCore<[UInt8]>.ToMidiFn {
   
+  static func chainRule(_ v: JSValue) throws -> Self {
+    // v is a JS array. Skip the first element.
+    // treat as an array of ByteTransforms, with the output of each function being fed as input to the next function, and the last element is a ToMidiFn.
+    let count = v.arrCount()
+    let fns: [ByteTransform] = try (1..<(count-1)).map { try v.x($0) }
+    let mfn: Self = try v.x(count-1)
+    return .fn { b, e in
+      let bd = try fns.reduce(b) { partialResult, fn in try fn.call(partialResult, e) }
+      return try mfn.call(bd, e)
+    }
+  }
+  
   static let jsRules: [JsParseRule<Self>] = [
+    .a([">"], {
+      try chainRule($0)
+    }),
     .a(["yamCmd", ".x"], {
       try .arg2($0.x(1), $0.xq(2) ?? .ident) {
         [.sysex(Yamaha.sysexData(cmdBytesWithChannel: $0, bodyBytes: $1))]

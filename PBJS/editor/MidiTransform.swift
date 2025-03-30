@@ -70,7 +70,22 @@ extension MidiTransform.Fn.Whole : JsParsable {
     return [
       // treat an array as a bunch of midiFn, waitTime pairs.
       .s(".a", {
-        let fnPairs: [(Truss.Core.ToMidiFn, Int)] = try $0.x()
+        let fnPairs: [(Truss.Core.ToMidiFn, Int)]
+        do {
+          // try parsing as pairs
+          fnPairs = try $0.x()
+        }
+        catch {
+          // if that parse fails, see if it's just a single ToMidiFn
+          let firstErr = error
+          do {
+            fnPairs = [(try $0.x(), 0)]
+          }
+          catch {
+            // if *that* fails, throw the first error (from the pair parsing).
+            throw firstErr
+          }
+        }
         return .init { editor, bodyData in
           try fnPairs.flatMap { fn, n in
             try fn.call(bodyData, editor).map { ($0, n) }
