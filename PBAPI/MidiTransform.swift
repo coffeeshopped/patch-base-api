@@ -1,15 +1,15 @@
 
 public enum MidiTransform {
 
-  case single(throttle: Int = 30, _ fn: Fn<SinglePatchTruss>)
+  case single(throttle: Int?, _ fn: Fn<SinglePatchTruss>)
   
-  case multi(throttle: Int = 30, _ fn: Fn<MultiPatchTruss>)
+  case multi(throttle: Int?, _ fn: Fn<MultiPatchTruss>)
 
-  case singleDict(throttle: Int = 30, _ fn: Fn<SinglePatchTruss>)
+  case singleDict(throttle: Int?, _ fn: Fn<SinglePatchTruss>)
 
-  case multiDict(throttle: Int = 30, _ fn: Fn<MultiPatchTruss>)
+  case multiDict(throttle: Int?, _ fn: Fn<MultiPatchTruss>)
   
-  case json(throttle: Int = 30, _ fn: Fn<JSONPatchTruss>)
+  case json(throttle: Int?, _ fn: Fn<JSONPatchTruss>)
 
   public var throttle: Int {
     switch self {
@@ -18,7 +18,7 @@ public enum MidiTransform {
         .singleDict(let throttle, _),
         .multiDict(let throttle, _),
         .json(let throttle, _):
-      return throttle
+      return throttle ?? 30
     }
   }
   
@@ -114,7 +114,7 @@ public enum MidiTransform {
 //  static func multipatchChange(
 //    _ editor: SynthEditor,
 //    _ path: SynthPath,
-//    throttle: Int = 30,
+//    throttle: Int?,
 //    paramCoalesceCount: Int = 2,
 //    paramT: @escaping (_ subpatch: SysexPatch, _ subpatchPath: SynthPath, _ paramPath: SynthPath, _ value: Int) -> [Data]?,
 //    patchT: Whole,

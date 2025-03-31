@@ -8,34 +8,58 @@ extension MidiTransform: JsParsable {
     .d([
       "type" : "singlePatch",
     ], {
-      try .single(throttle: $0.xq("throttle") ?? 30, .patch(coalesce: 2, param: $0.x("param"), patch: $0.x("patch"), name: $0.xq("name")))
+      try .single(throttle: $0.xq("throttle"), .patch(coalesce: 2, param: $0.x("param"), patch: $0.x("patch"), name: $0.xq("name")))
     }),
     .d([
       "type" : "singleWholePatch",
     ], {
-      try .single(throttle: $0.xq("throttle") ?? 30, .wholePatch($0.x("patch")))
+      try .single(throttle: $0.xq("throttle"), .wholePatch($0.x("patch")))
     }),
     .d([
       "type" : "multiDictPatch",
     ], {
-      try .multiDict(throttle: $0.xq("throttle") ?? 30, .patch(param: $0.x("param"), patch: $0.x("patch"), name: $0.x("name")))
+      try .multiDict(throttle: $0.xq("throttle"), .patch(param: $0.x("param"), patch: $0.x("patch"), name: $0.x("name")))
     }),
     .d([
       "type" : "singleBank",
     ], {
-      try .single(throttle: $0.xq("throttle") ?? 30, .bank($0.x("bank")))
+      try .single(throttle: $0.xq("throttle"), .bank($0.x("bank")))
     }),
+//    .d([
+//      "type" : "wholeBank",
+//      "single" : ".x",
+//    ], {
+//      try .single(throttle: $0.xq("throttle"), .wholeBank($0.x("single")))
+//    }),
     .d([
       "type" : "wholeBank",
-      "single" : ".x",
+      "singleBankTruss" : ".x",
+      "waitInterval" : ".n",
     ], {
-      try .single(throttle: $0.xq("throttle") ?? 30, .wholeBank($0.x("single")))
+      let truss: SingleBankTruss = try $0.x("singleBankTruss")
+      let fn = truss.core.createFileData
+      let waitInterval: Int = try $0.x("waitInterval")
+      return try .single(throttle: $0.xq("throttle"), .wholeBank(.init({ editor, bodyData in
+        try fn.call(bodyData, editor).map { ($0, waitInterval) }
+      })))
     }),
+//    .d([
+//      "type" : "wholeBank",
+//      "multi" : ".x",
+//    ], {
+//      try .multi(throttle: $0.xq("throttle"), .wholeBank($0.x("multi")))
+//    }),
     .d([
       "type" : "wholeBank",
-      "multi" : ".x",
+      "multiBankTruss" : ".x",
+      "waitInterval" : ".n",
     ], {
-      try .multi(throttle: $0.xq("throttle") ?? 30, .wholeBank($0.x("multi")))
+      let truss: MultiBankTruss = try $0.x("multiBankTruss")
+      let fn = truss.core.createFileData
+      let waitInterval: Int = try $0.x("waitInterval")
+      return try .multi(throttle: $0.xq("throttle"), .wholeBank(.init({ editor, bodyData in
+        try fn.call(bodyData, editor).map { ($0, waitInterval) }
+      })))
     }),
   ]
 

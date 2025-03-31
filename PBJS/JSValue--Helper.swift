@@ -33,12 +33,12 @@ extension JSValue {
   func x<Out:JsParsable>(_ k: String) throws -> Out { try any(k).x() }
   func x<Out:JsParsable>(_ i: Int) throws -> Out { try any(i).x() }
 
-  private func some(_ k: String) -> JSValue? {
+  func some(_ k: String) -> JSValue? {
     guard let e = try? any(k) else { return nil }
     return (e.isNull || e.isUndefined) ? nil : e
   }
 
-  private func some(_ i: Int) -> JSValue? {
+  func some(_ i: Int) -> JSValue? {
     guard let e = try? any(i) else { return nil }
     return (e.isNull || e.isUndefined) ? nil : e
   }
