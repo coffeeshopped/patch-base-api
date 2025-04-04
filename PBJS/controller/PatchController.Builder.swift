@@ -10,7 +10,7 @@ extension PatchController.Builder: JsParsable {
     }),
     .a(["children", ".n", ".s", ".d", ".d?"], {
       let opts = try? $0.obj(4)
-      return try .children($0.x(1), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), $0.x(3), indexFn: nil)
+      return try .children($0.x(1), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), $0.x(3), indexFn: opts?.fnq("index"))
     }),
     .a(["panel", ".s", ".d", ".a"], {
       let opts = try? $0.obj(2)

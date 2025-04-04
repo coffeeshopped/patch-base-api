@@ -42,6 +42,13 @@ extension ByteTransform: JsParsable {
         [UInt8(($0.first ?? 0).bits(bitRange))]
       }
     }),
+    .a(["bit", ".n"], {
+      let bit: Int = try $0.x(1)
+      // second arg is optional, defaults to "b"
+      return .arg1(try $0.xq(2) ?? .ident) {
+        [UInt8(($0.first ?? 0).bits(bit...bit))]
+      }
+    }),
     .a(["msBytes7bit", ".n", ".n"], {
       let value: Int = try $0.x(1)
       let byteCount: Int = try $0.x(2)

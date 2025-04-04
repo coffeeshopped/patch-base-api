@@ -31,7 +31,7 @@ public enum EditorValueTransform: Hashable {
 
   // force Int to UInt8 using 2's complement
   public func byteValue(_ editor: AnySynthEditor?) throws -> UInt8 {
-    UInt8(bitPattern: Int8(try intValue(editor)))
+    UInt8(bitPattern: Int8(clamping: try intValue(editor)))
   }
 
 }

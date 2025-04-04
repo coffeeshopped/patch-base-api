@@ -89,9 +89,26 @@ enum JsSynthPath {
   }
 
   static let pathPart: @convention(block) (JSValue, JSValue) -> AnyHashable = {
-    let p: SynthPath = try! $0.x()
-    let index: Int = try! $1.x()
-    return p[index].scriptItem()
+    do {
+      let p: SynthPath = try $0.x()
+      let index: Int = try $1.x()
+      return p[index].scriptItem()
+    }
+    catch {
+      JsModuleProvider.setException($0, "pathPart: error: \($0.pbDebug())")
+    }
+    return ""
+  }
+  
+  static let pathLast: @convention(block) (JSValue) -> AnyHashable = {
+    do {
+      let p: SynthPath = try $0.x()
+      return p.last?.scriptItem()
+    }
+    catch {
+      JsModuleProvider.setException($0, "pathLast: passed value is not a valid path: \($0.pbDebug())")
+    }
+    return ""
   }
 
 }

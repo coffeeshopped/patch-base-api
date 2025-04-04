@@ -17,11 +17,13 @@ extension Parm: JsParsable, JsPassable {
   ]
   
   func toJS() -> AnyHashable {
-    [
+    var d: [String:AnyHashable] = [
       "b" : b,
       "p" : p,
       "path" : path.toJS(),
     ]
+    d.merge(span.jsDict()) { older, newer in newer }
+    return d
   }
   
   static var jsArrayRules: [JsParseRule<[Parm]>] = [
@@ -83,7 +85,7 @@ extension Parm: JsParsable, JsPassable {
   ]
 }
 
-extension Parm.Span: JsParsable {
+extension Parm.Span: JsParsable, JsPassable {
   
   static let jsRules: [JsParseRule<Self>] = [
     .d(["opts" : ".a"], {
@@ -132,4 +134,25 @@ extension Parm.Span: JsParsable {
     .d([:], { _ in .rng() }),
   ]
   
+  func toJS() -> AnyHashable { jsDict() }
+  
+  fileprivate func jsDict() -> [String:AnyHashable] {
+    switch self {
+    case .options(let opts):
+      // create a sparse array.
+      let max = (opts.keys.max() ?? 0) + 1
+      var out = [String?](repeating: nil, count: max)
+      opts.forEach { out[$0.key] = $0.value }
+      return [
+        "opts" : out,
+      ]
+    case .rng(let range, let dispOff):
+      return [
+        "range" : [range?.lowerBound ?? 0, range?.upperBound ?? 127],
+        "dispOff" : dispOff,
+      ] as [String:AnyHashable]
+    default:
+      return ["error": "ERROR"]
+    }
+  }
 }

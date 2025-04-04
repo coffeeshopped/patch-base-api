@@ -60,8 +60,7 @@ public struct JsModuleTruss {
     Self.register(jsContext, JsSynthPath.pathEq, "pathEq")
     Self.register(jsContext, JsSynthPath.pathLen, "pathLen")
     Self.register(jsContext, JsSynthPath.pathPart, "pathPart")
-
-    Self.registerWrapped3(jsContext, "trussValue", Self.trussValue)
+    Self.register(jsContext, JsSynthPath.pathLast, "pathLast")
 
     jsContext.exceptionHandler = { context, exception in
       context?.exception = exception
@@ -160,19 +159,6 @@ public struct JsModuleTruss {
 })()
 """
   }
-  
-  private static func trussValue(truss: JSValue, bodyData: JSValue, path: JSValue) throws -> Int? {
-    let t: any SysexTruss = try truss.xform(JsSysex.trussRules)
-    let p: SynthPath = try path.x()
-    
-    switch t {
-    case let single as SinglePatchTruss:
-      return try single.getValue(try bodyData.x(), path: p)
-    default:
-      throw JSError.error(msg: "Unknown truss type passed to trussValue.")
-    }
-  }
-
 
 }
 
