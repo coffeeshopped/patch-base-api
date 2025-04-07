@@ -61,8 +61,9 @@ extension PatchController.Effect: JsParsable {
     .a(["voiceReserve", ".a", ".n", ".a"], {
       try .voiceReserve(paths: $0.x(1), total: $0.x(2), ctrls: $0.x(3))
     }),
-    .a(["ctrlBlocks", ".p"], {
-      try .ctrlBlocks($0.x(1), value: nil, cc: nil, param: nil)
+    .a(["ctrlBlocks", ".p", ".d?"], {
+      let obj = try? $0.obj(2)
+      return try .ctrlBlocks($0.x(1), value: nil, cc: nil, param: obj?.xq("parm"))
     }),
     .a(["patchSelector", ".p", ".d"], {
       let obj = try $0.obj(2)

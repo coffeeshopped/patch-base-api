@@ -25,39 +25,27 @@ extension MidiTransform: JsParsable {
     ], {
       try .single(throttle: $0.xq("throttle"), .bank($0.x("bank")))
     }),
-//    .d([
-//      "type" : "wholeBank",
-//      "single" : ".x",
-//    ], {
-//      try .single(throttle: $0.xq("throttle"), .wholeBank($0.x("single")))
-//    }),
     .d([
-      "type" : "wholeBank",
-      "singleBankTruss" : ".x",
-      "waitInterval" : ".n",
+      "type" : "compactSingleBank",
+      "waitInterval" : ".n?",
     ], {
-      let truss: SingleBankTruss = try $0.x("singleBankTruss")
+      // assume a bank truss has been passed, and make a wholeBank out of it.
+      let truss: SingleBankTruss = try $0.x()
       let fn = truss.core.createFileData
-      let waitInterval: Int = try $0.x("waitInterval")
-      return try .single(throttle: $0.xq("throttle"), .wholeBank(.init({ editor, bodyData in
+      let waitInterval: Int = try $0.xq("waitInterval") ?? 10
+      return .single(throttle: nil, .wholeBank(.init({ editor, bodyData in
         try fn.call(bodyData, editor).map { ($0, waitInterval) }
       })))
     }),
-//    .d([
-//      "type" : "wholeBank",
-//      "multi" : ".x",
-//    ], {
-//      try .multi(throttle: $0.xq("throttle"), .wholeBank($0.x("multi")))
-//    }),
     .d([
-      "type" : "wholeBank",
-      "multiBankTruss" : ".x",
-      "waitInterval" : ".n",
+      "type" : "compactMultiBank",
+      "waitInterval" : ".n?",
     ], {
-      let truss: MultiBankTruss = try $0.x("multiBankTruss")
+      // assume a bank truss has been passed, and make a wholeBank out of it.
+      let truss: MultiBankTruss = try $0.x()
       let fn = truss.core.createFileData
-      let waitInterval: Int = try $0.x("waitInterval")
-      return try .multi(throttle: $0.xq("throttle"), .wholeBank(.init({ editor, bodyData in
+      let waitInterval: Int = try $0.xq("waitInterval") ?? 10
+      return .multi(throttle: nil, .wholeBank(.init({ editor, bodyData in
         try fn.call(bodyData, editor).map { ($0, waitInterval) }
       })))
     }),
