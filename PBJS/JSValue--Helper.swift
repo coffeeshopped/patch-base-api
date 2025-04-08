@@ -401,14 +401,14 @@ extension ClosedRange : JsParsable where Bound: JsParsable {
   static var jsRules: [JsParseRule<Self>] { 
     [
       .s(".a", {
-        if Bound.self == Int.self {
-          let lower: Int = try $0.x(0)
-          let upper: Int = try $0.x(1) - 1
-          return (lower as! Bound)...(upper as! Bound)
-        }
-        else {
+//        if Bound.self == Int.self {
+//          let lower: Int = try $0.x(0)
+//          let upper: Int = try $0.x(1) - 1
+//          return (lower as! Bound)...(upper as! Bound)
+//        }
+//        else {
           return try ($0.x(0))...($0.x(1))
-        }
+//        }
       }),
     ]
   }
