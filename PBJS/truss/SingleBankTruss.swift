@@ -38,41 +38,43 @@ extension SinglePatchTruss: JsBankParsable {
       "type" : "compactSingleBank",
       "patchTruss" : ".d",
       "patchCount" : ".n",
-      "paddedPatchCount" : ".n?",
       "fileDataCount" : ".n",
-      "compactTruss": ".d",
+      "initFile" : ".s?",
+      "createFile" : ".d",
+      "parseBody" : ".d",
     ], {
-      let patchTruss: SinglePatchTruss = try $0.x("patchTruss")
+      let patchTruss: Self = try $0.x("patchTruss")
       let patchCount: Int = try $0.x("patchCount")
-      let paddedPatchCount = (try $0.xq("paddedPatchCount")) ?? patchCount
-      let initFile = (try $0.xq("initFile")) ?? ""
       let fileDataCount: Int = try $0.x("fileDataCount")
-      let compactTruss: SinglePatchTruss = try $0.x("compactTruss")
-      let compactByteCount = compactTruss.bodyDataCount
-
-      let singleCreateFile: SinglePatchTruss.Core.ToMidiFn = try $0.x("createFile")
-      let createFile: SingleBankTruss.Core.ToMidiFn = .fn({ bodyData, e in
-        var patchData: [UInt8] = try bodyData.flatMap {
-          try compactTruss.parse(otherData: $0, otherTruss: patchTruss)
+      let initFile = (try $0.xq("initFile")) ?? ""
+      
+      let createFile = try $0.obj("createFile")
+      let wrapperFn: Self.Core.ToMidiFn = try createFile.x("wrapper")
+      let patchBodyTransform: ByteTransform = try createFile.x("patchBodyTransform")
+      
+      let createFileFn: SomeBankTruss<Self>.Core.ToMidiFn = .fn({ bodyData, e in
+        let patchData: [UInt8] = try bodyData.flatMap {
+          try patchBodyTransform.call($0, e)
         }
-        let remaining = paddedPatchCount - patchCount
-        patchData += [UInt8](repeating: 0, count: remaining * compactByteCount)
-
-        return try singleCreateFile.call(patchData, e)
+        return try wrapperFn.call(patchData, e)
       })
       
-      let offset: Int = try $0.x("parseBody")
-      let parseBody: SomeBankTruss<Self>.Core.ParseBodyDataFn = {
-        let compactData = SomeBankTruss<Self>.compactData(fileData: $0, offset: offset, patchByteCount: compactByteCount)
+      let parseBody = try $0.obj("parseBody")
+      let offset: Int = try parseBody.x("offset")
+      let patchByteCount: Int = try parseBody.x("patchByteCount")
+      let parseBodyTransform: ByteTransform = try parseBody.x("patchBodyTransform")
+
+      let parseBodyFn: SomeBankTruss<Self>.Core.ParseBodyDataFn = {
+        let compactData = SomeBankTruss<Self>.compactData(fileData: $0, offset: offset, patchByteCount: patchByteCount)
         let bodyData = try compactData.map {
-          try patchTruss.parse(otherData: $0, otherTruss: compactTruss)
+          try parseBodyTransform.call($0, nil)
         }
         
         // TX81Z (maybe others?) have patchCount lower than the number of compactChunks that maybe be present in the passed in data, hence the line below
         return SingleBankTruss.BodyData(bodyData[0..<patchCount])
       }
       
-      return .init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: fileDataCount, defaultName: nil, createFileData: createFile, parseBodyData: parseBody)
+      return .init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: fileDataCount, defaultName: nil, createFileData: createFileFn, parseBodyData: parseBodyFn)
     }),
   ]
 }

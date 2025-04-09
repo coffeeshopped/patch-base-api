@@ -47,6 +47,11 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
     .a([">"], {
       try chainRule($0)
     }),
+    .a(["yamSyx", ".x"], {
+      try .arg1($0.xq(1) ?? .ident) {
+        [.sysex(Yamaha.sysex($0))]
+      }
+    }),
     .a(["yamCmd", ".x"], {
       try .arg2($0.x(1), $0.xq(2) ?? .ident) {
         [.sysex(Yamaha.sysexData(cmdBytesWithChannel: $0, bodyBytes: $1))]
@@ -89,7 +94,13 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
 //      return .b { b in try fn.call([b], exportOrigin: exportOrigin).x() }
 //    }),
   ]
-  
+
+  static func arg1(_ arg1: ByteTransform, _ fn: @escaping ([UInt8]) -> [MidiMessage]) -> Self {
+    return .fn { b, e in
+      try fn(arg1.call(b, e))
+    }
+  }
+
   static func arg2(_ arg1: ByteTransform, _ arg2: ByteTransform, _ fn: @escaping ([UInt8], [UInt8]) -> [MidiMessage]) -> Self {
     return .fn { b, e in
       try fn(arg1.call(b, e), arg2.call(b, e))

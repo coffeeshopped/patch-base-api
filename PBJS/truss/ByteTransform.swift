@@ -77,6 +77,11 @@ extension ByteTransform: JsParsable {
         [UInt8($0.map{ Int($0) }.reduce(0, +) & 0x7f)]
       }
     }),
+    .a(["yamChk", ".x?"], {
+      .arg1(try $0.xq(1) ?? .ident) {
+        [Yamaha.checksum(bytes: $0)]
+      }
+    }),
     .s(".s", {
       // if string, see if it's an editorValueTransform
       let evt: EditorValueTransform = try $0.x()
