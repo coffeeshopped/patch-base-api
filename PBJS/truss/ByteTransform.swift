@@ -35,6 +35,31 @@ extension ByteTransform: JsParsable {
         return [b[byte]]
       }
     }),
+    .a(["bytes", ".d"], {
+      let d = try $0.obj(1)
+      let start: Int = try d.x("start")
+      if let count: Int = try d.xq("count") {
+        return arg1(try $0.xq(2) ?? .ident) {
+          $0.safeBytes(offset: start, count: count)
+        }
+      }
+      else if let end: Int = try d.xq("end") {
+        if end < 0 {
+          return arg1(try $0.xq(2) ?? .ident) {
+            $0.safeBytes(start..<($0.count - end))
+          }
+        }
+        else if end <= start {
+          throw JSError.error(msg: "'end' must be greater than 'start', or negative")
+        }
+        else {
+          return arg1(try $0.xq(2) ?? .ident) {
+            $0.safeBytes(start..<end)
+          }
+        }
+      }
+      throw JSError.error(msg: "No argument for end of byte range found.")
+    }),
     .a(["bits", ".a"], {
       let bitRange: ClosedRange<Int> = try $0.x(1)
       // second arg is optional, defaults to "b"
@@ -72,6 +97,13 @@ extension ByteTransform: JsParsable {
         $0.flatMap { [UInt8($0.bits(0...3)), UInt8($0.bits(4...7))] }
       }
     }),
+    .a(["denibblizeLSB", ".x?"], {
+      .arg1(try $0.xq(1) ?? .ident) { bytes in
+        (bytes.count / 2).map {
+          UInt8(bytes[$0 * 2].bits(0...3) + (bytes[$0 * 2 + 1].bits(0...3) << 4))
+       }
+      }
+    }),
     .a(["checksum", ".x?"], {
       .arg1(try $0.xq(1) ?? .ident) {
         [UInt8($0.map{ Int($0) }.reduce(0, +) & 0x7f)]
@@ -80,6 +112,14 @@ extension ByteTransform: JsParsable {
     .a(["yamChk", ".x?"], {
       .arg1(try $0.xq(1) ?? .ident) {
         [Yamaha.checksum(bytes: $0)]
+      }
+    }),
+    .a(["trussTransform", ".d"], {
+      let obj = try $0.obj(1)
+      let fromTruss: SinglePatchTruss = try obj.x("from")
+      let toTruss: SinglePatchTruss = try obj.x("to")
+      return try .arg1(try $0.xq(2) ?? .ident) {
+        try toTruss.parse(otherData: $0, otherTruss: fromTruss)
       }
     }),
     .s(".s", {
@@ -105,6 +145,12 @@ extension ByteTransform: JsParsable {
   ]
   
   static func arg1(_ arg: Self, _ fn: @escaping ([UInt8]) -> [UInt8]) -> Self {
+    return .fn { b, e in
+      try fn(arg.call(b, e))
+    }
+  }
+
+  static func arg1(_ arg: Self, _ fn: @escaping ([UInt8]) throws -> [UInt8]) throws -> Self {
     return .fn { b, e in
       try fn(arg.call(b, e))
     }
