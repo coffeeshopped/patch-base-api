@@ -8,17 +8,17 @@ extension PatchController.PanelItem: JsParsable {
       let c = try? $0.obj(2)
       return try .switcher(label: c?.xq("l"), $0.x(1), id: c?.xq("id"), width: c?.xq("w"), cols: c?.xq("cols"))
     }),
-    .a([".s?", ".p"], { try .knob($0.xq(0), $0.x(1)) }),
+    .a([".s?", ".p"], { try .dynamic($0.xq(0), $0.x(1)) }),
     .a([".d", ".p?"], {
       let obj = try $0.obj(0)
       let path: SynthPath? = try $0.xq(1)
-      var t: String = (try obj.xq("t")) ?? "knob"
+      var t: String = (try obj.xq("t")) ?? "dyn"
       var l: String? = try obj.xq("l")
       let id: SynthPath? = try obj.xq("id")
       let w: CGFloat? = try obj.xq("w")
       let h: CGFloat? = try obj.xq("h")
       
-      let ctrls = ["knob", "switch", "switsch", "checkbox", "select", "imgSelect"]
+      let ctrls = ["dyn", "knob", "switch", "switsch", "checkbox", "select", "imgSelect"]
       try ctrls.forEach {
         guard let label: String = try obj.xq($0) else { return }
         t = $0
@@ -26,6 +26,8 @@ extension PatchController.PanelItem: JsParsable {
       }
       
       switch t {
+      case "dyn":
+        return .dynamic(l, path, id: id, width: nil)
       case "knob":
         return .knob(l, path, id: id, width: nil)
       case "switch", "switsch":

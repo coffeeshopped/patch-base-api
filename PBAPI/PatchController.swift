@@ -10,6 +10,7 @@ public indirect enum PatchController {
   case data(_ dataCount: Int, _ range: ClosedRange<Int>, _ pathFn: (Int) -> SynthPath, effects: [Effect] = [])
     
   public enum Control {
+    case dynamic
     case knob
     case checkbox
     case switsch
@@ -207,6 +208,10 @@ public indirect enum PatchController {
 }
 
 public extension PatchController.PanelItem {
+  
+  static func dynamic(_ label: String?, _ path: SynthPath?, id: SynthPath? = nil, width: CGFloat? = nil) -> Self {
+    .basic(.dynamic, label, path, id: id, width: width)
+  }
   
   static func knob(_ path: SynthPath?, id: SynthPath? = nil, width: CGFloat? = nil) -> Self {
     .basic(.knob, nil, path, id: id, width: width)
