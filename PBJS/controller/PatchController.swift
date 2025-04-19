@@ -37,9 +37,19 @@ extension PatchController: JsParsable {
       try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.simpleGrid(try $0.x("simpleGridLayout"))])
     }),
     .d([
+      "gridBuilder" : ".a",
+      "prefix" : ".x?",
+      "color" : ".x?",
+      "border" : ".x?",
+      "effects" : ".x?",
+      "layout" : ".x?",
+    ], {
+      try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), [.grid($0.x("gridBuilder"))], effects: $0.xq("effects") ?? [], layout: $0.xq("layout") ?? [])
+    }),
+    .d([
       "builders" : ".a",
     ], {
-      try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), try $0.x("builders"), effects: $0.xq("effects") ?? [], layout: $0.xq("layout") ?? [])
+      try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), $0.x("builders"), effects: $0.xq("effects") ?? [], layout: $0.xq("layout") ?? [])
     }),
     .a(["fm", ".a", ".x", ".d"], {
       let config = try? $0.obj(3)
