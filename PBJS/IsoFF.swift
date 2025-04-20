@@ -8,8 +8,12 @@ extension IsoFF : JsParsable {
     .a(["-", ".n"], { try .a($0.x(1) * -1) }),
     .a(["*", ".n"], { try .m($0.x(1)) }),
     .a(["/", ".n"], { try .d($0.x(1)) }),
+    .a(["!-", ".n"], { try .m(-1) >>> .a($0.x(1)) }),
     .a(["switch", ".a", ".x?"], {
       try .switcher($0.x(1), default: $0.xq(2))
+    }),
+    .a(["baseSwitch", ".a", ".x?"], {
+      try .switcher($0.x(1), default: $0.xq(2), withBase: true)
     }),
     .a(["lerp", ".a", ".a"], {
       let inn: ClosedRange<Float> = try $0.x(1)

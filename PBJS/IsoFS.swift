@@ -17,6 +17,9 @@ extension IsoFS : JsParsable {
     .a(["switch", ".a", ".x?"], {
       try .switcher($0.x(1), default: $0.xq(2))
     }),
+    .a(["baseSwitch", ".a", ".x?"], {
+      try .switcher($0.x(1), default: $0.xq(2), withBase: true)
+    }),
     .a(["concat"], { v in
       let isos: [IsoFS] = try (1..<v.arrCount()).map { try v.x($0) }
       return .init { f in
@@ -27,6 +30,9 @@ extension IsoFS : JsParsable {
     }),
     .a(["units", ".s"], {
       try .unitFormat($0.x(1))
+    }),
+    .a(["@", ".a"], {
+      try .options($0.x(1))
     }),
     .a([">"], {
       var floatOut = true

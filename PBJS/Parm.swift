@@ -103,6 +103,10 @@ extension Parm.Span: JsParsable, JsPassable {
 //      return .opts(try $0.arrStr("opts"))
     }),
     .d([
+      "iso" : ".x",
+      "max" : ".n",
+    ], { try .isoS($0.x("iso"), range: 0...($0.x("max"))) }),
+    .d([
       "max" : ".n",
       "dispOff" : ".n?",
     ], { try .max($0.x("max"), dispOff: $0.xq("dispOff") ?? 0) }),

@@ -145,7 +145,7 @@ public extension IsoFS {
     case rangeString(ClosedRange<Float>, String)
   }
   
-  static func switcher(_ checks: [SwitcherCheck], default def: Self? = nil) -> Self {
+  static func switcher(_ checks: [SwitcherCheck], default def: Self? = nil, withBase: Bool = false) -> Self {
     .init(
       forward: {
         let i = Int($0)
@@ -154,7 +154,14 @@ public extension IsoFS {
           case .int(let checkInt, let constY):
             if i == checkInt { return constY }
           case .range(let checkRange, let iso):
-            if checkRange.contains($0) { return iso.forward($0) }
+            if checkRange.contains($0) {
+              if withBase {
+                return iso.forward($0 - checkRange.lowerBound)
+              }
+              else {
+                return iso.forward($0)
+              }
+            }
           case .rangeString(let checkRange, let s):
             if checkRange.contains($0) { return s }
           }
@@ -169,7 +176,7 @@ public extension IsoFS {
               return Float(checkInt)
             }
           case .range(let checkRange, let iso):
-            let f = iso.backward($0)
+            let f = iso.backward($0) + (withBase ? checkRange.lowerBound : 0)
             if checkRange.contains(f) { return f }
           case .rangeString(let checkRange, let s):
             if s.misoEquals($0) {

@@ -18,7 +18,7 @@ extension PatchController.PanelItem: JsParsable {
       let w: CGFloat? = try obj.xq("w")
       let h: CGFloat? = try obj.xq("h")
       
-      let ctrls = ["dyn", "knob", "switch", "switsch", "checkbox", "select", "imgSelect"]
+      let ctrls = ["x", "dyn", "knob", "switch", "switsch", "checkbox", "select", "imgSelect"]
       try ctrls.forEach {
         guard let label: String = try obj.xq($0) else { return }
         t = $0
@@ -26,7 +26,7 @@ extension PatchController.PanelItem: JsParsable {
       }
       
       switch t {
-      case "dyn":
+      case "dyn", "x":
         return .dynamic(l, path, id: id, width: nil)
       case "knob":
         return .knob(l, path, id: id, width: nil)
