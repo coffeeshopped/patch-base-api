@@ -39,6 +39,9 @@ extension PatchController.AttrChange: JsParsable {
     .a(["paramsChange", ".a"], {
       try .paramsChange(.init($0.x(1)))
     }),
+    .a(["setNavPath", ".p", ".p?"], {
+      try .setNavPath(id: $0.xq(2), $0.x(1))
+    }),
     .a([".p", ".n"], {
       // TODO: see if this makes things funky with multiple paramsChange's being returned
       // ... leading to extra MIDI traffic.
