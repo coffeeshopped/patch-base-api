@@ -83,8 +83,8 @@ public extension SysexTruss {
     url.deletingPathExtension().lastPathComponent
   }
     
-  func fetchRequest(_ msg: MidiMessage) -> RxMidi.FetchCommand {
-    .requestMsg(msg, .eq(fileDataCount))
+  func fetchRequest(_ msg: MidiMessage, bytesExpected: Int? = nil) -> RxMidi.FetchCommand {
+    .requestMsg(msg, .eq(bytesExpected ?? fileDataCount))
   }
 
 

@@ -10,7 +10,8 @@ extension FetchTransform: JsParsable {
       try .truss($0.x(1))
     }),
     .a(["bankTruss", ".x"], {
-      try .bankTruss($0.x(1), waitInterval: 0)
+      // TODO: add bytesPerPatch and waitInterval
+      try .bankTruss($0.x(1), bytesPerPatch: nil, waitInterval: 0)
     }),
     .a(["custom", ".x"], {
       let fns = try $0.any(1).map {
