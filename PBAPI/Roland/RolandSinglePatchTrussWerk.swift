@@ -31,7 +31,7 @@ public struct RolandSinglePatchTrussWerk : RolandPatchTrussWerk {
 //     valid sizes should be based on both passed in size as well as the default createFileData
     return try SinglePatchTruss(displayId, bodyDataCount, namePackIso: name, params: parms, initFile: initFile, defaultName: defaultName, createFileData: .fn({
       try sysexDataFn($0, $1, start)
-    }), parseBodyData: parseBodyData, validSizes: [werk.sysexMsgCount(size: size)], includeFileDataCount: true, pack: Self.defaultPack, unpack: Self.defaultUnpack, randomize: randomize)
+    }), parseBodyData: parseBodyData, validSizes: [werk.sysexMsgCount(size: size)], includeFileDataCount: true, pack: .fn(Self.defaultPack), unpack: .fn(Self.defaultUnpack), randomize: randomize)
   }
   
   public func anyTruss(_ werk: RolandSysexTrussWerk, start: RolandAddress) throws -> any SysexTruss {

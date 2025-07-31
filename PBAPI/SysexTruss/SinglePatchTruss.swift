@@ -4,8 +4,32 @@ public struct SinglePatchTruss : PatchTruss {
   public typealias BodyData = [UInt8]
   public func sysexBodyData(_ data: BodyData) -> SysexBodyData { .single(data) }
 
-  public typealias PackFn = ((inout BodyData, Parm, Int) throws -> Void)
-  public typealias UnpackFn = ((BodyData, Parm) throws -> Int?)
+  public enum PackFn {
+    case fn((_ b: inout BodyData, _ p: Parm, _ v: Int) throws -> Void)
+//    case b((_ b: [UInt8]) throws -> [UInt8])
+//    case e((_ e: AnySynthEditor?) throws -> [UInt8])
+    
+    public func call(_ b: inout BodyData, _ p: Parm, _ v: Int) throws {
+      switch self {
+      case .fn(let fn):
+        try fn(&b, p, v)
+      }
+    }
+  }
+
+  public enum UnpackFn {
+    case fn((_ b: BodyData, _ p: Parm) throws -> Int?)
+//    case b((_ b: [UInt8]) throws -> [UInt8])
+//    case e((_ e: AnySynthEditor?) throws -> [UInt8])
+
+    public func call(_ b: BodyData, _ p: Parm) throws -> Int? {
+      switch self {
+      case .fn(let fn):
+        return try fn(b, p)
+      }
+    }
+  }
+
   public typealias RandomizeFn = () -> SynthPathInts
 
   public let core: Core
@@ -38,8 +62,8 @@ public struct SinglePatchTruss : PatchTruss {
     self.bodyDataCount = bodyDataCount
     self.namePackIso = namePackIso
     self.params = params
-    self.pack = pack ?? Self.defaultPack
-    self.unpack = unpack ?? Self.defaultUnpack
+    self.pack = pack ?? .fn(Self.defaultPack)
+    self.unpack = unpack ?? .fn(Self.defaultUnpack)
     self._randomize = {
       .init(params.dict { [$0.key : $0.value.span.randomize()] }) <<< (randomize?() ?? [:])
     }
@@ -110,7 +134,7 @@ public struct SinglePatchTruss : PatchTruss {
     }
     else {
       do {
-        return try unpack(bodyData, param)
+        return try unpack.call(bodyData, param)
       }
       catch {
         throw Error.wrap("Error in Truss (\(displayId) getValue (path: \(path.str()))", error)
@@ -125,7 +149,7 @@ public struct SinglePatchTruss : PatchTruss {
       pack(&bodyData, value)
     }
     else {
-      try! pack(&bodyData, param, value)
+      try! pack.call(&bodyData, param, value)
     }
   }
     

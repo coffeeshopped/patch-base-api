@@ -10,6 +10,7 @@ extension SinglePatchTruss: JsParsable {
       "bodyDataCount" : ".n",
       "initFile" : ".s?",
       "parms" : ".a",
+      "pack" : ".x?",
       "unpack" : ".x?",
       "parseBody" : ".x?",
       "createFile" : ".x?",
@@ -26,42 +27,11 @@ extension SinglePatchTruss: JsParsable {
         }
       }
       
-      let unpack = try? $0.any("unpack").xform(jsUnpackParsers)
       let initFile = (try $0.xq("initFile")) ?? ""
       
-      return try .init($0.x("id"), bodyDataCount, namePackIso: $0.xq("namePack"), params: parms.params(), initFile: initFile, defaultName: nil, createFileData: $0.xq("createFile"), parseBodyData: parseBodyFn, validBundle: nil, pack: nil, unpack: unpack, randomize: nil)
+      return try .init($0.x("id"), bodyDataCount, namePackIso: $0.xq("namePack"), params: parms.params(), initFile: initFile, defaultName: nil, createFileData: $0.xq("createFile"), parseBodyData: parseBodyFn, validBundle: nil, pack: $0.xq("pack"), unpack: $0.xq("unpack"), randomize: nil)
     }),
   ]
-  
-  static let jsUnpackParsers: [JsParseRule<UnpackFn>] = [
-    .d([
-      "b" : ".s", // byte representation scheme
-    ], {
-      let scheme: String = try $0.x("b")
-      return { bodyData, parm in
-        guard let index = parm.b else {
-          throw JSError.error(msg: "Parm did not have b specified.")
-        }
-        guard index < bodyData.count else {
-          throw JSError.error(msg: "Byte index out of bounds of body data.")
-        }
-        let byte = bodyData[index]
-        switch scheme {
-        case "2comp":
-          return Int(Int8(bitPattern: byte))
-        default:
-          return Int(byte)
-        }
-      }
-    }),
-    .s(".f", { fn in
-      try fn.checkFn()
-      return { bodyData, parm in
-        try fn.call([bodyData, parm.toJS()], exportOrigin: nil)?.x()
-      }
-    }),
-  ]
-    
 
   static let parseBodyRules: [JsParseRule<Core.ParseBodyDataFn>] = [
     .a(["+"], { v in
@@ -144,4 +114,43 @@ extension SinglePatchTruss: JsParsable {
 //    }),
 //  ], "singlePatchTruss parseBody Functions")
 
+}
+
+extension SinglePatchTruss.PackFn: JsParsable {
+  
+  static let jsRules: [JsParseRule<Self>] = [
+  ]
+}
+
+extension SinglePatchTruss.UnpackFn: JsParsable {
+  
+  static let jsRules: [JsParseRule<Self>] = [
+    .d([
+      "b" : ".s", // byte representation scheme
+    ], {
+      let scheme: String = try $0.x("b")
+      return .fn({ bodyData, parm in
+        guard let index = parm.b else {
+          throw JSError.error(msg: "Parm did not have b specified.")
+        }
+        guard index < bodyData.count else {
+          throw JSError.error(msg: "Byte index out of bounds of body data.")
+        }
+        let byte = bodyData[index]
+        switch scheme {
+        case "2comp":
+          return Int(Int8(bitPattern: byte))
+        default:
+          return Int(byte)
+        }
+      })
+    }),
+    .s(".f", { fn in
+      try fn.checkFn()
+      return .fn({ bodyData, parm in
+        try fn.call([bodyData, parm.toJS()], exportOrigin: nil)?.x()
+      })
+    }),
+  ]
+  
 }
