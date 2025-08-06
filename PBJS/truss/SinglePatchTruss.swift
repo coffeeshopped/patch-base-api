@@ -31,6 +31,34 @@ extension SinglePatchTruss: JsParsable {
       
       return try .init($0.x("id"), bodyDataCount, namePackIso: $0.xq("namePack"), params: parms.params(), initFile: initFile, defaultName: nil, createFileData: $0.xq("createFile"), parseBodyData: parseBodyFn, validBundle: nil, pack: $0.xq("pack"), unpack: $0.xq("unpack"), randomize: nil)
     }),
+    // newer API, matching Roland werks
+    // no "type", but rather the type (single, multi, etc) can be the key for the ID
+    .d([
+      "single" : ".s",
+      "bodyDataCount" : ".n",
+      "initFile" : ".s?",
+      "parms" : ".a",
+      "pack" : ".x?",
+      "unpack" : ".x?",
+      "parseBody" : ".x?",
+      "createFile" : ".x?",
+    ], {
+      let parms: [Parm] = try $0.arr("parms").x()
+      let bodyDataCount: Int = try $0.x("bodyDataCount")
+      
+      var parseBodyFn: Core.ParseBodyDataFn? = nil
+      if let parseBody = try? $0.any("parseBody") {
+        parseBodyFn = try? parseBody.xform(parseBodyRules)
+        if parseBodyFn == nil {
+          // if it doesn't parse as a function, assume it's an int (parseOffset)
+          parseBodyFn = parseBodyDataFn(parseOffset: try parseBody.x(), bodyDataCount: bodyDataCount)
+        }
+      }
+      
+      let initFile = (try $0.xq("initFile")) ?? ""
+      
+      return try .init($0.x("single"), bodyDataCount, namePackIso: $0.xq("namePack"), params: parms.params(), initFile: initFile, defaultName: nil, createFileData: $0.xq("createFile"), parseBodyData: parseBodyFn, validBundle: nil, pack: $0.xq("pack"), unpack: $0.xq("unpack"), randomize: nil)
+    }),
   ]
 
   static let parseBodyRules: [JsParseRule<Core.ParseBodyDataFn>] = [
