@@ -14,12 +14,12 @@ public struct MultiPatchTruss : PatchTruss {
   public let trussPaths: [SynthPath]
   public let trussDict: [SynthPath:SinglePatchTruss]
 
-  public init(_ displayId: String, trussMap: [(SynthPath, SinglePatchTruss)], namePath: SynthPath? = nil, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.ParseBodyDataFn? = nil, validBundle bundle: ValidBundle? = nil) {
+  public init(_ displayId: String, trussMap: [(SynthPath, SinglePatchTruss)], namePath: SynthPath? = nil, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.FromMidiFn? = nil, validBundle bundle: ValidBundle? = nil) {
     
     self = Self.init(displayId, trussMap: trussMap, namePath: namePath, initFile: initFile, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: bundle?.validSize, isValidFileData: bundle?.validData, isCompleteFetch: bundle?.completeFetch)
   }
   
-  public init(_ displayId: String, trussMap: [(SynthPath, SinglePatchTruss)], namePath: SynthPath? = nil, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.ParseBodyDataFn? = nil, isValidSize: ValidSizeFn? = nil, isValidFileData: ValidDataFn? = nil, isCompleteFetch: ValidDataFn? = nil) {
+  public init(_ displayId: String, trussMap: [(SynthPath, SinglePatchTruss)], namePath: SynthPath? = nil, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.FromMidiFn? = nil, isValidSize: ValidSizeFn? = nil, isValidFileData: ValidDataFn? = nil, isCompleteFetch: ValidDataFn? = nil) {
     self.trussMap = trussMap
     self.trussPaths = trussMap.map { $0.0 }
     self.trussDict = trussMap.dict { [$0.0 : $0.1] }
@@ -32,14 +32,14 @@ public struct MultiPatchTruss : PatchTruss {
     let createFileData = createFileData ?? .b({ b in
       try Self.defaultCreateFileData(bodyData: b, trussMap: trussMap)
     })
-    let parseBodyData = parseBodyData ?? {
-      try Self.defaultParseBodyData(fileData: $0, trussMap: trussMap)
-    }
+    let parseBodyData = parseBodyData ?? .fn({
+      try Self.defaultParseBodyData(msgs: $0, trussMap: trussMap)
+    })
     
     self.core = Core(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: isValidSize, isValidFileData: isValidFileData, isCompleteFetch: isCompleteFetch)
   }
   
-  public init(_ displayId: String, trussMap: [(SynthPath, SinglePatchTruss)], namePath: SynthPath? = nil, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.ParseBodyDataFn? = nil, validSizes: [Int], includeFileDataCount: Bool) {
+  public init(_ displayId: String, trussMap: [(SynthPath, SinglePatchTruss)], namePath: SynthPath? = nil, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.FromMidiFn? = nil, validSizes: [Int], includeFileDataCount: Bool) {
     
     let fileDataCount = fileDataCount ?? Self.fileDataCount(trusses: trussMap.map { $0.1 })
     let finalValidSizes = (includeFileDataCount ? [fileDataCount] : []) + validSizes
@@ -57,14 +57,13 @@ public struct MultiPatchTruss : PatchTruss {
     return .init(sizes: finalValidSizes)
   }
 
-  public static func defaultParseBodyData(fileData: [UInt8], trussMap: [(SynthPath, SinglePatchTruss)]) throws -> MultiPatchTruss.BodyData {
+  public static func defaultParseBodyData(msgs: [MidiMessage], trussMap: [(SynthPath, SinglePatchTruss)]) throws -> MultiPatchTruss.BodyData {
     var bodyData = BodyData()
     
-    try SysexData(data: Data(fileData)).forEach { d in
+    try msgs.forEach { d in
       for (path, truss) in trussMap {
-        let b = d.bytes()
-        guard truss.isValidFileData(b) else { continue }
-        bodyData[path] = try truss.parseBodyData(b)
+        guard truss.isValidFileData(d.bytes()) else { continue }
+        bodyData[path] = try truss.parseBodyData([d])
       }
     }
     

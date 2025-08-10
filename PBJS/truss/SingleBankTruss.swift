@@ -16,7 +16,7 @@ extension SinglePatchTruss: JsBankParsable {
       let patchCount: Int = try $0.x("patchCount")
       let createFile = try $0.obj("createFile").xform(SingleBankTruss.bankToMidiRules)
       
-      let parseBody = try SingleBankTruss.sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: patchTruss.parseBodyData, patchCount: patchCount)
+      let parseBody = try SingleBankTruss.sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: patchTruss.core.parseBodyData, patchCount: patchCount)
 
       return try .init(patchTruss: patchTruss, patchCount: patchCount, initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody, validSizes: $0.x("validSizes"), includeFileDataCount: $0.x("includeFileDataCount"))
     }),
@@ -30,7 +30,7 @@ extension SinglePatchTruss: JsBankParsable {
       let patchCount: Int = try $0.x("patchCount")
       let createFile = try $0.obj("createFile").xform(SingleBankTruss.bankToMidiRules)
       
-      let parseBody = try SingleBankTruss.sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: patchTruss.parseBodyData, patchCount: patchCount)
+      let parseBody = try SingleBankTruss.sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: patchTruss.core.parseBodyData, patchCount: patchCount)
 
       return try .init(patchTruss: patchTruss, patchCount: patchCount, initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: createFile, parseBodyData: parseBody, validBundle: $0.xq("validBundle"))
     }),
@@ -64,15 +64,15 @@ extension SinglePatchTruss: JsBankParsable {
       let patchByteCount: Int = try parseBody.x("patchByteCount")
       let parseBodyTransform: ByteTransform = try parseBody.x("patchBodyTransform")
 
-      let parseBodyFn: SomeBankTruss<Self>.Core.ParseBodyDataFn = {
-        let compactData = SomeBankTruss<Self>.compactData(fileData: $0, offset: offset, patchByteCount: patchByteCount)
+      let parseBodyFn: SomeBankTruss<Self>.Core.FromMidiFn = .fn({
+        let compactData = SomeBankTruss<Self>.compactData(fileData: $0.flatMap { $0.bytes() }, offset: offset, patchByteCount: patchByteCount)
         let bodyData = try compactData.map {
           try parseBodyTransform.call($0, nil)
         }
         
         // TX81Z (maybe others?) have patchCount lower than the number of compactChunks that maybe be present in the passed in data, hence the line below
         return SingleBankTruss.BodyData(bodyData[0..<patchCount])
-      }
+      })
       
       return .init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: fileDataCount, defaultName: nil, createFileData: createFileFn, parseBodyData: parseBodyFn)
     }),
@@ -80,7 +80,7 @@ extension SinglePatchTruss: JsBankParsable {
 }
 
 //extension SingleBankTruss {
-//  static let parseBodyRules: JsParseTransformSet<Core.ParseBodyDataFn> = try! .init([
+//  static let parseBodyRules: JsParseTransformSet<Core.FromMidiFn> = try! .init([
 //    ([
 //      "locationIndex" : ".n",
 //      "parseBody" : ".x",

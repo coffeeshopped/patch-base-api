@@ -44,10 +44,10 @@ public struct RolandMultiPatchTrussWerk : RolandPatchTrussWerk {
     let sysexDataFn = sysexData(werk)
     return MultiPatchTruss(displayId, trussMap: try map.map { ($0.path, try $0.werk.truss(werk, start: start)) }, namePath: .init([.common]), initFile: initFile, createFileData: .fn({ b, e in
         try sysexDataFn(b, e, start)
-    }), parseBodyData: { fileData in
-      let rData = RolandWerkData(data: Data(fileData), werk: werk)
+    }), parseBodyData: .fn({
+      let rData = RolandWerkData(data: Data($0.flatMap{ $0.bytes() }), werk: werk)
       return parseBodyData(rData, 0)
-    }, validBundle: nil)
+    }), validBundle: nil)
   }
   
   public func anyTruss(_ werk: RolandSysexTrussWerk, start: RolandAddress) throws -> any SysexTruss {

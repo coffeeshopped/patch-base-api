@@ -29,13 +29,13 @@ public struct RolandMultiBankTrussWerk {
       })
 
 //      try createFileFn(b, UInt8(RolandDefaultDeviceId), start, patchWerk, iso).reduce([], +)
-    }), parseBodyData: { fileData in
-      let rData = RolandWerkData(data: Data(fileData), werk: werk)
+    }), parseBodyData: .fn({
+      let rData = RolandWerkData(data: Data($0.flatMap { $0.bytes() }), werk: werk)
       return patchCount.map {
         let address = iso.address(UInt8($0))
         return patchWerk.parseBodyData(rData, address)
       }
-    }, validBundle: validBundle)
+    }), validBundle: validBundle)
   }
   
   public func anyTruss(_ werk: RolandSysexTrussWerk, start: RolandAddress) throws -> any SysexTruss {

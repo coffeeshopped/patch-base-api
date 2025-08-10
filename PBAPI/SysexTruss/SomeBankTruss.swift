@@ -13,7 +13,7 @@ public struct SomeBankTruss<PT:PatchTruss> : BankTruss {
   
   public var anyPatchTruss: any PatchTruss { patchTruss }
 
-  public init(patchTruss: PT, patchCount: Int, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, isValidSize: ValidSizeFn? = nil, isValidFileData: ValidDataFn? = nil, isCompleteFetch: ValidDataFn? = nil) {
+  public init(patchTruss: PT, patchCount: Int, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: Core.FromMidiFn, isValidSize: ValidSizeFn? = nil, isValidFileData: ValidDataFn? = nil, isCompleteFetch: ValidDataFn? = nil) {
     self.patchTruss = patchTruss
     self.patchCount = patchCount
 
@@ -21,12 +21,12 @@ public struct SomeBankTruss<PT:PatchTruss> : BankTruss {
     self.core = Core("\(patchTruss.displayId).bank", initFile: initFile, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: isValidSize, isValidFileData: isValidFileData, isCompleteFetch: isCompleteFetch)
   }
 
-  public init(patchTruss: PT, patchCount: Int, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, validBundle bundle: ValidBundle? = nil) {
+  public init(patchTruss: PT, patchCount: Int, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: Core.FromMidiFn, validBundle bundle: ValidBundle? = nil) {
     
     self = Self.init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: bundle?.validSize, isValidFileData: bundle?.validData, isCompleteFetch: bundle?.completeFetch)
   }
   
-  public init(patchTruss: PT, patchCount: Int, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, validSizes: [Int], includeFileDataCount: Bool) {
+  public init(patchTruss: PT, patchCount: Int, initFile: String = "", fileDataCount: Int? = nil, defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: Core.FromMidiFn, validSizes: [Int], includeFileDataCount: Bool) {
     
     let fileDataCount = Self.fileDataCount(patchTruss: patchTruss, patchCount: patchCount)
     let finalValidSizes = (includeFileDataCount ? [fileDataCount] : []) + validSizes
@@ -62,7 +62,9 @@ public struct SomeBankTruss<PT:PatchTruss> : BankTruss {
       guard let dataAsset = PBDataAsset(name: initFileName) else {
         throw SysexTrussError.fileNotFound(msg: "WARNING: Data asset missing for \(displayId)")
       }
-      return try parseBodyData(dataAsset.data.bytes())
+      let msgs = SysexData(data: dataAsset.data).msgs()
+
+      return try parseBodyData(msgs)
     }
     else if anyPatchTruss.initFileName.count > 0 {
       let patchBodyData = try patchTruss.createInitBodyData()
@@ -82,10 +84,10 @@ public typealias MultiBankTruss = SomeBankTruss<MultiPatchTruss>
 
 public extension SomeBankTruss {
   
-  static func sortAndParseBodyDataWithLocationIndex(_ locationIndex: Int, parseBodyData: @escaping PT.Core.ParseBodyDataFn, patchCount: Int) -> Core.ParseBodyDataFn {
-    {
-      try singleSortedByteArrays(sysexData: $0, count: patchCount, locationByteIndex: locationIndex).map { try parseBodyData($0) }
-    }
+  static func sortAndParseBodyDataWithLocationIndex(_ locationIndex: Int, parseBodyData: PT.Core.FromMidiFn, patchCount: Int) -> Core.FromMidiFn {
+    .fn({
+      try singleSortedByteArrays(msgs: $0, count: patchCount, locationByteIndex: locationIndex).map { try parseBodyData.call([$0]) }
+    })
   }
 
   static func compactData(fileData: [UInt8], offset: Int, patchByteCount: Int) -> [[UInt8]] {
@@ -96,31 +98,31 @@ public extension SomeBankTruss {
     }
   }
 
-  static func singleSortedByteArrays(sysexData: [UInt8], count: Int, locationMap: ([UInt8]) -> Int) -> [[UInt8]] {
-    var sysexDict = [Int:[UInt8]]()
-    SysexData(data: sysexData.data()).forEach {
-      let d = [UInt8]($0)
-      sysexDict[locationMap(d)] = d
+  static func singleSortedByteArrays(msgs: [MidiMessage], count: Int, locationMap: ([UInt8]) -> Int) -> [MidiMessage] {
+    var sysexDict = [Int:MidiMessage]()
+    msgs.forEach {
+      let d = $0.bytes()
+      sysexDict[locationMap(d)] = $0
     }
-    return count.map { sysexDict[$0] ?? [] }
+    return count.map { sysexDict[$0] ?? .sysex([]) }
   }
 
-  static func singleSortedByteArrays(sysexData: [UInt8], count: Int, locationByteIndex: Int) -> [[UInt8]] {
-    singleSortedByteArrays(sysexData: sysexData, count: count, locationMap: { Int($0[locationByteIndex]) })
+  static func singleSortedByteArrays(msgs: [MidiMessage], count: Int, locationByteIndex: Int) -> [MidiMessage] {
+    singleSortedByteArrays(msgs: msgs, count: count, locationMap: { Int($0[locationByteIndex]) })
   }
     
   /// Set parseBodyData to sort sysex messages based on value at locationIndex, then parse each message using the patchTruss
   /// parseBodyData fn
-  static func sortAndParseBodyDataWithLocationIndex(_ locationIndex: Int, patchTruss: PT, patchCount: Int) -> Core.ParseBodyDataFn {
-    {
-      try singleSortedByteArrays(sysexData: $0, count: patchCount, locationByteIndex: locationIndex).map { try patchTruss.parseBodyData($0) }
-    }
+  static func sortAndParseBodyDataWithLocationIndex(_ locationIndex: Int, patchTruss: PT, patchCount: Int) -> Core.FromMidiFn {
+    .fn({
+      try singleSortedByteArrays(msgs: $0, count: patchCount, locationByteIndex: locationIndex).map { try patchTruss.parseBodyData([$0]) }
+    })
   }
 
-  static func sortAndParseBodyDataWithLocationMap(_ locationMap: @escaping ([UInt8]) -> Int, patchTruss: PT, patchCount: Int) -> Core.ParseBodyDataFn {
-    {
-      try singleSortedByteArrays(sysexData: $0, count: patchCount, locationMap: locationMap).map { try patchTruss.parseBodyData($0) }
-    }
+  static func sortAndParseBodyDataWithLocationMap(_ locationMap: @escaping ([UInt8]) -> Int, patchTruss: PT, patchCount: Int) -> Core.FromMidiFn {
+    .fn({
+      try singleSortedByteArrays(msgs: $0, count: patchCount, locationMap: locationMap).map { try patchTruss.parseBodyData([$0]) }
+    })
   }
 
   static func createFileDataWithLocationMap(_ fn: @escaping (PT.BodyData, Int) -> [UInt8]) -> Core.ToMidiFn {

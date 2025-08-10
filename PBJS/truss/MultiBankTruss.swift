@@ -34,15 +34,15 @@ extension MultiPatchTruss : JsBankParsable {
       })
       
       let offset: Int = try $0.x("parseBody")
-      let parseBody: MultiBankTruss.Core.ParseBodyDataFn = {
-        let chunks = MultiBankTruss.compactData(fileData: $0, offset: offset, patchByteCount: compactByteCount)
+      let parseBody: MultiBankTruss.Core.FromMidiFn = .fn({
+        let chunks = MultiBankTruss.compactData(fileData: $0.flatMap { $0.bytes() }, offset: offset, patchByteCount: compactByteCount)
         return try chunks.map { compactBytes in
           try compactTrussMap.dict {
             let truss = patchTruss.trussDict[$0.0]! // TODO: needs to throw
             return [$0.0 : try truss.parse(otherData: compactBytes, otherTruss: $0.1)]
           }
         }
-      }
+      })
       
       return .init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: fileDataCount, defaultName: nil, createFileData: createFile, parseBodyData: parseBody)
     }),
@@ -51,7 +51,7 @@ extension MultiPatchTruss : JsBankParsable {
 }
 
 //extension MultiBankTruss {
-//  static let parseBodyRules: JsParseTransformSet<Core.ParseBodyDataFn> = try! .init([
+//  static let parseBodyRules: JsParseTransformSet<Core.FromMidiFn> = try! .init([
 //    ([
 //      "locationIndex" : ".n",
 //      "parseBody" : ".x",

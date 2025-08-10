@@ -75,7 +75,7 @@ public struct FullRefTruss : MultiSysexTruss {
 //  public let trussDict: [SynthPath : any SysexTruss]
   public let trussPaths: [SynthPath]
 
-  public init(_ displayId: String, trussMap: [(SynthPath, any SysexTruss)], refPath: SynthPath = [.perf], isos: Isos, sections: [(String, [SynthPath])], initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn) {
+  public init(_ displayId: String, trussMap: [(SynthPath, any SysexTruss)], refPath: SynthPath = [.perf], isos: Isos, sections: [(String, [SynthPath])], initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: Core.FromMidiFn) {
     self.trussMapFn = { _ in trussMap }
     self.parseMapHeadData = { _ in .single([]) } // always returns something so that trussMap is returned in trussMap(fileData:)
     let trussDict = trussMap.dict { [$0.0 : $0.1] }
@@ -94,13 +94,13 @@ public struct FullRefTruss : MultiSysexTruss {
   
   public init(_ displayId: String, trussMap: [(SynthPath, any SysexTruss)], refPath: SynthPath = [.perf], isos: Isos, sections: [(String, [SynthPath])], initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, pathForData: @escaping PathForDataFn) {
     
-    self = Self.init(displayId, trussMap: trussMap, refPath: refPath, isos: isos, sections: sections, initFile: initFile, defaultName: defaultName, createFileData: createFileData, parseBodyData: {
-      Self.sysexibles(fileData: $0, trussMap: trussMap, pathForData: pathForData)
-    })
+    self = Self.init(displayId, trussMap: trussMap, refPath: refPath, isos: isos, sections: sections, initFile: initFile, defaultName: defaultName, createFileData: createFileData, parseBodyData: .fn({
+      Self.sysexibles(fileData: $0.flatMap { $0.bytes() }, trussMap: trussMap, pathForData: pathForData)
+    }))
     
   }
   
-  public init(_ displayId: String, trussMapFn: @escaping TrussMapFn, trussPaths: [SynthPath], parseMapHeadData: @escaping ParseMapHeadDataFn, refPath: SynthPath = [.perf], refTruss: any PatchTruss, isos: Isos, sections: [(String, [SynthPath])], initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, fileDataCount: Int) {
+  public init(_ displayId: String, trussMapFn: @escaping TrussMapFn, trussPaths: [SynthPath], parseMapHeadData: @escaping ParseMapHeadDataFn, refPath: SynthPath = [.perf], refTruss: any PatchTruss, isos: Isos, sections: [(String, [SynthPath])], initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: Core.FromMidiFn, fileDataCount: Int) {
     self.trussMapFn = trussMapFn
     self.parseMapHeadData = parseMapHeadData
 //    self.trussDict = trussDict

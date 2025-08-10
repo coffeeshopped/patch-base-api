@@ -16,14 +16,14 @@ public struct JSONPatchTruss : PatchTruss {
                      initFile: initFile,
                      fileDataCount: 0,
                      createFileData: .b({ b in try [.sysex(Self.encoder.encode(b).bytes())] }),
-                     parseBodyData: {
+                     parseBodyData: .fn({
       do {
-        return try Self.decoder.decode([String:Int].self, from: Data($0))
+        return try Self.decoder.decode([String:Int].self, from: Data($0.flatMap { $0.bytes() }))
       } catch {
         print("Unexpected error: \(error).")
         return [String:Int]()
       }
-    },
+    }),
                      isValidSize: .const(true),
                      isValidFileData: .const(true),
                      isCompleteFetch: .const(true))

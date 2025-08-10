@@ -33,4 +33,11 @@ public class SysexData : Collection {
     messageRanges = ranges
   }
   
+  // TODO: probably horribly inefficent.
+  public func msgs() -> [MidiMessage] {
+    self.map {
+      .sysex($0.bytes())
+    }
+  }
+  
 }

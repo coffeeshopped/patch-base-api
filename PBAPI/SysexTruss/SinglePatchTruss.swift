@@ -70,7 +70,7 @@ public struct SinglePatchTruss : PatchTruss {
     self.core = core
   }
 
-  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.ParseBodyDataFn? = nil, validBundle: ValidBundle? = nil, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
+  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.FromMidiFn? = nil, validBundle: ValidBundle? = nil, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
 
     let fileDataCount: Int
     if let createFileData = createFileData {
@@ -83,9 +83,9 @@ public struct SinglePatchTruss : PatchTruss {
     let createFileData = createFileData ?? .fn({ _, _ in
       throw SysexTrussError.blockNotSet(msg: "createFileData called but never set.")
     })
-    let parseBodyData = parseBodyData ?? { _ in
+    let parseBodyData = parseBodyData ?? .fn({ _ in
       throw SysexTrussError.blockNotSet(msg: "\(displayId): parseBodyData called but never set.")
-    }
+    })
 
     let maxNameCount = namePackIso?.byteRange.count ?? 32
     let core = SysexTrussCore<BodyData>(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: validBundle)
@@ -100,7 +100,7 @@ public struct SinglePatchTruss : PatchTruss {
   }
   
   
-  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: @escaping Core.ParseBodyDataFn, validSizes: [Int], includeFileDataCount: Bool, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
+  public init(_ displayId: String, _ bodyDataCount: Int, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: Core.FromMidiFn, validSizes: [Int], includeFileDataCount: Bool, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
 
     let fileDataCount = try Self.fileDataCount(createFileData: createFileData, bodyDataCount: bodyDataCount)
     let finalValidSizes = (includeFileDataCount ? [fileDataCount] : []) + validSizes
@@ -254,18 +254,19 @@ public extension SinglePatchTruss {
 public extension SinglePatchTruss {
 
   /// Set parseBodyData as a simple array copy from the given offset and bodyDataCount.
-  static func parseBodyDataFn(parseOffset: Int, bodyDataCount: Int) -> Core.ParseBodyDataFn {
+  static func parseBodyDataFn(parseOffset: Int, bodyDataCount: Int) -> Core.FromMidiFn {
     /// bodyDataCount will be set bc it's set during constructor
-    return {
+    return .fn({
+      let bytes = $0.flatMap { $0.bytes() }
       let upperBound = parseOffset + bodyDataCount
       let range = parseOffset..<upperBound
-      guard $0.count < upperBound else { return [UInt8]($0[range]) }
+      guard $0.count < upperBound else { return [UInt8](bytes[range]) }
       
-      var d = $0
+      var d = bytes
       let pad = [UInt8](repeating: 0, count: upperBound - $0.count)
       d.append(contentsOf: pad)
       return [UInt8](d[range])
-    }
+    })
   }
 
 }

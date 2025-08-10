@@ -97,10 +97,67 @@ public struct SysexTrussCore<BodyData> {
     }
     
   }
-//  public typealias ToMidiFn = (_ b: BodyData, _ e: AnySynthEditor?) throws -> [UInt8]
+    
+  public enum FromMidiFn {
+    case fn((_ msgs: [MidiMessage]) throws -> BodyData)
+//    case b((_ b: BodyData) throws -> [MidiMessage])
+//    case e((_ e: AnySynthEditor?) throws -> [MidiMessage])
+//    case const([UInt8])
+//    case msg([MidiMessage])
+//    case ident
+    
+    public func call(_ msgs: [MidiMessage]) throws -> BodyData {
+      switch self {
+      case .fn(let fn):
+        return try fn(msgs)
+//      case .b(let fn):
+//        return try fn(b)
+//      case .e(let fn):
+//        return try fn(e)
+//      case .const(let bytes):
+//        return .bytes(bytes)
+//      case .msg(let msg):
+//        return msg
+//      case .ident:
+//        guard let b = b as? [UInt8] else {
+//          throw SysexTrussError.incorrectSysexType(msg: "ident should only be called on SinglePatchTruss")
+//        }
+//        return [.sysex(b)]
+      }
+    }
+    
+    // if possible, return an optimized fn for the concatenation of these 2 fns
+//    public func optConcat(_ other: ToMidiFn) -> ToMidiFn? {
+//      guard case .msg(let myBytes) = self else { return nil }
+//      guard case .msg(let otherBytes) = other else { return nil }
+//      return .msg(myBytes + otherBytes)
+//    }
+    
+    // if possible, return an optimized composition of these 2 fns
+//    public func optCompose(_ other: ToMidiFn) -> ToMidiFn? {
+//      if case .ident = self {
+//        return other
+//      }
+//      else if case .ident = other {
+//        return self
+//      }
+//      return nil
+//    }
+    
+  }
   
-  public typealias ParseBodyDataFn = ([UInt8]) throws -> BodyData
-
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   public let displayId: String
   public let initFileName: String
   public let maxNameCount: Int
@@ -109,13 +166,13 @@ public struct SysexTrussCore<BodyData> {
   public let defaultName: String?
 
   public let createFileData: ToMidiFn
-  public let parseBodyData: ParseBodyDataFn
+  public let parseBodyData: FromMidiFn
 
   public let isValidSize: ValidSizeFn
   public let isValidFileData: ValidDataFn
   public let isCompleteFetch: ValidDataFn
     
-  public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: ToMidiFn, parseBodyData: @escaping ParseBodyDataFn, isValidSize: ValidSizeFn? = nil, isValidFileData: ValidDataFn? = nil, isCompleteFetch: ValidDataFn? = nil) {
+  public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: ToMidiFn, parseBodyData: FromMidiFn, isValidSize: ValidSizeFn? = nil, isValidFileData: ValidDataFn? = nil, isCompleteFetch: ValidDataFn? = nil) {
     self.displayId = displayId
     self.initFileName = initFile
     self.maxNameCount = maxNameCount
@@ -130,12 +187,12 @@ public struct SysexTrussCore<BodyData> {
     self.isCompleteFetch = isCompleteFetch ?? .withValidSize(isValidSize)
   }
 
-  public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: ToMidiFn, parseBodyData: @escaping ParseBodyDataFn, validBundle bundle: ValidBundle? = nil) {
+  public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: ToMidiFn, parseBodyData: FromMidiFn, validBundle bundle: ValidBundle? = nil) {
     
     self = Self.init(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: bundle?.validSize, isValidFileData: bundle?.validData, isCompleteFetch: bundle?.completeFetch)
   }
 
-  public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: ToMidiFn, parseBodyData: @escaping ParseBodyDataFn, isValidSizeDataAndFetch validSizeFn: ValidSizeFn) {
+  public init(_ displayId: String, initFile: String = "", maxNameCount: Int = 32, fileDataCount: Int, defaultName: String? = nil, createFileData: ToMidiFn, parseBodyData: FromMidiFn, isValidSizeDataAndFetch validSizeFn: ValidSizeFn) {
     let validDataFn: ValidDataFn = .withValidSize(validSizeFn)
     self = Self.init(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, isValidSize: validSizeFn, isValidFileData: validDataFn, isCompleteFetch: validDataFn)
   }

@@ -115,7 +115,7 @@ public extension SysexTruss {
     { try core.createFileData.call($0, nil) }
   }
   
-  var parseBodyData: ([UInt8]) throws -> BodyData { { try core.parseBodyData($0) } }
+  var parseBodyData: ([MidiMessage]) throws -> BodyData { { try core.parseBodyData.call($0) } }
     
   func createInitBodyData() throws -> BodyData {
     // look for an init file, otherwise create zero-ed data
@@ -127,7 +127,8 @@ public extension SysexTruss {
       throw SysexTrussError.fileNotFound(msg: "WARNING: Data asset missing for \(displayId). Init file name: \(initFileName)")
     }
     
-    return try parseBodyData(dataAsset.data.bytes())
+    let msgs = SysexData(data: dataAsset.data).msgs()
+    return try parseBodyData(msgs)
   }
   
   func createInitAnyBodyData() throws -> SysexBodyData {
@@ -135,7 +136,8 @@ public extension SysexTruss {
   }
 
   func parseAnyBodyData(fileData: [UInt8]) throws -> SysexBodyData {
-    try sysexBodyData(parseBodyData(fileData))
+    let msgs = SysexData(data: Data(fileData)).msgs()
+    return try sysexBodyData(parseBodyData(msgs))
   }
 
   func createFileData(anyBodyData: SysexBodyData) throws -> [MidiMessage] {

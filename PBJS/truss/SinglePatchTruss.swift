@@ -18,7 +18,7 @@ extension SinglePatchTruss: JsParsable {
       let parms: [Parm] = try $0.arr("parms").x()
       let bodyDataCount: Int = try $0.x("bodyDataCount")
       
-      var parseBodyFn: Core.ParseBodyDataFn? = nil
+      var parseBodyFn: Core.FromMidiFn? = nil
       if let parseBody = try? $0.any("parseBody") {
         parseBodyFn = try? parseBody.xform(parseBodyRules)
         if parseBodyFn == nil {
@@ -33,7 +33,7 @@ extension SinglePatchTruss: JsParsable {
     }),
   ]
 
-  static let parseBodyRules: [JsParseRule<Core.ParseBodyDataFn>] = [
+  static let parseBodyRules: [JsParseRule<Core.FromMidiFn>] = [
     .a(["+"], { v in
       let fns = try (1..<v.arrCount()).map { try v.atIndex($0).xform(parseBodyRules) }
       return { b in try fns.flatMap { try $0(b) } }
