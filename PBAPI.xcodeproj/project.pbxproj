@@ -640,7 +640,6 @@
 			children = (
 				AC414B7E2C653AA20019DC1B /* JsSysex.swift */,
 				AC414B7D2C653AA20019DC1B /* SinglePatchTruss.swift */,
-				ACD6726C2E492C4E00AB3CDE /* SinglePatchTruss.Core.FromMidiFn.swift */,
 				AC6778DB2C98D9B7002FE359 /* NamePackIso.swift */,
 				AC414B7B2C653AA20019DC1B /* SingleBankTruss.swift */,
 				AC7A6A2D2D91E6B2004523F7 /* SomeBankTruss.swift */,
@@ -650,6 +649,7 @@
 				AC414B7C2C653AA20019DC1B /* JsBackupTruss.swift */,
 				AC0BBF412C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift */,
 				AC0BBF432C765DBD00182584 /* MultiPatchTruss.Core.ToMidiFn.swift */,
+				ACD6726C2E492C4E00AB3CDE /* SinglePatchTruss.Core.FromMidiFn.swift */,
 				ACF20BD02D98866100528F1A /* ByteTransform.swift */,
 				AC6FBC3D2CC94299001B43C5 /* ValidBundle.swift */,
 			);

@@ -1,10 +1,3 @@
-//
-//  SinglePatchTruss.Core.ToMidiFn.swift
-//  PBJS
-//
-//  Created by Chadwick Wood on 8/21/24.
-//
-
 import PBAPI
 import JavaScriptCore
 
