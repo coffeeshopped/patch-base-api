@@ -1,13 +1,13 @@
 The description of a patch composed of a single array of bytes. The byte array contains all parameter values (including patch name, if present).
 
 {
-      single : String,
-      initFile : String,
-      parms : \[[[Parm]]\],
-      pack : [[SinglePatchTruss.PackFn]]?,
-      unpack : [[SinglePatchTruss.UnpackFn]]?,
-      parseBody : [[SinglePatchTruss.Core.FromMidiFn]]?,
-      createFile : [[SinglePatchTruss.Core.ToMidiFn]]?,
+  single : String,
+  initFile : String,
+  parms : \[[[Parm]]\],
+  pack : [[SinglePatchTruss.PackFn]]?,
+  unpack : [[SinglePatchTruss.UnpackFn]]?,
+  parseBody : [[SinglePatchTruss.Core.FromMidiFn]]?,
+  createFile : [[SinglePatchTruss.Core.ToMidiFn]]?,
 }
 
 * **single**: Truss ID
