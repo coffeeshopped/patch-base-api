@@ -15,7 +15,7 @@
               "state": {
                 "file": "SinglePatchTruss.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
               "title": "SinglePatchTruss"
@@ -27,16 +27,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "SinglePatchTruss.md",
+                "file": "SinglePatchTruss.Core.ToMidiFn.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SinglePatchTruss"
+              "title": "SinglePatchTruss.Core.ToMidiFn"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -183,9 +182,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "943e20d5a18f7e50",
+  "active": "c116332fd4f3627f",
   "lastOpenFiles": [
-    "Untitled.md",
-    "SinglePatchTruss.md"
+    "SinglePatchTruss.Core.ToMidiFn.md",
+    "SinglePatchTruss.md",
+    "Untitled.md"
   ]
 }
