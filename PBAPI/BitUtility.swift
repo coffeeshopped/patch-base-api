@@ -168,6 +168,20 @@ public extension Data {
     }
     return unpacked
   }
+
+  func unpack87() -> [UInt8] {
+    let fullGroups = count / 8
+    let leftover = count % 8
+    let outCount = fullGroups * 7 + (leftover == 0 ? 0 : leftover - 1)    
+    return outCount.map {
+      let group = $0 / 7
+      let groupOffset = $0 % 7
+      let topByte = self[group * 8]
+      let baseByte = self[group * 8 + groupOffset + 1]
+      return (topByte.bit(groupOffset) << 7) + (baseByte & 0x7f)
+    }
+  }
+
   
   mutating func append78(bytes: [UInt8], count outCount: Int) {
     var b = [UInt8](repeating: 0, count: outCount) // outgoing nibbles

@@ -24,14 +24,15 @@ public struct RolandSinglePatchTrussWerk : RolandPatchTrussWerk {
   
   public func truss(_ werk: RolandSysexTrussWerk, start: RolandAddress) throws -> SinglePatchTruss {
     let bodyDataCount = size.intValue()
-    let parseBodyData = SinglePatchTruss.parseBodyDataFn(parseOffset: werk.parseOffset, bodyDataCount: bodyDataCount)
-    
+    let parseOffset = werk.parseOffset
     let sysexDataFn = Self.sysexData(werk)
 
 //     valid sizes should be based on both passed in size as well as the default createFileData
-    return try SinglePatchTruss(displayId, bodyDataCount, namePackIso: name, params: parms, initFile: initFile, defaultName: defaultName, createFileData: .fn({
+    return try SinglePatchTruss(displayId, namePackIso: name, params: parms, initFile: initFile, defaultName: defaultName, createFileData: .fn({
       try sysexDataFn($0, $1, start)
-    }), parseBodyData: parseBodyData, validSizes: [werk.sysexMsgCount(size: size)], includeFileDataCount: true, pack: .fn(Self.defaultPack), unpack: .fn(Self.defaultUnpack), randomize: randomize)
+    }), parseBodyData: .fn({
+      Data($0.flatMap { $0.bytes() }).safeBytes(parseOffset..<(parseOffset+bodyDataCount))
+    }), validSizes: [werk.sysexMsgCount(size: size)], includeFileDataCount: true, pack: .fn(Self.defaultPack), unpack: .fn(Self.defaultUnpack), randomize: randomize)
   }
   
   public func anyTruss(_ werk: RolandSysexTrussWerk, start: RolandAddress) throws -> any SysexTruss {
