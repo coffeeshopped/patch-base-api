@@ -1,0 +1,191 @@
+{
+  "main": {
+    "id": "f0414bfb2167692e",
+    "type": "split",
+    "children": [
+      {
+        "id": "de0e2d07b93e4af9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c116332fd4f3627f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "SinglePatchTruss.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "SinglePatchTruss"
+            }
+          },
+          {
+            "id": "943e20d5a18f7e50",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "SinglePatchTruss.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "SinglePatchTruss"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4887f8a7c6fe4d0f",
+    "type": "split",
+    "children": [
+      {
+        "id": "bdfe767eae36cebc",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3d5d53dbe53f151d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "e4772dd4ca72add6",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "4ec012bdca866b69",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "aa89d94f79d859cb",
+    "type": "split",
+    "children": [
+      {
+        "id": "3d7403d38f747def",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1ffce56938339d49",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "SinglePatchTruss.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for SinglePatchTruss"
+            }
+          },
+          {
+            "id": "b71f00665b06805e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "SinglePatchTruss.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from SinglePatchTruss"
+            }
+          },
+          {
+            "id": "2bdaab3470f4a275",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "509a311eb6bb0327",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "SinglePatchTruss.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of SinglePatchTruss"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "943e20d5a18f7e50",
+  "lastOpenFiles": [
+    "Untitled.md",
+    "SinglePatchTruss.md"
+  ]
+}
