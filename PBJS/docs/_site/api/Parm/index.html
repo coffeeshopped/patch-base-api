@@ -1,0 +1,109 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parm</title>
+    <link rel="stylesheet" href="/css/base.css">
+  </head>
+  <body>
+  <h1>Parm</h1>
+    <p>A Parm is the representation of a single parameter within a synth patch. It specifies the path used to access that parameter's value within the patch, the information about how that parameter value is written to and read from the body byte array of the patch, the valid value ranges for the parameter, and any information used in the construction of MIDI messages to perform updates to that parameter's value.</p>
+<p>[ <a href="/api/SynthPath/">SynthPath</a>, {<br>
+b: Int?,<br>
+p: Int?,<br>
+bits: Range?,<br>
+bit: Int?,<br>
+packIso: <a href="/stubs/">PackIso</a>?,<br>
+<a href="/stubs/">Span</a> attributes...<br>
+} ]</p>
+<ul>
+<li><strong>SynthPath</strong>: The path of this parameter. Used for getting and setting the value of the parameter within a patch.</li>
+<li><strong>b</strong>: The byte index of this parameter's value within a patch body's byte array.</li>
+<li><strong>p</strong>: The parameter index. Often used in the process of sending an individual parameter update via MIDI.</li>
+<li><strong>bits</strong>: The bit indices that this parameter's values are stored in within a byte. Used in situations where more than one parameter value is stored within a single byte</li>
+<li><strong>bit</strong>: The bit index of the parameter value (for parameters that have a value of only 0 or 1)</li>
+<li><strong>packIso</strong>: The <a href="/stubs/">PackIso</a> used to get and set this parameter value. Most parameters can simply specify a byte index using <em>b</em>. But when a parameter spans multiple bytes, or uses a custom mapping function, a PackIso can be used to specify this logic.</li>
+<li><strong><a href="/stubs/">Span</a> attributes</strong>: additional attributes that specify the <a href="/stubs/">Span</a> of this parameter (e.g. the valid value range, or the textual meanings of various numerical values of this parameter).</li>
+</ul>
+<h2>[Parm]</h2>
+<p>Rules that generate arrays of Parm's.</p>
+<h3>{ prefix: <a href="/api/SynthPath/">SynthPath</a>, count: Int, bx: Int?, px: Int?, block: [Parm] }</h3>
+<p>Takes <em>block</em> as an input array of Parm's, and outputs <em>count</em> copies of that array. The path of each Parm is prefixed with the specified <em>prefix</em>, followed by a number representing the current iteration, starting from 0.</p>
+<p>If <em>bx</em> is specified, then (bx * the current iteration count) will be added to each <em>b</em> value in the Parm array. Similarly if <em>px</em> is specified, the same will be done to each <em>p</em> value in the Parm array.</p>
+<p>Example:</p>
+<pre><code>{ prefix: 'osc', count: 3, bx: 5, block: [
+  ['wave', { b: 2, opts: [&quot;Tri&quot;, &quot;Saw&quot;] }],
+  ['pitch', { b: 3 }],
+] }
+
+... will create:
+
+[
+  ['osc/0/wave', { b: 2, opts: [&quot;Tri&quot;, &quot;Saw&quot;] }],
+  ['osc/0/pitch', { b: 3 }],
+  ['osc/1/wave', { b: 7, opts: [&quot;Tri&quot;, &quot;Saw&quot;] }],
+  ['osc/1/pitch', { b: 8 }],
+  ['osc/2/wave', { b: 12, opts: [&quot;Tri&quot;, &quot;Saw&quot;] }],
+  ['osc/2/pitch', { b: 13 }],
+]
+</code></pre>
+<h3>{ prefix: <a href="/api/SynthPath/">SynthPath</a>, block: [Parm] }</h3>
+<p>Takes <em>block</em> as an input array of Parm's, and outputs a copy of that array, with each path prefixed by <em>prefix</em>.</p>
+<h3>{ inc: Int, block: [Parm], b: Int?, p: Int? }</h3>
+<p>Used to auto-generate a sequence of <em>b</em> and/or <em>p</em> values for an array of Parm's. <em>inc</em> specifies the amount to increment by for each Parm, and <em>b</em> and <em>p</em> specify the starting values of those respective properties.</p>
+<p>Example:</p>
+<pre><code>{ inc: 1, b: 23, p: 11, block: [
+  ['wave', { }],
+  ['pitch', { }],
+  ['pw', { }],
+] }
+
+... will create:
+
+[
+  ['wave', { b: 23, p: 11 }],
+  ['pitch', { b: 24, p: 12 }],
+  ['pw', { b: 25, p: 13 }],
+]
+
+</code></pre>
+<h3>{ offset: [Parm], b: Int?, p: Int? }</h3>
+<p>Takes <em>offset</em> as an input array of Parm's and outputs a copy, with the p and/or b values of each Parm offset by the amount specified.</p>
+<p>Example:</p>
+<pre><code>{ b: 34, offset: [
+  ['wave', { b: 0, p: 9 }],
+  ['pitch', { b: 1, p: 21 }],
+  ['pw', { b: 4, p: 13 }],
+] }
+
+... will create:
+
+[
+  ['wave', { b: 34, p: 9 }],
+  ['pitch', { b: 35, p: 21 }],
+  ['pw', { b: 38, p: 13 }],
+]
+
+</code></pre>
+<h3>{ b2p: [Parm] }</h3>
+<p>Takes the input array of Parm's and copies the <em>b</em> property of each Parm and writes it to the <em>p</em> property of that Parm (overwriting any existing <em>p</em> value if it exists).</p>
+<p>Example:</p>
+<pre><code>{ b2p: [
+  ['wave', { b: 0 }],
+  ['pitch', { b: 1, p: 2 }],
+  ['pw', { b: 4 }],
+] }
+
+... will create:
+
+[
+  ['wave', { b: 0, p: 0 }],
+  ['pitch', { b: 1, p: 1 }],
+  ['pw', { b: 4, p: 4 }],
+]
+</code></pre>
+
+  </body>
+</html>

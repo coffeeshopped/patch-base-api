@@ -5,3 +5,8 @@ body {
 rule {
   font-size: 2rem;
 }
+
+pre {
+  background: #f3f3f3;
+  padding: 0.5em;
+}

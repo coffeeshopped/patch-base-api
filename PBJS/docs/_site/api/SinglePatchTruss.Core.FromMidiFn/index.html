@@ -11,13 +11,13 @@
   <h1></h1>
     <p>Function that generates a byte array from a sequence of one or more MIDI messages.</p>
 <p>rule:
-[&quot;&gt;&quot;, [[SinglePatchTruss.Core.FromMidiFn]], <a href="/api/ByteTransform/">ByteTransform</a>...]</p>
+[&quot;&gt;&quot;, <a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss&period;Core&period;FromMidiFn</a>, <a href="/api/ByteTransform/">ByteTransform</a>...]</p>
 <p>Creates a FromMidiFn using the second array element (after the &quot;&gt;&quot;), then feeds the output of that FromMidiFn to a series of one or more <a href="/api/ByteTransform/">ByteTransform</a>s in succession to generate the final</p>
 <p>rule:
 <a href="/api/ByteTransform/">ByteTransform</a></p>
 <p>A FromMidiFn is created that first flattens all the bytes of the incoming MIDI messages into a single byte array, then feeds that array into the parsed ByteTransform.</p>
 <p>rule:
-[[[SinglePatchTruss.Core.FromMidiFn]]]</p>
+[<a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss&period;Core&period;FromMidiFn</a>]</p>
 <p>Creates a single FromMidiFn that feeds MIDI messages into each of the individual FromMidiFn's in the array, and takes all of the outputs and concatenates them as a single byte array.</p>
 
   </body>

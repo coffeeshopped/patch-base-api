@@ -1,0 +1,43 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SynthPathMap</title>
+    <link rel="stylesheet" href="/css/base.css">
+  </head>
+  <body>
+  <h1>SynthPathMap</h1>
+    <p>A function that maps an input array of <a href="/api/SynthPath/">SynthPath</a>'s to another array.</p>
+<h3>[&quot;removePrefix&quot;, <a href="/api/SynthPath/">SynthPath</a>]</h3>
+<p>For any SynthPath that starts with the specified prefix, remove that prefix and return what's left. For any SynthPath that does not start with that prefix, return nothing.</p>
+<p>Example:</p>
+<pre><code>[&quot;removePrefix&quot;, 'osc/0']
+
+... when used on: 
+
+['osc/0/wave', 'amp/env', 'osc/0/pitch/1']
+
+... will output:
+
+['wave', 'pitch/1']
+</code></pre>
+<h3>[&quot;from&quot;, Int]</h3>
+<p>Return the subpath for each SynthPath, starting from the specified (0-based) index.</p>
+<p>Example:</p>
+<pre><code>[&quot;from&quot;, 2]
+
+... when used on: 
+
+['osc/0/wave', 'amp/env', 'osc/0/pitch/1']
+
+... will output:
+
+['wave', 'pitch/1']
+</code></pre>
+<h3>[&quot;fn&quot;, Function]</h3>
+<p>Map each SynthPath through an arbitrary Javascript Function.</p>
+
+  </body>
+</html>

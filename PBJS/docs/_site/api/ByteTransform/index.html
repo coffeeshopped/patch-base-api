@@ -16,7 +16,7 @@
 <p>A ByteTransform that simply outputs the input byte array.</p>
 <h3>Number</h3>
 <p>A ByteTransform that outputs the given Number in a one-element Array.</p>
-<h3>[&quot;e.values&quot;, <a href="/stubs/">SynthPath</a>, [<a href="/stubs/">SynthPath</a>], Function]</h3>
+<h3>[&quot;e.values&quot;, <a href="/api/SynthPath/">SynthPath</a>, [<a href="/api/SynthPath/">SynthPath</a>], Function]</h3>
 <p>Extract an array of values from the Editor object. The first SynthPath specifies the editor section to pull from (e.g. &quot;voice&quot; to pull from the temporary voice section). The following Array of SynthPath's specifies the parameter paths to pull values from. The Function signature should be (Int) -&gt; Int, and each pulled value will be put through this Function. The final output is an array of the mapped values.</p>
 <h3>[&quot;byte&quot;, Number]</h3>
 <p>Extract a single byte from the byte array, at the index specified by the Number. Output the byte as a one-element array. Throws an error if the index is out of range.</p>

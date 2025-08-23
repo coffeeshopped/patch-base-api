@@ -4,20 +4,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>SinglePatchTruss</title>
     <link rel="stylesheet" href="/css/base.css">
   </head>
   <body>
-  <h1></h1>
+  <h1>SinglePatchTruss</h1>
     <p>The description of a patch composed of a single array of bytes. The byte array contains all parameter values (including patch name, if present).</p>
-<p>{
-  single : String,
-  initFile : String,
-  parms : [[[Parm]]],
-  pack : [[SinglePatchTruss.PackFn]]?,
-  unpack : [[SinglePatchTruss.UnpackFn]]?,
-  parseBody : [[SinglePatchTruss.Core.FromMidiFn]]?,
-  createFile : [[SinglePatchTruss.Core.ToMidiFn]]?,
+<p>{<br>
+single : String,<br>
+  initFile : String,<br>
+  parms : [ <a href="/api/Parm/">Parm</a> ],<br>
+  pack : <a href="/stubs/">SinglePatchTruss&period;PackFn</a>?,<br>
+  unpack : <a href="/stubs/">SinglePatchTruss&period;UnpackFn</a>?,<br>
+  parseBody : <a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss&period;Core&period;FromMidiFn</a>?,<br>
+  createFile : <a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss&period;Core&period;ToMidiFn</a>?,<br>
 }</p>
 <ul>
 <li><strong>single</strong>: Truss ID</li>
