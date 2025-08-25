@@ -8,9 +8,18 @@
     <link rel="stylesheet" href="/css/base.css">
   </head>
   <body>
-  <h1>SynthPathMap</h1>
-    <p>A function that maps an input array of <a href="/api/SynthPath/">SynthPath</a>'s to another array.</p>
-<h3>[&quot;removePrefix&quot;, <a href="/api/SynthPath/">SynthPath</a>]</h3>
+  
+  <div class="api-wrapper">
+    <div class="api-nav">
+      
+      <ul><li><a href="/api/ByteTransform/">ByteTransform</a></li><li><a href="/api/PackIso/">PackIso</a></li><li><a href="/api/PackIso.Blitter/">PackIso.Blitter</a></li><li><a href="/api/Parm/">Parm</a></li><li><a href="/api/Range/">Range</a></li><li><a href="/api/SinglePatchTruss/">SinglePatchTruss</a></li><li><a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss.Core.FromMidiFn</a></li><li><a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a></li><li><a href="/api/Span/">Span</a></li><li><a href="/api/SynthPath/">SynthPath</a></li><li><a href="/api/SynthPathMap/">SynthPathMap</a></li></ul>
+      
+    </div>
+    
+    <div class="api-content">
+      <h1>SynthPathMap</h1>
+      <p>A function that maps an input array of [[SynthPath]]'s to another array.</p>
+<h3>[&quot;removePrefix&quot;, [[SynthPath]]]</h3>
 <p>For any SynthPath that starts with the specified prefix, remove that prefix and return what's left. For any SynthPath that does not start with that prefix, return nothing.</p>
 <p>Example:</p>
 <pre><code>[&quot;removePrefix&quot;, 'osc/0']
@@ -39,5 +48,8 @@
 <h3>[&quot;fn&quot;, Function]</h3>
 <p>Map each SynthPath through an arbitrary Javascript Function.</p>
 
+    </div>
+  </div>
+  
   </body>
 </html>

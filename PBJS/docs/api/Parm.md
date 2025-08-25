@@ -4,28 +4,32 @@ title: Parm
 
 A Parm is the representation of a single parameter within a synth patch. It specifies the path used to access that parameter's value within the patch, the information about how that parameter value is written to and read from the body byte array of the patch, the valid value ranges for the parameter, and any information used in the construction of MIDI messages to perform updates to that parameter's value.
 
-\[ [[SynthPath]], {  
+<rule>
+[ ::SynthPath::, {  
   b: Int?,  
   p: Int?,  
   bits: Range?,  
   bit: Int?,  
-  packIso: [[PackIso]]?,  
-  [[Span]] attributes...  
-} \]
+  packIso: ::PackIso::?,  
+  ::Span:: attributes...  
+} ]
+</rule>
 
 * **SynthPath**: The path of this parameter. Used for getting and setting the value of the parameter within a patch.
 * **b**: The byte index of this parameter's value within a patch body's byte array.
 * **p**: The parameter index. Often used in the process of sending an individual parameter update via MIDI.
 * **bits**: The bit indices that this parameter's values are stored in within a byte. Used in situations where more than one parameter value is stored within a single byte
 * **bit**: The bit index of the parameter value (for parameters that have a value of only 0 or 1)
-* **packIso**: The [[PackIso]] used to get and set this parameter value. Most parameters can simply specify a byte index using *b*. But when a parameter spans multiple bytes, or uses a custom mapping function, a PackIso can be used to specify this logic.
-* **[[Span]] attributes**: additional attributes that specify the [[Span]] of this parameter (e.g. the valid value range, or the textual meanings of various numerical values of this parameter).
+* **packIso**: The ::PackIso:: used to get and set this parameter value. Most parameters can simply specify a byte index using *b*. But when a parameter spans multiple bytes, or uses a custom mapping function, a PackIso can be used to specify this logic.
+* **::Span:: attributes**: additional attributes that specify the ::Span:: of this parameter (e.g. the valid value range, or the textual meanings of various numerical values of this parameter).
 
-## \[Parm\]
+## [Parm]
 
 Rules that generate arrays of Parm's.
 
-### { prefix: [[SynthPath]], count: Int, bx: Int?, px: Int?, block: \[Parm\] }
+<rule>
+{ prefix: ::SynthPath::, count: Int, bx: Int?, px: Int?, block: [Parm] }
+</rule>
 
 Takes *block* as an input array of Parm's, and outputs *count* copies of that array. The path of each Parm is prefixed with the specified *prefix*, followed by a number representing the current iteration, starting from 0.
 
@@ -51,11 +55,15 @@ Example:
 ]
 ```
 
-### { prefix: [[SynthPath]], block: \[Parm\] }
+<rule>
+{ prefix: ::SynthPath::, block: [Parm] }
+</rule>
 
 Takes *block* as an input array of Parm's, and outputs a copy of that array, with each path prefixed by *prefix*.
 
-### { inc: Int, block: \[Parm\], b: Int?, p: Int? }
+<rule>
+{ inc: Int, block: [Parm], b: Int?, p: Int? }
+</rule>
 
 Used to auto-generate a sequence of *b* and/or *p* values for an array of Parm's. *inc* specifies the amount to increment by for each Parm, and *b* and *p* specify the starting values of those respective properties.
 
@@ -78,7 +86,9 @@ Example:
 
 ```
 
-### { offset: \[Parm\], b: Int?, p: Int? }
+<rule>
+{ offset: [Parm], b: Int?, p: Int? }
+</rule>
 
 Takes *offset* as an input array of Parm's and outputs a copy, with the p and/or b values of each Parm offset by the amount specified.
 
@@ -101,7 +111,9 @@ Example:
 
 ```
 
-### { b2p: \[Parm\] }
+<rule>
+{ b2p: [Parm] }
+</rule>
 
 Takes the input array of Parm's and copies the *b* property of each Parm and writes it to the *p* property of that Parm (overwriting any existing *p* value if it exists).
 

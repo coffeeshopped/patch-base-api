@@ -31,12 +31,20 @@ module.exports = async function(eleventyConfig) {
       }
     },
   })
+    
+  eleventyConfig.addPreprocessor("apiLinks", "md,liquid", (data, content) => {
+    var c = content.replace(/::(.*?)::/g, '<a href="/api/$1/">$1</a>')
+    c = c.replace(/<rule>\s*(.*?)\s*<\/rule>/gs, '<div class="api-rule"><pre><code>$1</pre></code></div>')
+    return c
+  })
   
-  eleventyConfig.addPlugin(
-    require('@photogabble/eleventy-plugin-interlinker'),
-    {
-      // defaultLayout: 'layouts/embed.liquid'
-    }
-  );
+  eleventyConfig.addCollection("api", function (collectionsApi) {
+    return collectionsApi.getAll().filter(function (item) {
+      return item.url.startsWith('/api/')
+    }).sort(function (a, b) {
+      console.log(a)
+      return (a.data.title || "").localeCompare(b.data.title)
+    });
+  });
 
 }

@@ -4,15 +4,15 @@ title: SinglePatchTruss
 
 The description of a patch composed of a single array of bytes. The byte array contains all parameter values (including patch name, if present).
 
-{  
-  single : String,  
-  initFile : String,  
-  parms : \[ [[Parm]] \],  
-  pack : [[SinglePatchTruss.PackFn]]?,  
-  unpack : [[SinglePatchTruss.UnpackFn]]?,  
-  parseBody : [[SinglePatchTruss.Core.FromMidiFn]]?,  
-  createFile : [[SinglePatchTruss.Core.ToMidiFn]]?,  
-}
+<pre><code>{  
+  single: String,  
+  initFile: String,  
+  parms: [::Parm::],  
+  pack: ::SinglePatchTruss.PackFn::?,  
+  unpack: ::SinglePatchTruss.UnpackFn::?,  
+  parseBody: ::SinglePatchTruss.Core.FromMidiFn::?,  
+  createFile: ::SinglePatchTruss.Core.ToMidiFn::?,  
+}</code></pre>
 
 * **single**: Truss ID
 * **initFile**: path to file used as an example "init" patch

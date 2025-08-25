@@ -4,21 +4,33 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>SinglePatchTruss.Core.FromMidiFn</title>
     <link rel="stylesheet" href="/css/base.css">
   </head>
   <body>
-  <h1></h1>
-    <p>Function that generates a byte array from a sequence of one or more MIDI messages.</p>
+  
+  <div class="api-wrapper">
+    <div class="api-nav">
+      
+      <ul><li><a href="/api/ByteTransform/">ByteTransform</a></li><li><a href="/api/PackIso/">PackIso</a></li><li><a href="/api/PackIso.Blitter/">PackIso.Blitter</a></li><li><a href="/api/Parm/">Parm</a></li><li><a href="/api/Range/">Range</a></li><li><a href="/api/SinglePatchTruss/">SinglePatchTruss</a></li><li><a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss.Core.FromMidiFn</a></li><li><a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a></li><li><a href="/api/Span/">Span</a></li><li><a href="/api/SynthPath/">SynthPath</a></li><li><a href="/api/SynthPathMap/">SynthPathMap</a></li></ul>
+      
+    </div>
+    
+    <div class="api-content">
+      <h1>SinglePatchTruss.Core.FromMidiFn</h1>
+      <p>Function that generates a byte array from a sequence of one or more MIDI messages.</p>
 <p>rule:
-[&quot;&gt;&quot;, <a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss&period;Core&period;FromMidiFn</a>, <a href="/api/ByteTransform/">ByteTransform</a>...]</p>
-<p>Creates a FromMidiFn using the second array element (after the &quot;&gt;&quot;), then feeds the output of that FromMidiFn to a series of one or more <a href="/api/ByteTransform/">ByteTransform</a>s in succession to generate the final</p>
+[&quot;&gt;&quot;, [[SinglePatchTruss.Core.FromMidiFn]], [[ByteTransform]]...]</p>
+<p>Creates a FromMidiFn using the second array element (after the &quot;&gt;&quot;), then feeds the output of that FromMidiFn to a series of one or more [[ByteTransform]]s in succession to generate the final</p>
 <p>rule:
-<a href="/api/ByteTransform/">ByteTransform</a></p>
+[[ByteTransform]]</p>
 <p>A FromMidiFn is created that first flattens all the bytes of the incoming MIDI messages into a single byte array, then feeds that array into the parsed ByteTransform.</p>
 <p>rule:
-[<a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss&period;Core&period;FromMidiFn</a>]</p>
+[[[SinglePatchTruss.Core.FromMidiFn]]]</p>
 <p>Creates a single FromMidiFn that feeds MIDI messages into each of the individual FromMidiFn's in the array, and takes all of the outputs and concatenates them as a single byte array.</p>
 
+    </div>
+  </div>
+  
   </body>
 </html>

@@ -1,0 +1,3 @@
+---
+title: SinglePatchTruss.Core.ToMidiFn
+---

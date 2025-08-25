@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SinglePatchTruss.Core.ToMidiFn</title>
+    <title>PackIso</title>
     <link rel="stylesheet" href="/css/base.css">
   </head>
   <body>
@@ -17,8 +17,11 @@
     </div>
     
     <div class="api-content">
-      <h1>SinglePatchTruss.Core.ToMidiFn</h1>
-      
+      <h1>PackIso</h1>
+      <p>Specifies the packing and unpacking (setting and getting) of parameter values to/from the body byte array of a patch.</p>
+<div class="api-rule"><pre><code>["splitter", [<a href="/api/PackIso.Blitter/">PackIso.Blitter</a>]]</pre></code></div>
+<p>Splits a single parameter value across multiple bytes in the body byte array. Each <a href="/api/PackIso.Blitter/">PackIso.Blitter</a> specifies which bits of the value are read, and then written to the specified byte index location (and optional specific bits within the destination byte location).</p>
+
     </div>
   </div>
   

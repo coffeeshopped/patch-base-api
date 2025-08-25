@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SinglePatchTruss.Core.ToMidiFn</title>
+    <title>PackIso.Blitter</title>
     <link rel="stylesheet" href="/css/base.css">
   </head>
   <body>
@@ -17,8 +17,15 @@
     </div>
     
     <div class="api-content">
-      <h1>SinglePatchTruss.Core.ToMidiFn</h1>
-      
+      <h1>PackIso.Blitter</h1>
+      <p>The specification for how a parameter value, that will be written across multiple bytes, is mapped to a single byte in the body byte array.</p>
+<div class="api-rule"><pre><code>{
+  byte: Int,
+  byteBits: <a href="/api/Range/">Range</a>?,
+  valueBits: <a href="/api/Range/">Range</a>,
+}</pre></code></div>
+<p>The incoming parameter value will be written as follows: The bits in the <em>valueBits</em> range will be read, and they will be written to the index specified by <em>byte</em>. If <em>byteBits</em> is present, the value bits will be written to that bit range in the destination byte. Otherwise, the value bits will be written starting at the least-significant bit.</p>
+
     </div>
   </div>
   

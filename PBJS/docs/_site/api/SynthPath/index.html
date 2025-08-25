@@ -8,19 +8,31 @@
     <link rel="stylesheet" href="/css/base.css">
   </head>
   <body>
-  <h1>SynthPath</h1>
-    <p>Used to specify paths in various areas of an editor, such as parameter paths within a single patch, and paths to the different sections of an editor.</p>
-<h3>String</h3>
+  
+  <div class="api-wrapper">
+    <div class="api-nav">
+      
+      <ul><li><a href="/api/ByteTransform/">ByteTransform</a></li><li><a href="/api/PackIso/">PackIso</a></li><li><a href="/api/PackIso.Blitter/">PackIso.Blitter</a></li><li><a href="/api/Parm/">Parm</a></li><li><a href="/api/Range/">Range</a></li><li><a href="/api/SinglePatchTruss/">SinglePatchTruss</a></li><li><a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss.Core.FromMidiFn</a></li><li><a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a></li><li><a href="/api/Span/">Span</a></li><li><a href="/api/SynthPath/">SynthPath</a></li><li><a href="/api/SynthPathMap/">SynthPathMap</a></li></ul>
+      
+    </div>
+    
+    <div class="api-content">
+      <h1>SynthPath</h1>
+      <p>Used to specify paths in various areas of an editor, such as parameter paths within a single patch, and paths to the different sections of an editor.</p>
+<div class="api-rule"><pre><code>String</pre></code></div>
 <p>A string will be split into multiple items using the &quot;/&quot; character. E.g. <code>osc/0/wave</code> becomes <code>['osc', 0, 'wave']</code>.</p>
-<h3>Int</h3>
+<div class="api-rule"><pre><code>Int</pre></code></div>
 <p>A single Int will translate to a single-element path containing that Int. E.g. <code>0</code> becomes <code>[0]</code>.</p>
-<h3>Array</h3>
+<div class="api-rule"><pre><code>[String | Int]</pre></code></div>
 <p>An array of elements is flattened into a single path. E.g. <code>['osc', [0, 'wave']]</code> becomes <code>['osc', 0, 'wave']</code>.</p>
 <h2>[SynthPath]</h2>
 <p>Rules that generate arrays of SynthPath's.</p>
-<h3>['&gt;', [ <a href="/api/Parm/">Parm</a> ], <a href="/api/SynthPathMap/">SynthPathMap</a>, <a href="/api/SynthPathMap/">SynthPathMap</a>, ... ]</h3>
+<div class="api-rule"><pre><code>['>', [<a href="/api/Parm/">Parm</a>], <a href="/api/SynthPathMap/">SynthPathMap</a>, <a href="/api/SynthPathMap/">SynthPathMap</a>, ... ]</pre></code></div>
 <p>Takes an array of Parm's and extracts the paths from them as a new array. That array is then fed in sequence through each following SynthPathMap to form the final output array of SynthPath's.</p>
 <p>Useful in Controllers when a subset of parameter paths is needed for bulk actions (e.g. copy/paste).</p>
 
+    </div>
+  </div>
+  
   </body>
 </html>

@@ -1,3 +1,7 @@
+---
+title: SinglePatchTruss.Core.FromMidiFn
+---
+
 Function that generates a byte array from a sequence of one or more MIDI messages.
 
 rule:
