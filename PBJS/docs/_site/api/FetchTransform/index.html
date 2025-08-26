@@ -1,0 +1,35 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FetchTransform</title>
+    <link rel="stylesheet" href="/css/base.css">
+  </head>
+  <body>
+  
+  <div class="api-wrapper">
+    <div class="api-nav">
+      
+      <ul><li><a href="/api/BasicEditorTruss/">BasicEditorTruss</a></li><li><a href="/api/ByteTransform/">ByteTransform</a></li><li><a href="/api/EditorValueTransform/">EditorValueTransform</a></li><li><a href="/api/FetchTransform/">FetchTransform</a></li><li><a href="/api/MemSlot.Transform/">MemSlot.Transform</a></li><li><a href="/api/MidiTransform/">MidiTransform</a></li><li><a href="/api/PackIso/">PackIso</a></li><li><a href="/api/PackIso.Blitter/">PackIso.Blitter</a></li><li><a href="/api/ParamOutTransform/">ParamOutTransform</a></li><li><a href="/api/Parm/">Parm</a></li><li><a href="/api/Range/">Range</a></li><li><a href="/api/SinglePatchTruss/">SinglePatchTruss</a></li><li><a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss.Core.FromMidiFn</a></li><li><a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a></li><li><a href="/api/Span/">Span</a></li><li><a href="/api/SynthPath/">SynthPath</a></li><li><a href="/api/SynthPathMap/">SynthPathMap</a></li></ul>
+      
+    </div>
+    
+    <div class="api-content">
+      <h1>FetchTransform</h1>
+      <div class="api-rule"><pre><code>["truss", <a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a>]</pre></code></div>
+<p>The editor will using the given ToMidiFn to construct a single MIDI message to send to the synth. The editor will expect a MIDI response with a total byte length that matches the corresponding SysexTruss at the same path as this FetchTransform.</p>
+<p>The given ToMidiFn will be called with an empty byte array, and the current editor object, so that the returned MIDI message can be responsive to current editor settings (e.g. the current MIDI channel set for the editor).</p>
+<p>Please note that this form of FetchTransform can be used for banks (not just patches) when the bank fetch is requested via a single MIDI message.</p>
+<div class="api-rule"><pre><code>["bankTruss", <a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a>]</pre></code></div>
+<p>The editor will fetch a bank via multiple MIDI messages. Each MIDI message sent from Patch Base will represent the request for a single patch within the bank. The passed ToMidiFn will be called repeatedly, once for each patch, with a byte array consisting of a single byte for the current bank location being fetched (e.g. 0, then 1, then 2, etc) and the current editor object will also be passed to query the current MIDI channel, etc.</p>
+<p>The number of MIDI messages sent will be equal to the number of patches specified in the BankTruss that corresponds to this path. Once all MIDI responses are received, they will be validated based on their total byte length, compared with the expected total byte length of the corresponding BankTruss.</p>
+<div class="api-rule"><pre><code>["sequence", [FetchTransform]]</pre></code></div>
+<div class="api-rule"><pre><code>["custom", ...]</pre></code></div>
+
+    </div>
+  </div>
+  
+  </body>
+</html>

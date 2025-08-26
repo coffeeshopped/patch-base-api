@@ -11,6 +11,9 @@ extension BasicEditorTruss: JsParsable {
       "name" : ".s",
       "map" : ".a",
       "deviceId" : ".x?",
+      "midiChannels" : ".a",
+      "slotTransforms" : ".a?",
+      "extraParamOuts" : ".a?",
     ], {
       let sysexWerk = try RolandSysexTrussWerk(modelId: $0.x("rolandModelId"), addressCount: $0.x("addressCount"))
       let map: [RolandEditorTrussWerk.MapItem] = try $0.x("map")
@@ -19,7 +22,9 @@ extension BasicEditorTruss: JsParsable {
       t.fetchTransforms = werk.defaultFetchTransforms()
       t.midiOuts = try werk.midiOuts()
       t.midiChannels = try $0.x("midiChannels")
-      t.extraParamOuts = try $0.x("extraParamOuts")
+      t.extraParamOuts = try $0.xq("extraParamOuts") ?? []
+      t.slotTransforms = try $0.xq("slotTransforms") ?? [:]
+
       return t
     }),
     .d([
@@ -37,12 +42,8 @@ extension BasicEditorTruss: JsParsable {
       t.fetchTransforms = try $0.arr("fetchTransforms").x()
       t.midiOuts = try $0.x("midiOuts")
       t.midiChannels = try $0.x("midiChannels")
-      t.extraParamOuts = try $0.xq("extraParamOuts") ?? []
-      
-      t.slotTransforms = [:]
-      if let x = try? $0.any("slotTransforms") {
-        t.slotTransforms = try x.x()
-      }
+      t.extraParamOuts = try $0.xq("extraParamOuts") ?? []      
+      t.slotTransforms = try $0.xq("slotTransforms") ?? [:]
       
       return t
     }),
