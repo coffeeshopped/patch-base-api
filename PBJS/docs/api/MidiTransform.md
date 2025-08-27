@@ -27,20 +27,6 @@ Used with SinglePatchTrusses that can have individual parameter changes sent to 
   <dd>Logic for sending a patch name update to the synth.</dd>
 </dl>
 
-<rule>
-{
-  type: "singleWholePatch",
-  throttle: Int?,
-  patch: ::MidiTransform.Fn.Whole::,
-}
-</rule>
-
-<dl>
-  <dt>throttle</dt>
-  <dd>Minimum time in milliseconds that Patch Base should wait between sending MIDI data to the synth.</dd>
-  <dt>patch</dt>
-  <dd>The logic for sending entire patch dumps to the synth. Used when loading a new patch, and also when changes to multiple parameters occur very quickly.</dd>
-</dl>
 
 <rule>
 {

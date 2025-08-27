@@ -38,17 +38,6 @@
   <dd>Logic for sending a patch name update to the synth.</dd>
 </dl>
 <div class="api-rule"><pre><code>{
-  type: "singleWholePatch",
-  throttle: Int?,
-  patch: <a href="/api/MidiTransform.Fn.Whole/">MidiTransform.Fn.Whole</a>,
-}</pre></code></div>
-<dl>
-  <dt>throttle</dt>
-  <dd>Minimum time in milliseconds that Patch Base should wait between sending MIDI data to the synth.</dd>
-  <dt>patch</dt>
-  <dd>The logic for sending entire patch dumps to the synth. Used when loading a new patch, and also when changes to multiple parameters occur very quickly.</dd>
-</dl>
-<div class="api-rule"><pre><code>{
   type: "multiDictPatch",
   throttle: Int,
   param: <a href="/api/MidiTransform.Fn.Param/">MidiTransform.Fn.Param</a>,
