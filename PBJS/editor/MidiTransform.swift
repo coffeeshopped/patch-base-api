@@ -8,18 +8,11 @@ extension MidiTransform: JsParsable {
     .d([
       "type" : "singlePatch",
       "throttle" : ".n?",
-      "param" : ".f",
+      "param" : ".f?",
       "patch" : ".a",
       "name" : ".a?",
     ], {
-      try .single(throttle: $0.xq("throttle"), .patch(coalesce: 2, param: $0.x("param"), patch: $0.x("patch"), name: $0.xq("name")))
-    }),
-    .d([
-      "type" : "singleWholePatch",
-      "throttle" : ".n?",
-      "patch" : ".a",
-    ], {
-      try .single(throttle: $0.xq("throttle"), .wholePatch($0.x("patch")))
+      try .single(throttle: $0.xq("throttle"), .patch(coalesce: 2, param: $0.xq("param"), patch: $0.x("patch"), name: $0.xq("name")))
     }),
     .d([
       "type" : "multiDictPatch",

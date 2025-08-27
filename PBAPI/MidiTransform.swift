@@ -25,9 +25,8 @@ public enum MidiTransform {
   
   public enum Fn<Truss:PatchTruss> {
 
-    case patch(coalesce: Int = 2, param: Param, patch: Whole, name: Name?)
+    case patch(coalesce: Int = 2, param: Param?, patch: Whole, name: Name?)
     case multiPatch(params: Params, patch: Whole, name: Name?)
-    case wholePatch(Whole)
     case bank(BankPatch)
     case wholeBank(WholeBank)
             
