@@ -18,9 +18,12 @@
     
     <div class="api-content">
       <h1>ParamOutTransform</h1>
-      <div class="api-rule"><pre><code>["bankNames", SynthPath]</pre></code></div>
-<p>Pulls the list of current patch names from the bank at the specified SynthPath.</p>
-<div class="api-rule"><pre><code>["patchOut", Function]</pre></code></div>
+      <div class="api-rule"><pre><code>["bankNames", <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/SynthPath/">SynthPath</a>]</pre></code></div>
+<p>Pulls the list of current patch names from the bank at the first specified SynthPath, and maps them to a <a href="/api/Parm/">Parm</a> having the second specified SynthPath.</p>
+<div class="api-rule"><pre><code>["patchOut", <a href="/api/SynthPath/">SynthPath</a>, Function]</pre></code></div>
+<p>Pulls one or more values from the section of the synth specified at the SynthPath and passes them through the supplied Function which returns an array of <a href="/api/Parm/">Parm</a>'s. The supplied Function should have the signature:</p>
+<pre><code>(PatchChange, SysexPatch) =&gt; [Parm]
+</code></pre>
 
     </div>
   </div>
