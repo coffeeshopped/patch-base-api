@@ -22,7 +22,7 @@ extension BasicEditorTruss: JsParsable {
       t.fetchTransforms = werk.defaultFetchTransforms()
       t.midiOuts = try werk.midiOuts()
       t.midiChannels = try $0.x("midiChannels")
-      t.extraParamOuts = try $0.xq("extraParamOuts") ?? []
+      t.extraParamOuts = try $0.xq("extraParamOuts") ?? [:]
       t.slotTransforms = try $0.xq("slotTransforms") ?? [:]
 
       return t
@@ -42,7 +42,7 @@ extension BasicEditorTruss: JsParsable {
       t.fetchTransforms = try $0.arr("fetchTransforms").x()
       t.midiOuts = try $0.x("midiOuts")
       t.midiChannels = try $0.x("midiChannels")
-      t.extraParamOuts = try $0.xq("extraParamOuts") ?? []      
+      t.extraParamOuts = try $0.xq("extraParamOuts") ?? [:]      
       t.slotTransforms = try $0.xq("slotTransforms") ?? [:]
       
       return t

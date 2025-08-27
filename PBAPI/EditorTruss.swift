@@ -31,7 +31,7 @@ public extension EditorTruss {
     set { core.fetchTransforms = newValue }
   }
   
-  var extraParamOuts: [ParamOutTransform] {
+  var extraParamOuts: [SynthPath:ParamOutTransform] {
     get { core.extraParamsOuts }
     set { core.extraParamsOuts = newValue }
   }
