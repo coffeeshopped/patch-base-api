@@ -7,21 +7,33 @@ extension MidiTransform: JsParsable {
   static let jsRules: [JsParseRule<Self>] = [
     .d([
       "type" : "singlePatch",
+      "throttle" : ".n?",
+      "param" : ".f",
+      "patch" : ".a",
+      "name" : ".a?",
     ], {
       try .single(throttle: $0.xq("throttle"), .patch(coalesce: 2, param: $0.x("param"), patch: $0.x("patch"), name: $0.xq("name")))
     }),
     .d([
       "type" : "singleWholePatch",
+      "throttle" : ".n?",
+      "patch" : ".a",
     ], {
       try .single(throttle: $0.xq("throttle"), .wholePatch($0.x("patch")))
     }),
     .d([
       "type" : "multiDictPatch",
+      "throttle" : ".n?",
+      "param" : ".f",
+      "patch" : ".a",
+      "name" : ".a?",
     ], {
       try .multiDict(throttle: $0.xq("throttle"), .patch(param: $0.x("param"), patch: $0.x("patch"), name: $0.x("name")))
     }),
     .d([
       "type" : "singleBank",
+      "throttle" : ".n?",
+      "bank" : ".f",
     ], {
       try .single(throttle: $0.xq("throttle"), .bank($0.x("bank")))
     }),

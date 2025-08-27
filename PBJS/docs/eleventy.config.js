@@ -40,7 +40,7 @@ module.exports = async function(eleventyConfig) {
   
   eleventyConfig.addCollection("api", function (collectionsApi) {
     return collectionsApi.getAll().filter(function (item) {
-      return item.url.startsWith('/api/')
+      return item.url.startsWith('/api/') && item.url != '/api/'
     }).sort(function (a, b) {
       console.log(a)
       return (a.data.title || "").localeCompare(b.data.title)
