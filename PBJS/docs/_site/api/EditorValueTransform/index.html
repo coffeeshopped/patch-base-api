@@ -18,7 +18,11 @@
     
     <div class="api-content">
       <h1>EditorValueTransform</h1>
-      
+      <div class="api-rule"><pre><code>["e", <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/SynthPath/">SynthPath</a>, Int?]</pre></code></div>
+<p>Pulls a parameter value from the editor. The first SynthPath passed is used to determine the section of the synth to read from (e.g. &quot;global&quot;, &quot;voice&quot;, etc.). The second SynthPath is the path within that section that should be read. The final optional Int is used as a default value used when the editor value is not found.</p>
+<div class="api-rule"><pre><code>"channel"</pre></code></div>
+<p>A shortcut that specifies that the value of the first midi channel defined by the editor should be used. This corresponds to the first <a href="/api/MidiTransform/">MidiTransform</a> that was specified in the <a href="/api/BasicEditorTruss/">BasicEditorTruss</a>.</p>
+
     </div>
   </div>
   

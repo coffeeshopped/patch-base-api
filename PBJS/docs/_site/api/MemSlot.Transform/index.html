@@ -18,7 +18,16 @@
     
     <div class="api-content">
       <h1>MemSlot.Transform</h1>
-      
+      <p>Maps an index representing a location in a bank to a formatted slot name. For presets, it also maps the location to a patch name.</p>
+<div class="api-rule"><pre><code>["user", Function]</pre></code></div>
+<p>Used for user-writable slots in a bank. The passed Function should have a signature (Int) -&gt; String, which maps a bank location to a string that corresponds to how that &quot;slot&quot; is represented on the synthesizer. E.g. some synths may represent &quot;slot 0&quot; in a bank as &quot;1&quot; (a 1-based numbering instead of 0-based). Or, some may display the user-writeable bank with a text prefix such as &quot;Int&quot; (for Internal), and also use a 1-based numbering scheme, so in that case the function would be something like:</p>
+<pre><code>i =&gt; `Int-${i+1}`
+</code></pre>
+<p>... mapping location 0 to the string &quot;Int-1&quot;.</p>
+<div class="api-rule"><pre><code>["preset", Function, [String]]</pre></code></div>
+<p>Used for preset (non-user-writable) banks. The passed Function operates the same as for the &quot;user&quot; version (above), where an index is mapped to a String that matches how the synth represents that slot (e.g. &quot;Pr-A 01&quot; for Preset Bank A, location 0).</p>
+<p>The passed array of strings are the preset patch names for that bank.</p>
+
     </div>
   </div>
   

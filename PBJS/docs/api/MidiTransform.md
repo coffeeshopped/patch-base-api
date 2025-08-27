@@ -30,7 +30,7 @@ Used with SinglePatchTrusses that can have individual parameter changes sent to 
 
 <rule>
 {
-  type: "multiDictPatch",
+  type: "multiPatch",
   throttle: Int,
   param: ::MidiTransform.Fn.Param::,
   patch: ::MidiTransform.Fn.Whole::,
