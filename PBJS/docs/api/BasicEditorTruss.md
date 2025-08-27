@@ -12,7 +12,7 @@ The top-level object that defines a synth editor. It includes all of the data an
   midiOuts: [[::SynthPath::, ::MidiTransform::]],
   midiChannels: [[::SynthPath::, ::MidiChannelTransform::]],
   slotTransforms: [[::SynthPath::, ::MemSlot.Transform::]]?,
-  extraParamOuts: [::ParamOutTransform::]?,
+  extraParamOuts: [[::SynthPath::, ::ParamOutTransform::]]?,
 }
 </rule>
 
@@ -30,7 +30,7 @@ The top-level object that defines a synth editor. It includes all of the data an
   <dt>slotTransforms</dt>
   <dd>A dictionary mapping paths to ::MemSlot.Transform::'s, which tell the editor how to map a bank location/index to a patch name; either a preset patch name, or the name of the patch currently stored at that location on the synthesizer.</dd>
   <dt>extraParamOuts</dt>
-  <dd>An array of ::ParamOutTransform::'s which cross-map data between the sections of the synthesizer, for easy access by controllers in the UI. A common example of this is mapping the current name list of patches in the Voice Bank to a parameter that is accessible in the "Performance" section of the editor, so that the Performance editing UI can display a current list of patch options for selection.</dd>
+  <dd>A dictionary mapping paths to ::ParamOutTransform::'s which cross-map data between the sections of the synthesizer, for easy access by controllers in the UI. A common example of this is mapping the current name list of patches in the Voice Bank to a parameter that is accessible in the "Performance" section of the editor, so that the Performance editing UI can display a current list of patch options for selection.</dd>
 </dl>
 
 <rule>

@@ -4,13 +4,13 @@ import PBAPI
 extension ParamOutTransform : JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
-    .a(["bankNames", ".p"], {
-      try .bankNames($0.x(1), nameBlock: nil)
+    .a(["bankNames", ".p", ".p"], {
+      try .bankNames($0.x(1), $0.x(2), nameBlock: nil)
     }),
-    .a(["patchOut", ".f"], {
-      let fn = try $0.fn(1)
+    .a(["patchOut", ".p", ".f"], {
+      let fn = try $0.fn(2)
       let exportOrigin = fn.exportOrigin()
-      return .patchOut { change, patch in
+      return try .patchOut($0.x(1)) { change, patch in
         do {
           return try fn.call([change.toJS(), patch], exportOrigin: exportOrigin).x()
         }
