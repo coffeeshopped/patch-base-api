@@ -15,13 +15,13 @@ extension MidiTransform: JsParsable {
       try .single(throttle: $0.xq("throttle"), .patch(coalesce: 2, param: $0.xq("param"), patch: $0.x("patch"), name: $0.xq("name")))
     }),
     .d([
-      "type" : "multiDictPatch",
+      "type" : "multiPatch",
       "throttle" : ".n?",
       "param" : ".f",
       "patch" : ".a",
       "name" : ".a?",
     ], {
-      try .multiDict(throttle: $0.xq("throttle"), .patch(param: $0.x("param"), patch: $0.x("patch"), name: $0.x("name")))
+      try .multi(throttle: $0.xq("throttle"), .patch(param: $0.x("param"), patch: $0.x("patch"), name: $0.x("name")))
     }),
     .d([
       "type" : "singleBank",

@@ -4,10 +4,6 @@ public enum MidiTransform {
   case single(throttle: Int?, _ fn: Fn<SinglePatchTruss>)
   
   case multi(throttle: Int?, _ fn: Fn<MultiPatchTruss>)
-
-  case singleDict(throttle: Int?, _ fn: Fn<SinglePatchTruss>)
-
-  case multiDict(throttle: Int?, _ fn: Fn<MultiPatchTruss>)
   
   case json(throttle: Int?, _ fn: Fn<JSONPatchTruss>)
 
@@ -15,8 +11,6 @@ public enum MidiTransform {
     switch self {
     case .single(let throttle, _),
         .multi(let throttle, _),
-        .singleDict(let throttle, _),
-        .multiDict(let throttle, _),
         .json(let throttle, _):
       return throttle ?? 30
     }
