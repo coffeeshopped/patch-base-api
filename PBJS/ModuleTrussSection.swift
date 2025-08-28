@@ -5,7 +5,7 @@ extension ModuleTrussSection: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
     .a(["first", ".a"], { .first(try $0.x(1)) }),
-    .a(["basic", ".s", ".a"], { .basic(try $0.x(1), try $0.x(2)) }),
+    .a(["basic", ".s", ".a"], { try .basic($0.x(1), $0.x(2)) }),
     .a(["banks", ".a"], { .banks(try $0.x(1)) }),
   ]
 
@@ -18,7 +18,7 @@ extension ModuleTrussSection.Item: JsParsable {
     .a(["voice", ".s", ".d", ".p?"], {
       try .voice($0.x(1), path: $0.xq(3), $0.x(2))
     }),
-    .a(["perf", ".d"], {
+    .a(["perf", ".d", ".d?"], {
       let config = try? $0.obj(2)
       let title = try config?.xq("title") ?? "Performance"
       let path: SynthPath = try config?.xq("path") ?? [.perf]

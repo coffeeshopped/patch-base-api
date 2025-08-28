@@ -12,13 +12,70 @@
   <div class="api-wrapper">
     <div class="api-nav">
       
-      <ul><li><a href="/api/BasicEditorTruss/">BasicEditorTruss</a></li><li><a href="/api/ByteTransform/">ByteTransform</a></li><li><a href="/api/EditorValueTransform/">EditorValueTransform</a></li><li><a href="/api/FetchTransform/">FetchTransform</a></li><li><a href="/api/MemSlot.Transform/">MemSlot.Transform</a></li><li><a href="/api/MidiTransform/">MidiTransform</a></li><li><a href="/api/PackIso/">PackIso</a></li><li><a href="/api/PackIso.Blitter/">PackIso.Blitter</a></li><li><a href="/api/ParamOutTransform/">ParamOutTransform</a></li><li><a href="/api/Parm/">Parm</a></li><li><a href="/api/Range/">Range</a></li><li><a href="/api/SinglePatchTruss/">SinglePatchTruss</a></li><li><a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss.Core.FromMidiFn</a></li><li><a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a></li><li><a href="/api/Span/">Span</a></li><li><a href="/api/SynthPath/">SynthPath</a></li><li><a href="/api/SynthPathMap/">SynthPathMap</a></li></ul>
+      <p><a href="/api/">Home</a></p>
+      
+      <ul><li><a href="/api/BasicEditorTruss/">BasicEditorTruss</a></li><li><a href="/api/BasicModuleTruss/">BasicModuleTruss</a></li><li><a href="/api/ByteTransform/">ByteTransform</a></li><li><a href="/api/DXAlgorithm/">DXAlgorithm</a></li><li><a href="/api/EditorValueTransform/">EditorValueTransform</a></li><li><a href="/api/FetchTransform/">FetchTransform</a></li><li><a href="/api/IsoFF/">IsoFF</a></li><li><a href="/api/IsoFS/">IsoFS</a></li><li><a href="/api/JSONPatchTruss/">JSONPatchTruss</a></li><li><a href="/api/MemSlot.Transform/">MemSlot.Transform</a></li><li><a href="/api/MidiChannelTransform/">MidiChannelTransform</a></li><li><a href="/api/MidiMessage/">MidiMessage</a></li><li><a href="/api/MidiTransform/">MidiTransform</a></li><li><a href="/api/ModuleTrussSection/">ModuleTrussSection</a></li><li><a href="/api/ModuleTrussSection.Item/">ModuleTrussSection.Item</a></li><li><a href="/api/MultiBankTruss/">MultiBankTruss</a></li><li><a href="/api/MultiPatchTruss/">MultiPatchTruss</a></li><li><a href="/api/MultiPatchTruss.Core.ToMidiFn/">MultiPatchTruss.Core.ToMidiFn</a></li><li><a href="/api/NamePackIso/">NamePackIso</a></li><li><a href="/api/PackIso/">PackIso</a></li><li><a href="/api/PackIso.Blitter/">PackIso.Blitter</a></li><li><a href="/api/ParamOutTransform/">ParamOutTransform</a></li><li><a href="/api/Parm/">Parm</a></li><li><a href="/api/PatchChange/">PatchChange</a></li><li><a href="/api/PatchController/">PatchController</a></li><li><a href="/api/PatchController.AttrChange/">PatchController.AttrChange</a></li><li><a href="/api/PatchController.Builder/">PatchController.Builder</a></li><li><a href="/api/PatchController.ConfigParam/">PatchController.ConfigParam</a></li><li><a href="/api/PatchController.Constraint/">PatchController.Constraint</a></li><li><a href="/api/PatchController.Display/">PatchController.Display</a></li><li><a href="/api/PatchController.DisplayMap/">PatchController.DisplayMap</a></li><li><a href="/api/PatchController.Effect/">PatchController.Effect</a></li><li><a href="/api/PatchController.PageSetup/">PatchController.PageSetup</a></li><li><a href="/api/PatchController.PanelItem/">PatchController.PanelItem</a></li><li><a href="/api/PatchController.Prefix/">PatchController.Prefix</a></li><li><a href="/api/PatchControllerEvent/">PatchControllerEvent</a></li><li><a href="/api/PatchControllerState/">PatchControllerState</a></li><li><a href="/api/PBBezier.PathCommand/">PBBezier.PathCommand</a></li><li><a href="/api/Range/">Range</a></li><li><a href="/api/RolandAddress/">RolandAddress</a></li><li><a href="/api/RolandEditorTrussWerk.MapItem/">RolandEditorTrussWerk.MapItem</a></li><li><a href="/api/RolandMultiBankTrussWerk/">RolandMultiBankTrussWerk</a></li><li><a href="/api/RolandMultiPatchTrussWerk/">RolandMultiPatchTrussWerk</a></li><li><a href="/api/RolandMultiPatchTrussWerk.MapItem/">RolandMultiPatchTrussWerk.MapItem</a></li><li><a href="/api/RolandOffsetAddressIso/">RolandOffsetAddressIso</a></li><li><a href="/api/RolandSinglePatchTrussWerk/">RolandSinglePatchTrussWerk</a></li><li><a href="/api/RxMidi.FetchCommand/">RxMidi.FetchCommand</a></li><li><a href="/api/SingleBankTruss/">SingleBankTruss</a></li><li><a href="/api/SinglePatchTruss/">SinglePatchTruss</a></li><li><a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss.Core.FromMidiFn</a></li><li><a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a></li><li><a href="/api/Span/">Span</a></li><li><a href="/api/SynthPath/">SynthPath</a></li><li><a href="/api/SynthPathMap/">SynthPathMap</a></li><li><a href="/api/ValidBundle/">ValidBundle</a></li></ul>
       
     </div>
     
     <div class="api-content">
       <h1></h1>
-      <p>The Patch Base API.</p>
+      <h1>Patch Base API Intro</h1>
+<p>The Patch Base API enables the creation of custom editors for an upcoming version of Patch Base.</p>
+<p>You can specify all of the logic needed for a synth patch editor to create patches, send and receive patches and individual parameter changes, and manage patch banks for just about any MIDI-enabled hardware synthesizer. All of Patch Base's 80+ editors are being ported to this API. So if Patch Base does it, it can be done using this API, often with a relatively small amount of code!</p>
+<p>To use the API, a collection of Javascript files should be created that specify the various data and functions needed. They can be broken down into a few main parts, as given later in this document.</p>
+<p>The API attempts to be as declarative as possible, meaning that the majority of code for an editor simply defines objects and arrays in Javascript. Javascript Functions are used as sparingly as possible. For example, a simple voice patch description for an editor might look like this (with comments here for explanation):</p>
+<pre><code>{
+  // It's a Voice patch, backed by a single array of bytes to store all of the values
+  single: &quot;voice&quot;,
+  
+  // The parameters of the patch are:
+  parms: [
+  
+    // The waveform of the first oscillator, 
+    // which is stored at byte index 10, and has 3 waveform options. 
+    ['osc/0/wave', { b: 10, opts: [&quot;Tri&quot;, &quot;Saw&quot;, &quot;Square&quot;]}],
+    
+    // The pitch of the first oscillator, which can range from 0 to 127, 
+    // and will be displayed to the user as a note name, 
+    // with the value of 0 as &quot;C0&quot;, 1 as &quot;C#0&quot;, etc.
+    ['osc/0/pitch', { b: 11, iso: ['noteName', 'C0'] }],
+    
+    ...
+  ],
+  
+  // The name of the patch is stored in bytes 0-9 of the byte array
+  namePack: [0, 9],
+  
+  // Given a sysex message representing the patch (e.g. from the synth), 
+  // the editor should extract 204 bytes from that message, 
+  // starting at byte index 5.
+  // The resulting array holds all of the parameter values and patch name
+  parseBody: ['bytes', { start: 5, count: 204 }],
+  
+  // To create a MIDI message to represent this patch to the synth, 
+  // create a sysex message with the bytes [0xf0, 0x0f, 0x02], 
+  // followed by the current MIDI channel selected in the editor, 
+  // followed by 0x01, 
+  // followed by the byte array that the editor is currently using to represent the patch, // followed by 0xf7. 
+  // String all of those values together to create a sysex message for this patch 
+  // (that can also be written to disk).
+  createFile: [0xf0, 0x0f, 0x02, 'channel', 0x01, 'b', 0xf7],
+}
+</code></pre>
+<p>Hopefully this illustrates that the API has been constructed to allow for straightforward, declarative representation of synth data, such that the creation of a patch editor is largely a process of translating the manufacturer's documentation of a synth's MIDI implementation to corresponding data structures that Patch Base understands.</p>
+<p>The API was designed after the creation of 80+ synth editors in the past, and it condenses things as much as possible based on common needs and data representations found in various synthesizers. It strives to make the common case very succinct to express, while also allowing for flexibility when needed.</p>
+<h2>Patch and Bank Trusses</h2>
+<p>These files specify the basic information about a synthesizer's patch(es) and banks, such as what all the parameters are for a voice patch, the valid value ranges for each parameter, where that parameter is stored within the byte memory of a patch's data, and how a patch can be written to or read from MIDI data.</p>
+<p>The most commonly used type patch truss is <a href="/api/SinglePatchTruss/">SinglePatchTruss</a>, which specifies all of this information for a synthesizer patch that is stored as a single array of bytes, transmitted via a single sysex message.</p>
+<p>More complicated synth patches might be represented using <a href="/api/MultiPatchTruss/">MultiPatchTruss</a>, such as many Roland rompler synth patches where there are separate parts for the &quot;common&quot; data (overall patch data) and the individual &quot;tone&quot; parts (e.g. 4 different sample-based voices each with its own envelopes, sample selection, etc).</p>
+<h2>BasicEditorTruss</h2>
+<p>The editor truss is the top-level object that holds all of the data and logic for communicating with a synthesizer and representing the synth's memory. This is all represented as a <a href="/api/BasicEditorTruss/">BasicEditorTruss</a>.</p>
+<p>This object contains all of the Patch and Bank trusses, with a <a href="/api/SynthPath/">SynthPath</a> specifying the path for each of these areas of the synth. The object also specifies the logic for fetching patches or banks from the synth (<a href="/api/FetchTransform/">FetchTransform</a>), sending MIDI data to the synth for patch and bank transmission (<a href="/api/MidiTransform/">MidiTransform</a>), logic for which MIDI channels should be used for communication (<a href="/api/MidiChannelTransform/">MidiChannelTransform</a>), logic for naming bank memory slots (<a href="/api/MemSlot.Transform/">MemSlot.Transform</a>), and any cross-mapping of data between areas of the synth that enable richer UI controllers (<a href="/api/ParamOutTransform/">ParamOutTransform</a>).</p>
+<h2>PatchController</h2>
+<p><a href="/api/PatchController/">PatchController</a>'s are the specification for the actual user interface of the editor. They define the on-screen controls that interact with the parts of the BasicEditorTruss to allow for parameter changes, name changes, etc. The PatchController objects contain several parts, such as <a href="/api/PatchController.Builder/">PatchController.Builder</a> objects to specify the panel containers, <a href="/api/PatchController.PanelItem/">PatchController.PanelItem</a>'s which define the individual controls within the panels, <a href="/api/PatchController.Effect/">PatchController.Effect</a>'s which specify relationships between the patch data changes and UI changes (e.g. dimming certain controls when certain parts of a patch are not active), <a href="/api/PatchController.Constraint/">PatchController.Constraint</a> objects which define the visual layout of the panels within the controller, and <a href="/api/PatchController.Display/">PatchController.Display</a>'s which allow for the creation of custom data visualizations (such as envelope displays).</p>
+<h2>BasicModuleTruss</h2>
+<p><a href="/api/BasicModuleTruss/">BasicModuleTruss</a> is the very top-most-level object for a Patch Base editor. It holds the <a href="/api/BasicEditorTruss/">BasicEditorTruss</a> as well as arrays of <a href="/api/ModuleTrussSection.Item/">ModuleTrussSection.Item</a>'s which in turn hold <a href="/api/PatchController/">PatchController</a> instances and maps them to the different areas of the <a href="/api/BasicEditorTruss/">BasicEditorTruss</a>.</p>
 
     </div>
   </div>

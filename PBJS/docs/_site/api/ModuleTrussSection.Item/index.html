@@ -1,0 +1,57 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModuleTrussSection.Item</title>
+    <link rel="stylesheet" href="/css/base.css">
+  </head>
+  <body>
+  
+  <div class="api-wrapper">
+    <div class="api-nav">
+      
+      <p><a href="/api/">Home</a></p>
+      
+      <ul><li><a href="/api/BasicEditorTruss/">BasicEditorTruss</a></li><li><a href="/api/BasicModuleTruss/">BasicModuleTruss</a></li><li><a href="/api/ByteTransform/">ByteTransform</a></li><li><a href="/api/DXAlgorithm/">DXAlgorithm</a></li><li><a href="/api/EditorValueTransform/">EditorValueTransform</a></li><li><a href="/api/FetchTransform/">FetchTransform</a></li><li><a href="/api/IsoFF/">IsoFF</a></li><li><a href="/api/IsoFS/">IsoFS</a></li><li><a href="/api/JSONPatchTruss/">JSONPatchTruss</a></li><li><a href="/api/MemSlot.Transform/">MemSlot.Transform</a></li><li><a href="/api/MidiChannelTransform/">MidiChannelTransform</a></li><li><a href="/api/MidiMessage/">MidiMessage</a></li><li><a href="/api/MidiTransform/">MidiTransform</a></li><li><a href="/api/ModuleTrussSection/">ModuleTrussSection</a></li><li><a href="/api/ModuleTrussSection.Item/">ModuleTrussSection.Item</a></li><li><a href="/api/MultiBankTruss/">MultiBankTruss</a></li><li><a href="/api/MultiPatchTruss/">MultiPatchTruss</a></li><li><a href="/api/MultiPatchTruss.Core.ToMidiFn/">MultiPatchTruss.Core.ToMidiFn</a></li><li><a href="/api/NamePackIso/">NamePackIso</a></li><li><a href="/api/PackIso/">PackIso</a></li><li><a href="/api/PackIso.Blitter/">PackIso.Blitter</a></li><li><a href="/api/ParamOutTransform/">ParamOutTransform</a></li><li><a href="/api/Parm/">Parm</a></li><li><a href="/api/PatchChange/">PatchChange</a></li><li><a href="/api/PatchController/">PatchController</a></li><li><a href="/api/PatchController.AttrChange/">PatchController.AttrChange</a></li><li><a href="/api/PatchController.Builder/">PatchController.Builder</a></li><li><a href="/api/PatchController.ConfigParam/">PatchController.ConfigParam</a></li><li><a href="/api/PatchController.Constraint/">PatchController.Constraint</a></li><li><a href="/api/PatchController.Display/">PatchController.Display</a></li><li><a href="/api/PatchController.DisplayMap/">PatchController.DisplayMap</a></li><li><a href="/api/PatchController.Effect/">PatchController.Effect</a></li><li><a href="/api/PatchController.PageSetup/">PatchController.PageSetup</a></li><li><a href="/api/PatchController.PanelItem/">PatchController.PanelItem</a></li><li><a href="/api/PatchController.Prefix/">PatchController.Prefix</a></li><li><a href="/api/PatchControllerEvent/">PatchControllerEvent</a></li><li><a href="/api/PatchControllerState/">PatchControllerState</a></li><li><a href="/api/PBBezier.PathCommand/">PBBezier.PathCommand</a></li><li><a href="/api/Range/">Range</a></li><li><a href="/api/RolandAddress/">RolandAddress</a></li><li><a href="/api/RolandEditorTrussWerk.MapItem/">RolandEditorTrussWerk.MapItem</a></li><li><a href="/api/RolandMultiBankTrussWerk/">RolandMultiBankTrussWerk</a></li><li><a href="/api/RolandMultiPatchTrussWerk/">RolandMultiPatchTrussWerk</a></li><li><a href="/api/RolandMultiPatchTrussWerk.MapItem/">RolandMultiPatchTrussWerk.MapItem</a></li><li><a href="/api/RolandOffsetAddressIso/">RolandOffsetAddressIso</a></li><li><a href="/api/RolandSinglePatchTrussWerk/">RolandSinglePatchTrussWerk</a></li><li><a href="/api/RxMidi.FetchCommand/">RxMidi.FetchCommand</a></li><li><a href="/api/SingleBankTruss/">SingleBankTruss</a></li><li><a href="/api/SinglePatchTruss/">SinglePatchTruss</a></li><li><a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss.Core.FromMidiFn</a></li><li><a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a></li><li><a href="/api/Span/">Span</a></li><li><a href="/api/SynthPath/">SynthPath</a></li><li><a href="/api/SynthPathMap/">SynthPathMap</a></li><li><a href="/api/ValidBundle/">ValidBundle</a></li></ul>
+      
+    </div>
+    
+    <div class="api-content">
+      <h1>ModuleTrussSection.Item</h1>
+      <p>Each item specifies an area of the editor, with a graphical interface specified by a <a href="/api/PatchController/">PatchController</a> (or bank editor), connected to a specified area of the synth, specified by a <a href="/api/SynthPath/">SynthPath</a> (or implied based on the rule used).</p>
+<div class="api-rule"><pre><code>["global", <a href="/api/PatchController/">PatchController</a>, String?]</pre></code></div>
+<p>Connects the passed controller to the area of the synth specified by the path &quot;global&quot;. By default this section is titled &quot;Global&quot;, but a title can optionally be specified.</p>
+<div class="api-rule"><pre><code>["voice", String, <a href="/api/PatchController/">PatchController</a>, <a href="/api/SynthPath/">SynthPath</a>?]</pre></code></div>
+<p>Connects the passed controller to the area of the synth specified by the path &quot;voice&quot; (or a different SynthPath if one is passed). The item is titled with the given String. The controller will be given the default in-app keyboard.</p>
+<div class="api-rule"><pre><code>["perf", <a href="/api/PatchController/">PatchController</a>, {
+  title: String?,
+  path: <a href="/api/SynthPath/">SynthPath</a>?,
+}?]</pre></code></div>
+<p>Connects the passed controller to the area of the synth at path &quot;perf&quot;. The item will be titled &quot;Performance&quot;, and the controller will be given an in-app keyboard with selectable MIDI channel. An optional object can be passed to override title and/or path.</p>
+<div class="api-rule"><pre><code>["bank", String, <a href="/api/SynthPath/">SynthPath</a>]</pre></code></div>
+<p>Creates a Bank Editor controller with the given title, and connected to the given path.</p>
+<div class="api-rule"><pre><code>"channel"</pre></code></div>
+<p>Creates a simple controller, connected to the synth's &quot;global&quot; area, with a single knob that is mapped to a <a href="/api/Parm/">Parm</a> with the path &quot;channel&quot;.</p>
+<div class="api-rule"><pre><code>"deviceId"</pre></code></div>
+<p>Same as the &quot;channel&quot; rule above, but mapped to a <a href="/api/Parm/">Parm</a> with the panel &quot;deviceId&quot;.</p>
+<div class="api-rule"><pre><code>["custom", String, <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/PatchController/">PatchController</a>]</pre></code></div>
+<p>Maps the controller to the given path, with the given title. No in-app keyboard is added to the controller.</p>
+<h2>[ModuleTrussSection.Item]</h2>
+<p>Rules that create arrays of ModuleTrussSection.Item</p>
+<div class="api-rule"><pre><code>["perfParts", Int, Function, <a href="/api/PatchController/">PatchController</a>]</pre></code></div>
+<p>Creates multiple copies of the passed controller. The number is specified as the second argument. Each controller is connected to the path &quot;part/i&quot; where &quot;i&quot; is a number from 0 upwards. The given Function should take a single Int and return a title for the item, e.g.</p>
+<pre><code>i =&gt; `Part ${i + 1}`
+</code></pre>
+<div class="api-rule"><pre><code>["banks", Int, Function, SynthPath]</pre></code></div>
+<p>Creates multiple items, each with a bank editor. The Function creates the title for each item, similar to the &quot;perfParts&quot; rule above. The passed <a href="/api/SynthPath/">SynthPath</a> is used as a prefix followed by a number, and connects to the corresponding part of the synth. E.g.</p>
+<pre><code>[&quot;banks&quot;, 3, i =&gt; `Voice Bank ${i + 1}`, 'bank/voice']
+</code></pre>
+<p>... would create 3 bank editor controllers, titled &quot;Voice Bank 1&quot;, &quot;Voice Bank 2&quot;, etc and connected to the paths &quot;bank/voice/0&quot;, &quot;bank/voice/1&quot;, etc.</p>
+
+    </div>
+  </div>
+  
+  </body>
+</html>

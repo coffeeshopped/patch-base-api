@@ -14,9 +14,11 @@
   <div class="api-wrapper">
     <div class="api-nav">
       
+      <p><a href="/api/">Home</a></p>
+      
       <ul>
       {%- for item in collections.api -%}
-        <li><a href="{{ item.url }}">{{ item.data.title }}</a></li>
+        <li><a href="{{ item.url }}">{{ item.data.title | default: '?' }}</a></li>
       {%- endfor -%}
       </ul>
       

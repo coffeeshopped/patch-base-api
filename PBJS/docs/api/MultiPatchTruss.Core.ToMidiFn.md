@@ -1,0 +1,3 @@
+---
+title: MultiPatchTruss.Core.ToMidiFn
+---
