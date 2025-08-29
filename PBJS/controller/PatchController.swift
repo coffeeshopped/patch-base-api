@@ -8,12 +8,17 @@ extension PatchController: JsParsable {
       "builders" : ".a",
       "pages" : ".a",
       "gridLayout": ".a",
+      "prefix" : ".x?",
+      "effects" : ".x?",
     ], {
       try .paged(prefix: $0.xq("prefix"), color: nil, border: nil, $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.arr("gridLayout").xformArr(Constraint.gridRowRules))], pages: $0.x("pages"))
     }),
     .d([
       "pages" : ".a",
       "builders" : ".a",
+      "prefix" : ".x?",
+      "effects" : ".x?",
+      "layout" : ".x?",
     ], {
       try .paged(prefix: $0.xq("prefix"), color: nil, border: nil, $0.x("builders"), effects: $0.xq("effects") ?? [], layout: $0.xq("layout") ?? [], pages: $0.x("pages"))
     }),
