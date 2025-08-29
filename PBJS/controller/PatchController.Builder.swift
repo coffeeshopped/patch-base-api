@@ -4,11 +4,11 @@ import PBAPI
 extension PatchController.Builder: JsParsable {
   
   static let jsRules: [JsParseRule<Self>] = [
-    .a(["child", ".x", ".s", ".d?"], {
+    .a(["child", "PatchController", ".s", ".d?"], {
       let opts = try? $0.obj(3)
       return try .child($0.x(1), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"))
     }),
-    .a(["children", ".n", ".s", ".d", ".d?"], {
+    .a(["children", ".n", ".s", "PatchController", ".d?"], {
       let opts = try? $0.obj(4)
       return try .children($0.x(1), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), $0.x(3), indexFn: opts?.fnq("index"))
     }),

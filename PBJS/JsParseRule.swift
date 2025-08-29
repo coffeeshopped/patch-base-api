@@ -2,6 +2,40 @@
 import PBAPI
 import JavaScriptCore
 
+
+enum NuMatch {
+  case a([any JsParsable.Type])
+  case d([String:any JsParsable.Type])
+  case s(String)
+}
+
+struct NuJsParseRule<Output:Any> {
+    
+  let match: NuMatch
+  let xform: (JSValue) throws -> Output
+  
+  init(_ match: NuMatch, _ xform: @escaping (JSValue) throws -> Output) {
+    self.match = match
+    self.xform = xform
+  }
+  
+  func matches(_ value: JSValue) -> Bool {
+    try! Match.from(match).matches(value)
+  }
+  
+  func transform(_ x: JSValue) throws -> Output {
+    // first, check for match
+    do {
+      return try xform(x)
+    }
+    catch {
+      throw JSError.transformFailure(name: String(reflecting: Output.self), match: try! Match.from(any: match), value: x, err: error)
+    }
+  }
+
+
+}
+
 struct JsParseRule<Output:Any> {
   let match: Any
   let xform: (JSValue) throws -> Output
@@ -69,6 +103,28 @@ public enum Match {
       return true
     case .single(let item):
       return item.matches(x)
+    }
+  }
+  
+  static func from(_ m: NuMatch) throws -> Self {
+    switch m {
+    case .a(let types):
+      return .a(try types.map { try matchItem($0) })
+    case .d(let dict):
+      var d = [String:MatchItem]()
+      try dict.forEach { d[$0.key] = try matchItem($0.value) }
+      return .obj(d)
+    case .s(let s):
+      return .single(.c(s))
+    }
+  }
+  
+  private static func matchItem(_ t: any JsParsable.Type) throws -> MatchItem {
+    switch t {
+    case is Int.Type:
+      return .num
+    default:
+      throw JSError.error(msg: "Unrecognized Match specifier: \(t)")
     }
   }
   
@@ -176,12 +232,26 @@ public indirect enum MatchItem : Equatable, Hashable {
     .any : "Any",
   ]
   
+  
   static func from(_ str: String) throws -> Self {
-    guard str.starts(with: ".") else { return .c(str) }
     let chars = Array(str)
-    guard chars.count > 1 else { throw JSError.error(msg: "Invalid MatchItem specifier: .")}
-    guard let x = keys[chars[1]] else { throw JSError.error(msg: "Unknown MatchItem specifier: \(str)") }
-    return chars.count > 2 && chars[2] == "?" ? .opt(x) : x
+    if str.starts(with: ".") {
+      guard chars.count > 1 else { throw JSError.error(msg: "Invalid MatchItem specifier: .")}
+      guard let x = keys[chars[1]] else { throw JSError.error(msg: "Unknown MatchItem specifier: \(str)") }
+      return chars.count > 2 && chars[2] == "?" ? .opt(x) : x
+    }
+    else if str.starts(with: "[") {
+      // it's an array of parsed types
+      return chars.last == "?" ? .opt(.any) : .any
+    }
+    else {
+      if chars.first?.isUppercase ?? false {
+        // If it starts uppercase, then it's a parsed type.
+        // So, anything might be fit (will be checked when parsed)
+        return chars.last == "?" ? .opt(.any) : .any
+      }
+      return .c(str)
+    }
   }
 
   func string() -> String {

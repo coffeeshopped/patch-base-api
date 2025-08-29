@@ -4,6 +4,29 @@ import PBAPI
 
 extension BasicEditorTruss: JsParsable {
   
+  static let nuJsRules: [NuJsParseRule<Self>] = [
+    .init(.d([
+      "name" : String.self,
+//      "trussMap" : [].self,
+      "fetchTransforms" : [SynthPath:FetchTransform].self,
+      "midiOuts" : [SynthPath:MidiTransform].self,
+      "midiChannels" : [SynthPath:MidiChannelTransform].self,
+      "slotTransforms" : [SynthPath:MemSlot.Transform].self,
+      "extraParamOuts?" : [SynthPath:ParamOutTransform].self,
+    ]),  {
+      let ppr = pathPairRule(JsSysex.trussRules)
+      let trussMap = try $0.arr("trussMap").map { try ppr.transform($0) }
+      var t = BasicEditorTruss(try $0.x("name"), truss: trussMap)
+      t.fetchTransforms = try $0.arr("fetchTransforms").x()
+      t.midiOuts = try $0.x("midiOuts")
+      t.midiChannels = try $0.x("midiChannels")
+      t.extraParamOuts = try $0.xq("extraParamOuts") ?? [:]
+      t.slotTransforms = try $0.xq("slotTransforms") ?? [:]
+      
+      return t
+    }),
+  ]
+  
   static let jsRules: [JsParseRule<Self>] = [
     .d([
       "rolandModelId" : ".a",
@@ -34,7 +57,7 @@ extension BasicEditorTruss: JsParsable {
       "midiOuts" : ".a",
       "midiChannels" : ".a",
       "slotTransforms" : ".a?",
-      "extraParamOuts" : ".a?",
+      "extraParamOuts" : "[SynthPath:ParamOutTransform]?",
     ], {
       let ppr = pathPairRule(JsSysex.trussRules)
       let trussMap = try $0.arr("trussMap").map { try ppr.transform($0) }
