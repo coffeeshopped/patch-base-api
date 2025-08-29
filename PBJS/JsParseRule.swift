@@ -4,9 +4,11 @@ import JavaScriptCore
 
 
 enum NuMatch {
-  case a([any JsParsable.Type])
   case d([String:any JsParsable.Type])
+  case t(any JsParsable.Type)
   case s(String)
+  case f
+  case a(String, [any JsParsable.Type])
 }
 
 struct NuJsParseRule<Output:Any> {
@@ -18,7 +20,31 @@ struct NuJsParseRule<Output:Any> {
     self.match = match
     self.xform = xform
   }
-  
+
+  static func f(_ xform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(.f, xform)
+  }
+
+  static func a(_ s: String, _ arr: [any JsParsable.Type], _ xform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(.a(s, arr), xform)
+  }
+
+  static func s(_ match: String, _ xform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(.s(match), xform)
+  }
+
+  static func s(_ match: String, _ out: Output) -> Self {
+    .init(.s(match), { _ in out })
+  }
+
+  static func t(_ match: any JsParsable.Type, _ xform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(.t(match), xform)
+  }
+
+  static func d(_ match: [String:any JsParsable.Type], _ xform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(.d(match), xform)
+  }
+
   func matches(_ value: JSValue) -> Bool {
     try! Match.from(match).matches(value)
   }
@@ -108,14 +134,25 @@ public enum Match {
   
   static func from(_ m: NuMatch) throws -> Self {
     switch m {
-    case .a(let types):
-      return .a(try types.map { try matchItem($0) })
     case .d(let dict):
       var d = [String:MatchItem]()
       try dict.forEach { d[$0.key] = try matchItem($0.value) }
       return .obj(d)
+    case .t(let t):
+      return .single(.any)
     case .s(let s):
-      return .single(.c(s))
+      let parts = s.trimmingCharacters(in: .whitespaces).split(separator: " ")
+      if parts.count == 1 {
+        return .single(.c(s))
+      }
+      else {
+        // treat a String with spaces as an array
+        return try .a(parts.filter{ $0.count > 0 }.map{ try MatchItem.from(String($0)) })
+      }
+    case .f:
+      return .single(.fn)
+    case .a(let s, let arr):
+      return .a([.c(s)] + arr.map { _ in .any })
     }
   }
   
@@ -315,6 +352,17 @@ extension JsParsable {
     })
   }
   
+}
+
+// for now this is just a dummy for rule parsing...
+enum JsFn: JsParsable {
+  static let jsRules: [JsParseRule<Self>] = [
+  ]
+}
+
+enum JsObj: JsParsable {
+  static let jsRules: [JsParseRule<Self>] = [
+  ]
 }
 
 extension Array: JsParsable where Element: JsParsable {
