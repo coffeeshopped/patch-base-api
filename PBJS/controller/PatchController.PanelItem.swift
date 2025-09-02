@@ -71,14 +71,6 @@ extension PatchController.PanelItem: JsParsable {
     })
   ]
     
-  static let rowRules: [JsParseRule<([Self], CGFloat)>] = [
-    .s(".a", { (try $0.x(), CGFloat(1)) }),
-    .d([
-      "row": ".a",
-      "h": ".n",
-    ], { (try $0.x("row"), try $0.x("h")) }),
-  ]
-
   static let itemsRules: [JsParseRule<(Self, String)>] = [
     .a([".d", ".s"], { (try $0.any(0).x(), try $0.x(1)) }),
   ]

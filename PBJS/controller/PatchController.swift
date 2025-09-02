@@ -7,11 +7,11 @@ extension PatchController: JsParsable {
     .d([
       "builders" : [Builder].self,
       "pages" : PageSetup.self,
-//      "gridLayout": ".a", ???????
+      "gridLayout": [Constraint.Row].self,
       "prefix?" : Prefix.self,
       "effects?" : [Effect].self,
     ], {
-      try .paged(prefix: $0.xq("prefix"), color: nil, border: nil, $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.arr("gridLayout").xformArr(Constraint.gridRowRules))], pages: $0.x("pages"))
+      try .paged(prefix: $0.xq("prefix"), color: nil, border: nil, $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.x("gridLayout"))], pages: $0.x("pages"))
     }),
     .d([
       "pages" : PageSetup.self,
@@ -35,9 +35,9 @@ extension PatchController: JsParsable {
       "color?" : Int.self,
       "border?" : Int.self,
       "effects?" : [Effect].self,
-//      "gridLayout": ".a",
+      "gridLayout": [Constraint.Row].self,
     ], {
-      try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.arr("gridLayout").xformArr(Constraint.gridRowRules))])
+      try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.x("gridLayout"))])
     }),
     .d([
       "builders" : [Builder].self,
@@ -100,7 +100,7 @@ extension PatchController: JsParsable {
       "prefix" : ".x?",
       "effects" : ".x?",
     ], {
-      try .paged(prefix: $0.xq("prefix"), color: nil, border: nil, $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.arr("gridLayout").xformArr(Constraint.gridRowRules))], pages: $0.x("pages"))
+      try .paged(prefix: $0.xq("prefix"), color: nil, border: nil, $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.x("gridLayout"))], pages: $0.x("pages"))
     }),
     .d([
       "pages" : ".a",
@@ -122,7 +122,7 @@ extension PatchController: JsParsable {
       "builders" : ".a",
       "gridLayout": ".a",
     ], {
-      try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.arr("gridLayout").xformArr(Constraint.gridRowRules))])
+      try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.x("gridLayout"))])
     }),
     .d([
       "builders" : ".a",

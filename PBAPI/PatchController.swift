@@ -33,12 +33,22 @@ public indirect enum PatchController {
   
   public enum Builder {
     
-    case grid(prefix: SynthPath? = nil, color: Int? = nil, clearBG: Bool? = nil, items: [([PanelItem], h: CGFloat)])
-    case panel(_ name: String, prefix: SynthPath = [], color: Int? = nil, clearBG: Bool? = nil, items: [([PanelItem], h: CGFloat)])
+    case grid(prefix: SynthPath? = nil, color: Int? = nil, clearBG: Bool? = nil, rows: [Row])
+    case panel(_ name: String, prefix: SynthPath = [], color: Int? = nil, clearBG: Bool? = nil, rows: [Row])
     // for adding controls directly to the controller and laying them out without panels
     case items(color: Int? = nil, clearBG: Bool? = nil, _ items: [(PanelItem, String)])
     case child(_ child: PatchController, _ panel: String, color: Int? = nil, clearBG: Bool? = nil)
     case children(_ count: Int, _ panelPrefix: String, color: Int? = nil, clearBG: Bool? = nil, _ child: PatchController, indexFn: ((_ parentIndex: Int, _ offset: Int) throws -> Int)? = nil)
+    
+    public struct Row {
+      public let items: [PanelItem]
+      public let height: CGFloat
+      
+      public init(_ items: [PanelItem], _ height: CGFloat) {
+        self.items = items
+        self.height = height
+      }
+    }
   }
   
   public typealias ControlChangeFn = (_ state: PatchControllerState, _ locals: PatchControllerLocals) throws -> [AttrChange]
@@ -191,7 +201,17 @@ public indirect enum PatchController {
       }
     }
     
-    case grid(_ items: [(row: [Item], height: CGFloat)])
+    public struct Row {
+      public let items: [Item]
+      public let height: CGFloat
+      
+      public init(_ items: [Item], _ height: CGFloat) {
+        self.items = items
+        self.height = height
+      }
+    }
+    
+    case grid(_ rows: [Row])
     case row(_ items: [Item], opts: [PBLayoutConstraint.FormatOption] = [.alignAllTop, .alignAllBottom], spacing: CGFloat? = nil)
     case col(_ items: [Item], opts: [PBLayoutConstraint.FormatOption] = [.alignAllLeading], spacing: CGFloat? = nil)
     case colFixed(_ items: [String], fixed: String, height: CGFloat, opts: [PBLayoutConstraint.FormatOption] = [.alignAllLeading], spacing: CGFloat? = nil)
@@ -302,11 +322,11 @@ public extension PatchController.DisplayMap {
 public extension PatchController.Builder {
   
   static func grid(prefix: SynthPath? = nil, color: Int? = nil, clearBG: Bool? = nil, _ items: [[PatchController.PanelItem]]) -> Self {
-    .grid(prefix: prefix, color: color, clearBG: clearBG, items: items.map { ($0, h: 1) })
+    .grid(prefix: prefix, color: color, clearBG: clearBG, rows: items.map { .init($0, 1) })
   }
   
   static func panel(_ name: String, prefix: SynthPath = [], color: Int? = nil, clearBG: Bool? = nil, _ items: [[PatchController.PanelItem]]) -> Self {
-    .panel(name, prefix: prefix, color: color, clearBG: clearBG, items: items.map { ($0, h: 1) })
+    .panel(name, prefix: prefix, color: color, clearBG: clearBG, rows: items.map { .init($0, 1) })
   }
 
 
@@ -484,7 +504,7 @@ public extension PatchController.Effect {
 public extension PatchController.Constraint {
   
   static func simpleGrid(_ items: [[Item]]) -> Self {
-    .grid(items.map { (row: $0, height: 1) })
+    .grid(items.map { .init($0, 1) })
   }
 
   static func oneRowGrid(_ count: Int, _ panelPrefix: String) -> Self {
@@ -664,8 +684,8 @@ public extension PatchController {
       .editMenu([.button], paths: nil, type: pasteType, init: nil, rand: nil)
     ] + fx, layout: [
       .grid([
-        (row: [.init("vc", 1)], height: vcHeight),
-        (row: [.init("button", 1)], height: 1),
+        .init([.init("vc", 1)], vcHeight),
+        .init([.init("button", 1)], 1),
       ])
     ])
   }

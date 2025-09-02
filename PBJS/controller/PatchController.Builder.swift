@@ -69,13 +69,11 @@ extension PatchController.Builder: JsParsable {
     }),
     .a(["panel", ".s", ".d", ".a"], {
       let opts = try? $0.obj(2)
-      let items = try $0.arr(3).xformArr(PatchController.PanelItem.rowRules)
       let prefix: SynthPath = (try opts?.xq("prefix")) ?? []
-      return try .panel($0.x(1), prefix: prefix, color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), items: items)
+      return try .panel($0.x(1), prefix: prefix, color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), rows: $0.x(3))
     }),
     .a(["panel", ".s", ".a"], {
-      let items = try $0.arr(2).xformArr(PatchController.PanelItem.rowRules)
-      return try .panel($0.x(1), prefix: [], color: nil, clearBG: nil, items: items)
+      try .panel($0.x(1), prefix: [], color: nil, clearBG: nil, rows: $0.x(2))
     }),
     .a(["grid", ".d", ".a"], {
       let opts = try? $0.obj(1)
@@ -104,4 +102,16 @@ extension PatchController.Builder: JsParsable {
     }),
   ]
   
+}
+
+extension PatchController.Builder.Row : JsParsable {
+  
+  static let jsRules: [JsParseRule<Self>] = [
+    .s(".a", { try .init($0.x(), CGFloat(1)) }),
+    .d([
+      "row": ".a",
+      "h": ".n",
+    ], { try .init($0.x("row"), $0.x("h")) }),
+  ]
+
 }
