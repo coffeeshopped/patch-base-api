@@ -4,6 +4,25 @@ import PBAPI
 
 extension SynthPathItem: JsParsable {
   
+  static let nuJsRules: [NuJsParseRule<Self>] = [
+    .t(String.self, {
+      try parseSynthPathItem($0.x())
+    })
+  ]
+
+  static let nuJsArrayRules: [NuJsParseRule<[Self]>] = [
+    .t(String.self, {
+      try $0.toString().split(separator: "/").map {
+        guard let i = Int($0) else {
+          return try parseSynthPathItem(String($0))
+        }
+        return .i(i)
+      }
+    }),
+    .t(Int.self, { [.i(try $0.x())] }),
+    .t([JsObj].self, { try $0.flatMap { try $0.x() } }),
+  ]
+  
   static let jsRules: [JsParseRule<Self>] = [
     .s(".s", {
       let s: String = try $0.x()
@@ -34,6 +53,35 @@ extension SynthPathItem: JsParsable {
 }
 
 extension SynthPath : JsParsable {
+  
+  static let nuJsRules: [NuJsParseRule<Self>] = [
+    .t(String.self, {
+      let items = try $0.toString().split(separator: "/").map {
+        guard let i = Int($0) else {
+          return try SynthPathItem.parseSynthPathItem(String($0))
+        }
+        return .i(i)
+      }
+      return SynthPath(items)
+    }),
+    .t(Int.self, { [.i(try $0.x())] }),
+    .t([JsObj].self, { .init(try $0.flatMap { try $0.x() }) })
+  ]
+
+  static let nuJsArrayRules: [NuJsParseRule<[Self]>] = [
+    .a(">", [[Parm].self, SynthPathMap.self], { v in
+      // expect elem 1 to be Parms
+      let parms: [Parm] = try v.x(1)
+      // the rest should be SynthPathMap fns
+      let maps: [SynthPathMap] = try (2..<v.arrCount()).map {
+        try v.x($0)
+      }
+      // feed the parm paths through the chain of SynthPathMaps
+      return try maps.reduce(parms.map { $0.path }) { partialResult, m in
+        try partialResult.compactMap { try m.call($0) }
+      }
+    }),
+  ]
   
   static var jsRules: [JsParseRule<Self>] = [
     .s(".s", {

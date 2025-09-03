@@ -8,7 +8,8 @@ enum NuMatch {
   case t(any JsParsable.Type)
   case s(String)
   case f
-  case a(String, [any JsParsable.Type])
+  case a(String, [any JsParsable.Type], optional: [any JsParsable.Type])
+  case arr([any JsParsable.Type])
 }
 
 struct NuJsParseRule<Output:Any> {
@@ -25,8 +26,12 @@ struct NuJsParseRule<Output:Any> {
     .init(.f, xform)
   }
 
-  static func a(_ s: String, _ arr: [any JsParsable.Type], _ xform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(.a(s, arr), xform)
+  static func a(_ s: String, _ arr: [any JsParsable.Type], optional: [any JsParsable.Type] = [], _ xform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(.a(s, arr, optional: optional), xform)
+  }
+
+  static func arr(_ arr: [any JsParsable.Type], _ xform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(.arr(arr), xform)
   }
 
   static func s(_ match: String, _ xform: @escaping (JSValue) throws -> Output) -> Self {
@@ -141,18 +146,21 @@ public enum Match {
     case .t(let t):
       return .single(.any)
     case .s(let s):
-      let parts = s.trimmingCharacters(in: .whitespaces).split(separator: " ")
-      if parts.count == 1 {
-        return .single(.c(s))
-      }
-      else {
-        // treat a String with spaces as an array
-        return try .a(parts.filter{ $0.count > 0 }.map{ try MatchItem.from(String($0)) })
-      }
+      return .single(.c(s))
+//      let parts = s.trimmingCharacters(in: .whitespaces).split(separator: " ")
+//      if parts.count == 1 {
+//        return .single(.c(s))
+//      }
+//      else {
+//        // treat a String with spaces as an array
+//        return try .a(parts.filter{ $0.count > 0 }.map{ try MatchItem.from(String($0)) })
+//      }
     case .f:
       return .single(.fn)
-    case .a(let s, let arr):
+    case .a(let s, let arr, let optional):
       return .a([.c(s)] + arr.map { _ in .any })
+    case .arr(let arr):
+      return .a(arr.map { _ in .any })
     }
   }
   
