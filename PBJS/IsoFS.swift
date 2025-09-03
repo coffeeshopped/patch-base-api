@@ -4,22 +4,22 @@ import PBAPI
 extension IsoFS : JsParsable {
   
   static let nuJsRules: [NuJsParseRule<Self>] = [
-    .s("str .s?", {
+    .a("str", [], optional: [String.self], {
       try .str($0.xq(1) ?? "%g")
     }),
-    .s("noteName .s", {
+    .a("noteName", [String.self], {
       try .noteName(zeroNote: $0.x(1), octave: true)
     }),
     .t(String.self, {
       try .const($0.x())
     }),
-    .s("switch [SwitcherCheck], IsoFS?", {
+    .a("switch", [[SwitcherCheck].self], optional: [IsoFS.self], {
       try .switcher($0.x(1), default: $0.xq(2))
     }),
-    .s("baseSwitch [SwitcherCheck], IsoFS?", {
+    .a("baseSwitch", [[SwitcherCheck].self], optional: [IsoFS.self], {
       try .switcher($0.x(1), default: $0.xq(2), withBase: true)
     }),
-    .s("concat IsoFS...", { v in
+    .a("concat", [IsoFS.self], { v in
       let isos: [IsoFS] = try (1..<v.arrCount()).map { try v.x($0) }
       return .init { f in
         isos.map { $0.forward(f) }.joined()
@@ -27,13 +27,13 @@ extension IsoFS : JsParsable {
         isos.first?.backward(s) ?? .outOfRange
       }
     }),
-    .s("units .s", {
+    .a("units", [String.self], {
       try .unitFormat($0.x(1))
     }),
-    .s("@ [String]", {
+    .a("@", [[String].self], {
       try .options($0.x(1))
     }),
-    .s("> IsoFF... IsoFS?", {
+    .a(">", [IsoFF.self], optional: [IsoFS.self], {
       var floatOut = true
       var isoFMerge: IsoFF?
       var isoSMerge: IsoFS?
@@ -180,9 +180,9 @@ extension IsoFS : JsParsable {
 extension IsoFS.SwitcherCheck: JsParsable {
   
   static let nuJsRules: [NuJsParseRule<Self>] = [
-    .s(".n .s", { try .int($0.x(0), $0.x(1)) }),
-    .s("Range .s", { try .rangeString($0.x(0), $0.x(1)) }),
-    .s("Range IsoFS", { try .range($0.x(0), $0.x(1)) }),
+    .arr([Int.self, String.self], { try .int($0.x(0), $0.x(1)) }),
+    .arr([ClosedRange<Float>.self, String.self], { try .rangeString($0.x(0), $0.x(1)) }),
+    .arr([ClosedRange<Float>.self, IsoFS.self], { try .range($0.x(0), $0.x(1)) }),
   ]
   
   static let jsRules: [JsParseRule<Self>] = [
