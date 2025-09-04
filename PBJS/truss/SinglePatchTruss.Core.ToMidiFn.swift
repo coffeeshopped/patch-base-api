@@ -36,6 +36,58 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
     }
   }
   
+  static let nuJsRules: [NuJsParseRule<Self>] = [
+    .a(">", [], {
+      try chainRule($0)
+    }),
+    .a("yamSyx", [], optional: [ByteTransform.self], {
+      try .arg1($0.xq(1) ?? .ident) {
+        [.sysex(Yamaha.sysex($0))]
+      }
+    }),
+    .a("yamCmd", [ByteTransform.self], optional: [ByteTransform.self], {
+      try .arg2($0.x(1), $0.xq(2) ?? .ident) {
+        [.sysex(Yamaha.sysexData(cmdBytesWithChannel: $0, bodyBytes: $1))]
+      }
+    }),
+    .a("yamFetch", [ByteTransform.self], optional: [ByteTransform.self], {
+      // second arg is optional, defaults to "b"
+      try .arg2($0.x(1), $0.xq(2) ?? .ident) {
+        [.sysex(Yamaha.fetchRequestBytes(channel: Int($0.first ?? 0), cmdBytes: $1))]
+      }
+    }),
+    .a("yamParm", [ByteTransform.self], optional: [ByteTransform.self], {
+      // second arg is optional, defaults to "b"
+      try .arg2($0.x(1), $0.xq(2) ?? .ident) {
+        [.sysex(Yamaha.paramData(channel: Int($0.first ?? 0), cmdBytes: $1))]
+      }
+    }),
+    .t(String.self, {
+      // assume it's a byte transform
+      let bt: ByteTransform = try $0.x()
+      return .fn { b, e in
+        try [.sysex(bt.call(b, e))]
+      }
+    }),
+    .t([JsObj].self, {
+      // first see if it's a byte transform
+      if let bt = try? $0.x() as ByteTransform {
+        return .fn { b, e in
+          try [.sysex(bt.call(b, e))]
+        }
+      }
+      
+      let fns: [Self] = try $0.map { try $0.x() }
+      return .fn { b, e in
+        try fns.flatMap { try $0.call(b, e) }
+      }
+    }),
+//    .s(".f", { fn in
+//      let exportOrigin = fn.exportOrigin()
+//      return .b { b in try fn.call([b], exportOrigin: exportOrigin).x() }
+//    }),
+  ]
+  
   static let jsRules: [JsParseRule<Self>] = [
     .a([">"], {
       try chainRule($0)

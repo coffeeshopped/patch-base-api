@@ -3,17 +3,6 @@ import JavaScriptCore
 
 extension SinglePatchTruss: JsParsable {
   
-  static let r = """
-{
-  single : String,
-  initFile? : String,
-  parms : [Parm],
-  pack : SinglePatchTruss.PackFn?,
-  unpack : SinglePatchTruss.UnpackFn?,
-  parseBody : SinglePatchTruss.Core.FromMidiFn?,
-  createFile : SinglePatchTruss.Core.ToMidiFn?,
-}
-"""
   static let nuJsRules: [NuJsParseRule<Self>] = [
     .d([
       "single" : String.self,
@@ -96,7 +85,7 @@ extension SinglePatchTruss.UnpackFn: JsParsable {
         }
       })
     }),
-    .f({ fn in
+    .t(JsFn.self, { fn in
       try fn.checkFn()
       return .fn({ bodyData, parm in
         try fn.call([bodyData, parm.toJS()], exportOrigin: nil)?.x()

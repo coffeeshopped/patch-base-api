@@ -5,10 +5,10 @@ import JavaScriptCore
 
 enum NuMatch {
   case d([String:any JsParsable.Type])
-  case t(any JsParsable.Type)
   case s(String)
-  case f
   case a(String, [any JsParsable.Type], optional: [any JsParsable.Type])
+  case b(Int, [any JsParsable.Type], optional: [any JsParsable.Type])
+  case t(any JsParsable.Type)
   case arr([any JsParsable.Type])
 }
 
@@ -22,12 +22,12 @@ struct NuJsParseRule<Output:Any> {
     self.xform = xform
   }
 
-  static func f(_ xform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(.f, xform)
-  }
-
   static func a(_ s: String, _ arr: [any JsParsable.Type], optional: [any JsParsable.Type] = [], _ xform: @escaping (JSValue) throws -> Output) -> Self {
     .init(.a(s, arr, optional: optional), xform)
+  }
+
+  static func b(_ b: Int, _ arr: [any JsParsable.Type], optional: [any JsParsable.Type] = [], _ xform: @escaping (JSValue) throws -> Output) -> Self {
+    .init(.b(b, arr, optional: optional), xform)
   }
 
   static func arr(_ arr: [any JsParsable.Type], _ xform: @escaping (JSValue) throws -> Output) -> Self {
@@ -155,10 +155,10 @@ public enum Match {
 //        // treat a String with spaces as an array
 //        return try .a(parts.filter{ $0.count > 0 }.map{ try MatchItem.from(String($0)) })
 //      }
-    case .f:
-      return .single(.fn)
     case .a(let s, let arr, let optional):
       return .a([.c(s)] + arr.map { _ in .any })
+    case .b(let b, let arr, let optional):
+      return .a([.ci(b)] + arr.map { _ in .any })
     case .arr(let arr):
       return .a(arr.map { _ in .any })
     }

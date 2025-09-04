@@ -4,6 +4,10 @@ import JavaScriptCore
 
 extension RxMidi.FetchCommand: JsParsable {
   
+  static let nuJsRules: [NuJsParseRule<Self>] = [
+    .a("send", [MidiMessage.self], { try .sendMsg($0.x(1)) }),
+  ]
+  
   static let jsRules: [JsParseRule<Self>] = [
     .a(["send", ".a"], { try .sendMsg($0.x(1)) }),
   ]

@@ -1,10 +1,21 @@
 
+public enum CharFilter {
+  case f((UInt8) throws -> UInt8?)
+  
+  public func call(_ char: UInt8) throws -> UInt8? {
+    switch self {
+    case .f(let fn):
+      return try fn(char)
+    }
+  }
+}
+
 public struct NamePackIso {
   public let pack: (inout [UInt8], String) throws -> Void
   public let unpack: ([UInt8]) throws -> String
-  public let byteRange: CountableRange<Int>
+  public let byteRange: ClosedRange<Int>
   
-  public init(pack: @escaping (inout [UInt8], String) throws -> Void, unpack: @escaping ([UInt8])  throws -> String, byteRange: CountableRange<Int>) {
+  public init(pack: @escaping (inout [UInt8], String) throws -> Void, unpack: @escaping ([UInt8])  throws -> String, byteRange: ClosedRange<Int>) {
     self.pack = pack
     self.unpack = unpack
     self.byteRange = byteRange
@@ -22,7 +33,7 @@ public func >>>(_ lhs: Iso<String, String>, _ rhs: NamePackIso) -> NamePackIso {
 
 public extension NamePackIso {
   
-  static func basic(_ range: CountableRange<Int>) -> NamePackIso {
+  static func basic(_ range: ClosedRange<Int>) -> NamePackIso {
     filtered(range, toBytes: {
       $0.bytes(forCount: range.count)
     }, toName: {
@@ -30,10 +41,10 @@ public extension NamePackIso {
     })
   }
   
-  static func filtered(_ range: CountableRange<Int>, toBytes: @escaping (String) throws -> [UInt8], toName: @escaping ([UInt8]) throws -> String) -> NamePackIso {
+  static func filtered(_ range: ClosedRange<Int>, toBytes: @escaping (String) throws -> [UInt8], toName: @escaping ([UInt8]) throws -> String) -> NamePackIso {
     NamePackIso(pack: { bytes, name in
       let sizedName = filtered(name: name, count: range.count)
-      guard range.lowerBound >= 0 && range.upperBound <= bytes.count else {
+      guard range.lowerBound >= 0 && range.upperBound < bytes.count else {
         debugPrint("Bad range for name pack!")
         return
       }
@@ -43,7 +54,7 @@ public extension NamePackIso {
       bytes.replaceSubrange(range, with: nameBytes)
 
     }, unpack: { bytes in
-      guard bytes.count > 0 && range.clamped(to: 0..<bytes.count) == range else {
+      guard bytes.count > 0 && range.clamped(to: 0...(bytes.count-1)) == range else {
         debugPrint("nameByteRange falls outside of patch byte range")
         return ""
       }
