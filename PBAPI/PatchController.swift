@@ -36,7 +36,7 @@ public indirect enum PatchController {
     case grid(prefix: SynthPath? = nil, color: Int? = nil, clearBG: Bool? = nil, rows: [Row])
     case panel(_ name: String, prefix: SynthPath = [], color: Int? = nil, clearBG: Bool? = nil, rows: [Row])
     // for adding controls directly to the controller and laying them out without panels
-    case items(color: Int? = nil, clearBG: Bool? = nil, _ items: [(PanelItem, String)])
+    case items(color: Int? = nil, clearBG: Bool? = nil, _ items: [ItemWithId])
     case child(_ child: PatchController, _ panel: String, color: Int? = nil, clearBG: Bool? = nil)
     case children(_ count: Int, _ panelPrefix: String, color: Int? = nil, clearBG: Bool? = nil, _ child: PatchController, indexFn: ((_ parentIndex: Int, _ offset: Int) throws -> Int)? = nil)
     
@@ -47,6 +47,16 @@ public indirect enum PatchController {
       public init(_ items: [PanelItem], _ height: CGFloat) {
         self.items = items
         self.height = height
+      }
+    }
+    
+    public struct ItemWithId {
+      public let item: PanelItem
+      public let id: String
+      
+      public init(_ item: PanelItem, _ id: String) {
+        self.item = item
+        self.id = id
       }
     }
   }

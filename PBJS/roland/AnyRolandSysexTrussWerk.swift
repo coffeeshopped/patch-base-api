@@ -7,14 +7,14 @@
 
 import PBAPI
 
-extension JsParseRule where Output: AnyRolandSysexTrussWerk {
-  func anyWerkRule() -> JsParseRule<AnyRolandSysexTrussWerk> {
+extension NuJsParseRule where Output: AnyRolandSysexTrussWerk {
+  func anyWerkRule() -> NuJsParseRule<AnyRolandSysexTrussWerk> {
     .init(match, { try transform($0) as AnyRolandSysexTrussWerk })
   }
 }
 
-let RolandSysexTrussWerkRules: [JsParseRule<AnyRolandSysexTrussWerk>] = [
-  RolandSinglePatchTrussWerk.jsRules.map { $0.anyWerkRule()},
-  RolandMultiPatchTrussWerk.jsRules.map { $0.anyWerkRule()},
-  RolandMultiBankTrussWerk.jsRules.map { $0.anyWerkRule()},
+let RolandSysexTrussWerkRules: [NuJsParseRule<AnyRolandSysexTrussWerk>] = [
+  RolandSinglePatchTrussWerk.nuJsRules.map { $0.anyWerkRule()},
+  RolandMultiPatchTrussWerk.nuJsRules.map { $0.anyWerkRule()},
+  RolandMultiBankTrussWerk.nuJsRules.map { $0.anyWerkRule()},
 ].flatMap({ $0 })

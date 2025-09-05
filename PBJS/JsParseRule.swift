@@ -60,7 +60,7 @@ struct NuJsParseRule<Output:Any> {
       return try xform(x)
     }
     catch {
-      throw JSError.transformFailure(name: String(reflecting: Output.self), match: try! Match.from(any: match), value: x, err: error)
+      throw JSError.transformFailure(name: String(reflecting: Output.self), match: try! Match.from(match), value: x, err: error)
     }
   }
 
@@ -129,7 +129,7 @@ public enum Match {
       return true
     case .obj(let dict):
       for (k, v) in dict {
-        guard v.matches(x.forProperty(k)) else { return false }
+        guard k.hasSuffix("?") || v.matches(x.forProperty(k)) else { return false }
       }
       return true
     case .single(let item):
@@ -166,10 +166,22 @@ public enum Match {
   
   private static func matchItem(_ t: any JsParsable.Type) throws -> MatchItem {
     switch t {
-    case is Int.Type:
+    case is Int.Type, is CGFloat.Type, is UInt8.Type, is Float.Type:
       return .num
+    case is Bool.Type:
+      return .bool
+    case is Array<Any>.Type:
+      return .arr
+    case is Dictionary<String, Any>.Type, is Dictionary<SynthPath, Any>.Type:
+      return .arr
+    case is SynthPath.Type:
+      return .path
+    case is JsFn.Type:
+      return .fn
+    case is String.Type:
+      return .str
     default:
-      throw JSError.error(msg: "Unrecognized Match specifier: \(t)")
+      return .any
     }
   }
   
@@ -314,8 +326,8 @@ public indirect enum MatchItem : Equatable, Hashable {
 
 protocol JsParsable {
   
-  static var jsRules: [JsParseRule<Self>] { get }
-  static var jsArrayRules: [JsParseRule<[Self]>] { get }
+  static var nuJsRules: [NuJsParseRule<Self>] { get }
+  static var nuJsArrayRules: [NuJsParseRule<[Self]>] { get }
   
 }
 
@@ -327,9 +339,9 @@ protocol JsParsable {
 
 extension JsParsable {
   
-  static var jsArrayRules: [JsParseRule<[Self]>] { [] }
+  static var nuJsArrayRules: [NuJsParseRule<[Self]>] { [] }
   
-  static func defaultArrayRule() -> JsParseRule<[Self]> {
+  static func defaultArrayRule() -> NuJsParseRule<[Self]> {
     .s(".a", {
       // ok, so what are we doing here?
       guard $0.arrCount() > 0 else { return [] }
@@ -345,7 +357,7 @@ extension JsParsable {
           let e = error
           do {
             // if it parses as an array, return that array
-            let arr: [Self] = try $0.xform(jsArrayRules + [defaultArrayRule()])
+            let arr: [Self] = try $0.xform(nuJsArrayRules + [defaultArrayRule()])
             return arr
           }
           catch {
@@ -364,23 +376,21 @@ extension JsParsable {
 
 // for now this is just a dummy for rule parsing...
 enum JsFn: JsParsable {
-  static let jsRules: [JsParseRule<Self>] = [
-  ]
+  static let nuJsRules: [NuJsParseRule<Self>] = []
 }
 
 enum JsObj: JsParsable {
-  static let jsRules: [JsParseRule<Self>] = [
-  ]
+  static let nuJsRules: [NuJsParseRule<Self>] = []
 }
 
 extension Array: JsParsable where Element: JsParsable {
-  static var jsRules: [JsParseRule<Self>] {
-    Element.jsArrayRules + [Element.defaultArrayRule()]
+  static var nuJsRules: [NuJsParseRule<Self>] {
+    Element.nuJsArrayRules + [Element.defaultArrayRule()]
   }
 }
 
 extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
-  static var jsRules: [JsParseRule<Self>] {
+  static var nuJsRules: [NuJsParseRule<Self>] {
     [
       .s(".a", {
         try $0.map {
@@ -392,9 +402,9 @@ extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
 }
 
 protocol JsBankParsable: PatchTruss {
-  static var jsBankRules: [JsParseRule<SomeBankTruss<Self>>] { get }
+  static var nuJsBankRules: [NuJsParseRule<SomeBankTruss<Self>>] { get }
 }
 
 extension SomeBankTruss: JsParsable where PT: JsBankParsable {
-  static var jsRules: [JsParseRule<Self>] { PT.jsBankRules }
+  static var nuJsRules: [NuJsParseRule<Self>] { PT.nuJsBankRules }
 }

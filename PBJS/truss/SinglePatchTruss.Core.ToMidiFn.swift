@@ -5,16 +5,16 @@ extension SysexTrussCore.ToMidiFn : JsParsable {
   
   // this is gross, but the best I could come up with to overcome the "overlapping conformances" issue for now.
   // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0143-conditional-conformances.md#overlapping-conformances
-  static var jsRules: [JsParseRule<Self>] {
+  static var nuJsRules: [NuJsParseRule<Self>] {
     switch BodyData.self {
     case is [UInt8].Type:
-      return SysexTrussCore<[UInt8]>.ToMidiFn.jsRules as! [JsParseRule<Self>]
+      return SysexTrussCore<[UInt8]>.ToMidiFn.nuJsRules as! [NuJsParseRule<Self>]
     case is [SynthPath:[UInt8]].Type:
-      return SysexTrussCore<[SynthPath:[UInt8]]>.ToMidiFn.jsRules as! [JsParseRule<Self>]
+      return SysexTrussCore<[SynthPath:[UInt8]]>.ToMidiFn.nuJsRules as! [NuJsParseRule<Self>]
     case is [[UInt8]].Type:
-      return SomeBankTruss<SinglePatchTruss>.bankToMidiRules as! [JsParseRule<Self>]
+      return SomeBankTruss<SinglePatchTruss>.nuBankToMidiRules as! [NuJsParseRule<Self>]
     case is [[SynthPath:[UInt8]]].Type:
-      return SomeBankTruss<MultiPatchTruss>.bankToMidiRules as! [JsParseRule<Self>]
+      return SomeBankTruss<MultiPatchTruss>.nuBankToMidiRules as! [NuJsParseRule<Self>]
     default:
       fatalError("Unimplemented JsParsable")
     }

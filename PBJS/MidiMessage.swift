@@ -15,15 +15,15 @@ extension MidiMessage: JsParsable {
     .a(["pgmChange", ".n", ".n"], { try .pgmChange(channel: $0.x(1), value: $0.x(2)) }),
   ]
 
-  static let dynamicRules: [JsParseRule<(AnySynthEditor) throws -> Self>] = [
-    .a(["pgmChange", ".x", ".x"], {
+  static let dynamicRules: [NuJsParseRule<(AnySynthEditor) throws -> Self>] = [
+    .a("pgmChange", [EditorValueTransform.self, EditorValueTransform.self], {
       let chan: EditorValueTransform = try $0.x(1)
       let val: EditorValueTransform = try $0.x(2)
       return {
         try .pgmChange(channel: chan.byteValue($0), value: val.byteValue($0))
       }
     }),
-    .s(".a", { v in
+    .arr([JsObj.self, ByteTransform.self], { v in
       let count = v.arrCount()
       let fns: [ByteTransform] = try (1..<count).map {
         try v.x($0)

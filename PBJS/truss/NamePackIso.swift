@@ -8,6 +8,28 @@
 import PBAPI
 
 extension CharFilter : JsParsable {
+
+  static let nuJsRules: [NuJsParseRule<Self>] = [
+    .s("upper", { _ in
+        .f({ Character(Unicode.Scalar($0)).uppercased().first?.asciiValue })
+    }),
+    .s("clean", { _ in
+        .f({ (32...126).contains($0) ? $0 : nil })
+    }),
+    .t(JsFn.self, { fn in
+      try fn.checkFn()
+      return .f({
+        let result = try fn.call([$0], exportOrigin: nil)!
+        if result.isNumber {
+          return result.toNumber().uint8Value
+        }
+        else if result.isNull {
+          return nil
+        }
+        throw JSError.error(msg: "Name byte filter returned an unexpected type.")
+      })
+    })
+  ]
   
   static let jsRules: [JsParseRule<Self>] = [
     .s("upper", { _ in

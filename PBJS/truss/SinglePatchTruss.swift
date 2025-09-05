@@ -58,7 +58,7 @@ extension SinglePatchTruss: JsParsable {
 
 extension SinglePatchTruss.PackFn: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  static let nuJsRules: [NuJsParseRule<Self>] = [
   ]
 }
 
