@@ -4,7 +4,7 @@ import JavaScriptCore
 
 extension Parm: JsParsable, JsPassable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .arr([SynthPath.self, JsObj.self], {
       let path: SynthPath = try $0.x(0)
       let obj = try $0.obj(1)
@@ -16,7 +16,7 @@ extension Parm: JsParsable, JsPassable {
     }),
   ]
   
-  static let nuJsArrayRules: [JsParseRule<[Self]>] = [
+  public static let jsArrayRules: [JsParseRule<[Self]>] = [
     .arr([JsObj.self], {
       guard $0.arrCount() > 0 else { return [] }
       
@@ -91,7 +91,7 @@ extension Parm: JsParsable, JsPassable {
 
 extension Parm.Span: JsParsable, JsPassable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d(["opts" : [JsObj].self], {
       // allow for sparse arrays.
       // TODO: follow up and see if this causes weirdness with controls.

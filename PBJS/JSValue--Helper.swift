@@ -61,7 +61,7 @@ extension JSValue {
     try some(i)?.x()
   }
     
-  fileprivate func num() throws -> NSNumber {
+  func num() throws -> NSNumber {
     guard isNumber else { throw JSError.error(msg: "Expected Number") }
     return toNumber()
   }
@@ -342,75 +342,3 @@ extension JSValue {
 
 }
 
-extension String: JsParsable {
-  static let jsRules: [JsParseRule<Self>] = [
-    .t(String.self, {
-      guard $0.isString else {
-        throw JSError.error(msg: "Expected String")
-      }
-      return $0.toString()
-    }),
-  ]
-
-  static var nuJsArrayRules: [JsParseRule<[Self]>] = [
-    .arr([Int.self, IsoFS.self], {
-      let count: Int = try $0.x(0)
-      let iso: IsoFS = try $0.x(1)
-      return (count).map { iso.forward(Float($0)) }
-    }),
-  ]
-  
-}
-
-
-extension Int: JsParsable {
-  static let jsRules: [JsParseRule<Self>] = [
-    .t(Int.self, { try $0.num().intValue }),
-  ]
-
-}
-
-
-extension UInt8: JsParsable {
-  static let jsRules: [JsParseRule<Self>] = [
-    .t(Int.self, { try $0.num().uint8Value }),
-  ]
-}
-
-extension Float: JsParsable {
-  static let jsRules: [JsParseRule<Self>] = [
-    .t(Float.self, { try $0.num().floatValue }),
-  ]
-}
-
-extension CGFloat: JsParsable {
-  static let jsRules: [JsParseRule<Self>] = [
-    .t(CGFloat.self, { CGFloat(truncating: try $0.num()) }),
-  ]
-}
-
-extension Bool: JsParsable {
-  static let jsRules: [JsParseRule<Self>] = [
-    .t(Bool.self, {
-      guard $0.isBoolean else { throw JSError.error(msg: "Expected Boolean") }
-      return $0.toBool()
-    }),
-  ]
-}
-
-extension ClosedRange : JsParsable where Bound: JsParsable {
-  static var jsRules: [JsParseRule<Self>] {
-    [
-      .arr([Int.self, Int.self], {
-//        if Bound.self == Int.self {
-//          let lower: Int = try $0.x(0)
-//          let upper: Int = try $0.x(1) - 1
-//          return (lower as! Bound)...(upper as! Bound)
-//        }
-//        else {
-          return try ($0.x(0))...($0.x(1))
-//        }
-      }),
-    ]
-  }
-}

@@ -4,7 +4,7 @@ import JavaScriptCore
 
 extension BasicModuleTruss: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d([
       "editor" : BasicEditorTruss.self,
       "sections" : [ModuleTrussSection].self,

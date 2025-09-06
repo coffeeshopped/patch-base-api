@@ -9,7 +9,7 @@ import PBAPI
 
 extension PBBezier.PathCommand: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("move", [CGFloat.self, CGFloat.self], {
       try .move(to: CGPoint(x: $0.x(1) as CGFloat, y: $0.x(2)))
     }),

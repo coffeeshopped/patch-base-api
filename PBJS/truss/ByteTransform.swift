@@ -3,7 +3,7 @@ import PBAPI
 
 extension ByteTransform: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a(">", [ByteTransform.self], { v in
       // treat as an array of functions, with the output of each function being fed as input to the next function (chaining).
       let fns: [Self] = try (1..<v.arrCount()).map { try v.x($0) }

@@ -3,7 +3,7 @@ import PBAPI
 
 extension PatchController.ConfigParam: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("fullPath", [SynthPath.self], {
       try .fullPath($0.x(1))
     }),

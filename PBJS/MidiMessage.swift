@@ -3,13 +3,13 @@ import PBAPI
 
 extension MidiMessage: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .b(0xf0, [], { .sysex(try $0.x()) }),
     .a("syx", [[UInt8].self], { try .sysex($0.x(1)) }),
     .a("pgmChange", [UInt8.self, UInt8.self], { try .pgmChange(channel: $0.x(1), value: $0.x(2)) }),
   ]
   
-  static let dynamicRules: [JsParseRule<(AnySynthEditor) throws -> Self>] = [
+  public static let dynamicRules: [JsParseRule<(AnySynthEditor) throws -> Self>] = [
     .a("pgmChange", [EditorValueTransform.self, EditorValueTransform.self], {
       let chan: EditorValueTransform = try $0.x(1)
       let val: EditorValueTransform = try $0.x(2)

@@ -10,7 +10,7 @@ import JavaScriptCore
 
 extension RolandEditorTrussWerk.MapItem: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .arr([SynthPath.self, RolandAddress.self, JsObj.self], {
       try .init(path: $0.x(0), address: $0.x(1), werk: $0.any(2).xform(RolandSysexTrussWerkRules))
     }),

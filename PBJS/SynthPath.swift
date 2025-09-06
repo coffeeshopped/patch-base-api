@@ -4,13 +4,13 @@ import PBAPI
 
 extension SynthPathItem: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .t(String.self, {
       try parseSynthPathItem($0.x())
     })
   ]
 
-  static let nuJsArrayRules: [JsParseRule<[Self]>] = [
+  public static let jsArrayRules: [JsParseRule<[Self]>] = [
     .t(String.self, {
       try $0.toString().split(separator: "/").map {
         guard let i = Int($0) else {
@@ -34,7 +34,7 @@ extension SynthPathItem: JsParsable {
 
 extension SynthPath : JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .t(String.self, {
       let items = try $0.toString().split(separator: "/").map {
         guard let i = Int($0) else {
@@ -48,7 +48,7 @@ extension SynthPath : JsParsable {
     .t([JsObj].self, { .init(try $0.flatMap { try $0.x() }) })
   ]
 
-  static let nuJsArrayRules: [JsParseRule<[Self]>] = [
+  public static let jsArrayRules: [JsParseRule<[Self]>] = [
     .a(">", [[Parm].self, SynthPathMap.self], { v in
       // expect elem 1 to be Parms
       let parms: [Parm] = try v.x(1)

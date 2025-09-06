@@ -4,7 +4,7 @@ import JavaScriptCore
 
 extension FetchTransform: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("sequence", [[FetchTransform].self], { .sequence(try $0.x(1)) }),
     .a("truss", [SinglePatchTruss.Core.ToMidiFn.self], {
       try .truss($0.x(1))

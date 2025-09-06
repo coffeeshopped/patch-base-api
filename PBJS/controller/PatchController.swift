@@ -3,7 +3,7 @@ import PBAPI
 
 extension PatchController: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d([
       "builders" : [Builder].self,
       "pages" : PageSetup.self,

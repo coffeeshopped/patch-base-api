@@ -3,7 +3,7 @@ import PBAPI
 
 extension ModuleTrussSection: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("first", [[Item].self], { .first(try $0.x(1)) }),
     .a("basic", [String.self, [Item].self], { try .basic($0.x(1), $0.x(2)) }),
     .a("banks", [[Item].self], { .banks(try $0.x(1)) }),
@@ -13,7 +13,7 @@ extension ModuleTrussSection: JsParsable {
 
 extension ModuleTrussSection.Item: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("global", [PatchController.self], optional: [String.self], { try .global($0.x(1), title: $0.xq(2)) }),
     .a("voice", [String.self, PatchController.self], optional: [SynthPath.self], {
       try .voice($0.x(1), path: $0.xq(3), $0.x(2))
@@ -32,7 +32,7 @@ extension ModuleTrussSection.Item: JsParsable {
     }),
   ]
 
-  static let nuJsArrayRules: [JsParseRule<[Self]>] = [
+  public static let jsArrayRules: [JsParseRule<[Self]>] = [
     .a("perfParts", [Int.self, JsFn.self, PatchController.self], {
       try .perfParts($0.x(1), $0.fn(2), pathPrefix: [.part], $0.x(3))
     }),

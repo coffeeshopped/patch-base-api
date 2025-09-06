@@ -3,7 +3,7 @@ import PBAPI
 
 extension RolandMultiPatchTrussWerk: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d([
       "multi" : String.self,
       "map" : [MapItem].self,

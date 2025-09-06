@@ -4,7 +4,7 @@ import JavaScriptCore
 extension SysexTrussCore.FromMidiFn : JsParsable {
 
   // see SysexTrussCore.ToMidiFn (JsParsable impl)
-  static var jsRules: [JsParseRule<Self>] {
+  public static var jsRules: [JsParseRule<Self>] {
     switch BodyData.self {
     case is [UInt8].Type:
       return SysexTrussCore<[UInt8]>.FromMidiFn.jsRules as! [JsParseRule<Self>]

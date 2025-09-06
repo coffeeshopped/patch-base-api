@@ -4,7 +4,7 @@ import JavaScriptCore
 
 extension MidiTransform: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d([
       "singlePatch" : Fn<SinglePatchTruss>.Whole.self,
       "throttle?" : Int.self,
@@ -57,7 +57,7 @@ extension MidiTransform: JsParsable {
 
 extension MidiTransform.Fn.Param : JsParsable {
   
-  static var jsRules: [JsParseRule<Self>] {
+  public static var jsRules: [JsParseRule<Self>] {
     return [
       .t(JsFn.self, { fn in
         return .init { editor, bodyData, path, parm, value in
@@ -82,7 +82,7 @@ extension MidiTransform.Fn.Param : JsParsable {
 
 extension MidiTransform.Fn.Whole : JsParsable {
   
-  static var jsRules: [JsParseRule<Self>] {
+  public static var jsRules: [JsParseRule<Self>] {
     return [
       // treat an array as a bunch of midiFn, waitTime pairs.
       .t([JsObj].self, {
@@ -115,7 +115,7 @@ extension MidiTransform.Fn.Whole : JsParsable {
 
 extension MidiTransform.Fn.Name: JsParsable {
   
-  static var jsRules: [JsParseRule<Self>] {
+  public static var jsRules: [JsParseRule<Self>] {
     return [
       // treat an array as a bunch of midiFn, waitTime pairs.
       .t([JsObj].self, {
@@ -148,7 +148,7 @@ extension MidiTransform.Fn.Name: JsParsable {
 
 extension MidiTransform.Fn.BankPatch : JsParsable {
   
-  static var jsRules: [JsParseRule<Self>] {
+  public static var jsRules: [JsParseRule<Self>] {
     return [
       .t(JsFn.self, { fn in
         return .init { editor, bodyData, location in
@@ -173,7 +173,7 @@ extension MidiTransform.Fn.BankPatch : JsParsable {
 
 extension MidiTransform.Fn.WholeBank : JsParsable {
   
-  static var jsRules: [JsParseRule<Self>] {
+  public static var jsRules: [JsParseRule<Self>] {
     return [
       // treat an array as a bunch of midiFn, waitTime pairs.
       .t([JsObj].self, {

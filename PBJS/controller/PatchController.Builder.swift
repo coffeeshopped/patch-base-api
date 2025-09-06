@@ -3,7 +3,7 @@ import PBAPI
 
 extension PatchController.Builder: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d([
       "child" : PatchController.self,
       "id" : String.self,
@@ -58,7 +58,7 @@ extension PatchController.Builder: JsParsable {
 
 extension PatchController.Builder.Row : JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .arr([[PatchController.PanelItem].self], { try .init($0.x(), 1) }),
     .d([
       "row": [PatchController.PanelItem].self,
@@ -70,7 +70,7 @@ extension PatchController.Builder.Row : JsParsable {
 
 extension PatchController.Builder.ItemWithId : JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .arr([PatchController.PanelItem.self, String.self], { try .init($0.x(0), $0.x(1)) }),
   ]
   

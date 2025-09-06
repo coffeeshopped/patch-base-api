@@ -3,7 +3,7 @@ import PBAPI
 
 extension IsoFF : JsParsable {
 
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("+", [Float.self], { try .a($0.x(1)) }),
     .a("-", [Float.self], { try .a($0.x(1) * -1) }),
     .a("*", [Float.self], { try .m($0.x(1)) }),
@@ -28,7 +28,7 @@ extension IsoFF : JsParsable {
 
 extension IsoFF.SwitcherCheck: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .arr([Int.self, Float.self], { try .int($0.x(0), $0.x(1)) }),
     .arr([ClosedRange<Float>.self, Float.self], { try .rangeString($0.x(0), $0.x(1)) }),
     .arr([ClosedRange<Float>.self, IsoFF.self], { try .range($0.x(0), $0.x(1)) }),

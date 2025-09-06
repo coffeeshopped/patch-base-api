@@ -9,7 +9,7 @@ import PBAPI
 
 extension CharFilter : JsParsable {
 
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .s("upper", { _ in
         .f({ Character(Unicode.Scalar($0)).uppercased().first?.asciiValue })
     }),
@@ -35,7 +35,7 @@ extension CharFilter : JsParsable {
 
 extension NamePackIso : JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .arr([Int.self, Int.self], {
       let start: Int = try $0.x(0)
       let end: Int = try $0.x(1)

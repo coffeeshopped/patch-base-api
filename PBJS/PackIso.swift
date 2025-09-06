@@ -3,7 +3,7 @@ import PBAPI
 
 extension PackIso : JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("splitter", [[Blitter].self], { try .splitter($0.x(1)) }),
   ]
   
@@ -11,7 +11,7 @@ extension PackIso : JsParsable {
 
 extension PackIso.Blitter : JsParsable {
 
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d([
       "byte" : Int.self,
       "byteBits?" : ClosedRange<Int>.self,

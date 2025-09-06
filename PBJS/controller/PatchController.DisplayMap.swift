@@ -3,7 +3,7 @@ import PBAPI
 
 extension PatchController.DisplayMap: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("src", [SynthPath.self, JsFn.self], {
       return try .src($0.x(1), dest: nil, $0.fn(2))
     }),

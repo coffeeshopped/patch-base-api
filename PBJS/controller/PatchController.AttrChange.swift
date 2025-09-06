@@ -4,7 +4,7 @@ import JavaScriptCore
 
 extension PatchController.AttrChange: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("dimItem", [Bool.self, SynthPath.self], optional: [CGFloat.self], {
       try .dimItem($0.x(1), $0.x(2), dimAlpha: $0.xq(3))
     }),
@@ -55,7 +55,7 @@ extension PatchController.AttrChange: JsParsable {
   ]
   
   // allow for a single AttrChange in places where an array is returned
-  static var nuJsArrayRules: [JsParseRule<[Self]>] = [
+  public static var jsArrayRules: [JsParseRule<[Self]>] = [
     .arr([String.self], { [try $0.x()] }),
   ]
   

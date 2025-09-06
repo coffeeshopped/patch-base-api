@@ -4,7 +4,7 @@ import JavaScriptCore
 
 extension PatchController.Constraint: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d([
       "row": [Item].self,
       "opts?": [PBLayoutConstraint.FormatOption].self,
@@ -46,7 +46,7 @@ extension PatchController.Constraint: JsParsable {
 
 extension PBLayoutConstraint.FormatOption: JsParsable {
 
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .s("alignAllTop", { _ in .alignAllTop }),
     .s("alignAllBottom", { _ in .alignAllBottom }),
     .s("alignAllLeading", { _ in .alignAllLeading }),
@@ -57,7 +57,7 @@ extension PBLayoutConstraint.FormatOption: JsParsable {
 
 extension PBLayoutConstraint.Attribute: JsParsable {
 
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .s("leading", { _ in .leading }),
     .s("trailing", { _ in .trailing }),
     .s("top", { _ in .top }),
@@ -67,14 +67,14 @@ extension PBLayoutConstraint.Attribute: JsParsable {
 }
 
 extension PatchController.Constraint.Item: JsParsable {
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .arr([String.self, CGFloat.self], { try .init($0.x(0), $0.x(1)) }),
   ]
 }
 
 extension PatchController.Constraint.Row: JsParsable {
 
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d([
       "row": [PatchController.Constraint.Item].self,
       "h": CGFloat.self,

@@ -3,7 +3,7 @@ import PBAPI
 
 extension MemSlot.Transform: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("user", [JsFn.self], {
       try .user($0.fn(1))
     }),

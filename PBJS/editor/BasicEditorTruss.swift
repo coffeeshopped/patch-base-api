@@ -4,7 +4,7 @@ import PBAPI
 
 extension BasicEditorTruss: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .init(.d([
       "name" : String.self,
 //      "trussMap" : [].self,

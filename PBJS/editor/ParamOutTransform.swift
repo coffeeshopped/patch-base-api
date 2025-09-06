@@ -3,7 +3,7 @@ import PBAPI
 
 extension ParamOutTransform : JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("bankNames", [SynthPath.self, SynthPath.self], {
       try .bankNames($0.x(1), $0.x(2), nameBlock: nil)
     }),

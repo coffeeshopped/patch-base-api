@@ -177,6 +177,7 @@
 		ACB699FC2CE2C5A000738F63 /* SynthPathMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB699FB2CE2C5A000738F63 /* SynthPathMap.swift */; };
 		ACB699FE2CE3A18200738F63 /* SynthPathMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB699FD2CE3A18200738F63 /* SynthPathMap.swift */; };
 		ACB69A002CE3BDA500738F63 /* JsPassable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB699FF2CE3BDA500738F63 /* JsPassable.swift */; };
+		ACBF3DBC2E6C8A9300FE7DC5 /* JsParsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBF3DBB2E6C8A9300FE7DC5 /* JsParsable.swift */; };
 		ACD6726D2E492C4E00AB3CDE /* SinglePatchTruss.Core.FromMidiFn.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD6726C2E492C4E00AB3CDE /* SinglePatchTruss.Core.FromMidiFn.swift */; };
 		ACE0BB762C6E4E130099F3D9 /* PBBezier.PathCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB752C6E4E130099F3D9 /* PBBezier.PathCommand.swift */; };
 		ACE0BB782C6E6EF00099F3D9 /* PBError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0BB772C6E6EF00099F3D9 /* PBError.swift */; };
@@ -385,6 +386,7 @@
 		ACB699FB2CE2C5A000738F63 /* SynthPathMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthPathMap.swift; sourceTree = "<group>"; };
 		ACB699FD2CE3A18200738F63 /* SynthPathMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthPathMap.swift; sourceTree = "<group>"; };
 		ACB699FF2CE3BDA500738F63 /* JsPassable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsPassable.swift; sourceTree = "<group>"; };
+		ACBF3DBB2E6C8A9300FE7DC5 /* JsParsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsParsable.swift; sourceTree = "<group>"; };
 		ACD6726C2E492C4E00AB3CDE /* SinglePatchTruss.Core.FromMidiFn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePatchTruss.Core.FromMidiFn.swift; sourceTree = "<group>"; };
 		ACE0BB752C6E4E130099F3D9 /* PBBezier.PathCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBBezier.PathCommand.swift; sourceTree = "<group>"; };
 		ACE0BB772C6E6EF00099F3D9 /* PBError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBError.swift; sourceTree = "<group>"; };
@@ -478,6 +480,7 @@
 				AC414B602C653A900019DC1B /* JsByte.swift */,
 				AC414B632C653A900019DC1B /* JsConsole.swift */,
 				AC414BA02C653C290019DC1B /* JsParseRule.swift */,
+				ACBF3DBB2E6C8A9300FE7DC5 /* JsParsable.swift */,
 				ACB699FF2CE3BDA500738F63 /* JsPassable.swift */,
 				AC04276F2D4ABC47006C7EFB /* JsPackage.swift */,
 				AC414B622C653A900019DC1B /* JSValue--Helper.swift */,
@@ -948,6 +951,7 @@
 				AC6778E22C98FF3E002FE359 /* AnyRolandSysexTrussWerk.swift in Sources */,
 				AC6659E92C9B783C00CFDFFA /* PatchController.PageSetup.swift in Sources */,
 				AC414B782C653A900019DC1B /* Jiso.swift in Sources */,
+				ACBF3DBC2E6C8A9300FE7DC5 /* JsParsable.swift in Sources */,
 				AC6659EB2C9B893100CFDFFA /* PatchController.ConfigParam.swift in Sources */,
 				AC0BBF422C764F6400182584 /* SinglePatchTruss.Core.ToMidiFn.swift in Sources */,
 				AC414B772C653A900019DC1B /* JsConsole.swift in Sources */,

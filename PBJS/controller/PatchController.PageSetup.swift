@@ -3,7 +3,7 @@ import PBAPI
 
 extension PatchController.PageSetup: JsParsable {
 
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("map", [[SynthPath].self, [SynthPath:PatchController].self], {
       try .map($0.x(1), $0.x(2))
     }),

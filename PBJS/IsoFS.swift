@@ -3,7 +3,7 @@ import PBAPI
 
 extension IsoFS : JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("str", [], optional: [String.self], {
       try .str($0.xq(1) ?? "%g")
     }),
@@ -93,7 +93,7 @@ extension IsoFS : JsParsable {
 
 extension IsoFS.SwitcherCheck: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .arr([Int.self, String.self], { try .int($0.x(0), $0.x(1)) }),
     .arr([ClosedRange<Float>.self, String.self], { try .rangeString($0.x(0), $0.x(1)) }),
     .arr([ClosedRange<Float>.self, IsoFS.self], { try .range($0.x(0), $0.x(1)) }),

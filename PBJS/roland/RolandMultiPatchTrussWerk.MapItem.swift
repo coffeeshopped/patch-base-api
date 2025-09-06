@@ -9,7 +9,7 @@ import PBAPI
 
 extension RolandMultiPatchTrussWerk.MapItem: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .arr([SynthPath.self, RolandAddress.self, RolandSinglePatchTrussWerk.self], {
       try .init(path: $0.x(0), address: $0.x(1), werk: $0.x(2))
     }),

@@ -3,7 +3,7 @@ import PBAPI
 
 extension MultiPatchTruss : JsBankParsable {
   
-  static let nuJsBankRules: [JsParseRule<MultiBankTruss>] = [
+  public static let nuJsBankRules: [JsParseRule<MultiBankTruss>] = [
     .d([
       "compactMultiBank" : MultiPatchTruss.self,
       "patchCount" : Int.self,

@@ -5,16 +5,16 @@ extension SysexTrussCore.ToMidiFn : JsParsable {
   
   // this is gross, but the best I could come up with to overcome the "overlapping conformances" issue for now.
   // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0143-conditional-conformances.md#overlapping-conformances
-  static var jsRules: [JsParseRule<Self>] {
+  public static var jsRules: [JsParseRule<Self>] {
     switch BodyData.self {
     case is [UInt8].Type:
       return SysexTrussCore<[UInt8]>.ToMidiFn.jsRules as! [JsParseRule<Self>]
     case is [SynthPath:[UInt8]].Type:
       return SysexTrussCore<[SynthPath:[UInt8]]>.ToMidiFn.jsRules as! [JsParseRule<Self>]
     case is [[UInt8]].Type:
-      return SomeBankTruss<SinglePatchTruss>.nuBankToMidiRules as! [JsParseRule<Self>]
+      return SomeBankTruss<SinglePatchTruss>.bankToMidiRules as! [JsParseRule<Self>]
     case is [[SynthPath:[UInt8]]].Type:
-      return SomeBankTruss<MultiPatchTruss>.nuBankToMidiRules as! [JsParseRule<Self>]
+      return SomeBankTruss<MultiPatchTruss>.bankToMidiRules as! [JsParseRule<Self>]
     default:
       fatalError("Unimplemented JsParsable")
     }
@@ -24,7 +24,7 @@ extension SysexTrussCore.ToMidiFn : JsParsable {
 
 extension SysexTrussCore<[UInt8]>.ToMidiFn {
   
-  static func chainRule(_ v: JSValue) throws -> Self {
+  public static func chainRule(_ v: JSValue) throws -> Self {
     // v is a JS array. Skip the first element.
     // treat as an array of ByteTransforms, with the output of each function being fed as input to the next function, and the last element is a ToMidiFn.
     let count = v.arrCount()

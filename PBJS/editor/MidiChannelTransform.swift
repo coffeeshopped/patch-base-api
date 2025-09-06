@@ -3,7 +3,7 @@ import PBAPI
 
 extension MidiChannelTransform: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .s("basic", { _ in .basic(map: nil) }),
     .a("basic", [JsFn.self], {
       try .basic(map: $0.fn(1))

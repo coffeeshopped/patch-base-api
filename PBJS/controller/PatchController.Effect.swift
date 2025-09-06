@@ -3,7 +3,7 @@ import PBAPI
 
 extension PatchController.Effect: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .a("editMenu", [SynthPath.self, JsObj.self], {
       let config = try $0.obj(2)
       // paths can be an [SynthPath], or [Parm].
@@ -58,7 +58,7 @@ extension PatchController.Effect: JsParsable {
     .a("listen", [SynthPath.self, JsFn.self], { try .listen($0.x(1), $0.fn(2)) }),
   ]
   
-  static let nuJsArrayRules: [JsParseRule<[Self]>] = [
+  public static let jsArrayRules: [JsParseRule<[Self]>] = [
     .a("voiceReserve", [[SynthPath].self, Int.self, [SynthPath].self], {
       try .voiceReserve(paths: $0.x(1), total: $0.x(2), ctrls: $0.x(3))
     }),

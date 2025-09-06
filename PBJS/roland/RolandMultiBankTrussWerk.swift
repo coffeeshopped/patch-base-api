@@ -3,7 +3,7 @@ import PBAPI
 
 extension RolandMultiBankTrussWerk: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d([
       "multiBank" : RolandMultiPatchTrussWerk.self,
       "patchCount" : Int.self,

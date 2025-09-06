@@ -9,7 +9,7 @@ import PBAPI
 
 extension SomeBankTruss {
 
-  static var nuBankToMidiRules: [JsParseRule<Core.ToMidiFn>] {
+  static var bankToMidiRules: [JsParseRule<Core.ToMidiFn>] {
     [
       .d([
         "locationMap" : JsFn.self,

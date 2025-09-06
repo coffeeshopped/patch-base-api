@@ -3,7 +3,7 @@ import JavaScriptCore
 
 extension SinglePatchTruss: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d([
       "single" : String.self,
       "initFile?" : String.self,
@@ -24,13 +24,13 @@ extension SinglePatchTruss: JsParsable {
 
 extension SinglePatchTruss.PackFn: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
   ]
 }
 
 extension SinglePatchTruss.UnpackFn: JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d([
       "b" : String.self, // byte representation scheme
     ], {
