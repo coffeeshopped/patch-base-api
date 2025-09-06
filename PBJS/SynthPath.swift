@@ -34,6 +34,10 @@ extension SynthPathItem: JsParsable {
 
 extension SynthPath : JsParsable {
   
+  public static func matches(_ x: JSValue) -> Bool {
+    x.isString || x.isArray || x.isNumber
+  }
+  
   public static let jsRules: [JsParseRule<Self>] = [
     .t(String.self, {
       let items = try $0.toString().split(separator: "/").map {

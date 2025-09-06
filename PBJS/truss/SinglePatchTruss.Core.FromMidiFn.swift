@@ -25,6 +25,8 @@ extension SysexTrussCore.FromMidiFn : JsParsable {
 
 extension SysexTrussCore<[UInt8]>.FromMidiFn {
   
+  public static func jsName() -> String { "SinglePatchTruss.Core.FromMidiFn" }
+
   static func chainRule(_ v: JSValue) throws -> Self {
     // v is a JS array. Skip the first element.
     // the second element is a FromMidiFn.

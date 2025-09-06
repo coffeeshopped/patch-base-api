@@ -4,22 +4,13 @@ import PBAPI
 extension PatchController.Builder: JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
-    .d([
-      "child" : PatchController.self,
-      "id" : String.self,
-      "config?" : JsObj.self,
-    ], {
-      let opts = try? $0.obj("config")
-      return try .child($0.x("child"), $0.x("id"), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"))
+    .a("child", [PatchController.self, String.self], optional: [JsObj.self], {
+      let opts = try? $0.obj(3)
+      return try .child($0.x("1"), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"))
     }),
-    .d([
-      "children" : PatchController.self,
-      "count" : Int.self,
-      "id" : String.self,
-      "config?" : JsObj.self,
-    ], {
-      let opts = try? $0.obj("config")
-      return try .children($0.x("count"), $0.x("id"), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), $0.x("children"), indexFn: opts?.fnq("index"))
+    .a("children", [Int.self, String.self, PatchController.self], optional: [JsObj.self], {
+      let opts = try? $0.obj(4)
+      return try .children($0.x(1), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), $0.x(3), indexFn: opts?.fnq("index"))
     }),
     .a("panel", [String.self, JsObj.self, [Row].self], {
       let opts = try? $0.obj(2)

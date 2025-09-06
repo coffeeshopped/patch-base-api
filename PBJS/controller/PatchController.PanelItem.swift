@@ -9,7 +9,7 @@ extension PatchController.PanelItem: JsParsable {
       return try .switcher(label: c?.xq("l"), $0.x(1), id: c?.xq("id"), width: c?.xq("w"), cols: c?.xq("cols"))
     }),
     .arr([String.self, SynthPath.self], { try .dynamic($0.x(0), $0.x(1)) }),
-    .arr([JsObj.self], {
+    .arr([JsObj.self], optional: [SynthPath.self], {
       let obj = try $0.obj(0)
       let path: SynthPath? = try $0.xq(1)
       var t: String = (try obj.xq("t")) ?? "dyn"

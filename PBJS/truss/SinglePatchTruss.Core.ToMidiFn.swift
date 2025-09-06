@@ -3,6 +3,21 @@ import JavaScriptCore
 
 extension SysexTrussCore.ToMidiFn : JsParsable {
   
+  public static func jsName() -> String {
+    switch BodyData.self {
+    case is [UInt8].Type:
+      return SysexTrussCore<[UInt8]>.ToMidiFn.jsName()
+    case is [SynthPath:[UInt8]].Type:
+      return SysexTrussCore<[SynthPath:[UInt8]]>.ToMidiFn.jsName()
+//    case is [[UInt8]].Type:
+//      return SomeBankTruss<SinglePatchTruss>.bankToMidiRules as! [JsParseRule<Self>]
+//    case is [[SynthPath:[UInt8]]].Type:
+//      return SomeBankTruss<MultiPatchTruss>.bankToMidiRules as! [JsParseRule<Self>]
+    default:
+      return "???"
+    }
+  }
+
   // this is gross, but the best I could come up with to overcome the "overlapping conformances" issue for now.
   // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0143-conditional-conformances.md#overlapping-conformances
   public static var jsRules: [JsParseRule<Self>] {
@@ -35,6 +50,8 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
       return try mfn.call(bd, e)
     }
   }
+  
+  public static func jsName() -> String { "SinglePatchTruss.Core.ToMidiFn" }
   
   static let jsRules: [JsParseRule<Self>] = [
     .a(">", [], {

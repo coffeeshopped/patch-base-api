@@ -100,7 +100,7 @@ extension Array: JsParsable where Element: JsParsable {
 extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
   public static var jsRules: [JsParseRule<Self>] {
     [
-      .s(".a", {
+      .t([[JsObj]].self, {
         try $0.map {
           try [$0.x(0) : $0.x(1)]
         }.dict { $0 }

@@ -5,37 +5,25 @@ import JavaScriptCore
 extension PatchController.Constraint: JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
-    .d([
-      "row": [Item].self,
-      "opts?": [PBLayoutConstraint.FormatOption].self,
-    ], {
-      try .row($0.x("row"), opts: $0.xq("opts") ?? [.alignAllTop, .alignAllBottom], spacing: nil)
+    .a("row", [[Item].self], optional: [JsObj.self], {
+      let config = try? $0.obj(2)
+      return try .row($0.x(1), opts: config?.xq("opts") ?? [.alignAllTop, .alignAllBottom], spacing: nil)
     }),
-    .d([
-      "rowPart": [Item].self,
-      "opts?": [PBLayoutConstraint.FormatOption].self,
-    ], {
-      try .rowPart($0.x("rowPart"), opts: $0.xq("opts") ?? [.alignAllTop, .alignAllBottom], spacing: nil)
+    .a("rowPart", [[Item].self], optional: [JsObj.self], {
+      let config = try? $0.obj(2)
+      return try .rowPart($0.x(1), opts: config?.xq("opts") ?? [.alignAllTop, .alignAllBottom], spacing: nil)
     }),
-    .d([
-      "col": [Item].self,
-      "opts?": [PBLayoutConstraint.FormatOption].self,
-    ], {
-      try .col($0.x("col"), opts: $0.xq("opts") ?? [.alignAllLeading], spacing: nil)
+    .a("col", [[Item].self], optional: [JsObj.self], {
+      let config = try? $0.obj(2)
+      return try .col($0.x(1), opts: config?.xq("opts") ?? [.alignAllLeading], spacing: nil)
     }),
-    .d([
-      "colPart": [Item].self,
-      "opts?": [PBLayoutConstraint.FormatOption].self,
-    ], {
-      try .colPart($0.x("col"), opts: $0.xq("opts") ?? [.alignAllLeading], spacing: nil)
+    .a("colPart", [[Item].self], optional: [JsObj.self], {
+      let config = try? $0.obj(2)
+      return try .colPart($0.x(1), opts: config?.xq("opts") ?? [.alignAllLeading], spacing: nil)
     }),
-    .d([
-      "colFixed": [String].self,
-      "fixed": String.self,
-      "height": CGFloat.self,
-      "spacing": CGFloat.self,
-    ], {
-      try .colFixed($0.x("colFixed"), fixed: $0.x("fixed"), height: $0.x("height"), opts: [], spacing: $0.x("spacing"))
+    .a("colFixed", [[String].self, JsObj.self], {
+      let config = try $0.obj(2)
+      return try .colFixed($0.x(1), fixed: config.x("fixed"), height: config.x("height"), opts: [], spacing: config.x("spacing"))
     }),
     .a("eq", [[String].self, PBLayoutConstraint.Attribute.self], {
       try .eq($0.x(1), $0.x(2))

@@ -97,6 +97,8 @@ public enum Match {
     case .t(let t):
       return t.matches(x)
     case .arr(let args, let opts):
+      guard x.isArray,
+            x.arrCount() >= args.count else { return false }
       return args.enumerated().reduce(true) { partialResult, pair in
         guard partialResult else { return false }
         return pair.element.matches(x.atIndex(pair.offset))

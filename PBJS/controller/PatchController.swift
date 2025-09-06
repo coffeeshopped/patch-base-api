@@ -83,12 +83,8 @@ extension PatchController: JsParsable {
       let selectable: Bool? = try config?.xq("selectable")
       return try .fm($0.x(1), $0.x(2), algoPath: algoPath, reverse: reverse, selectable: selectable)
     }),
-    .d([
-      "oneRow" : Int.self,
-      "child" : PatchController.self,
-      "indexMap?" : JsFn.self,
-    ], {
-      return try .oneRow($0.x("oneRow"), child: $0.x("child"), indexMap: $0.fnq("indexMap"))
+    .a("oneRow", [Int.self, PatchController.self], optional: [JsFn.self], {
+      return try .oneRow($0.x(1), child: $0.x(2), indexMap: $0.fnq(3))
     }),
   ]
   

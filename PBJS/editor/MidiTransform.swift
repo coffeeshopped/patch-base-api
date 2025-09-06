@@ -11,7 +11,7 @@ extension MidiTransform: JsParsable {
       "param?" : Fn<SinglePatchTruss>.Param.self,
       "name?" : Fn<SinglePatchTruss>.Name.self,
     ], {
-      try .single(throttle: $0.xq("throttle"), .patch(coalesce: 2, param: $0.xq("param"), patch: $0.x("patch"), name: $0.xq("name")))
+      try .single(throttle: $0.xq("throttle"), .patch(coalesce: 2, param: $0.xq("param"), patch: $0.x("singlePatch"), name: $0.xq("name")))
     }),
     .d([
       "multiPatch" : Fn<MultiPatchTruss>.Whole.self,
@@ -19,13 +19,13 @@ extension MidiTransform: JsParsable {
       "param?" : Fn<MultiPatchTruss>.Param.self,
       "name?" : Fn<MultiPatchTruss>.Name.self,
     ], {
-      try .multi(throttle: $0.xq("throttle"), .patch(param: $0.xq("param"), patch: $0.x("patch"), name: $0.x("name")))
+      try .multi(throttle: $0.xq("throttle"), .patch(param: $0.xq("param"), patch: $0.x("multiPatch"), name: $0.x("name")))
     }),
     .d([
       "singleBank" : Fn<SinglePatchTruss>.BankPatch.self,
       "throttle?" : Int.self,
     ], {
-      try .single(throttle: $0.xq("throttle"), .bank($0.x("bank")))
+      try .single(throttle: $0.xq("throttle"), .bank($0.x("singleBank")))
     }),
     .d([
       "compactSingleBank" : JsObj.self,

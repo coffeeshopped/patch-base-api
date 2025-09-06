@@ -9,6 +9,8 @@ import PBAPI
 
 extension SysexTrussCore<[SynthPath:[UInt8]]>.ToMidiFn {
   
+  public static func jsName() -> String { "MultiPatchTruss.Core.ToMidiFn" }
+
   static let jsRules: [JsParseRule<Self>] = [
     .a("+", [MultiPatchTruss.Core.ToMidiFn.self], { v in
       let count = v.arrCount()
