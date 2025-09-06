@@ -4,10 +4,10 @@ import JavaScriptCore
 extension SysexTrussCore.FromMidiFn : JsParsable {
 
   // see SysexTrussCore.ToMidiFn (JsParsable impl)
-  static var nuJsRules: [NuJsParseRule<Self>] {
+  static var jsRules: [JsParseRule<Self>] {
     switch BodyData.self {
     case is [UInt8].Type:
-      return SysexTrussCore<[UInt8]>.FromMidiFn.nuJsRules as! [NuJsParseRule<Self>]
+      return SysexTrussCore<[UInt8]>.FromMidiFn.jsRules as! [JsParseRule<Self>]
 //    case is [SynthPath:[UInt8]].Type:
 //      return SysexTrussCore<[SynthPath:[UInt8]]>.ToMidiFn.jsRules as! [JsParseRule<Self>]
 //    case is [[UInt8]].Type:
@@ -38,7 +38,7 @@ extension SysexTrussCore<[UInt8]>.FromMidiFn {
     }
   }
 
-  static let nuJsRules: [NuJsParseRule<Self>] = [
+  static let jsRules: [JsParseRule<Self>] = [
     .a(">", [SinglePatchTruss.Core.FromMidiFn.self, ByteTransform.self], {
       try chainRule($0)
     }),
@@ -60,24 +60,4 @@ extension SysexTrussCore<[UInt8]>.FromMidiFn {
 //    }),
   ]
   
-  static let jsRules: [JsParseRule<Self>] = [
-    .a([">"], {
-      try chainRule($0)
-    }),
-    .s(".a", {
-      // first see if it's a byte transform
-      if let bt = try? $0.x() as ByteTransform {
-        return .fn { msgs in
-          try bt.call(msgs.flatMap { $0.bytes() }, nil)
-        }
-      }
-
-      // otherwise, treat as an implicit "+"
-      let fns: [Self] = try $0.map { try $0.x() }
-      return .fn({ b in try fns.flatMap { try $0.call(b) } })
-    }),
-//    .s(".f", { fn in
-//      try fn.checkFn()
-//      return .fn({ try fn.call([$0], exportOrigin: nil).x() })
-//    }),
-  ]}
+}

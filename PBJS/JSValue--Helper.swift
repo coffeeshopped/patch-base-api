@@ -28,8 +28,8 @@ extension JSValue {
     return s
   }
 
-  func x<Out:JsParsable>() throws -> Out { try xform(Out.nuJsRules) }
-  func x<Out:JsParsable>(exportOrigin: String?) throws -> Out { try xform(Out.nuJsRules, exportOrigin: exportOrigin) }
+  func x<Out:JsParsable>() throws -> Out { try xform(Out.jsRules) }
+  func x<Out:JsParsable>(exportOrigin: String?) throws -> Out { try xform(Out.jsRules, exportOrigin: exportOrigin) }
   func x<Out:JsParsable>(_ k: String) throws -> Out { try any(k).x() }
   func x<Out:JsParsable>(_ i: Int) throws -> Out { try any(i).x() }
 
@@ -108,7 +108,7 @@ extension JSValue {
     return item
   }
 
-  func xform<Output:Any>(_ rules: [NuJsParseRule<Output>], exportOrigin: String? = nil) throws -> Output {
+  func xform<Output:Any>(_ rules: [JsParseRule<Output>], exportOrigin: String? = nil) throws -> Output {
     let exportOrigin = exportOrigin ?? self.exportOrigin()
     guard let rule = rules.first(where: { $0.matches(self) }) else {
       throw JSError.noParseRule(parseRuleSetName: String(reflecting: Output.self), value: self, exportOrigin: exportOrigin)
@@ -118,12 +118,12 @@ extension JSValue {
   }
 
   func x<A:JsParsable, B:JsParsable>() throws -> (A, B) {
-    let t: JsParseRule<(A,B)> = .a([".x", ".x"], { (try $0.x(0), try $0.x(1)) })
+    let t: JsParseRule<(A,B)> = .arr([A.self, B.self], { (try $0.x(0), try $0.x(1)) })
     return try t.transform(self)
   }
 
   func x<A:JsParsable, B:JsParsable>() throws -> [(A, B)] {
-    let t: JsParseRule<[(A,B)]> = .s(".a", { try $0.map { try ($0.x(0), $0.x(1)) } })
+    let t: JsParseRule<[(A,B)]> = .arr([JsObj.self], { try $0.map { try ($0.x(0), $0.x(1)) } })
     return try t.transform(self)
   }
 
@@ -192,7 +192,7 @@ extension JSValue {
     return debugDescription
   }
   
-  func xformArr<Output:Any>(_ rules: [NuJsParseRule<Output>]) throws -> [Output] {
+  func xformArr<Output:Any>(_ rules: [JsParseRule<Output>]) throws -> [Output] {
     try checkArr()
     return try map { try $0.xform(rules) }
   }
@@ -343,7 +343,7 @@ extension JSValue {
 }
 
 extension String: JsParsable {
-  static let nuJsRules: [NuJsParseRule<Self>] = [
+  static let jsRules: [JsParseRule<Self>] = [
     .t(String.self, {
       guard $0.isString else {
         throw JSError.error(msg: "Expected String")
@@ -352,65 +352,45 @@ extension String: JsParsable {
     }),
   ]
 
-  static var nuJsArrayRules: [NuJsParseRule<[Self]>] = [
+  static var nuJsArrayRules: [JsParseRule<[Self]>] = [
     .arr([Int.self, IsoFS.self], {
       let count: Int = try $0.x(0)
       let iso: IsoFS = try $0.x(1)
       return (count).map { iso.forward(Float($0)) }
     }),
   ]
-
-  static let jsRules: [JsParseRule<Self>] = [
-    .s(".s", {
-      guard $0.isString else {
-        throw JSError.error(msg: "Expected String")
-      }
-      return $0.toString()
-    }),
-  ]
   
-  static var jsArrayRules: [JsParseRule<[Self]>] = [
-    .a([".n", ".a"], {
-      let count: Int = try $0.x(0)
-      let iso: IsoFS = try $0.x(1)
-      return (count).map { iso.forward(Float($0)) }
-    }),
-  ]
-
 }
 
 
 extension Int: JsParsable {
-  static let nuJsRules: [NuJsParseRule<Self>] = [
+  static let jsRules: [JsParseRule<Self>] = [
     .t(Int.self, { try $0.num().intValue }),
   ]
 
-  static let jsRules: [JsParseRule<Self>] = [
-    .s(".n", { try $0.num().intValue }),
-  ]
 }
 
 
 extension UInt8: JsParsable {
-  static let nuJsRules: [NuJsParseRule<Self>] = [
+  static let jsRules: [JsParseRule<Self>] = [
     .t(Int.self, { try $0.num().uint8Value }),
   ]
 }
 
 extension Float: JsParsable {
-  static let nuJsRules: [NuJsParseRule<Self>] = [
+  static let jsRules: [JsParseRule<Self>] = [
     .t(Float.self, { try $0.num().floatValue }),
   ]
 }
 
 extension CGFloat: JsParsable {
-  static let nuJsRules: [NuJsParseRule<Self>] = [
+  static let jsRules: [JsParseRule<Self>] = [
     .t(CGFloat.self, { CGFloat(truncating: try $0.num()) }),
   ]
 }
 
 extension Bool: JsParsable {
-  static let nuJsRules: [NuJsParseRule<Self>] = [
+  static let jsRules: [JsParseRule<Self>] = [
     .t(Bool.self, {
       guard $0.isBoolean else { throw JSError.error(msg: "Expected Boolean") }
       return $0.toBool()
@@ -419,7 +399,7 @@ extension Bool: JsParsable {
 }
 
 extension ClosedRange : JsParsable where Bound: JsParsable {
-  static var nuJsRules: [NuJsParseRule<Self>] {
+  static var jsRules: [JsParseRule<Self>] {
     [
       .arr([Int.self, Int.self], {
 //        if Bound.self == Int.self {

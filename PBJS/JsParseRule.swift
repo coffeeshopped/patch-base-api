@@ -3,16 +3,7 @@ import PBAPI
 import JavaScriptCore
 
 
-enum NuMatch {
-  case d([String:any JsParsable.Type])
-  case s(String)
-  case a(String, [any JsParsable.Type], optional: [any JsParsable.Type])
-  case b(Int, [any JsParsable.Type], optional: [any JsParsable.Type])
-  case t(any JsParsable.Type)
-  case arr([any JsParsable.Type])
-}
-
-struct NuJsParseRule<Output:Any> {
+struct JsParseRule<Output:Any> {
     
   let match: NuMatch
   let xform: (JSValue) throws -> Output
@@ -64,54 +55,33 @@ struct NuJsParseRule<Output:Any> {
     }
   }
 
+}
+
+
+enum NuMatch {
+  case d([String:any JsParsable.Type])
+  case s(String)
+  case a(String, [any JsParsable.Type], optional: [any JsParsable.Type])
+  case b(Int, [any JsParsable.Type], optional: [any JsParsable.Type])
+  case t(any JsParsable.Type)
+  case arr([any JsParsable.Type])
+  
+  // check whether a given JSValue matches this pattern
+//  func matches(_ x: JSValue) -> Bool {
+//    switch self {
+//    case .d(let dict):
+//      try dict.forEach { d[$0.key] = try matchItem($0.value) }
+//      
+//      for (k, v) in dict {
+//        guard k.hasSuffix("?") || v.matches(x.forProperty(k)) else { return false }
+//      }
+//      return true
+//
+//    }
+//  }
 
 }
 
-struct JsParseRule<Output:Any> {
-  let match: Any
-  let xform: (JSValue) throws -> Output
-  
-  init(_ match: Any, _ xform: @escaping (JSValue) throws -> Output) {
-    self.match = match
-    self.xform = xform
-  }
-  
-  static func a(_ match: [String], _ xform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(match, xform)
-  }
-
-  static func a(_ match: [Int], _ xform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(match, xform)
-  }
-
-  static func d(_ match: [String:String], _ xform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(match, xform)
-  }
-
-  static func s(_ match: String, _ xform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(match, xform)
-  }
-
-  static func s(_ match: String, _ output: Output) -> Self {
-    .init(match, { _ in output })
-  }
-  
-  func matches(_ value: JSValue) -> Bool {
-    try! Match.from(any: match).matches(value)
-  }
-  
-  func transform(_ x: JSValue) throws -> Output {
-    // first, check for match
-    do {
-      return try xform(x)
-    }
-    catch {
-      throw JSError.transformFailure(name: String(reflecting: Output.self), match: try! Match.from(any: match), value: x, err: error)
-    }
-  }
-
-
-}
 
 public enum Match {
   case a([MatchItem])
@@ -326,8 +296,8 @@ public indirect enum MatchItem : Equatable, Hashable {
 
 protocol JsParsable {
   
-  static var nuJsRules: [NuJsParseRule<Self>] { get }
-  static var nuJsArrayRules: [NuJsParseRule<[Self]>] { get }
+  static var jsRules: [JsParseRule<Self>] { get }
+  static var nuJsArrayRules: [JsParseRule<[Self]>] { get }
   
 }
 
@@ -339,9 +309,9 @@ protocol JsParsable {
 
 extension JsParsable {
   
-  static var nuJsArrayRules: [NuJsParseRule<[Self]>] { [] }
+  static var nuJsArrayRules: [JsParseRule<[Self]>] { [] }
   
-  static func defaultArrayRule() -> NuJsParseRule<[Self]> {
+  static func defaultArrayRule() -> JsParseRule<[Self]> {
     .s(".a", {
       // ok, so what are we doing here?
       guard $0.arrCount() > 0 else { return [] }
@@ -376,21 +346,21 @@ extension JsParsable {
 
 // for now this is just a dummy for rule parsing...
 enum JsFn: JsParsable {
-  static let nuJsRules: [NuJsParseRule<Self>] = []
+  static let jsRules: [JsParseRule<Self>] = []
 }
 
 enum JsObj: JsParsable {
-  static let nuJsRules: [NuJsParseRule<Self>] = []
+  static let jsRules: [JsParseRule<Self>] = []
 }
 
 extension Array: JsParsable where Element: JsParsable {
-  static var nuJsRules: [NuJsParseRule<Self>] {
+  static var jsRules: [JsParseRule<Self>] {
     Element.nuJsArrayRules + [Element.defaultArrayRule()]
   }
 }
 
 extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
-  static var nuJsRules: [NuJsParseRule<Self>] {
+  static var jsRules: [JsParseRule<Self>] {
     [
       .s(".a", {
         try $0.map {
@@ -402,9 +372,9 @@ extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
 }
 
 protocol JsBankParsable: PatchTruss {
-  static var nuJsBankRules: [NuJsParseRule<SomeBankTruss<Self>>] { get }
+  static var nuJsBankRules: [JsParseRule<SomeBankTruss<Self>>] { get }
 }
 
 extension SomeBankTruss: JsParsable where PT: JsBankParsable {
-  static var nuJsRules: [NuJsParseRule<Self>] { PT.nuJsBankRules }
+  static var jsRules: [JsParseRule<Self>] { PT.nuJsBankRules }
 }
