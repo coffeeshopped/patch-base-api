@@ -51,7 +51,7 @@ public struct JsParseRule<Output:Any> {
       return try xform(x)
     }
     catch {
-      throw JSError.transformFailure(name: String(reflecting: Output.self), match: match, value: x, err: error)
+      throw JSError.transformFailure(name: (Output.self as? any JsParsable.Type)?.jsName() ?? String(reflecting: Output.self), match: match, value: x, err: error)
     }
   }
 
@@ -107,22 +107,22 @@ public enum Match {
   func string() -> String {
     switch self {
     case .d(let dict):
-      return "{ \(dict.map { "\($0.key): \($0.value)" }.joined(separator: ", ")) }"
+      return "{ \(dict.map { "\($0.key): \($0.value.jsName())" }.joined(separator: ", ")) }"
     case .s(let s):
       return "\"\(s)\""
     case .a(let key, let args, let opts):
-      let argString = args.count == 0 ? "" : ", " + args.map { "\($0)" }.joined(separator: ", ")
-      let optString = opts.count == 0 ? "" : ", " + opts.map { "\($0)?" }.joined(separator: ", ")
+      let argString = args.count == 0 ? "" : ", " + args.map { $0.jsName() }.joined(separator: ", ")
+      let optString = opts.count == 0 ? "" : ", " + opts.map { "\($0.jsName())?" }.joined(separator: ", ")
       return "[\"\(key)\"\(argString)\(optString)]"
     case .b(let key, let args, let opts):
-      let argString = args.count == 0 ? "" : ", " + args.map { "\($0)" }.joined(separator: ", ")
-      let optString = opts.count == 0 ? "" : ", " + opts.map { "\($0)?" }.joined(separator: ", ")
+      let argString = args.count == 0 ? "" : ", " + args.map { $0.jsName() }.joined(separator: ", ")
+      let optString = opts.count == 0 ? "" : ", " + opts.map { "\($0.jsName())?" }.joined(separator: ", ")
       return "[\(key)\(argString)\(optString)]"
     case .t(let t):
       return "\(t)"
     case .arr(let args, let opts):
-      let argString = args.map { "\($0)" }.joined(separator: ", ")
-      let optString = opts.map { "\($0)?" }.joined(separator: ", ")
+      let argString = args.map { $0.jsName() }.joined(separator: ", ")
+      let optString = opts.map { "\($0.jsName())?" }.joined(separator: ", ")
       let joinString = args.count > 0 && opts.count > 0 ? ", " : ""
       return "[\(argString)\(joinString)\(optString)]"
     }

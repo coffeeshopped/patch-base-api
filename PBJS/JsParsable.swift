@@ -14,11 +14,17 @@ public protocol JsParsable {
   static var jsArrayRules: [JsParseRule<[Self]>] { get }
   
   static func matches(_ x: JSValue) -> Bool
+  
+  static func jsName() -> String
 }
 
 extension JsParsable {
   public static func matches(_ x: JSValue) -> Bool {
     !x.isNull && !x.isUndefined
+  }
+  
+  public static func jsName() -> String {
+    String(reflecting: self).replacingOccurrences(of: "PBAPI.", with: "").replacingOccurrences(of: "Swift.", with: "")
   }
 }
 
@@ -33,7 +39,7 @@ extension JsParsable {
   public static var jsArrayRules: [JsParseRule<[Self]>] { [] }
   
   static func defaultArrayRule() -> JsParseRule<[Self]> {
-    .s(".a", {
+    .t([Self].self, {
       // ok, so what are we doing here?
       guard $0.arrCount() > 0 else { return [] }
       // go through each item
@@ -84,6 +90,11 @@ extension Array: JsParsable where Element: JsParsable {
   public static func matches(_ x: JSValue) -> Bool {
     x.isArray
   }
+  
+  public static func jsName() -> String {
+    "[\(Element.jsName())]"
+  }
+
 }
 
 extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
@@ -96,6 +107,11 @@ extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
       }),
     ]
   }
+  
+  public static func jsName() -> String {
+    "[\(Key.jsName()):\(Value.jsName())]"
+  }
+
 }
 
 public protocol JsBankParsable: PatchTruss {
