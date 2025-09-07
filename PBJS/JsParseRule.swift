@@ -5,7 +5,7 @@ import JavaScriptCore
 
 public struct JsParseRule<Output:Any> {
     
-  let match: Match
+  public let match: Match
   let xform: (JSValue) throws -> Output
   
   init(_ match: Match, _ xform: @escaping (JSValue) throws -> Output) {
@@ -106,7 +106,7 @@ public enum Match {
     }
   }
 
-  func string() -> String {
+  public func string() -> String {
     switch self {
     case .d(let dict):
       return "{ \(dict.map { "\($0.key): \($0.value.jsName())" }.joined(separator: ", ")) }"

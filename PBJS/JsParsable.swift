@@ -8,17 +8,29 @@
 import JavaScriptCore
 import PBAPI
 
-public protocol JsParsable {
+public protocol JsParsable : JsDocable {
   
   static var jsRules: [JsParseRule<Self>] { get }
-  static var jsArrayRules: [JsParseRule<[Self]>] { get }
-  
+  static var jsArrayRules: [JsParseRule<[Self]>] { get }  
   static func matches(_ x: JSValue) -> Bool
   
+}
+
+public protocol JsDocable {
   static func jsName() -> String
+  static var matchArr: [Match] { get }
 }
 
 extension JsParsable {
+
+  public static var matchArr: [Match] {
+    jsRules.map { $0.match }
+  }
+
+}
+
+extension JsParsable {
+    
   public static func matches(_ x: JSValue) -> Bool {
     !x.isNull && !x.isUndefined
   }
@@ -27,12 +39,6 @@ extension JsParsable {
     String(reflecting: self).replacingOccurrences(of: "PBAPI.", with: "").replacingOccurrences(of: "Swift.", with: "")
   }
 }
-
-//extension JsParsable {
-//  static func x(_ v: JSValue) throws -> Self {
-//    try v.xform(jsParsers)
-//  }
-//}
 
 extension JsParsable {
   
@@ -82,6 +88,9 @@ enum JsObj: JsParsable {
   static let jsRules: [JsParseRule<Self>] = []
 }
 
+extension Array: JsDocable where Element: JsParsable {
+}
+
 extension Array: JsParsable where Element: JsParsable {
   public static var jsRules: [JsParseRule<Self>] {
     Element.jsArrayRules + [Element.defaultArrayRule()]
@@ -95,6 +104,9 @@ extension Array: JsParsable where Element: JsParsable {
     "[\(Element.jsName())]"
   }
 
+}
+
+extension Dictionary: JsDocable where Key: JsParsable, Value: JsParsable {
 }
 
 extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
@@ -116,6 +128,10 @@ extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
 
 public protocol JsBankParsable: PatchTruss {
   static var nuJsBankRules: [JsParseRule<SomeBankTruss<Self>>] { get }
+}
+
+extension SomeBankTruss: JsDocable where PT: JsBankParsable {
+  
 }
 
 extension SomeBankTruss: JsParsable where PT: JsBankParsable {
@@ -202,6 +218,10 @@ extension Bool: JsParsable {
     x.isBoolean
   }
 
+}
+
+extension ClosedRange: JsDocable where Bound: JsParsable {
+  
 }
 
 extension ClosedRange : JsParsable where Bound: JsParsable {
