@@ -119,12 +119,12 @@ extension JSValue {
   }
 
   func x<A:JsParsable, B:JsParsable>() throws -> (A, B) {
-    let t: JsParseRule<(A,B)> = .arr([A.self, B.self], { (try $0.x(0), try $0.x(1)) })
+    let t: JsParseRule<(A,B)> = .arr([A.self, B.self], { (try $0.x(0), try $0.x(1)) }, "(\(A.jsName()).\(B.jsName()))")
     return try t.transform(self)
   }
 
   func x<A:JsParsable, B:JsParsable>() throws -> [(A, B)] {
-    let t: JsParseRule<[(A,B)]> = .arr([JsObj.self], { try $0.map { try ($0.x(0), $0.x(1)) } })
+    let t: JsParseRule<[(A,B)]> = .arr([JsObj.self], { try $0.map { try ($0.x(0), $0.x(1)) } }, "[(\(A.jsName()).\(B.jsName()))]")
     return try t.transform(self)
   }
 

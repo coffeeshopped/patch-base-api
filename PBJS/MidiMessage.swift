@@ -25,6 +25,6 @@ extension MidiMessage: JsParsable {
       return { e in
         .sysex(try fns.flatMap { try $0.call([], e) })
       }
-    }),
+    }, "chain"),
   ]
 }

@@ -10,7 +10,7 @@ extension RolandMultiPatchTrussWerk: JsParsable {
       "initFile" : String.self,
     ], {
       return try .init($0.x("multi"), $0.x("map"), initFile: $0.x("initFile"), validBundle: nil)
-    }),
+    }, "basic"),
   ]
   
 }

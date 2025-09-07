@@ -26,9 +26,8 @@ jsTypes.forEach {
   // create a file for overwrite named after the type
   let url = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("\(docPath)\($0.jsName()).json")
   var matchDict = [String:String]()
-  $0.matchArr.forEach {
-    let hash = $0.string().hash
-    matchDict["r\(hash)"] = $0.string()
+  $0.docInfo  .forEach {
+    matchDict[$1] = $0.string()
   }
   let json = try! jsonEncoder.encode(matchDict)
   try! json.write(to: url)

@@ -29,9 +29,9 @@ extension IsoFF : JsParsable {
 extension IsoFF.SwitcherCheck: JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
-    .arr([Int.self, Float.self], { try .int($0.x(0), $0.x(1)) }),
-    .arr([ClosedRange<Float>.self, Float.self], { try .rangeString($0.x(0), $0.x(1)) }),
-    .arr([ClosedRange<Float>.self, IsoFF.self], { try .range($0.x(0), $0.x(1)) }),
+    .arr([Int.self, Float.self], { try .int($0.x(0), $0.x(1)) }, "int"),
+    .arr([ClosedRange<Float>.self, Float.self], { try .rangeString($0.x(0), $0.x(1)) }, "rangeString"),
+    .arr([ClosedRange<Float>.self, IsoFF.self], { try .range($0.x(0), $0.x(1)) }, "range"),
   ]
   
 }

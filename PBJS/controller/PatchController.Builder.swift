@@ -50,11 +50,11 @@ extension PatchController.Builder: JsParsable {
 extension PatchController.Builder.Row : JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
-    .arr([[PatchController.PanelItem].self], { try .init($0.x(), 1) }),
+    .arr([[PatchController.PanelItem].self], { try .init($0.x(), 1) }, "single"),
     .d([
       "row": [PatchController.PanelItem].self,
       "h": CGFloat.self,
-    ], { try .init($0.x("row"), $0.x("h")) }),
+    ], { try .init($0.x("row"), $0.x("h")) }, "withHeight"),
   ]
 
 }
@@ -62,7 +62,7 @@ extension PatchController.Builder.Row : JsParsable {
 extension PatchController.Builder.ItemWithId : JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
-    .arr([PatchController.PanelItem.self, String.self], { try .init($0.x(0), $0.x(1)) }),
+    .arr([PatchController.PanelItem.self, String.self], { try .init($0.x(0), $0.x(1)) }, "basic"),
   ]
   
 }

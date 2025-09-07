@@ -1,1 +1,1 @@
-{"r-4258824095263352528":"{ subid: String, colorGuide?: [String], manu: String, sections: [ModuleTrussSection], editor: BasicEditorTruss, dirMap?: [SynthPath:String] }"}
+{"basic":"{ subid: String, dirMap?: [SynthPath:String], colorGuide?: [String], editor: BasicEditorTruss, sections: [ModuleTrussSection], manu: String }"}

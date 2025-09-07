@@ -17,7 +17,7 @@ extension SinglePatchTruss: JsParsable {
       let initFile = (try $0.xq("initFile")) ?? ""
       
       return try .init($0.x("single"), namePackIso: $0.xq("namePack"), params: parms.params(), initFile: initFile, defaultName: nil, createFileData: $0.xq("createFile"), parseBodyData: $0.xq("parseBody"), validBundle: nil, pack: $0.xq("pack"), unpack: $0.xq("unpack"), randomize: nil)
-    }),
+    }, "basic"),
   ]
   
 }
@@ -50,7 +50,7 @@ extension SinglePatchTruss.UnpackFn: JsParsable {
           return Int(byte)
         }
       })
-    }),
+    }, "b"),
     .t(JsFn.self, { fn in
       try fn.checkFn()
       return .fn({ bodyData, parm in

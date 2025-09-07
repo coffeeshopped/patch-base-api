@@ -21,7 +21,7 @@ extension SomeBankTruss {
           return try f.call(bodyData, nil)
         }
         return fn
-      }),
+      }, "locationMap"),
     ]
   }
 

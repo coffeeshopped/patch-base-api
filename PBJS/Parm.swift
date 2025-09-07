@@ -13,7 +13,7 @@ extension Parm: JsParsable, JsPassable {
         bits = bit...bit
       }
       return try .p(path, obj.xq("b"), p: obj.xq("p"), bits: bits, extra: [:], packIso: obj.xq("packIso"), obj.x())
-    }),
+    }, "basic"),
   ]
   
   public static let jsArrayRules: [JsParseRule<[Self]>] = [
@@ -28,7 +28,7 @@ extension Parm: JsParsable, JsPassable {
         // otherwise, treat it as a bunch of [Parm]s
         return try $0.map { try $0.x() }.reduce([], +)
       }
-    }),
+    }, "basic"),
     .d([
       "prefix" : SynthPath.self,
       "count" : Int.self,
@@ -46,14 +46,14 @@ extension Parm: JsParsable, JsPassable {
         }
         return try p.x()
       })
-    }),
+    }, "prefixMulti"),
     .d([
       "prefix" : SynthPath.self,
       "block" : [Parm].self,
     ], {
       let parms: [Parm] = try $0.x("block")
       return parms.prefix(try $0.x("prefix"))
-    }),
+    }, "prefix"),
     .d([
       "inc" : Int.self,
       "block" : [Parm].self,
@@ -62,7 +62,7 @@ extension Parm: JsParsable, JsPassable {
     ], {
       let parms: [Parm] = try $0.x("block")
       return try parms.inc(b: $0.xq("b"), p: $0.xq("p"), inc: $0.x("inc"))
-    }),
+    }, "inc"),
     .d([
       "offset" : [Parm].self,
       "b?" : Int.self,
@@ -70,11 +70,11 @@ extension Parm: JsParsable, JsPassable {
     ], {
       let parms: [Parm] = try $0.x("offset")
       return try parms.offset(b: $0.xq("b") ?? 0, p: $0.xq("p"))
-    }),
+    }, "offset"),
     .d(["b2p" : [Parm].self], {
       let parms: [Parm] = try $0.x("b2p")
       return parms.b2p()
-    }),
+    }, "b2p"),
   ]
     
   func toJS() -> AnyHashable {
@@ -105,31 +105,29 @@ extension Parm.Span: JsParsable, JsPassable {
       }
       return .options(options)
 //      return .opts(try $0.arrStr("opts"))
-    }),
+    }, "opts"),
     .d([
       "iso" : IsoFS.self,
       "max" : Int.self,
-    ], { try .isoS($0.x("iso"), range: 0...($0.x("max"))) }),
+    ], { try .isoS($0.x("iso"), range: 0...($0.x("max"))) }, "isoMax"),
     .d([
       "max" : Int.self,
       "dispOff?" : Int.self,
-    ], { try .max($0.x("max"), dispOff: $0.xq("dispOff") ?? 0) }),
+    ], { try .max($0.x("max"), dispOff: $0.xq("dispOff") ?? 0) }, "max"),
     .d([
       "rng" : ClosedRange<Int>.self,
       "dispOff?" : Int.self,
-    ], {
-      return try .rng($0.x("rng"), dispOff: $0.xq("dispOff") ?? 0)
-    }),
+    ], { try .rng($0.x("rng"), dispOff: $0.xq("dispOff") ?? 0) }, "rng"),
     .d([
       "dispOff" : Int.self,
-    ], { try .rng(dispOff: $0.x("dispOff")) }),
-    .d(["options" : [Int:String].self], { .options(try $0.x("options")) }),
+    ], { try .rng(dispOff: $0.x("dispOff")) }, "dispOff"),
+    .d(["options" : [Int:String].self], { .options(try $0.x("options")) }, "options"),
     .d([
       "iso" : IsoFS.self,
       "rng?" : ClosedRange<Int>.self,
     ], {
       try .isoS($0.x("iso"), range: $0.xq("rng"))
-    }),
+    }, "iso"),
     .t(JsObj.self, { _ in .rng() }),
   ]
 

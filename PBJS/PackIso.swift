@@ -18,7 +18,7 @@ extension PackIso.Blitter : JsParsable {
       "valueBits" : ClosedRange<Int>.self,
     ], {
       try .init(byte: $0.x("byte"), byteBits: $0.xq("byteBits"), valueBits: $0.x("valueBits"))
-    })
+    }, "basic")
   ]
     
 }

@@ -22,7 +22,7 @@ extension MultiPatchTruss : JsParsable {
 //      let namePack = try? $0.any("namePack").xform(namePackRules)
 //      let unpack = try? $0.any("unpack").xform(jsUnpackParsers)
       return try .init($0.x("multiPatch"), trussMap: $0.any("trussMap").x(), namePath: $0.x("namePath"), initFile: $0.x("initFile"), fileDataCount: nil, defaultName: nil, createFileData: nil, parseBodyData: nil, validSizes: $0.x("validSizes"), includeFileDataCount: $0.x("includeFileDataCount"))
-    }),
+    }, "basic"),
   ]
   
 }

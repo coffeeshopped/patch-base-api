@@ -9,7 +9,7 @@ import PBAPI
 
 extension JsParseRule where Output: AnyRolandSysexTrussWerk {
   func anyWerkRule() -> JsParseRule<AnyRolandSysexTrussWerk> {
-    .init(match, { try transform($0) as AnyRolandSysexTrussWerk })
+    .init(match, { try transform($0) as AnyRolandSysexTrussWerk }, "anyWerk")
   }
 }
 

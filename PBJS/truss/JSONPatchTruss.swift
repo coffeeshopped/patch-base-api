@@ -9,7 +9,7 @@ extension JSONPatchTruss {
       "parms" : [Parm].self,
     ], {
       return try .init($0.x("json"), parms: $0.x("parms"))
-    }),
+    }, "basic"),
     .s("channel", ChannelSettingsTruss),
   ]
   

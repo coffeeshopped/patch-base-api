@@ -16,6 +16,6 @@ enum JsSysex {
 extension JsParseRule where Output: SysexTruss {
   
   func anyTrussRule() -> JsParseRule<any SysexTruss> {
-    .init(match, { try transform($0) as any SysexTruss })
+    .init(match, { try transform($0) as any SysexTruss }, "anyTruss")
   }
 }

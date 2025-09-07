@@ -7,38 +7,40 @@ public struct JsParseRule<Output:Any> {
     
   public let match: Match
   let xform: (JSValue) throws -> Output
+  public let name: String
   
-  init(_ match: Match, _ xform: @escaping (JSValue) throws -> Output) {
+  init(_ match: Match, _ xform: @escaping (JSValue) throws -> Output, _ name: String) {
     self.match = match
     self.xform = xform
+    self.name = name
   }
 
-  static func a(_ s: String, _ arr: [any JsParsable.Type], optional: [any JsParsable.Type] = [], _ xform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(.a(s, arr, optional: optional), xform)
+  static func a(_ s: String, _ arr: [any JsParsable.Type], optional: [any JsParsable.Type] = [], _ xform: @escaping (JSValue) throws -> Output, _ name: String? = nil) -> Self {
+    .init(.a(s, arr, optional: optional), xform, name ?? s)
   }
 
-  static func b(_ b: Int, _ arr: [any JsParsable.Type], optional: [any JsParsable.Type] = [], _ xform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(.b(b, arr, optional: optional), xform)
+  static func b(_ b: Int, _ arr: [any JsParsable.Type], optional: [any JsParsable.Type] = [], _ xform: @escaping (JSValue) throws -> Output, _ name: String? = nil) -> Self {
+    .init(.b(b, arr, optional: optional), xform, name ?? "\(b)")
   }
 
-  static func arr(_ arr: [any JsParsable.Type], optional: [any JsParsable.Type] = [], _ xform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(.arr(arr, optional: optional), xform)
+  static func arr(_ arr: [any JsParsable.Type], optional: [any JsParsable.Type] = [], _ xform: @escaping (JSValue) throws -> Output, _ name: String) -> Self {
+    .init(.arr(arr, optional: optional), xform, name)
   }
 
-  static func s(_ match: String, _ xform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(.s(match), xform)
+  static func s(_ match: String, _ xform: @escaping (JSValue) throws -> Output, _ name: String? = nil) -> Self {
+    .init(.s(match), xform, name ?? match)
   }
 
-  static func s(_ match: String, _ out: Output) -> Self {
-    .init(.s(match), { _ in out })
+  static func s(_ match: String, _ out: Output, _ name: String? = nil) -> Self {
+    .init(.s(match), { _ in out }, name ?? match)
   }
 
-  static func t(_ match: any JsParsable.Type, _ xform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(.t(match), xform)
+  static func t(_ match: any JsParsable.Type, _ xform: @escaping (JSValue) throws -> Output, _ name: String? = nil) -> Self {
+    .init(.t(match), xform, name ?? match.jsName())
   }
 
-  static func d(_ match: [String:any JsParsable.Type], _ xform: @escaping (JSValue) throws -> Output) -> Self {
-    .init(.d(match), xform)
+  static func d(_ match: [String:any JsParsable.Type], _ xform: @escaping (JSValue) throws -> Output, _ name: String) -> Self {
+    .init(.d(match), xform, name)
   }
 
   func matches(_ value: JSValue) -> Bool {

@@ -80,7 +80,7 @@ extension PatchController.Effect: JsParsable {
         }
       }
     }),
-    .arr([String.self], { [try $0.x()] }),
+    .arr([String.self], { [try $0.x()] }, "array"),
   ]
   
 }

@@ -56,7 +56,7 @@ extension PBLayoutConstraint.Attribute: JsParsable {
 
 extension PatchController.Constraint.Item: JsParsable {
   public static let jsRules: [JsParseRule<Self>] = [
-    .arr([String.self, CGFloat.self], { try .init($0.x(0), $0.x(1)) }),
+    .arr([String.self, CGFloat.self], { try .init($0.x(0), $0.x(1)) }, "basic"),
   ]
 }
 
@@ -66,7 +66,7 @@ extension PatchController.Constraint.Row: JsParsable {
     .d([
       "row": [PatchController.Constraint.Item].self,
       "h": CGFloat.self,
-    ], { try .init($0.x("row"), $0.x("h")) }),
+    ], { try .init($0.x("row"), $0.x("h")) }, "basic"),
   ]
 
 }

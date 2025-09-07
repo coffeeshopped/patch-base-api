@@ -18,13 +18,13 @@ public protocol JsParsable : JsDocable {
 
 public protocol JsDocable {
   static func jsName() -> String
-  static var matchArr: [Match] { get }
+  static var docInfo: [(match: Match, name: String)] { get }
 }
 
 extension JsParsable {
 
-  public static var matchArr: [Match] {
-    jsRules.map { $0.match }
+  public static var docInfo: [(match: Match, name: String)] {
+    jsRules.map { ($0.match, $0.name) }
   }
 
 }
@@ -153,7 +153,7 @@ extension String: JsParsable {
       let count: Int = try $0.x(0)
       let iso: IsoFS = try $0.x(1)
       return (count).map { iso.forward(Float($0)) }
-    }),
+    }, "iso"),
   ]
   
   public static func matches(_ x: JSValue) -> Bool {
@@ -236,7 +236,7 @@ extension ClosedRange : JsParsable where Bound: JsParsable {
 //        else {
           return try ($0.x(0))...($0.x(1))
 //        }
-      }),
+      }, "basic"),
     ]
   }
 }

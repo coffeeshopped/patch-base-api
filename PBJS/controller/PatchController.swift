@@ -12,7 +12,7 @@ extension PatchController: JsParsable {
       "effects?" : [Effect].self,
     ], {
       try .paged(prefix: $0.xq("prefix"), color: nil, border: nil, $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.x("gridLayout"))], pages: $0.x("pages"))
-    }),
+    }, "pagesGrid"),
     .d([
       "pages" : PageSetup.self,
       "builders" : [Builder].self,
@@ -21,7 +21,7 @@ extension PatchController: JsParsable {
       "layout?" : [Constraint].self,
     ], {
       try .paged(prefix: $0.xq("prefix"), color: nil, border: nil, $0.x("builders"), effects: $0.xq("effects") ?? [], layout: $0.xq("layout") ?? [], pages: $0.x("pages"))
-    }),
+    }, "pages"),
     .a("index", [SynthPath.self, SynthPath.self, JsFn.self, JsObj.self], {
       let obj = try $0.obj(4)
       return try .index($0.x(1), label: $0.x(2), $0.fn(3), color: obj.xq("color"), border: obj.xq("border"), obj.x("builders"), effects: obj.xq("effects") ?? [], layout: obj.xq("layout") ?? [])
@@ -38,7 +38,7 @@ extension PatchController: JsParsable {
       "gridLayout": [Constraint.Row].self,
     ], {
       try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.grid($0.x("gridLayout"))])
-    }),
+    }, "buildersGrid"),
     .d([
       "builders" : [Builder].self,
       "simpleGridLayout": [[Constraint.Item]].self,
@@ -48,7 +48,7 @@ extension PatchController: JsParsable {
       "effects?" : [Effect].self,
     ], {
       try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), $0.x("builders"), effects: $0.xq("effects") ?? [], layout: [.simpleGrid(try $0.x("simpleGridLayout"))])
-    }),
+    }, "buildersSimpleGrid"),
     .d([
       "gridBuilder" : [[PanelItem]].self,
       "prefix?" : Prefix.self,
@@ -58,7 +58,7 @@ extension PatchController: JsParsable {
       "layout?" : [Constraint].self,
     ], {
       try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), [.grid($0.x("gridBuilder"))], effects: $0.xq("effects") ?? [], layout: $0.xq("layout") ?? [])
-    }),
+    }, "gridBuilder"),
     .d([
       "builders" : [Builder].self,
       "prefix?" : Prefix.self,
@@ -68,7 +68,7 @@ extension PatchController: JsParsable {
       "layout?" : [Constraint].self,
     ], {
       try .patch(prefix: $0.xq("prefix"), color: $0.xq("color"), border: $0.xq("border"), $0.x("builders"), effects: $0.xq("effects") ?? [], layout: $0.xq("layout") ?? [])
-    }),
+    }, "basic"),
     .a("fmFn", [[DXAlgorithm].self, JsFn.self, JsObj.self], {
       let config = try? $0.obj(3)
       let algoPath: SynthPath? = try config?.xq("algo")

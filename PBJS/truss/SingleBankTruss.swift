@@ -19,7 +19,7 @@ extension SinglePatchTruss: JsBankParsable {
       let parseBody = try SingleBankTruss.sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: patchTruss.core.parseBodyData, patchCount: patchCount)
 
       return try .init(patchTruss: patchTruss, patchCount: patchCount, initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: $0.x("createFile"), parseBodyData: parseBody, validSizes: $0.x("validSizes"), includeFileDataCount: $0.x("includeFileDataCount"))
-    }),
+    }, "validSizes"),
     .d([
       "singleBank" : SinglePatchTruss.self,
       "patchCount" : Int.self,
@@ -34,7 +34,7 @@ extension SinglePatchTruss: JsBankParsable {
       let parseBody = try SingleBankTruss.sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: patchTruss.core.parseBodyData, patchCount: patchCount)
 
       return try .init(patchTruss: patchTruss, patchCount: patchCount, initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: $0.x("createFile"), parseBodyData: parseBody, validBundle: $0.xq("validBundle"))
-    }),
+    }, "bundle"),
     .d([
       "compactSingleBank" : SinglePatchTruss.self,
       "patchCount" : Int.self,
@@ -75,7 +75,7 @@ extension SinglePatchTruss: JsBankParsable {
       })
       
       return .init(patchTruss: patchTruss, patchCount: patchCount, initFile: initFile, fileDataCount: fileDataCount, defaultName: nil, createFileData: createFileFn, parseBodyData: parseBodyFn)
-    }),
+    }, "compactSingleBank"),
   ]
   
   

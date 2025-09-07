@@ -136,7 +136,7 @@ extension ByteTransform: JsParsable {
       return .fn { b, e in
         try fns.flatMap { try $0.call(b, e) }
       }
-    }),
+    }, "array"),
     .t(JsFn.self, { fn in
       let exportOrigin = fn.exportOrigin()
       return .b { b in try fn.call([b], exportOrigin: exportOrigin).x() }

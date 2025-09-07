@@ -44,7 +44,7 @@ extension MultiPatchTruss : JsBankParsable {
       })
       
       return try .init(patchTruss: patchTruss, patchCount: $0.x("patchCount"), initFile: $0.xq("initFile") ?? "", fileDataCount: $0.x("fileDataCount"), defaultName: nil, createFileData: createFile, parseBodyData: parseBody)
-    }),
+    }, "compactMultiBank"),
   ]
   
 }

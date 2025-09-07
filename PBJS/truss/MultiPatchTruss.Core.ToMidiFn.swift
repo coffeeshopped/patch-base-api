@@ -26,7 +26,7 @@ extension SysexTrussCore<[SynthPath:[UInt8]]>.ToMidiFn {
         let sub = b[path] ?? [] // TODO: throw here?
         return try chainRule.call(sub, e)
       }
-    }),
+    }, "basic"),
     .t(UInt8.self, {
       // number: return it as a byte array
       return .msg([try $0.x()])

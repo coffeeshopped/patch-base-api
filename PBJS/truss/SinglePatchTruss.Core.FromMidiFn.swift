@@ -55,7 +55,7 @@ extension SysexTrussCore<[UInt8]>.FromMidiFn {
       // otherwise, treat as an implicit "+"
       let fns: [Self] = try $0.map { try $0.x() }
       return .fn({ b in try fns.flatMap { try $0.call(b) } })
-    }),
+    }, "basic"),
 //    .s(".f", { fn in
 //      try fn.checkFn()
 //      return .fn({ try fn.call([$0], exportOrigin: nil).x() })

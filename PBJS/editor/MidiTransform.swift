@@ -12,7 +12,7 @@ extension MidiTransform: JsParsable {
       "name?" : Fn<SinglePatchTruss>.Name.self,
     ], {
       try .single(throttle: $0.xq("throttle"), .patch(coalesce: 2, param: $0.xq("param"), patch: $0.x("singlePatch"), name: $0.xq("name")))
-    }),
+    }, "singlePatch"),
     .d([
       "multiPatch" : Fn<MultiPatchTruss>.Whole.self,
       "throttle?" : Int.self,
@@ -20,13 +20,13 @@ extension MidiTransform: JsParsable {
       "name?" : Fn<MultiPatchTruss>.Name.self,
     ], {
       try .multi(throttle: $0.xq("throttle"), .patch(param: $0.xq("param"), patch: $0.x("multiPatch"), name: $0.x("name")))
-    }),
+    }, "multiPatch"),
     .d([
       "singleBank" : Fn<SinglePatchTruss>.BankPatch.self,
       "throttle?" : Int.self,
     ], {
       try .single(throttle: $0.xq("throttle"), .bank($0.x("singleBank")))
-    }),
+    }, "singleBank"),
     .d([
       "compactSingleBank" : JsObj.self,
       "waitInterval?" : Int.self,
@@ -38,7 +38,7 @@ extension MidiTransform: JsParsable {
       return .single(throttle: nil, .wholeBank(.init({ editor, bodyData in
         try fn.call(bodyData, editor).map { ($0, waitInterval) }
       })))
-    }),
+    }, "compactSingleBank"),
     .d([
       "compactMultiBank" : JsObj.self,
       "waitInterval?" : Int.self,
@@ -50,7 +50,7 @@ extension MidiTransform: JsParsable {
       return .multi(throttle: nil, .wholeBank(.init({ editor, bodyData in
         try fn.call(bodyData, editor).map { ($0, waitInterval) }
       })))
-    }),
+    }, "compactMultiBank"),
   ]
 
 }

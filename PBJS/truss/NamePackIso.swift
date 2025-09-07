@@ -40,7 +40,7 @@ extension NamePackIso : JsParsable {
       let start: Int = try $0.x(0)
       let end: Int = try $0.x(1)
       return .basic(start...end)
-    }),
+    }, "basic"),
     .d([
       "filtered" : ClosedRange<Int>.self,
       "toBytes" : [CharFilter].self,
@@ -68,7 +68,7 @@ extension NamePackIso : JsParsable {
         return String(bytes: bytes, encoding: .ascii)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
       }
 
-    }),
+    }, "filtered"),
   ]
   
 }

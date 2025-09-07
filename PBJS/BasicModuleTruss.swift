@@ -21,7 +21,7 @@ extension BasicModuleTruss: JsParsable {
         "#79f11e",
       ]
       return try BasicModuleTruss(editor, manu: $0.x("manu"), model: editor.displayId, subid: $0.x("subid"), sections: $0.x("sections"), pathFn: nil, viewController: nil, dirMap: $0.xq("dirMap") ?? [:], colorGuide: ColorGuide(colors), indexPath: nil, configPaths: nil, postAddMsg: nil)
-    }),
+    }, "basic"),
   ]
 
 }

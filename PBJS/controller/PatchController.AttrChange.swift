@@ -47,7 +47,7 @@ extension PatchController.AttrChange: JsParsable {
       // TODO: see if this makes things funky with multiple paramsChange's being returned
       // ... leading to extra MIDI traffic.
       try .paramsChange(.init([$0.x(0) : $0.x(1)]))
-    }),
+    }, "basicParamsChange"),
     .t([JsObj].self, {
       // an Array is assumed to be [SynthPath:Int]
       try .paramsChange(.init($0.x()))
@@ -56,7 +56,7 @@ extension PatchController.AttrChange: JsParsable {
   
   // allow for a single AttrChange in places where an array is returned
   public static var jsArrayRules: [JsParseRule<[Self]>] = [
-    .arr([String.self], { [try $0.x()] }),
+    .arr([String.self], { [try $0.x()] }, "single"),
   ]
   
 }

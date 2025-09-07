@@ -23,7 +23,7 @@ extension BasicEditorTruss: JsParsable {
       t.extraParamOuts = try $0.xq("extraParamOuts") ?? [:]
       t.slotTransforms = try $0.xq("slotTransforms") ?? [:]
       return t
-    }),
+    }, "basic"),
     .d([
       "rolandModelId" : [UInt8].self,
       "addressCount" : Int.self,
@@ -45,11 +45,11 @@ extension BasicEditorTruss: JsParsable {
       t.slotTransforms = try $0.xq("slotTransforms") ?? [:]
 
       return t
-    }),
+    }, "roland"),
   ]
 
   static func pathPairRule<Output:Any>(_ subrules: [JsParseRule<Output>]) -> JsParseRule<(SynthPath, Output)> {
-    .arr([SynthPath.self, JsObj.self], { try ($0.x(0), $0.any(1).xform(subrules)) })
+    .arr([SynthPath.self, JsObj.self], { try ($0.x(0), $0.any(1).xform(subrules)) }, "pathPair")
   }
   
 }
