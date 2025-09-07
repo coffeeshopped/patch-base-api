@@ -1,0 +1,1 @@
+{"single":{"bankTruss":"[\"bankTruss\", ::SinglePatchTruss.Core.ToMidiFn::]","truss":"[\"truss\", ::SinglePatchTruss.Core.ToMidiFn::]","custom":"[\"custom\", ::Function::]","sequence":"[\"sequence\", [::FetchTransform::]]"},"array":{}}

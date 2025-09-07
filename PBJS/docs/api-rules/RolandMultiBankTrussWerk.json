@@ -1,0 +1,1 @@
+{"single":{"rolandMultiBank":"{\n  multiBank: ::RolandMultiPatchTrussWerk::,\n  patchCount: ::Int::,\n  initFile: ::String::,\n  iso: ::RolandOffsetAddressIso::\n}"},"array":{}}

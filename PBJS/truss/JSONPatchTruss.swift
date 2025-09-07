@@ -1,9 +1,9 @@
 
 import PBAPI
 
-extension JSONPatchTruss {
+extension JSONPatchTruss : JsParsable {
   
-  static let jsRules: [JsParseRule<Self>] = [
+  public static let jsRules: [JsParseRule<Self>] = [
     .d([
       "json" : String.self,
       "parms" : [Parm].self,

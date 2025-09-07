@@ -4,6 +4,8 @@ title: Parm
 
 A Parm is the representation of a single parameter within a synth patch. It specifies the path used to access that parameter's value within the patch, the information about how that parameter value is written to and read from the body byte array of the patch, the valid value ranges for the parameter, and any information used in the construction of MIDI messages to perform updates to that parameter's value.
 
+rule::basic
+
 <rule>
 [ ::SynthPath::, {  
   b: Int?,  
@@ -27,9 +29,7 @@ A Parm is the representation of a single parameter within a synth patch. It spec
 
 Rules that generate arrays of Parm's.
 
-<rule>
-{ prefix: ::SynthPath::, count: Int, bx: Int?, px: Int?, block: [Parm] }
-</rule>
+rule::array.prefixMulti
 
 Takes *block* as an input array of Parm's, and outputs *count* copies of that array. The path of each Parm is prefixed with the specified *prefix*, followed by a number representing the current iteration, starting from 0.
 
@@ -55,15 +55,11 @@ Example:
 ]
 ```
 
-<rule>
-{ prefix: ::SynthPath::, block: [Parm] }
-</rule>
+rule::array.prefix
 
 Takes *block* as an input array of Parm's, and outputs a copy of that array, with each path prefixed by *prefix*.
 
-<rule>
-{ inc: Int, block: [Parm], b: Int?, p: Int? }
-</rule>
+rule::array.inc
 
 Used to auto-generate a sequence of *b* and/or *p* values for an array of Parm's. *inc* specifies the amount to increment by for each Parm, and *b* and *p* specify the starting values of those respective properties.
 
@@ -86,9 +82,7 @@ Example:
 
 ```
 
-<rule>
-{ offset: [Parm], b: Int?, p: Int? }
-</rule>
+rule::array.offset
 
 Takes *offset* as an input array of Parm's and outputs a copy, with the p and/or b values of each Parm offset by the amount specified.
 
@@ -111,9 +105,7 @@ Example:
 
 ```
 
-<rule>
-{ b2p: [Parm] }
-</rule>
+rule::array.b2p
 
 Takes the input array of Parm's and copies the *b* property of each Parm and writes it to the *p* property of that Parm (overwriting any existing *p* value if it exists).
 
@@ -133,3 +125,4 @@ Example:
   ['pitch', { b: 1, p: 1 }],
   ['pw', { b: 4, p: 4 }],
 ]
+```

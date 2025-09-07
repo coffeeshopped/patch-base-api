@@ -4,6 +4,8 @@ title: BasicEditorTruss
 
 The top-level object that defines a synth editor. It includes all of the data and logic for reading and writing the various patches and banks, communicating changes to the synth via MIDI, and any extra logic needed for enhanced behavior within the editor UI (but not the code for the UI itself, which is part of the SynthModule).
 
+rule::basic
+
 <rule>
 {
   name: String,
@@ -32,6 +34,9 @@ The top-level object that defines a synth editor. It includes all of the data an
   <dt>extraParamOuts</dt>
   <dd>A dictionary mapping paths to ::ParamOutTransform::'s which cross-map data between the sections of the synthesizer, for easy access by controllers in the UI. A common example of this is mapping the current name list of patches in the Voice Bank to a parameter that is accessible in the "Performance" section of the editor, so that the Performance editing UI can display a current list of patch options for selection.</dd>
 </dl>
+
+
+rule::roland
 
 <rule>
 {

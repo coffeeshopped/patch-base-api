@@ -34,7 +34,7 @@ extension Parm: JsParsable, JsPassable {
       "count" : Int.self,
       "bx?" : Int.self,
       "px?" : Int.self,
-      "block" : JsObj.self,
+      "block" : [Parm].self,
     ], {
       let block = try $0.any("block")
       let exportOrigin = $0.exportOrigin()

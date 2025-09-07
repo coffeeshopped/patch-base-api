@@ -39,6 +39,17 @@
 <li><strong>parseBody</strong>: function for extracting the byte array from a sequence of one or more MIDI messages (e.g. a file containing a sysex string)</li>
 <li><strong>createFile</strong>: function to create a sequence of one or more MIDI messages representing a patch from the byte array.</li>
 </ul>
+<h2>Undocumented Single Rules:</h2>
+<p>basic</p>
+<div class="api-rule"><pre><code>{
+  createFile?: <a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a>,
+  unpack?: <a href="/api/SinglePatchTruss.UnpackFn/">SinglePatchTruss.UnpackFn</a>,
+  parms: [<a href="/api/Parm/">Parm</a>],
+  single: <a href="/api/String/">String</a>,
+  initFile?: <a href="/api/String/">String</a>,
+  pack?: <a href="/api/SinglePatchTruss.PackFn/">SinglePatchTruss.PackFn</a>,
+  parseBody?: <a href="/api/SysexTrussCore<Array<UInt8>>.FromMidiFn/">SysexTrussCore<Array<UInt8>>.FromMidiFn</a>
+}</pre></code></div>
 
     </div>
   </div>

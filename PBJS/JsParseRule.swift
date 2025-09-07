@@ -108,27 +108,48 @@ public enum Match {
     }
   }
 
-  public func string() -> String {
+  public func string(links: Bool = false) -> String {
     switch self {
     case .d(let dict):
-      return "{ \(dict.map { "\($0.key): \($0.value.jsName())" }.joined(separator: ", ")) }"
+      return "{\n\(dict.map { "  \($0.key): \(Self.jsName($0.value, links: links))" }.joined(separator: ",\n"))\n}"
     case .s(let s):
       return "\"\(s)\""
     case .a(let key, let args, let opts):
-      let argString = args.count == 0 ? "" : ", " + args.map { $0.jsName() }.joined(separator: ", ")
-      let optString = opts.count == 0 ? "" : ", " + opts.map { "\($0.jsName())?" }.joined(separator: ", ")
+      let argString = args.count == 0 ? "" : ", " + args.map { Self.jsName($0, links: links) }.joined(separator: ", ")
+      let optString = opts.count == 0 ? "" : ", " + opts.map { "\(Self.jsName($0, links: links))?" }.joined(separator: ", ")
       return "[\"\(key)\"\(argString)\(optString)]"
     case .b(let key, let args, let opts):
-      let argString = args.count == 0 ? "" : ", " + args.map { $0.jsName() }.joined(separator: ", ")
-      let optString = opts.count == 0 ? "" : ", " + opts.map { "\($0.jsName())?" }.joined(separator: ", ")
+      let argString = args.count == 0 ? "" : ", " + args.map { Self.jsName($0, links: links) }.joined(separator: ", ")
+      let optString = opts.count == 0 ? "" : ", " + opts.map { "\(Self.jsName($0, links: links))?" }.joined(separator: ", ")
       return "[\(key)\(argString)\(optString)]"
     case .t(let t):
       return "\(t)"
     case .arr(let args, let opts):
-      let argString = args.map { $0.jsName() }.joined(separator: ", ")
-      let optString = opts.map { "\($0.jsName())?" }.joined(separator: ", ")
+      let argString = args.map { Self.jsName($0, links: links) }.joined(separator: ", ")
+      let optString = opts.map { "\(Self.jsName($0, links: links))?" }.joined(separator: ", ")
       let joinString = args.count > 0 && opts.count > 0 ? ", " : ""
       return "[\(argString)\(joinString)\(optString)]"
+    }
+  }
+  
+  private static func jsName(_ t: any JsParsable.Type, links: Bool) -> String {
+    if links {
+      let n = t.jsName()
+      if n.hasPrefix("[") {
+        let noBrackets = n.replacingOccurrences(of: "[", with: "").replacingOccurrences(of: "]", with: "")
+        if noBrackets.contains(":") {
+          return "[::\(noBrackets.split(separator: ":").joined(separator: ":::::"))::]"
+        }
+        else {
+          return "[::\(noBrackets)::]"
+        }
+      }
+      else {
+        return "::\(t.jsName())::"
+      }
+    }
+    else {
+      return t.jsName()
     }
   }
 

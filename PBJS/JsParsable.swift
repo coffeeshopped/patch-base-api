@@ -18,13 +18,16 @@ public protocol JsParsable : JsDocable {
 
 public protocol JsDocable {
   static func jsName() -> String
-  static var docInfo: [(match: Match, name: String)] { get }
+  static var docInfo: [String:[(Match, String)]] { get }
 }
 
 extension JsParsable {
 
-  public static var docInfo: [(match: Match, name: String)] {
-    jsRules.map { ($0.match, $0.name) }
+  public static var docInfo: [String:[(Match, String)]] {
+    [
+      "single" : jsRules.map { ($0.match, $0.name) },
+      "array" : jsArrayRules.map { ($0.match, $0.name) },
+    ]
   }
 
 }
@@ -79,12 +82,18 @@ extension JsParsable {
 
 // for now this is just a dummy for rule parsing...
 enum JsFn: JsParsable {
+  
+  public static func jsName() -> String { "Function" }
+
   static let jsRules: [JsParseRule<Self>] = []
   
   static func matches(_ x: JSValue) -> Bool { x.isFn }
 }
 
 enum JsObj: JsParsable {
+  
+  public static func jsName() -> String { "Object" }
+
   static let jsRules: [JsParseRule<Self>] = []
 }
 
@@ -225,6 +234,9 @@ extension ClosedRange: JsDocable where Bound: JsParsable {
 }
 
 extension ClosedRange : JsParsable where Bound: JsParsable {
+  
+  public static func jsName() -> String { "Range" }
+  
   public static var jsRules: [JsParseRule<Self>] {
     [
       .arr([Int.self, Int.self], {

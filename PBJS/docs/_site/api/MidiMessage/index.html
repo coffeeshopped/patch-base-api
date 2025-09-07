@@ -20,7 +20,14 @@
     
     <div class="api-content">
       <h1>MidiMessage</h1>
-      
+      <p>Specifies a MIDI message.</p>
+<div class="api-rule"><pre><code>["syx", [<a href="/api/UInt8/">UInt8</a>]]</pre></code></div>
+<p>Specifies a sysex message. The byte array is used as the raw data for the sysex message, thus it should begin with <code>0xf0</code> and end with <code>0xf7</code>.</p>
+<div class="api-rule"><pre><code>[240]</pre></code></div>
+<p>An array that starts with the value <code>0xf0</code> (240) will be interpreted as the raw bytes to be sent in a Sysex Exclusive (sysex) message.</p>
+<div class="api-rule"><pre><code>["pgmChange", <a href="/api/UInt8/">UInt8</a>, <a href="/api/UInt8/">UInt8</a>]</pre></code></div>
+<p>Specifies a MIDI Program Change message. The first byte is the MIDI channel (0-15) and the second byte is the program change value.</p>
+
     </div>
   </div>
   

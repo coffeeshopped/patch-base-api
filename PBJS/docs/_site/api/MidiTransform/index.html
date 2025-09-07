@@ -89,6 +89,36 @@ return .multi(throttle: nil, .wholeBank(.init({ editor, bodyData in
 try fn.call(bodyData, editor).map { ($0, waitInterval) }
 })))
 }),</p>
+<h2>Undocumented Single Rules:</h2>
+<p>multiPatch</p>
+<div class="api-rule"><pre><code>{
+  throttle?: <a href="/api/Int/">Int</a>,
+  name?: <a href="/api/MidiTransform.Fn<MultiPatchTruss>.Name/">MidiTransform.Fn<MultiPatchTruss>.Name</a>,
+  multiPatch: <a href="/api/MidiTransform.Fn<MultiPatchTruss>.Whole/">MidiTransform.Fn<MultiPatchTruss>.Whole</a>,
+  param?: <a href="/api/MidiTransform.Fn<MultiPatchTruss>.Param/">MidiTransform.Fn<MultiPatchTruss>.Param</a>
+}</pre></code></div>
+<p>singlePatch</p>
+<div class="api-rule"><pre><code>{
+  singlePatch: <a href="/api/MidiTransform.Fn<SinglePatchTruss>.Whole/">MidiTransform.Fn<SinglePatchTruss>.Whole</a>,
+  throttle?: <a href="/api/Int/">Int</a>,
+  param?: <a href="/api/MidiTransform.Fn<SinglePatchTruss>.Param/">MidiTransform.Fn<SinglePatchTruss>.Param</a>,
+  name?: <a href="/api/MidiTransform.Fn<SinglePatchTruss>.Name/">MidiTransform.Fn<SinglePatchTruss>.Name</a>
+}</pre></code></div>
+<p>singleBank</p>
+<div class="api-rule"><pre><code>{
+  singleBank: <a href="/api/MidiTransform.Fn<SinglePatchTruss>.BankPatch/">MidiTransform.Fn<SinglePatchTruss>.BankPatch</a>,
+  throttle?: <a href="/api/Int/">Int</a>
+}</pre></code></div>
+<p>compactSingleBank</p>
+<div class="api-rule"><pre><code>{
+  compactSingleBank: <a href="/api/Object/">Object</a>,
+  waitInterval?: <a href="/api/Int/">Int</a>
+}</pre></code></div>
+<p>compactMultiBank</p>
+<div class="api-rule"><pre><code>{
+  compactMultiBank: <a href="/api/Object/">Object</a>,
+  waitInterval?: <a href="/api/Int/">Int</a>
+}</pre></code></div>
 
     </div>
   </div>

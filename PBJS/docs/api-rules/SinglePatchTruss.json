@@ -1,0 +1,1 @@
+{"array":{},"single":{"basic":"{\n  createFile?: ::SinglePatchTruss.Core.ToMidiFn::,\n  unpack?: ::SinglePatchTruss.UnpackFn::,\n  parms: [::Parm::],\n  single: ::String::,\n  initFile?: ::String::,\n  pack?: ::SinglePatchTruss.PackFn::,\n  parseBody?: ::SysexTrussCore<Array<UInt8>>.FromMidiFn::\n}"}}

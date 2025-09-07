@@ -20,7 +20,33 @@
     
     <div class="api-content">
       <h1>PatchController.PanelItem</h1>
-      
+      <p>This type pairs together a UI element (a control, or display) with an optional ID that can be automatically mapped to a patch parameter.</p>
+<div class="api-rule"><pre><code>[<a href="/api/Object/">Object</a>, <a href="/api/SynthPath/">SynthPath</a>?]</pre></code></div>
+<p>TODO: probably change this rule to be Object based rather than Array.</p>
+<div class="api-rule"><pre><code>[<a href="/api/String/">String</a>, <a href="/api/SynthPath/">SynthPath</a>?]</pre></code></div>
+<p>Create a dynamic control that adapts to the parameter to which it is mapped. E.g. a numeric parameter will map to a Knob, whereas a parameter with text-based options might map to a Select, or to a Switch if it only has a small number of options.</p>
+<div class="api-rule"><pre><code>"-"</pre></code></div>
+<p>Create a spacer item with a width of 2.</p>
+<h2>Undocumented Single Rules:</h2>
+<p>display</p>
+<div class="api-rule"><pre><code>{
+  l?: <a href="/api/String/">String</a>,
+  srcPrefix?: <a href="/api/SynthPath/">SynthPath</a>,
+  maps: [<a href="/api/PatchController.DisplayMap/">PatchController.DisplayMap</a>],
+  w?: <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>,
+  id?: <a href="/api/SynthPath/">SynthPath</a>
+}</pre></code></div>
+<p>switcher</p>
+<div class="api-rule"><pre><code>["switcher", [<a href="/api/String/">String</a>], <a href="/api/Object/">Object</a>?]</pre></code></div>
+<p>label</p>
+<div class="api-rule"><pre><code>{
+  w?: <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>,
+  size?: <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>,
+  l: <a href="/api/String/">String</a>,
+  id?: <a href="/api/SynthPath/">SynthPath</a>,
+  bold?: <a href="/api/Bool/">Bool</a>
+}</pre></code></div>
+
     </div>
   </div>
   

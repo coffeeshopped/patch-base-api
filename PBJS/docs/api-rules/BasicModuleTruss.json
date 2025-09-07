@@ -1,1 +1,1 @@
-{"basic":"{ subid: String, dirMap?: [SynthPath:String], colorGuide?: [String], editor: BasicEditorTruss, sections: [ModuleTrussSection], manu: String }"}
+{"single":{"basic":"{\n  sections: [::ModuleTrussSection::],\n  editor: ::BasicEditorTruss::,\n  manu: ::String::,\n  colorGuide?: [::String::],\n  dirMap?: [::SynthPath:::::String::],\n  subid: ::String::\n}"},"array":{}}
