@@ -2,7 +2,7 @@
 import JavaScriptCore
 import PBAPI
 
-extension BasicEditorTruss: JsParsable {
+extension EditorTruss: JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
     .init(.d([
@@ -16,7 +16,7 @@ extension BasicEditorTruss: JsParsable {
     ]),  {
       let ppr = pathPairRule(JsSysex.trussRules)
       let trussMap = try $0.arr("trussMap").map { try ppr.transform($0) }
-      var t = BasicEditorTruss(try $0.x("name"), truss: trussMap)
+      var t = EditorTruss(try $0.x("name"), truss: trussMap)
       t.fetchTransforms = try $0.x("fetchTransforms")
       t.midiOuts = try $0.x("midiOuts")
       t.midiChannels = try $0.x("midiChannels")
@@ -37,7 +37,7 @@ extension BasicEditorTruss: JsParsable {
       let sysexWerk = try RolandSysexTrussWerk(modelId: $0.x("rolandModelId"), addressCount: $0.x("addressCount"))
       let map: [RolandEditorTrussWerk.MapItem] = try $0.x("map")
       let werk = try sysexWerk.editorWerk($0.x("name"), deviceId: $0.xq("deviceId"), map: map)
-      var t = try BasicEditorTruss($0.x("name"), truss: [(.init([.deviceId]), RolandDeviceIdSettingsTruss)] + werk.sysexMap())
+      var t = try EditorTruss($0.x("name"), truss: [(.init([.deviceId]), RolandDeviceIdSettingsTruss)] + werk.sysexMap())
       t.fetchTransforms = werk.defaultFetchTransforms()
       t.midiOuts = try werk.midiOuts()
       t.midiChannels = try $0.x("midiChannels")

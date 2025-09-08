@@ -1,1 +1,1 @@
-{"single":{"filtered":"{\n  filtered: ::Range::,\n  toString: [::CharFilter::],\n  toBytes: [::CharFilter::]\n}","basic":"[::Int::, ::Int::]"},"array":{}}
+{"single":{"basic":"[::Int::, ::Int::]","filtered":"{\n  filtered: ::Range::,\n  toBytes: [::CharFilter::],\n  toString: [::CharFilter::]\n}"},"array":{}}

@@ -1,5 +1,5 @@
 ---
-title: BasicEditorTruss
+title: EditorTruss
 ---
 
 The top-level object that defines a synth editor. It includes all of the data and logic for reading and writing the various patches and banks, communicating changes to the synth via MIDI, and any extra logic needed for enhanced behavior within the editor UI (but not the code for the UI itself, which is part of the SynthModule).

@@ -1,1 +1,1 @@
-{"single":{"basic":"{\n  initFile: ::String::,\n  multi: ::String::,\n  map: [::RolandMultiPatchTrussWerk.MapItem::]\n}"},"array":{}}
+{"single":{"basic":"{\n  multi: ::String::,\n  map: [::RolandMultiPatchTrussWerk.MapItem::],\n  initFile: ::String::\n}"},"array":{}}

@@ -1,7 +1,7 @@
 
 import PBAPI
 import JavaScriptCore
-
+import OrderedCollections
 
 public struct JsParseRule<Output:Any> {
     
@@ -39,7 +39,7 @@ public struct JsParseRule<Output:Any> {
     .init(.t(match), xform, name ?? match.jsName())
   }
 
-  static func d(_ match: [String:any JsParsable.Type], _ xform: @escaping (JSValue) throws -> Output, _ name: String) -> Self {
+  static func d(_ match: OrderedDictionary<String,any JsParsable.Type>, _ xform: @escaping (JSValue) throws -> Output, _ name: String) -> Self {
     .init(.d(match), xform, name)
   }
 
@@ -61,7 +61,7 @@ public struct JsParseRule<Output:Any> {
 
 
 public enum Match {
-  case d([String:any JsParsable.Type])
+  case d(OrderedDictionary<String,any JsParsable.Type>)
   case s(String)
   case a(String, [any JsParsable.Type], optional: [any JsParsable.Type])
   case b(Int, [any JsParsable.Type], optional: [any JsParsable.Type])

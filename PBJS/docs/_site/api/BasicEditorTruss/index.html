@@ -21,14 +21,7 @@
     <div class="api-content">
       <h1>BasicEditorTruss</h1>
       <p>The top-level object that defines a synth editor. It includes all of the data and logic for reading and writing the various patches and banks, communicating changes to the synth via MIDI, and any extra logic needed for enhanced behavior within the editor UI (but not the code for the UI itself, which is part of the SynthModule).</p>
-<div class="api-rule"><pre><code>{
-  name: <a href="/api/String/">String</a>,
-  fetchTransforms: [<a href="/api/SynthPath/">SynthPath</a>:<a href="/api/FetchTransform/">FetchTransform</a>],
-  midiOuts: [<a href="/api/SynthPath/">SynthPath</a>:<a href="/api/MidiTransform/">MidiTransform</a>],
-  midiChannels: [<a href="/api/SynthPath/">SynthPath</a>:<a href="/api/MidiChannelTransform/">MidiChannelTransform</a>],
-  slotTransforms?: [<a href="/api/SynthPath/">SynthPath</a>:<a href="/api/MemSlot.Transform/">MemSlot.Transform</a>],
-  extraParamOuts?: [<a href="/api/SynthPath/">SynthPath</a>:<a href="/api/ParamOutTransform/">ParamOutTransform</a>]
-}</pre></code></div>
+<p>rule::basic</p>
 <div class="api-rule"><pre><code>{
   name: String,
   trussMap: [[<a href="/api/SynthPath/">SynthPath</a>, <a href="/api/SysexTruss/">SysexTruss</a>]],
@@ -54,16 +47,7 @@
   <dt>extraParamOuts</dt>
   <dd>A dictionary mapping paths to <a href="/api/ParamOutTransform/">ParamOutTransform</a>'s which cross-map data between the sections of the synthesizer, for easy access by controllers in the UI. A common example of this is mapping the current name list of patches in the Voice Bank to a parameter that is accessible in the "Performance" section of the editor, so that the Performance editing UI can display a current list of patch options for selection.</dd>
 </dl>
-<div class="api-rule"><pre><code>{
-  rolandModelId: [<a href="/api/UInt8/">UInt8</a>],
-  slotTransforms: [<a href="/api/SynthPath/">SynthPath</a>:<a href="/api/MemSlot.Transform/">MemSlot.Transform</a>],
-  name: <a href="/api/String/">String</a>,
-  map: [<a href="/api/RolandMultiSysexTrussWerk.MapItem/">RolandMultiSysexTrussWerk.MapItem</a>],
-  deviceId?: <a href="/api/EditorValueTransform/">EditorValueTransform</a>,
-  extraParamOuts?: [<a href="/api/SynthPath/">SynthPath</a>:<a href="/api/ParamOutTransform/">ParamOutTransform</a>],
-  addressCount: <a href="/api/Int/">Int</a>,
-  midiChannels: [<a href="/api/SynthPath/">SynthPath</a>:<a href="/api/MidiChannelTransform/">MidiChannelTransform</a>]
-}</pre></code></div>
+<p>rule::roland</p>
 <div class="api-rule"><pre><code>{
   rolandModelId: [Byte],
   addressCount: Int,

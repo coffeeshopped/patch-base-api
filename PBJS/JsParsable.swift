@@ -35,7 +35,11 @@ extension JsParsable {
 extension JsParsable {
     
   public static func matches(_ x: JSValue) -> Bool {
-    !x.isNull && !x.isUndefined
+    guard !x.isNull && !x.isUndefined else { return false }
+    // TODO: just added this. Does it create a significant performance hit?
+    // Does it make the dev experience worse (i.e. more errors of just "no rule match")
+    // instead of a quick rule match that fails on actual parsing?
+    return jsRules.contains(where: { $0.matches(x) })
   }
   
   public static func jsName() -> String {

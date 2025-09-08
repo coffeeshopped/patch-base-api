@@ -6,14 +6,14 @@ extension BasicModuleTruss: JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
     .d([
-      "editor" : BasicEditorTruss.self,
+      "editor" : EditorTruss.self,
       "sections" : [ModuleTrussSection].self,
       "manu" : String.self,
       "subid" : String.self,
       "colorGuide?" : [String].self,
       "dirMap?" : [SynthPath:String].self,
     ], {
-      let editor: BasicEditorTruss = try $0.x("editor")
+      let editor: EditorTruss = try $0.x("editor")
       let colors: [String] = try $0.xq("colorGuide") ?? [
         "#009f63",
         "#ec421e",

@@ -193,11 +193,6 @@ extension JSValue {
     return debugDescription
   }
   
-  func xformArr<Output:Any>(_ rules: [JsParseRule<Output>]) throws -> [Output] {
-    try checkArr()
-    return try map { try $0.xform(rules) }
-  }
-
   fileprivate func checkForProperty(_ key: String) throws -> JSValue? {
     guard isObject else { throw JSError.error(msg: "Expected Object") }
     guard hasProperty(key) else { throw JSError.error(msg: "Object should have property '\(key)'") }

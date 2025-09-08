@@ -1,1 +1,1 @@
-{"single":{"map":"[\"map\", [::SynthPath::], [::SynthPath:::::PatchController::]]","controllers":"[\"controllers\", [::PatchController::]]"},"array":{}}
+{"single":{"controllers":"[\"controllers\", [::PatchController::]]","map":"[\"map\", [::SynthPath::], [::SynthPath:::::PatchController::]]"},"array":{}}
