@@ -1,1 +1,1 @@
-{"array":{},"single":{"scale":"[\"scale\", ::CoreGraphics.CGFloat::, ::CoreGraphics.CGFloat::]","move":"[\"move\", ::CoreGraphics.CGFloat::, ::CoreGraphics.CGFloat::]","curve":"[\"curve\", ::CoreGraphics.CGFloat::, ::CoreGraphics.CGFloat::, ::CoreGraphics.CGFloat::?]","line":"[\"line\", ::CoreGraphics.CGFloat::, ::CoreGraphics.CGFloat::]"}}
+{"single":{"move":"[\"move\", ::Float::, ::Float::]","scale":"[\"scale\", ::Float::, ::Float::]","curve":"[\"curve\", ::Float::, ::Float::, ::Float::?]","line":"[\"line\", ::Float::, ::Float::]"},"array":{}}

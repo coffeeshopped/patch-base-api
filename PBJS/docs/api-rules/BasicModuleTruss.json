@@ -1,1 +1,1 @@
-{"single":{"basic":"{\n  sections: [::ModuleTrussSection::],\n  editor: ::BasicEditorTruss::,\n  manu: ::String::,\n  colorGuide?: [::String::],\n  dirMap?: [::SynthPath:::::String::],\n  subid: ::String::\n}"},"array":{}}
+{"array":{},"single":{"basic":"{\n  colorGuide?: [::String::],\n  editor: ::BasicEditorTruss::,\n  sections: [::ModuleTrussSection::],\n  manu: ::String::,\n  subid: ::String::,\n  dirMap?: [::SynthPath:::::String::]\n}"}}

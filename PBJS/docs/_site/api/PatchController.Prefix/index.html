@@ -20,19 +20,19 @@
     
     <div class="api-content">
       <h1>PatchController.Prefix</h1>
-      <h2>Undocumented Single Rules:</h2>
-<p>index</p>
+      <p>Specifies a path prefix (a SynthPath) for a controller. All parameter SynthPaths for the controller will be prefixed by this value, giving a way to scope all of the controls in a given controller to a parent SynthPath.</p>
 <div class="api-rule"><pre><code>{
   index: <a href="/api/SynthPath/">SynthPath</a>
 }</pre></code></div>
-<p>fixed</p>
+<p>Specify a SynthPath that will have the current controller index value appended to it, and then used as the prefix for the controller. The index value for a controller can be changed via a <code>switcher</code> <a href="/api/PatchController.PanelItem/">PatchController.PanelItem</a>. Example: you're creating a controller to change the oscillator settings for a patch. The synth has 3 identical oscillators. <code>{ index: 'osc' }</code> will set the prefix of the controller to be <code>osc/0</code>. If the controller has a <code>switcher</code> control, and the second tab of the switcher is selected, the controller's prefix will change to <code>osc/1</code>.</p>
 <div class="api-rule"><pre><code>{
   fixed: <a href="/api/SynthPath/">SynthPath</a>
 }</pre></code></div>
-<p>indexFn</p>
+<p>Set the prefix of this controller to a fixed value.</p>
 <div class="api-rule"><pre><code>{
   indexFn: <a href="/api/Function/">Function</a>
 }</pre></code></div>
+<p>When the index of this controller changes, the index value will be passed to the given Function, which should return a SynthPath value that will be used as the controller's new prefix.</p>
 
     </div>
   </div>

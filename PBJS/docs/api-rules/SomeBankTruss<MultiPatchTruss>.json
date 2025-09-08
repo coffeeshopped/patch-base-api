@@ -1,1 +1,0 @@
-{"array":{},"single":{"compactMultiBank":"{\n  initFile?: ::String::,\n  parseBody: ::Int::,\n  patchCount: ::Int::,\n  compactMultiBank: ::MultiPatchTruss::,\n  compactTrussMap: [::Object::],\n  createFile: ::SinglePatchTruss.Core.ToMidiFn::,\n  fileDataCount: ::Int::\n}"}}

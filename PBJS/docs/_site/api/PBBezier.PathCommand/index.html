@@ -20,15 +20,15 @@
     
     <div class="api-content">
       <h1>PBBezier.PathCommand</h1>
-      <h2>Undocumented Single Rules:</h2>
-<p>scale</p>
-<div class="api-rule"><pre><code>["scale", <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>, <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>]</pre></code></div>
-<p>move</p>
-<div class="api-rule"><pre><code>["move", <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>, <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>]</pre></code></div>
-<p>curve</p>
-<div class="api-rule"><pre><code>["curve", <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>, <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>, <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>?]</pre></code></div>
-<p>line</p>
-<div class="api-rule"><pre><code>["line", <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>, <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>]</pre></code></div>
+      <p>Commands used in drawing a Display (custom UI component). The origin for drawing is at the lower-left corner of the Display, with the Y-axis increasing upwards.</p>
+<div class="api-rule"><pre><code>["move", <a href="/api/Float/">Float</a>, <a href="/api/Float/">Float</a>]</pre></code></div>
+<p>Move the draw cursor to the the XY coordinate specified by the two Floats.</p>
+<div class="api-rule"><pre><code>["line", <a href="/api/Float/">Float</a>, <a href="/api/Float/">Float</a>]</pre></code></div>
+<p>Draw a line from the current cursor position to the XY coordinate specified by the two Floats.</p>
+<div class="api-rule"><pre><code>["curve", <a href="/api/Float/">Float</a>, <a href="/api/Float/">Float</a>, <a href="/api/Float/">Float</a>?]</pre></code></div>
+<p>Draw a curve from the current cursor position to the XY coordinate specified by the two floats. The optional third Float specifies a weight for the curve.</p>
+<div class="api-rule"><pre><code>["scale", <a href="/api/Float/">Float</a>, <a href="/api/Float/">Float</a>]</pre></code></div>
+<p>Scale the entire path by the given X and Y values.</p>
 
     </div>
   </div>

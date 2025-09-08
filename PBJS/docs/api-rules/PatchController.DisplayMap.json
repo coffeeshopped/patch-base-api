@@ -1,1 +1,1 @@
-{"array":{},"single":{"u":"[\"u\", ::SynthPath::, ::SynthPath::?]","=":"[\"=\", ::SynthPath::, ::SynthPath::?]","src":"[\"src\", ::SynthPath::, ::SynthPath::, ::Function::?]"}}
+{"single":{"src":"[\"src\", ::SynthPath::, ::Function::, ::SynthPath::?]","=":"[\"=\", ::SynthPath::, ::SynthPath::?]","u":"[\"u\", ::SynthPath::, ::SynthPath::, ::Float::, ::SynthPath::?]","uDefault":"[\"u\", ::SynthPath::, ::SynthPath::?]"},"array":{}}

@@ -1,1 +1,1 @@
-{"single":{"basic":"{\n  byte: ::Int::,\n  valueBits: ::Range::,\n  byteBits?: ::Range::\n}"},"array":{}}
+{"array":{},"single":{"basic":"{\n  byteBits?: ::Range::,\n  valueBits: ::Range::,\n  byte: ::Int::\n}"}}

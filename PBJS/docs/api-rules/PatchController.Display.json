@@ -1,1 +1,1 @@
-{"array":{},"single":{"levelScaling":"{\n  levelScaling: ::Object::\n}","dadsrEnv":"{\n  dadsrEnv: ::Object::\n}","env":"{\n  env: ::Function::\n}","timeLevelEnv":"{\n  sustain: ::Int::,\n  bipolar?: ::Bool::,\n  timeLevelEnv: ::Object::,\n  pointCount: ::Int::\n}"}}
+{"single":{"env":"{\n  env: ::Function::\n}","dadsrEnv":"{\n  dadsrEnv: ::Object::\n}","levelScaling":"{\n  levelScaling: ::Object::\n}","timeLevelEnv":"{\n  bipolar?: ::Bool::,\n  pointCount: ::Int::,\n  sustain: ::Int::,\n  timeLevelEnv: ::Object::\n}"},"array":{}}

@@ -136,7 +136,7 @@ extension Dictionary: JsParsable where Key: JsParsable, Value: JsParsable {
 }
 
 public protocol JsBankParsable: PatchTruss {
-  static var nuJsBankRules: [JsParseRule<SomeBankTruss<Self>>] { get }
+  static var jsBankRules: [JsParseRule<SomeBankTruss<Self>>] { get }
 }
 
 extension SomeBankTruss: JsDocable where PT: JsBankParsable {
@@ -144,7 +144,18 @@ extension SomeBankTruss: JsDocable where PT: JsBankParsable {
 }
 
 extension SomeBankTruss: JsParsable where PT: JsBankParsable {
-  public static var jsRules: [JsParseRule<Self>] { PT.nuJsBankRules }
+  public static var jsRules: [JsParseRule<Self>] { PT.jsBankRules }
+  
+  public static func jsName() -> String {
+    switch PT.self {
+    case is SinglePatchTruss.Type:
+      return "SingleBankTruss"
+    case is MultiPatchTruss.Type:
+      return "MultiBankTruss"
+    default:
+      return "???"
+    }
+  }
 }
 
 extension String: JsParsable {

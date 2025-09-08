@@ -20,7 +20,47 @@
     
     <div class="api-content">
       <h1>SingleBankTruss</h1>
-      
+      <div class="api-rule"><pre><code>{
+  createFile: <a href="/api/???/">???</a>,
+  validSizes: [<a href="/api/Int/">Int</a>],
+  includeFileDataCount: <a href="/api/Bool/">Bool</a>,
+  initFile?: <a href="/api/String/">String</a>,
+  patchCount: <a href="/api/Int/">Int</a>,
+  singleBank: <a href="/api/SinglePatchTruss/">SinglePatchTruss</a>,
+  locationIndex: <a href="/api/Int/">Int</a>
+}</pre></code></div>
+<dl>
+  <dt>singleBank</dt>
+  <dd>The <a href="/api/SinglePatchTruss/">SinglePatchTruss</a> that defines the individual patches contained in this bank.</dd>
+  <dt>patchCount</dt>
+  <dd>The number of patches contained in a single bank.</dd>
+  <dt>locationIndex</dt>
+  <dd>Given a sysex message (as an array of bytes) that represents a single patch from a bank, `locationIndex` is the index of that byte array that holds the value used as this patch's location in that bank. This value is used when parsing a set of MIDI messages that represents a bank, to determine where each patch belongs within the bank.</dd>
+  <dt>validSizes</dt>
+  <dd>...</dd>
+  <dt></dt>
+  <dd></dd>
+</dl>  
+<h2>Undocumented Single Rules:</h2>
+<p>bundle</p>
+<div class="api-rule"><pre><code>{
+  locationIndex: <a href="/api/Int/">Int</a>,
+  initFile?: <a href="/api/String/">String</a>,
+  patchCount: <a href="/api/Int/">Int</a>,
+  validBundle?: <a href="/api/ValidBundle/">ValidBundle</a>,
+  singleBank: <a href="/api/SinglePatchTruss/">SinglePatchTruss</a>,
+  createFile: <a href="/api/???/">???</a>
+}</pre></code></div>
+<p>compactSingleBank</p>
+<div class="api-rule"><pre><code>{
+  parseBody: <a href="/api/Object/">Object</a>,
+  createFile: <a href="/api/Object/">Object</a>,
+  fileDataCount: <a href="/api/Int/">Int</a>,
+  initFile?: <a href="/api/String/">String</a>,
+  compactSingleBank: <a href="/api/SinglePatchTruss/">SinglePatchTruss</a>,
+  patchCount: <a href="/api/Int/">Int</a>
+}</pre></code></div>
+
     </div>
   </div>
   

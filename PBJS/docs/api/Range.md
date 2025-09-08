@@ -4,7 +4,7 @@ title: Range
 
 Range specifies a range of integer values, inclusive.
 
-<rule>[Int, Int]</rule>
+rule::basic
 
 Specifies the start and end of the Range, inclusive. E.g.:
 

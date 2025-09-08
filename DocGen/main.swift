@@ -60,6 +60,7 @@ let jsTypes: [JsDocable.Type] = [
   PatchController.DisplayMap.self,
   PatchController.Constraint.self,
   PatchController.PageSetup.self,
+  ClosedRange<Int>.self,
 ]
 
 let jsonEncoder = JSONEncoder()

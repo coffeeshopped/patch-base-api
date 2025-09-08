@@ -42,11 +42,11 @@
 <h2>[Parm]</h2>
 <p>Rules that generate arrays of Parm's.</p>
 <div class="api-rule"><pre><code>{
-  px?: <a href="/api/Int/">Int</a>,
-  block: [<a href="/api/Parm/">Parm</a>],
   prefix: <a href="/api/SynthPath/">SynthPath</a>,
   bx?: <a href="/api/Int/">Int</a>,
-  count: <a href="/api/Int/">Int</a>
+  px?: <a href="/api/Int/">Int</a>,
+  count: <a href="/api/Int/">Int</a>,
+  block: [<a href="/api/Parm/">Parm</a>]
 }</pre></code></div>
 <p>Takes <em>block</em> as an input array of Parm's, and outputs <em>count</em> copies of that array. The path of each Parm is prefixed with the specified <em>prefix</em>, followed by a number representing the current iteration, starting from 0.</p>
 <p>If <em>bx</em> is specified, then (bx * the current iteration count) will be added to each <em>b</em> value in the Parm array. Similarly if <em>px</em> is specified, the same will be done to each <em>p</em> value in the Parm array.</p>
@@ -68,15 +68,15 @@
 ]
 </code></pre>
 <div class="api-rule"><pre><code>{
-  prefix: <a href="/api/SynthPath/">SynthPath</a>,
-  block: [<a href="/api/Parm/">Parm</a>]
+  block: [<a href="/api/Parm/">Parm</a>],
+  prefix: <a href="/api/SynthPath/">SynthPath</a>
 }</pre></code></div>
 <p>Takes <em>block</em> as an input array of Parm's, and outputs a copy of that array, with each path prefixed by <em>prefix</em>.</p>
 <div class="api-rule"><pre><code>{
-  block: [<a href="/api/Parm/">Parm</a>],
+  p?: <a href="/api/Int/">Int</a>,
   inc: <a href="/api/Int/">Int</a>,
-  b?: <a href="/api/Int/">Int</a>,
-  p?: <a href="/api/Int/">Int</a>
+  block: [<a href="/api/Parm/">Parm</a>],
+  b?: <a href="/api/Int/">Int</a>
 }</pre></code></div>
 <p>Used to auto-generate a sequence of <em>b</em> and/or <em>p</em> values for an array of Parm's. <em>inc</em> specifies the amount to increment by for each Parm, and <em>b</em> and <em>p</em> specify the starting values of those respective properties.</p>
 <p>Example:</p>
@@ -97,8 +97,8 @@
 </code></pre>
 <div class="api-rule"><pre><code>{
   p?: <a href="/api/Int/">Int</a>,
-  offset: [<a href="/api/Parm/">Parm</a>],
-  b?: <a href="/api/Int/">Int</a>
+  b?: <a href="/api/Int/">Int</a>,
+  offset: [<a href="/api/Parm/">Parm</a>]
 }</pre></code></div>
 <p>Takes <em>offset</em> as an input array of Parm's and outputs a copy, with the p and/or b values of each Parm offset by the amount specified.</p>
 <p>Example:</p>
