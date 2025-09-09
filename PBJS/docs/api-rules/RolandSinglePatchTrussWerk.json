@@ -1,1 +1,1 @@
-{"single":{"basic":"{\n  single: ::String::,\n  parms: [::Parm::],\n  size: ::RolandAddress::,\n  name?: ::String::,\n  initFile?: ::String::\n}"},"array":{}}
+{"array":{},"single":{"basic":"{\n  single: ::String::,\n  parms: [::Parm::],\n  size: ::RolandAddress::,\n  name?: ::String::,\n  initFile?: ::String::\n}"}}

@@ -7,16 +7,15 @@ extension EditorTruss: JsParsable {
   public static let jsRules: [JsParseRule<Self>] = [
     .init(.d([
       "name" : String.self,
-//      "trussMap" : [].self,
+      "trussMap" : [SynthPath:SomeSysexTruss].self,
       "fetchTransforms" : [SynthPath:FetchTransform].self,
       "midiOuts" : [SynthPath:MidiTransform].self,
       "midiChannels" : [SynthPath:MidiChannelTransform].self,
       "slotTransforms?" : [SynthPath:MemSlot.Transform].self,
       "extraParamOuts?" : [SynthPath:ParamOutTransform].self,
     ]),  {
-      let ppr = pathPairRule(JsSysex.trussRules)
-      let trussMap = try $0.arr("trussMap").map { try ppr.transform($0) }
-      var t = EditorTruss(try $0.x("name"), truss: trussMap)
+      let trussMap: [SynthPath:SomeSysexTruss] = try $0.x("trussMap")
+      var t = EditorTruss(try $0.x("name"), truss: trussMap.map { ($0.0, $0.1.truss()) })
       t.fetchTransforms = try $0.x("fetchTransforms")
       t.midiOuts = try $0.x("midiOuts")
       t.midiChannels = try $0.x("midiChannels")
@@ -47,9 +46,5 @@ extension EditorTruss: JsParsable {
       return t
     }, "roland"),
   ]
-
-  static func pathPairRule<Output:Any>(_ subrules: [JsParseRule<Output>]) -> JsParseRule<(SynthPath, Output)> {
-    .arr([SynthPath.self, JsObj.self], { try ($0.x(0), $0.any(1).xform(subrules)) }, "pathPair")
-  }
   
 }

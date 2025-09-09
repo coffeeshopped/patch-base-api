@@ -28,18 +28,18 @@
 <div class="api-rule"><pre><code>["switcher", [<a href="/api/String/">String</a>], <a href="/api/Object/">Object</a>?]</pre></code></div>
 <p>Creates a switch control to switch between pages of a controller, or to change the prefix of a controller. The [String] specifies the labels on the control.</p>
 <div class="api-rule"><pre><code>{
-  srcPrefix?: <a href="/api/SynthPath/">SynthPath</a>,
   maps: [<a href="/api/PatchController.DisplayMap/">PatchController.DisplayMap</a>],
+  srcPrefix?: <a href="/api/SynthPath/">SynthPath</a>,
+  l?: <a href="/api/String/">String</a>,
   id?: <a href="/api/SynthPath/">SynthPath</a>,
-  w?: <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>,
-  l?: <a href="/api/String/">String</a>
+  w?: <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>
 }</pre></code></div>
 <p>Creates a custom data display, such as an envelope visualization.</p>
 <div class="api-rule"><pre><code>{
   l: <a href="/api/String/">String</a>,
   bold?: <a href="/api/Bool/">Bool</a>,
-  id?: <a href="/api/SynthPath/">SynthPath</a>,
   size?: <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>,
+  id?: <a href="/api/SynthPath/">SynthPath</a>,
   w?: <a href="/api/CoreGraphics.CGFloat/">CoreGraphics.CGFloat</a>
 }</pre></code></div>
 <p>Creates a non-interactive text label.</p>

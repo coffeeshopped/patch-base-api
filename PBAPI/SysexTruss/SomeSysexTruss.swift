@@ -15,4 +15,18 @@ public enum SomeSysexTruss {
   case singleBank(SingleBankTruss)
   case multiBank(MultiBankTruss)
   
+  public func truss() -> any SysexTruss {
+    switch self {
+    case .single(let t):
+      return t
+    case .multi(let t):
+      return t
+    case .json(let t):
+      return t
+    case .singleBank(let t):
+      return t
+    case .multiBank(let t):
+      return t
+    }
+  }
 }
