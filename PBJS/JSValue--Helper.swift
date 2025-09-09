@@ -111,7 +111,6 @@ extension JSValue {
   func xform<Output:Any>(_ rules: [JsParseRule<Output>], exportOrigin: String? = nil) throws -> Output {
     let exportOrigin = exportOrigin ?? self.exportOrigin()
     guard let rule = rules.first(where: { $0.matches(self) }) else {
-      // TODO: make a prettier printed version of Output.self, removing PBAPI and using short-form syntax for Array and Dictionary
       throw JSError.noParseRule(parseRuleSetName: (Output.self as? any JsParsable.Type)?.jsName() ?? String(reflecting: Output.self), value: self, exportOrigin: exportOrigin)
     }
     // TODO: catch and wrap any exceptions here to denote what rule was tried, with what data.

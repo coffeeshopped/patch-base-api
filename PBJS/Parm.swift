@@ -36,17 +36,26 @@ extension Parm: JsParsable, JsPassable {
       "px?" : Int.self,
       "block" : [Parm].self,
     ], {
-      let block = try $0.any("block")
+      let block: [Parm] = try $0.x("block")
+      let exportOrigin = $0.exportOrigin()
+      return try .prefix($0.x("prefix"), count: $0.x("count"), bx: $0.xq("bx") ?? 0, px: $0.xq("px"), block: { _ in block })
+    }, "prefixMulti"),
+    .d([
+      "prefix" : SynthPath.self,
+      "count" : Int.self,
+      "bx?" : Int.self,
+      "px?" : Int.self,
+      "blockFn" : JsFn.self,
+    ], {
+      let block = try $0.any("blockFn")
       let exportOrigin = $0.exportOrigin()
       return try .prefix($0.x("prefix"), count: $0.x("count"), bx: $0.xq("bx") ?? 0, px: $0.xq("px"), block: {
-        let parms: JSValue
-        guard block.isFn else { return try block.x() }
         guard let p = try block.call([$0], exportOrigin: exportOrigin) else {
           throw JSError.error(msg: "Parms: prefix: block fn returned null")
         }
         return try p.x()
       })
-    }, "prefixMulti"),
+    }, "prefixMultiFn"),
     .d([
       "prefix" : SynthPath.self,
       "block" : [Parm].self,

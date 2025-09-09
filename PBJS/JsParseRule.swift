@@ -97,7 +97,11 @@ public enum Match {
         return pair.element.matches(x.atIndex(pair.offset + 1))
       }
     case .t(let t):
-      return t.matches(x)
+      if let t = t as? any JsDirectParsable.Type {
+        return t.matches(x)
+      }
+      return t.matches.contains(where: { $0.matches(x) })
+
     case .arr(let args, let opts):
       guard x.isArray,
             x.arrCount() >= args.count else { return false }

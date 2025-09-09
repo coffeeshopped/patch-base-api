@@ -8,6 +8,7 @@
 import JavaScriptCore
 import PBAPI
 
+
 public protocol JsParsable : JsDocable {
   
   static var jsRules: [JsParseRule<Self>] { get }
@@ -16,9 +17,20 @@ public protocol JsParsable : JsDocable {
   
 }
 
+public protocol JsDirectParsable : JsParsable {
+  static func directMatches(_ x: JSValue) -> Bool
+}
+
+extension JsDirectParsable {
+  public static func matches(_ x: JSValue) -> Bool {
+    directMatches(x)
+  }
+}
+
 public protocol JsDocable {
   static func jsName() -> String
   static var docInfo: [String:[(Match, String)]] { get }
+  static var matches: [Match] { get }
 }
 
 extension JsParsable {
@@ -29,17 +41,15 @@ extension JsParsable {
       "array" : jsArrayRules.map { ($0.match, $0.name) },
     ]
   }
+  
+  public static var matches: [Match] { jsRules.map { $0.match } }
 
 }
 
 extension JsParsable {
     
   public static func matches(_ x: JSValue) -> Bool {
-    guard !x.isNull && !x.isUndefined else { return false }
-    // TODO: just added this. Does it create a significant performance hit?
-    // Does it make the dev experience worse (i.e. more errors of just "no rule match")
-    // instead of a quick rule match that fails on actual parsing?
-    return jsRules.contains(where: { $0.matches(x) })
+    !x.isNull && !x.isUndefined
   }
   
   public static func jsName() -> String {
@@ -52,7 +62,7 @@ extension JsParsable {
   public static var jsArrayRules: [JsParseRule<[Self]>] { [] }
   
   static func defaultArrayRule() -> JsParseRule<[Self]> {
-    .t([Self].self, {
+    .arr([Self.self], {
       // ok, so what are we doing here?
       guard $0.arrCount() > 0 else { return [] }
       // go through each item
@@ -79,26 +89,30 @@ extension JsParsable {
           }
         }
       }
-    })
+    }, "defaultArray")
   }
   
 }
 
 // for now this is just a dummy for rule parsing...
-enum JsFn: JsParsable {
+enum JsFn: JsDirectParsable {
   
   public static func jsName() -> String { "Function" }
 
   static let jsRules: [JsParseRule<Self>] = []
   
-  static func matches(_ x: JSValue) -> Bool { x.isFn }
+  static func directMatches(_ x: JSValue) -> Bool { x.isFn }
 }
 
-enum JsObj: JsParsable {
+enum JsObj: JsDirectParsable {
   
   public static func jsName() -> String { "Object" }
 
   static let jsRules: [JsParseRule<Self>] = []
+  
+  static func directMatches(_ x: JSValue) -> Bool {
+    !x.isNull && !x.isUndefined
+  }
 }
 
 extension Array: JsDocable where Element: JsParsable {
@@ -109,9 +123,9 @@ extension Array: JsParsable where Element: JsParsable {
     Element.jsArrayRules + [Element.defaultArrayRule()]
   }
   
-  public static func matches(_ x: JSValue) -> Bool {
-    x.isArray
-  }
+//  public static func matches(_ x: JSValue) -> Bool {
+//    x.isArray
+//  }
   
   public static func jsName() -> String {
     "[\(Element.jsName())]"
@@ -162,7 +176,7 @@ extension SomeBankTruss: JsParsable where PT: JsBankParsable {
   }
 }
 
-extension String: JsParsable {
+extension String: JsDirectParsable {
   public static let jsRules: [JsParseRule<Self>] = [
     .t(String.self, {
       guard $0.isString else {
@@ -180,65 +194,62 @@ extension String: JsParsable {
     }, "iso"),
   ]
   
-  public static func matches(_ x: JSValue) -> Bool {
+  public static func directMatches(_ x: JSValue) -> Bool {
     x.isString
   }
 }
 
 
-extension Int: JsParsable {
+extension Int: JsDirectParsable {
   public static let jsRules: [JsParseRule<Self>] = [
     .t(Int.self, { try $0.num().intValue }),
   ]
 
-  public static func matches(_ x: JSValue) -> Bool {
+  public static func directMatches(_ x: JSValue) -> Bool {
     x.isNumber
   }
 }
 
 
-extension UInt8: JsParsable {
+extension UInt8: JsDirectParsable {
   public static let jsRules: [JsParseRule<Self>] = [
     .t(Int.self, { try $0.num().uint8Value }),
   ]
   
-  public static func matches(_ x: JSValue) -> Bool {
+  public static func directMatches(_ x: JSValue) -> Bool {
     x.isNumber
   }
 
 }
 
-extension Float: JsParsable {
+extension Float: JsDirectParsable {
   public static let jsRules: [JsParseRule<Self>] = [
     .t(Float.self, { try $0.num().floatValue }),
   ]
   
-  public static func matches(_ x: JSValue) -> Bool {
+  public static func directMatches(_ x: JSValue) -> Bool {
     x.isNumber
   }
 
 }
 
-extension CGFloat: JsParsable {
+extension CGFloat: JsDirectParsable {
   public static let jsRules: [JsParseRule<Self>] = [
     .t(CGFloat.self, { CGFloat(truncating: try $0.num()) }),
   ]
   
-  public static func matches(_ x: JSValue) -> Bool {
+  public static func directMatches(_ x: JSValue) -> Bool {
     x.isNumber
   }
 
 }
 
-extension Bool: JsParsable {
+extension Bool: JsDirectParsable {
   public static let jsRules: [JsParseRule<Self>] = [
-    .t(Bool.self, {
-      guard $0.isBoolean else { throw JSError.error(msg: "Expected Boolean") }
-      return $0.toBool()
-    }),
+    .t(Bool.self, { $0.toBool() }),
   ]
   
-  public static func matches(_ x: JSValue) -> Bool {
+  public static func directMatches(_ x: JSValue) -> Bool {
     x.isBoolean
   }
 

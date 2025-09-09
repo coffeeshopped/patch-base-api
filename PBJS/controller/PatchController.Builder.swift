@@ -12,10 +12,10 @@ extension PatchController.Builder: JsParsable {
       let opts = try? $0.obj(4)
       return try .children($0.x(1), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), $0.x(3), indexFn: opts?.fnq("index"))
     }),
-    .a("panel", [String.self, JsObj.self, [Row].self], {
+    .a("panel", [String.self, JsObj.self], optional: [[Row].self], {
       let opts = try? $0.obj(2)
       let prefix: SynthPath = (try opts?.xq("prefix")) ?? []
-      return try .panel($0.x(1), prefix: prefix, color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), rows: $0.x(3))
+      return try .panel($0.x(1), prefix: prefix, color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), rows: $0.xq(3) ?? [])
     }),
     .a("panel", [String.self, [Row].self], {
       try .panel($0.x(1), prefix: [], color: nil, clearBG: nil, rows: $0.x(2))
