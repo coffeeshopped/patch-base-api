@@ -164,9 +164,18 @@
   },
   "active": "6182f9ccba190051",
   "lastOpenFiles": [
-    "_site/api/EditorTruss/index.html",
-    "_site/api/EditorTruss",
-    "api/EditorTruss.md",
-    "api-rules/EditorTruss.json"
+    "_site/api/ValidBundle/index.html",
+    "_site/api/SynthPathMap/index.html",
+    "_site/api/SynthPath/index.html",
+    "_site/api/Span/index.html",
+    "_site/api/SinglePatchTruss.Core.ToMidiFn/index.html",
+    "_site/api/SinglePatchTruss.Core.FromMidiFn/index.html",
+    "_site/api/SinglePatchTruss/index.html",
+    "_site/api/SingleBankTruss/index.html",
+    "_site/api/RxMidi.FetchCommand/index.html",
+    "_site/api/RolandSinglePatchTrussWerk/index.html",
+    "_site/api/RolandOffsetAddressIso/index.html",
+    "api/ModuleTruss.md",
+    "api/EditorTruss.md"
   ]
 }

@@ -2,7 +2,7 @@
 import PBAPI
 import JavaScriptCore
 
-extension BasicModuleTruss: JsParsable {
+extension ModuleTruss: JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
     .d([
@@ -20,7 +20,7 @@ extension BasicModuleTruss: JsParsable {
         "#717efe",
         "#79f11e",
       ]
-      return try BasicModuleTruss(editor, manu: $0.x("manu"), model: editor.displayId, subid: $0.x("subid"), sections: $0.x("sections"), pathFn: nil, viewController: nil, dirMap: $0.xq("dirMap") ?? [:], colorGuide: ColorGuide(colors), indexPath: nil, configPaths: nil, postAddMsg: nil)
+      return try ModuleTruss(editor, manu: $0.x("manu"), model: editor.displayId, subid: $0.x("subid"), sections: $0.x("sections"), pathFn: nil, viewController: nil, dirMap: $0.xq("dirMap") ?? [:], colorGuide: ColorGuide(colors), indexPath: nil, configPaths: nil, postAddMsg: nil)
     }, "basic"),
   ]
 

@@ -1,90 +1,84 @@
 
-public protocol ModuleTruss : ModuleProvider {
-  
-  var core: ModuleTrussCore { get set }
-  
-  var editorTruss: EditorTruss { get }
-  
-  var id: String { get }
-  var manufacturer: String { get }
-  var model: String { get }
-//  var imageURL: URL { get }
-//  var moduleURL: URL { get }
+public struct ModuleTruss {
+
+  // TODO: subid is not used. Should it be?
+  public init(_ editorTruss: EditorTruss, manu: String, model: String, subid: String, sections: [ModuleTrussSection], pathFn: IndexPathFn? = nil, viewController: ViewControllerFn? = nil, dirMap: [SynthPath:String]? = nil, colorGuide: ColorGuide, indexPath: IndexPath? = nil, configPaths: [SynthPath]? = nil, postAddMsg: String? = nil) {
     
-  var localPath: String { get }
+    let filePath: FilePathFn = {
+      let path = $0.anySynthEditor.map(fromPath: $1)
+      return path?.directory({ dirMap?[$0] })
+    }
 
-//  var baseURL: URL! { get }
-
-  var colorGuide: ColorGuide { get }
-
-  var sections: [ModuleTrussSection] { get }
-
-  var defaultIndexPath: IndexPath { get }
-  
-  // synth editor paths that should always be unlocked and not have init/random features (e.g. Global editors)
-  var configPaths: [SynthPath] { get }
+    let path = pathFn ?? { indexPath in
+      guard indexPath.section < sections.count && indexPath.item < sections[indexPath.section].items.count else { return nil }
+      return sections[indexPath.section].items[indexPath.item].path
+    }
     
-  func path(forIndexPath indexPath: IndexPath) -> SynthPath?
+    let viewController = viewController ?? { module, indexPath in
+      sections[indexPath.section].items[indexPath.item].controller
+    }
+    
+    self.editorTruss = editorTruss
+    self.id = "\(manu)\(model)"
+
+    self.manufacturer = manu
+    self.model = model
+    self.sections = sections
+    self.path = path
+    self.viewController = viewController
+    self.filePath = filePath
+    self.colorGuide = colorGuide
+    self.defaultIndexPath = indexPath ?? IndexPath(item: 1, section: 0)
+    self.configPaths = configPaths ?? [[.global]]
+    self.postAddMessage = postAddMsg
+  }
   
-  func bankInfo(forPatchTruss patchTruss: any PatchTruss) -> [(SynthPath, String)]
+  public func bankInfo(forPatchTruss patchTruss: any PatchTruss) -> [(SynthPath, String)] {
+    // find the editor paths that map to banks of this patch truss
+    let paths = editorTruss.sysexMap.filter {
+      guard let bankTruss = $0.value as? (any BankTruss) else { return false }
+      return bankTruss.anyPatchTruss.displayId == patchTruss.displayId
+    }.map { $0.key }
+    
+    // find the section titles in the module that use that path
+    return sections.flatMap {
+      $0.items.filter({ paths.contains($0.path) }).map { ($0.path, $0.title) }
+    }
+  }
   
-//  func synthSaveInfoItems(_ module: SynthModule, path: SynthPath) -> [InfoSaveItem]
   
-//  func onEditorLoad(_ module: SynthModule)
+  public let editorTruss: EditorTruss
+  public let id: String
+  public let manufacturer: String
+  public let model: String
+  public let sections: [ModuleTrussSection]
+  public typealias IndexPathFn = (_ indexPath: IndexPath) -> SynthPath?
+  public let path: IndexPathFn
+  public typealias ViewControllerFn = (_ module: AnySynthModule, _ indexPath: IndexPath) -> ModuleTrussController
+  public let viewController: ViewControllerFn
+  public typealias FilePathFn = (_ module: AnySynthModule, _ synthPath: SynthPath) -> String?
+  public let filePath: FilePathFn
+  
+  public let colorGuide: ColorGuide
+  public let defaultIndexPath: IndexPath
+  public let configPaths: [SynthPath]
+  public let postAddMessage: String?
+
+  public var commandEffects: [ModuleCommandEffect] = []
+    
+  public var synthSaveInfoItems: (_ module: AnySynthModule, _ path: SynthPath) -> [InfoSaveItem] = { module, path in (try? module.defaultInfoItems(path: path)) ?? [] }
+
+  public var onEditorLoad: (_ module: AnySynthModule) -> Void = { _ in }
+  
 
 }
 
 public extension ModuleTruss {
   
-  var editorTruss : EditorTruss { core.editorTruss }
-  var id: String { core.id }
-  var manufacturer: String { core.manufacturer }
-  var model: String { core.model }
-  
-  var colorGuide: ColorGuide {
-    get { core.colorGuide }
-  }
-
-  var sections: [ModuleTrussSection] { core.sections }
-
-  var defaultIndexPath: IndexPath {
-    get { core.defaultIndexPath }
-  }
-
-  var configPaths: [SynthPath] {
-    get { core.configPaths }
-  }
-
-  var postAddMessage: String? {
-    get { core.postAddMessage }
-  }
-
-  var filePath: ModuleTrussCore.FilePathFn {
-    get { core.filePath }
-  }
-
-  var path: (_ indexPath: IndexPath) -> SynthPath? {
-    get { core.path }
-  }
-
-  var viewController: ModuleTrussCore.ViewControllerFn {
-    get { core.viewController }
-  }
-
 //  var saveToSynthController: (_ module: AnySynthModule, _ indexPath: IndexPath) -> PBController? {
 //    get { core.saveToSynthController }
 //    set { core.saveToSynthController = newValue }
 //  }
-
-  var synthSaveInfoItems: (_ module: AnySynthModule, _ path: SynthPath) -> [InfoSaveItem] {
-    get { core.synthSaveInfoItems }
-    set { core.synthSaveInfoItems = newValue }
-  }
-
-  var onEditorLoad: (_ module: AnySynthModule) -> Void {
-    get { core.onEditorLoad }
-    set { core.onEditorLoad = newValue }
-  }
 
 }
 
@@ -111,12 +105,6 @@ public extension ModuleTruss {
   func title(forPath path: SynthPath) -> String? {
     sections.compactMap { $0.items.first { $0.path == path }?.title }.first
   }
-
-  var commandEffects: [ModuleCommandEffect] {
-    get { core.commandEffects }
-    set { core.commandEffects = newValue }
-  }
-  
 
 
 }

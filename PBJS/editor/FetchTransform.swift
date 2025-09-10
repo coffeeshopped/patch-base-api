@@ -13,11 +13,11 @@ extension FetchTransform: JsParsable {
       // TODO: add bytesPerPatch and waitInterval
       try .bankTruss($0.x(1), bytesPerPatch: nil, waitInterval: 0)
     }),
-    .a("custom", [JsFn.self], {
-      let fns = try $0.any(1).map {
-        try $0.xform(RxMidi.FetchCommand.dynamicRules)
-      }
-      return .custom({ editor in try fns.map { try $0(editor) } })
+    .a("send", [SinglePatchTruss.Core.ToMidiFn.self], {
+      let fn: SinglePatchTruss.Core.ToMidiFn = try $0.x(1)
+      return .custom({ e in
+        try fn.call([], e).map { .sendMsg($0) }
+      })
     }),
   ]
   

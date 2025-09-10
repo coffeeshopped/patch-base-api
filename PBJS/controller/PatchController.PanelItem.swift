@@ -39,7 +39,7 @@ extension PatchController.PanelItem: JsParsable {
       case "select":
         return .select(l, path, id: id, width: w)
       case "imgSelect":
-        let moduleBasePath = try JsModuleTruss.moduleBasePath($0)
+        let moduleBasePath = try JsModuleTrussContext.moduleBasePath($0)
         var images: [String]? = nil
         if let imgs = try obj.xq("images") as [String]? {
           images = imgs.map { "\(moduleBasePath)/\($0)" }

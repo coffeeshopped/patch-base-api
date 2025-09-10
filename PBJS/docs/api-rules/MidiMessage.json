@@ -1,1 +1,1 @@
-{"single":{"pgmChange":"[\"pgmChange\", ::UInt8::, ::UInt8::]","syx":"[\"syx\", [::UInt8::]]","240":"[240]"},"array":{}}
+{"array":{},"single":{"syx":"[\"syx\", [::UInt8::]]","pgmChange":"[\"pgmChange\", ::UInt8::, ::UInt8::]","240":"[240]"}}

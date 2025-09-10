@@ -61,9 +61,9 @@ The most commonly used type patch truss is ::SinglePatchTruss::, which specifies
 
 More complicated synth patches might be represented using ::MultiPatchTruss::, such as many Roland rompler synth patches where there are separate parts for the "common" data (overall patch data) and the individual "tone" parts (e.g. 4 different sample-based voices each with its own envelopes, sample selection, etc).
 
-## BasicEditorTruss
+## EditorTruss
 
-The editor truss is the top-level object that holds all of the data and logic for communicating with a synthesizer and representing the synth's memory. This is all represented as a ::BasicEditorTruss::.
+The editor truss is the top-level object that holds all of the data and logic for communicating with a synthesizer and representing the synth's memory. This is all represented as a ::EditorTruss::.
 
 This object contains all of the Patch and Bank trusses, with a ::SynthPath:: specifying the path for each of these areas of the synth. The object also specifies the logic for fetching patches or banks from the synth (::FetchTransform::), sending MIDI data to the synth for patch and bank transmission (::MidiTransform::), logic for which MIDI channels should be used for communication (::MidiChannelTransform::), logic for naming bank memory slots (::MemSlot.Transform::), and any cross-mapping of data between areas of the synth that enable richer UI controllers (::ParamOutTransform::).
 
@@ -71,6 +71,6 @@ This object contains all of the Patch and Bank trusses, with a ::SynthPath:: spe
 
 ::PatchController::'s are the specification for the actual user interface of the editor. They define the on-screen controls that interact with the parts of the BasicEditorTruss to allow for parameter changes, name changes, etc. The PatchController objects contain several parts, such as ::PatchController.Builder:: objects to specify the panel containers, ::PatchController.PanelItem::'s which define the individual controls within the panels, ::PatchController.Effect::'s which specify relationships between the patch data changes and UI changes (e.g. dimming certain controls when certain parts of a patch are not active), ::PatchController.Constraint:: objects which define the visual layout of the panels within the controller, and ::PatchController.Display::'s which allow for the creation of custom data visualizations (such as envelope displays).
 
-## BasicModuleTruss
+## ModuleTruss
 
-::BasicModuleTruss:: is the very top-most-level object for a Patch Base editor. It holds the ::BasicEditorTruss:: as well as arrays of ::ModuleTrussSection.Item::'s which in turn hold ::PatchController:: instances and maps them to the different areas of the ::BasicEditorTruss::.
+::ModuleTruss:: is the very top-most-level object for a Patch Base editor. It holds the ::EditorTruss:: as well as arrays of ::ModuleTrussSection.Item::'s which in turn hold ::PatchController:: instances and maps them to the different areas of the ::EditorTruss::.

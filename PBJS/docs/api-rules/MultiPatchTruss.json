@@ -1,1 +1,1 @@
-{"single":{"basic":"{\n  multiPatch: ::String::,\n  trussMap: [::Object::],\n  namePath: ::SynthPath::,\n  initFile: ::String::,\n  validSizes: [::Int::],\n  includeFileDataCount: ::Bool::\n}"},"array":{}}
+{"array":{},"single":{"basic":"{\n  multiPatch: ::String::,\n  trussMap: [::Object::],\n  namePath: ::SynthPath::,\n  initFile: ::String::,\n  validSizes: [::Int::],\n  includeFileDataCount: ::Bool::\n}"}}

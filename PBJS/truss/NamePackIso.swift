@@ -46,7 +46,7 @@ extension NamePackIso : JsParsable {
       "toBytes" : [CharFilter].self,
       "toString" : [CharFilter].self,
     ], {
-      let range: ClosedRange<Int> = try $0.x("range")
+      let range: ClosedRange<Int> = try $0.x("filtered")
       let byteFilters: [CharFilter] = try $0.x("toBytes")
       let stringFilters: [CharFilter] = try $0.x("toString")
       // TODO: allow for a pad value other than 32 (for alt encodings)

@@ -1,1 +1,1 @@
-{"single":{"Function":"JsFn","+":"[\"+\", ::MultiPatchTruss.Core.ToMidiFn::]","basic":"[::SynthPath::, ::SinglePatchTruss.Core.ToMidiFn::]","[MultiPatchTruss.Core.ToMidiFn]":"Array<ToMidiFn>","UInt8":"UInt8"},"array":{}}
+{"array":{},"single":{"Function":"JsFn","UInt8":"UInt8","[MultiPatchTruss.Core.ToMidiFn]":"Array<ToMidiFn>","basic":"[::SynthPath::, ::SinglePatchTruss.Core.ToMidiFn::]","+":"[\"+\", ::MultiPatchTruss.Core.ToMidiFn::]"}}

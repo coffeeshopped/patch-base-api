@@ -79,6 +79,13 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
         [.sysex(Yamaha.paramData(channel: Int($0.first ?? 0), cmdBytes: $1))]
       }
     }),
+    .a("pgmChange", [EditorValueTransform.self, EditorValueTransform.self], {
+      let e1: EditorValueTransform = try $0.x(1)
+      let e2: EditorValueTransform = try $0.x(2)
+      return .e { e in
+        try [.pgmChange(channel: e1.byteValue(e), value: e2.byteValue(e))]
+      }
+    }),
     .t(String.self, {
       // assume it's a byte transform
       let bt: ByteTransform = try $0.x()

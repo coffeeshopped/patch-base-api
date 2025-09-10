@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSONPatchTruss</title>
+    <title>ModuleTruss</title>
     <link rel="stylesheet" href="/css/base.css">
   </head>
   <body>
@@ -19,29 +19,16 @@
     </div>
     
     <div class="api-content">
-      <h1>JSONPatchTruss</h1>
-      <p>A truss to define a patch that is backed by a JSON document, rather than a byte array. Useful when you need to define your own custom settings for an editor that don't correspond to anything stored on the synth itself.</p>
+      <h1>ModuleTruss</h1>
+      <p>This is the most top-level object type when creating a synth editor. The ModuleTruss contains the editor (which contains all synth-specific data and logic) and links it to a number of PatchControllers (UI for interacting with the editor), as well as specifying where various files should be saved.</p>
 <div class="api-rule"><pre><code>{
-  json: String,
-  parms: [<a href="/api/Parm/">Parm</a>],
+  editor: <a href="/api/EditorTruss/">EditorTruss</a>,
+  sections: [<a href="/api/ModuleTrussSection/">ModuleTrussSection</a>],
+  manu: <a href="/api/String/">String</a>,
+  subid: <a href="/api/String/">String</a>,
+  colorGuide?: [<a href="/api/String/">String</a>],
+  dirMap?: [<a href="/api/SynthPath/">SynthPath</a>:<a href="/api/String/">String</a>]
 }</pre></code></div>
-<dl>
-  <dt>json</dt>
-  <dd>Truss ID</dd>
-  <dt>parms</dt>
-  <dd>specifies the parameters of the patch, including the paths, value ranges, and basic info for reading and writing parameter values from the byte array</dd>
-</dl>
-<div class="api-rule"><pre><code>"channel"</pre></code></div>
-<p>A simple JSON-backed patch for storing a single MIDI Channel value. The stored value is in the range of 0–15 and displayed as 1–16.</p>
-<h2>Undocumented Single Rules:</h2>
-<p>channel</p>
-<div class="api-rule"><pre><code>"channel"</pre></code></div>
-<p>basic</p>
-<div class="api-rule"><pre><code>{
-  json: <a href="/api/String/">String</a>,
-  parms: [<a href="/api/Parm/">Parm</a>]
-}</pre></code></div>
-
     </div>
   </div>
   

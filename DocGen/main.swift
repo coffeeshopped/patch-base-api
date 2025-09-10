@@ -19,7 +19,7 @@ let jsTypes: [JsDocable.Type] = [
   IsoFS.self,
   PackIso.self,
   PackIso.Blitter.self,
-  BasicModuleTruss.self,
+  ModuleTruss.self,
   ModuleTrussSection.self,
   ModuleTrussSection.Item.self,
   EditorTruss.self,

@@ -6,6 +6,6 @@ public indirect enum FetchTransform {
   // bodyData passed to bankTruss fn should be an array with a single byte representing the fetch location
   case bankTruss(_ fn: SinglePatchTruss.Core.ToMidiFn, bytesPerPatch: Int? = nil, waitInterval: Int = 0)
   case sequence([FetchTransform])
-  case custom(_ fn: (_ editor: AnySynthEditor) throws -> [RxMidi.FetchCommand]?)
-  
+  case custom((_ e: AnySynthEditor) throws -> [RxMidi.FetchCommand])
+
 }

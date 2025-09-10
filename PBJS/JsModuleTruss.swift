@@ -2,12 +2,12 @@
 import PBAPI
 import JavaScriptCore
 
-public struct JsModuleTruss {
+public struct JsModuleTrussContext {
   
   public var console = JsConsole()
   public let package: JsPackage
 
-  private var basicModuleTruss: BasicModuleTruss
+  public var moduleTruss: ModuleTruss
   private let jsContext: JSContext
   private let require: @convention(block) (String, String) -> JSValue?
   
@@ -82,7 +82,7 @@ public struct JsModuleTruss {
       throw JSError.error(msg: exception.debugDescription)
     }
     
-    self.basicModuleTruss = try moduleTemplate.x("module")
+    self.moduleTruss = try moduleTemplate.x("module")
   }
   
   private static let moduleBasePathKey: NSString = "MODULE_PATH"
@@ -158,23 +158,6 @@ public struct JsModuleTruss {
   return module.exports;
 })()
 """
-  }
-
-}
-
-extension JsModuleTruss : ModuleTruss {
-  
-  public var core: PBAPI.ModuleTrussCore {
-    get {
-      basicModuleTruss.core
-    }
-    set(newValue) {
-      basicModuleTruss.core = newValue
-    }
-  }
-  
-  public func bankInfo(forPatchTruss patchTruss: any PBAPI.PatchTruss) -> [(PBAPI.SynthPath, String)] {
-    basicModuleTruss.bankInfo(forPatchTruss: patchTruss)
   }
 
 }
