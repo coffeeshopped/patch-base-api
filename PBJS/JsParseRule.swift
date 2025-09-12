@@ -103,6 +103,16 @@ public enum Match {
       return t.matches.contains(where: { $0.matches(x) })
 
     case .arr(let args, let opts):
+      // special case: a rule with a single-element args, and opts is nil
+      // I *think* this match is only used for "array" rules for types,
+      // i.e. for matching an array of 0 or more elements of a single type
+      // so, allow an ampty array in this case
+      // that will match to the defaultArrayRule, which will return a parsed empty array.
+      if args.count == 1 && opts.count == 0 && x.isArray && x.arrCount() == 0 {
+        return true
+      }
+      
+      
       guard x.isArray,
             x.arrCount() >= args.count else { return false }
       return args.enumerated().reduce(true) { partialResult, pair in

@@ -3,6 +3,21 @@ import JavaScriptCore
 
 extension SysexTrussCore.FromMidiFn : JsParsable {
 
+  public static func jsName() -> String {
+    switch BodyData.self {
+    case is [UInt8].Type:
+      return SysexTrussCore<[UInt8]>.FromMidiFn.jsName()
+//    case is [SynthPath:[UInt8]].Type:
+//      return SysexTrussCore<[SynthPath:[UInt8]]>.FromMidiFn.jsName()
+//    case is [[UInt8]].Type:
+//      return SomeBankTruss<SinglePatchTruss>.bankToMidiRules as! [JsParseRule<Self>]
+//    case is [[SynthPath:[UInt8]]].Type:
+//      return SomeBankTruss<MultiPatchTruss>.bankToMidiRules as! [JsParseRule<Self>]
+    default:
+      return "???"
+    }
+  }
+
   // see SysexTrussCore.ToMidiFn (JsParsable impl)
   public static var jsRules: [JsParseRule<Self>] {
     switch BodyData.self {

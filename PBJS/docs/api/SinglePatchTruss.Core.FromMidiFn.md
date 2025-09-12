@@ -4,8 +4,7 @@ title: SinglePatchTruss.Core.FromMidiFn
 
 Function that generates a byte array from a sequence of one or more MIDI messages.
 
-rule:
-\[">", [[SinglePatchTruss.Core.FromMidiFn]], [[ByteTransform]]...\]
+rule::>
 
 Creates a FromMidiFn using the second array element (after the ">"), then feeds the output of that FromMidiFn to a series of one or more [[ByteTransform]]s in succession to generate the final
 

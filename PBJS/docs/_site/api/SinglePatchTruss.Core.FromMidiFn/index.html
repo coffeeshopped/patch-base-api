@@ -21,8 +21,7 @@
     <div class="api-content">
       <h1>SinglePatchTruss.Core.FromMidiFn</h1>
       <p>Function that generates a byte array from a sequence of one or more MIDI messages.</p>
-<p>rule:
-[&quot;&gt;&quot;, [[SinglePatchTruss.Core.FromMidiFn]], [[ByteTransform]]...]</p>
+<div class="api-rule"><pre><code>[">", <a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss.Core.FromMidiFn</a>, <a href="/api/ByteTransform/">ByteTransform</a>]</pre></code></div>
 <p>Creates a FromMidiFn using the second array element (after the &quot;&gt;&quot;), then feeds the output of that FromMidiFn to a series of one or more [[ByteTransform]]s in succession to generate the final</p>
 <p>rule:
 [[ByteTransform]]</p>
@@ -30,6 +29,9 @@
 <p>rule:
 [[[SinglePatchTruss.Core.FromMidiFn]]]</p>
 <p>Creates a single FromMidiFn that feeds MIDI messages into each of the individual FromMidiFn's in the array, and takes all of the outputs and concatenates them as a single byte array.</p>
+<h2>Undocumented Single Rules:</h2>
+<p>basic</p>
+<div class="api-rule"><pre><code>[<a href="/api/Object/">Object</a>]</pre></code></div>
 
     </div>
   </div>

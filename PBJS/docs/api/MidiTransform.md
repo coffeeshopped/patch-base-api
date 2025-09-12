@@ -2,17 +2,7 @@
 title: MidiTransform
 ---
 
-<rule>
-{  
-  type: "singlePatch",
-  throttle: Int?,
-  param: ::MidiTransform.Fn.Param::,
-  patch: ::MidiTransform.Fn.Whole::,
-  name: ::MidiTransform.Fn.Name::?,
-}
-</rule>
-
-TODO: could the "type" be omitted, and instead deduced from the PatchTruss at the corresponding path?
+rule::singlePatch
 
 Used with SinglePatchTrusses that can have individual parameter changes sent to the synth (as opposed to some synths that only accept full patch dumps.)
 
@@ -27,16 +17,7 @@ Used with SinglePatchTrusses that can have individual parameter changes sent to 
   <dd>Logic for sending a patch name update to the synth.</dd>
 </dl>
 
-
-<rule>
-{
-  type: "multiPatch",
-  throttle: Int,
-  param: ::MidiTransform.Fn.Param::,
-  patch: ::MidiTransform.Fn.Whole::,
-  name: ::MidiTransform.Fn.Name::?,
-}
-</rule>
+rule::multiPatch
 
 Used with MultiPatchTrusses that can have individual parameter changes sent to the synth (as opposed to some synths that only accept full patch dumps.)
 
@@ -51,25 +32,13 @@ Used with MultiPatchTrusses that can have individual parameter changes sent to t
   <dd>Logic for sending a patch name update to the synth.</dd>
 </dl>
 
-
-<rule>
-{
-  type: "singleBank",
-  throttle: Int?,
-  bank: ::MidiTransform.Fn.BankPatch::,
-}
-</rule>
+rule::singleBank
 
 ], {
   try .single(throttle: $0.xq("throttle"), .bank($0.x("bank")))
 }),
 
-<rule>
-{
-  type: "compactSingleBank",
-  waitInterval: Int?,
-}
-</rule>
+rule::compactSingleBank
 
   // assume a bank truss has been passed, and make a wholeBank out of it.
   let truss: SingleBankTruss = try $0.x()
@@ -80,12 +49,7 @@ Used with MultiPatchTrusses that can have individual parameter changes sent to t
   })))
 }),
 
-<rule>
-{
-  type: "compactMultiBank",
-  waitInterval: Int?,
-}
-</rule>
+rule::compactMultiBank
 
   // assume a bank truss has been passed, and make a wholeBank out of it.
   let truss: MultiBankTruss = try $0.x()

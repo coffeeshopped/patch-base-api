@@ -1,1 +1,1 @@
-{"array":{},"single":{"curve":"[\"curve\", ::Float::, ::Float::, ::Float::?]","line":"[\"line\", ::Float::, ::Float::]","move":"[\"move\", ::Float::, ::Float::]","scale":"[\"scale\", ::Float::, ::Float::]"}}
+{"single":{"move":"[\"move\", ::Float::, ::Float::]","line":"[\"line\", ::Float::, ::Float::]","scale":"[\"scale\", ::Float::, ::Float::]","curve":"[\"curve\", ::Float::, ::Float::, ::Float::?]"},"array":{}}

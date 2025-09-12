@@ -21,34 +21,21 @@
     <div class="api-content">
       <h1>PatchController.Display</h1>
       <p>Built-in data display elements.</p>
-<div class="api-rule"><pre><code>{
-  dadsrEnv: <a href="/api/Object/">Object</a>
-}</pre></code></div>
+<div class="api-rule"><pre><code>"dadsrEnv"</pre></code></div>
 <p>An envelope display with 5 parameters: delay, attack, decay, sustain, release.</p>
-<div class="api-rule"><pre><code>{
-  timeLevelEnv: <a href="/api/Object/">Object</a>,
-  pointCount: <a href="/api/Int/">Int</a>,
-  sustain: <a href="/api/Int/">Int</a>,
-  bipolar?: <a href="/api/Bool/">Bool</a>
-}</pre></code></div>
-<p>A time/level envelope display.</p>
+<div class="api-rule"><pre><code>["timeLevelEnv", <a href="/api/Int/">Int</a>, <a href="/api/Int/">Int</a>, <a href="/api/Bool/">Bool</a>?]</pre></code></div>
+<p>A time/level envelope display. The arguments are <code>pointCount</code>, <code>sustain</code>, and optionally <code>bipolar</code>.</p>
 <dl>
-  <dt>timeLevelEnv</dt>
-  <dd>Not used, but the key must be present to specify this rule.</dd>
   <dt>pointCount</dt>
   <dd>The number of time/level points in the display.</dd>
   <dt>sustain</dt>
-  <dd>The sustain point of the envelope (if any). Should be 0-based. Set to a number greater than the `pointCount` to have no sustain point.</dd>
+  <dd>The sustain point of the envelope (if any), 0-based. Set to a number greater than the `pointCount` to have no sustain point.</dd>
   <dt>bipolar?</dt>
   <dd>Set to true if this envelope can have negative level values, so that the display will be drawn with the X-axis vertically centered, rather than at the bottom of the display.</dd>
 </dl>  
-<div class="api-rule"><pre><code>{
-  env: <a href="/api/Function/">Function</a>
-}</pre></code></div>
+<div class="api-rule"><pre><code>["env", <a href="/api/Function/">Function</a>]</pre></code></div>
 <p>A custom display element (usually for an envelope). The passed function should have the signature <code>([SynthPath:Float]) =&gt; [<a href="/api/PBBezier.PathCommand/">PBBezier.PathCommand</a>]</code>. Whenever the display is updated, a dictionary will be passed to the function containing various parameter values. The function uses those to return an array of drawing functions which will be used to draw a bezier path within the display.</p>
-<div class="api-rule"><pre><code>{
-  levelScaling: <a href="/api/Object/">Object</a>
-}</pre></code></div>
+<div class="api-rule"><pre><code>"levelScaling"</pre></code></div>
 <p>A Level Scaling display, used for the Yamaha DX7 and related synths.</p>
 
     </div>

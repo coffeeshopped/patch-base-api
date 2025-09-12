@@ -23,7 +23,7 @@
       <p>Used for mapping parameter values (from patches) to values used in a custom UI display, such as an envelope visualization.</p>
 <div class="api-rule"><pre><code>["src", <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/Function/">Function</a>, <a href="/api/SynthPath/">SynthPath</a>?]</pre></code></div>
 <p>Maps the value at the first SynthPath to the Display parameter at the second SynthPath if given, otherwise to the same SynthPath, using the given Function.</p>
-<div class="api-rule"><pre><code>["u", <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/Float/">Float</a>, <a href="/api/SynthPath/">SynthPath</a>?]</pre></code></div>
+<div class="api-rule"><pre><code>["u", <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/Float/">Float</a>, <a href="/api/SynthPath/">SynthPath</a>?]</pre></code></div>
 <p>Maps the value at the first SynthPath, dividing it by the given Float value, and maps it to a Display parameter. If a second SynthPath is given, that is the Display parameter mapped to. Otherwise, map to a Display parameter at the same first SynthPath.</p>
 <div class="api-rule"><pre><code>["u", <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/SynthPath/">SynthPath</a>?]</pre></code></div>
 <p>Same as above, but the Float to be divided by is 127.</p>

@@ -1,1 +1,1 @@
-{"array":{},"single":{"custom":"[\"custom\", [::EditorValueTransform::], ::Function::]","basic":"[\"basic\", ::Function::]","patch":"[\"patch\", ::SynthPath::, ::SynthPath::, ::Function::?]"}}
+{"single":{"patch":"[\"patch\", ::SynthPath::, ::SynthPath::, ::Function::?]","basic":"[\"basic\", ::Function::]","custom":"[\"custom\", [::EditorValueTransform::], ::Function::]"},"array":{}}

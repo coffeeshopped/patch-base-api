@@ -51,6 +51,7 @@ extension PatchController.PanelItem: JsParsable {
     }, "basic"),
     // maps: PatchController.Display
     .d([
+      "display" : PatchController.Display.self,
       "maps" : [PatchController.DisplayMap].self,
       "srcPrefix?" : SynthPath.self,
       "l?" : String.self,
@@ -61,7 +62,7 @@ extension PatchController.PanelItem: JsParsable {
       if let srcPrefix = try? $0.x("srcPrefix") as SynthPath {
         maps = maps.map { $0.srcPrefix(srcPrefix) }
       }
-      return try .display($0.x(), $0.xq("l"), maps, id: $0.xq("id"), width: $0.xq("w"))
+      return try .display($0.x("display"), $0.xq("l"), maps, id: $0.xq("id"), width: $0.xq("w"))
     }, "display"),
     .s("-", { _ in .spacer(2) }),
     .d([

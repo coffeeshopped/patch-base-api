@@ -88,8 +88,31 @@ return try .fm($0.x(1), $0.x(2), algoPath: algoPath, reverse: reverse, selectabl
 <p>return try .oneRow($0.x(1), child: $0.x(2), indexMap: $0.fnq(3))
 }),</p>
 <h2>Undocumented Single Rules:</h2>
+<p>index</p>
+<div class="api-rule"><pre><code>["index", <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/Function/">Function</a>, <a href="/api/Object/">Object</a>]</pre></code></div>
+<p>palettes</p>
+<div class="api-rule"><pre><code>["palettes", <a href="/api/PatchController/">PatchController</a>, <a href="/api/Int/">Int</a>, <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/String/">String</a>, <a href="/api/String/">String</a>]</pre></code></div>
+<p>gridBuilder</p>
+<div class="api-rule"><pre><code>{
+  gridBuilder: [<a href="/api/PatchController.PanelItem/">PatchController.PanelItem</a>],
+  prefix?: <a href="/api/PatchController.Prefix/">PatchController.Prefix</a>,
+  color?: <a href="/api/Int/">Int</a>,
+  border?: <a href="/api/Int/">Int</a>,
+  effects?: [<a href="/api/PatchController.Effect/">PatchController.Effect</a>],
+  layout?: [<a href="/api/PatchController.Constraint/">PatchController.Constraint</a>]
+}</pre></code></div>
 <p>oneRow</p>
 <div class="api-rule"><pre><code>["oneRow", <a href="/api/Int/">Int</a>, <a href="/api/PatchController/">PatchController</a>, <a href="/api/Function/">Function</a>?]</pre></code></div>
+<p>pages</p>
+<div class="api-rule"><pre><code>{
+  pages: <a href="/api/PatchController.PageSetup/">PatchController.PageSetup</a>,
+  builders: [<a href="/api/PatchController.Builder/">PatchController.Builder</a>],
+  prefix?: <a href="/api/PatchController.Prefix/">PatchController.Prefix</a>,
+  effects?: [<a href="/api/PatchController.Effect/">PatchController.Effect</a>],
+  layout?: [<a href="/api/PatchController.Constraint/">PatchController.Constraint</a>]
+}</pre></code></div>
+<p>fm</p>
+<div class="api-rule"><pre><code>["fm", [<a href="/api/DXAlgorithm/">DXAlgorithm</a>], <a href="/api/PatchController/">PatchController</a>, <a href="/api/Object/">Object</a>]</pre></code></div>
 <p>buildersSimpleGrid</p>
 <div class="api-rule"><pre><code>{
   builders: [<a href="/api/PatchController.Builder/">PatchController.Builder</a>],
@@ -98,19 +121,6 @@ return try .fm($0.x(1), $0.x(2), algoPath: algoPath, reverse: reverse, selectabl
   color?: <a href="/api/Int/">Int</a>,
   border?: <a href="/api/Int/">Int</a>,
   effects?: [<a href="/api/PatchController.Effect/">PatchController.Effect</a>]
-}</pre></code></div>
-<p>fm</p>
-<div class="api-rule"><pre><code>["fm", [<a href="/api/DXAlgorithm/">DXAlgorithm</a>], <a href="/api/PatchController/">PatchController</a>, <a href="/api/Object/">Object</a>]</pre></code></div>
-<p>index</p>
-<div class="api-rule"><pre><code>["index", <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/Function/">Function</a>, <a href="/api/Object/">Object</a>]</pre></code></div>
-<p>buildersGrid</p>
-<div class="api-rule"><pre><code>{
-  builders: [<a href="/api/PatchController.Builder/">PatchController.Builder</a>],
-  prefix?: <a href="/api/PatchController.Prefix/">PatchController.Prefix</a>,
-  color?: <a href="/api/Int/">Int</a>,
-  border?: <a href="/api/Int/">Int</a>,
-  effects?: [<a href="/api/PatchController.Effect/">PatchController.Effect</a>],
-  gridLayout: [<a href="/api/PatchController.Constraint.Row/">PatchController.Constraint.Row</a>]
 }</pre></code></div>
 <p>basic</p>
 <div class="api-rule"><pre><code>{
@@ -121,16 +131,14 @@ return try .fm($0.x(1), $0.x(2), algoPath: algoPath, reverse: reverse, selectabl
   effects?: [<a href="/api/PatchController.Effect/">PatchController.Effect</a>],
   layout?: [<a href="/api/PatchController.Constraint/">PatchController.Constraint</a>]
 }</pre></code></div>
-<p>fmFn</p>
-<div class="api-rule"><pre><code>["fmFn", [<a href="/api/DXAlgorithm/">DXAlgorithm</a>], <a href="/api/Function/">Function</a>, <a href="/api/Object/">Object</a>]</pre></code></div>
-<p>gridBuilder</p>
+<p>buildersGrid</p>
 <div class="api-rule"><pre><code>{
-  gridBuilder: [<a href="/api/PatchController.PanelItem/">PatchController.PanelItem</a>],
+  builders: [<a href="/api/PatchController.Builder/">PatchController.Builder</a>],
   prefix?: <a href="/api/PatchController.Prefix/">PatchController.Prefix</a>,
   color?: <a href="/api/Int/">Int</a>,
   border?: <a href="/api/Int/">Int</a>,
   effects?: [<a href="/api/PatchController.Effect/">PatchController.Effect</a>],
-  layout?: [<a href="/api/PatchController.Constraint/">PatchController.Constraint</a>]
+  gridLayout: [<a href="/api/PatchController.Constraint.Row/">PatchController.Constraint.Row</a>]
 }</pre></code></div>
 <p>pagesGrid</p>
 <div class="api-rule"><pre><code>{
@@ -140,16 +148,8 @@ return try .fm($0.x(1), $0.x(2), algoPath: algoPath, reverse: reverse, selectabl
   prefix?: <a href="/api/PatchController.Prefix/">PatchController.Prefix</a>,
   effects?: [<a href="/api/PatchController.Effect/">PatchController.Effect</a>]
 }</pre></code></div>
-<p>palettes</p>
-<div class="api-rule"><pre><code>["palettes", <a href="/api/PatchController/">PatchController</a>, <a href="/api/Int/">Int</a>, <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/String/">String</a>, <a href="/api/String/">String</a>]</pre></code></div>
-<p>pages</p>
-<div class="api-rule"><pre><code>{
-  pages: <a href="/api/PatchController.PageSetup/">PatchController.PageSetup</a>,
-  builders: [<a href="/api/PatchController.Builder/">PatchController.Builder</a>],
-  prefix?: <a href="/api/PatchController.Prefix/">PatchController.Prefix</a>,
-  effects?: [<a href="/api/PatchController.Effect/">PatchController.Effect</a>],
-  layout?: [<a href="/api/PatchController.Constraint/">PatchController.Constraint</a>]
-}</pre></code></div>
+<p>fmFn</p>
+<div class="api-rule"><pre><code>["fmFn", [<a href="/api/DXAlgorithm/">DXAlgorithm</a>], <a href="/api/Function/">Function</a>, <a href="/api/Object/">Object</a>]</pre></code></div>
 
     </div>
   </div>

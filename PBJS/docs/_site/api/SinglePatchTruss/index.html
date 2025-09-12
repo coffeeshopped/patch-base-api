@@ -21,35 +21,31 @@
     <div class="api-content">
       <h1>SinglePatchTruss</h1>
       <p>The description of a patch composed of a single array of bytes. The byte array contains all parameter values (including patch name, if present).</p>
-<pre><code>{  
-  single: String,  
-  initFile: String,  
-  parms: [<a href="/api/Parm/">Parm</a>],  
-  pack: <a href="/api/SinglePatchTruss.PackFn/">SinglePatchTruss.PackFn</a>?,  
-  unpack: <a href="/api/SinglePatchTruss.UnpackFn/">SinglePatchTruss.UnpackFn</a>?,  
-  parseBody: <a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss.Core.FromMidiFn</a>?,  
-  createFile: <a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a>?,  
-}</code></pre>
-<ul>
-<li><strong>single</strong>: Truss ID</li>
-<li><strong>initFile</strong>: path to file used as an example &quot;init&quot; patch</li>
-<li><strong>parms</strong>: specifies the parameters of the patch, including the paths, value ranges, and basic info for reading and writing parameter values from the byte array</li>
-<li><strong>pack</strong>: a custom function for mapping parameter values into the byte array</li>
-<li><strong>unpack</strong>: a custom function for parsing parameter values out of the byte array</li>
-<li><strong>parseBody</strong>: function for extracting the byte array from a sequence of one or more MIDI messages (e.g. a file containing a sysex string)</li>
-<li><strong>createFile</strong>: function to create a sequence of one or more MIDI messages representing a patch from the byte array.</li>
-</ul>
-<h2>Undocumented Single Rules:</h2>
-<p>basic</p>
 <div class="api-rule"><pre><code>{
   single: <a href="/api/String/">String</a>,
   initFile?: <a href="/api/String/">String</a>,
   parms: [<a href="/api/Parm/">Parm</a>],
   pack?: <a href="/api/SinglePatchTruss.PackFn/">SinglePatchTruss.PackFn</a>,
   unpack?: <a href="/api/SinglePatchTruss.UnpackFn/">SinglePatchTruss.UnpackFn</a>,
-  parseBody?: <a href="/api/SysexTrussCore<Array<UInt8>>.FromMidiFn/">SysexTrussCore<Array<UInt8>>.FromMidiFn</a>,
+  parseBody?: <a href="/api/SinglePatchTruss.Core.FromMidiFn/">SinglePatchTruss.Core.FromMidiFn</a>,
   createFile?: <a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a>
 }</pre></code></div>
+<dl>
+  <dt>single</dt>
+  <dd>Truss ID</dd>
+  <dt>initFile</dt>
+  <dd>path to file used as an example "init" patch</dd>
+  <dt>parms</dt>
+  <dd>specifies the parameters of the patch, including the paths, value ranges, and basic info for reading and writing parameter values from the byte array</dd>
+  <dt>pack</dt>
+  <dd>a custom function for mapping parameter values into the byte array</dd>
+  <dt>unpack</dt>
+  <dd>a custom function for parsing parameter values out of the byte array</dd>
+  <dt>parseBody</dt>
+  <dd>function for extracting the byte array from a sequence of one or more MIDI messages (e.g. a file containing a sysex string)</dd>
+  <dt>createFile</dt>
+  <dd>function to create a sequence of one or more MIDI messages representing a patch from the byte array.</dd>
+</dl>
 
     </div>
   </div>

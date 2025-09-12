@@ -1,1 +1,1 @@
-{"array":{},"single":{"banks":"[\"banks\", [::ModuleTrussSection.Item::]]","first":"[\"first\", [::ModuleTrussSection.Item::]]","basic":"[\"basic\", ::String::, [::ModuleTrussSection.Item::]]"}}
+{"single":{"first":"[\"first\", [::ModuleTrussSection.Item::]]","basic":"[\"basic\", ::String::, [::ModuleTrussSection.Item::]]","banks":"[\"banks\", [::ModuleTrussSection.Item::]]"},"array":{}}

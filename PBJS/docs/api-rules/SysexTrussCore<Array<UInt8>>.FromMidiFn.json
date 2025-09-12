@@ -1,1 +1,1 @@
-{"single":{"basic":"[::Object::]",">":"[\">\", ::SysexTrussCore<Array<UInt8>>.FromMidiFn::, ::ByteTransform::]"},"array":{}}
+{"array":{},"single":{"basic":"[::Object::]",">":"[\">\", ::SysexTrussCore<Array<UInt8>>.FromMidiFn::, ::ByteTransform::]"}}

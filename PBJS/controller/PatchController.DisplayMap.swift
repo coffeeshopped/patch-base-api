@@ -7,7 +7,7 @@ extension PatchController.DisplayMap: JsParsable {
     .a("src", [SynthPath.self, JsFn.self], optional: [SynthPath.self], {
       try .src($0.x(1), dest: $0.x(3), $0.fn(2))
     }),
-    .a("u", [SynthPath.self, SynthPath.self, Float.self], optional: [SynthPath.self], {
+    .a("u", [SynthPath.self, Float.self], optional: [SynthPath.self], {
       try .unit($0.x(1), dest: $0.xq(3), max: $0.x(2))
     }),
     .a("u", [SynthPath.self], optional: [SynthPath.self], {
