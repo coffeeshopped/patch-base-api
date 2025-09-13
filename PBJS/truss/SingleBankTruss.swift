@@ -43,7 +43,7 @@ extension SinglePatchTruss: JsBankParsable {
       "createFile" : JsObj.self,
       "parseBody" : JsObj.self,
     ], {
-      let patchTruss: Self = try $0.x("patchTruss")
+      let patchTruss: Self = try $0.x("compactSingleBank")
       let patchCount: Int = try $0.x("patchCount")
       let fileDataCount: Int = try $0.x("fileDataCount")
       let initFile = (try $0.xq("initFile")) ?? ""

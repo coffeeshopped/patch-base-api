@@ -1,1 +1,1 @@
-{"single":{"Int":"Int","String":"String","[Object]":"Array<JsObj>"},"array":{">":"[\">\", [::Parm::], ::SynthPathMap::]"}}
+{"array":{">":"[\">\", [::Parm::], ::SynthPathMap::]"},"single":{"String":"::String::","[Object]":"[::Object::]","Int":"::Int::"}}

@@ -1,1 +1,1 @@
-{"single":{"[UInt8]":"Array<UInt8>","Int":"Int"},"array":{}}
+{"single":{"[UInt8]":"[::UInt8::]","Int":"::Int::"},"array":{}}

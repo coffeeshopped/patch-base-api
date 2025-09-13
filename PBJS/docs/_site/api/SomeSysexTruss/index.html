@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SynthPath</title>
+    <title>SomeSysexTruss</title>
     <link rel="stylesheet" href="/css/base.css">
   </head>
   <body>
@@ -19,30 +19,12 @@
     </div>
     
     <div class="api-content">
-      <h1>SynthPath</h1>
-      <p>Used to specify paths in various areas of an editor, such as parameter paths within a single patch, and paths to the different sections of an editor.</p>
-<div class="api-rule"><pre><code>String</pre></code></div>
-<p>A string will be split into multiple items using the &quot;/&quot; character. E.g. <code>osc/0/wave</code> becomes <code>['osc', 0, 'wave']</code>.</p>
-<div class="api-rule"><pre><code>Int</pre></code></div>
-<p>A single Int will translate to a single-element path containing that Int. E.g. <code>0</code> becomes <code>[0]</code>.</p>
-<div class="api-rule"><pre><code>[String | Int]</pre></code></div>
-<p>An array of elements is flattened into a single path. E.g. <code>['osc', [0, 'wave']]</code> becomes <code>['osc', 0, 'wave']</code>.</p>
-<h2>[SynthPath]</h2>
-<p>Rules that generate arrays of SynthPath's.</p>
-<div class="api-rule"><pre><code>['>', [<a href="/api/Parm/">Parm</a>], <a href="/api/SynthPathMap/">SynthPathMap</a>, <a href="/api/SynthPathMap/">SynthPathMap</a>, ... ]</pre></code></div>
-<p>Takes an array of Parm's and extracts the paths from them as a new array. That array is then fed in sequence through each following SynthPathMap to form the final output array of SynthPath's.</p>
-<p>Useful in Controllers when a subset of parameter paths is needed for bulk actions (e.g. copy/paste).</p>
-<h2>Undocumented Single Rules:</h2>
-<p>String</p>
-<div class="api-rule"><pre><code><a href="/api/String/">String</a></pre></code></div>
-<p>[Object]</p>
-<div class="api-rule"><pre><code>[<a href="/api/Object/">Object</a>]</pre></code></div>
-<p>Int</p>
-<div class="api-rule"><pre><code><a href="/api/Int/">Int</a></pre></code></div>
-<h2>Undocumented Array Rules:</h2>
-<blockquote></blockquote>
-<div class="api-rule"><pre><code>[">", [<a href="/api/Parm/">Parm</a>], <a href="/api/SynthPathMap/">SynthPathMap</a>]</pre></code></div>
-
+      <h1>SomeSysexTruss</h1>
+      <div class="api-rule"><pre><code><a href="/api/SinglePatchTruss/">SinglePatchTruss</a></pre></code></div>
+<div class="api-rule"><pre><code><a href="/api/MultiPatchTruss/">MultiPatchTruss</a></pre></code></div>
+<div class="api-rule"><pre><code><a href="/api/JSONPatchTruss/">JSONPatchTruss</a></pre></code></div>
+<div class="api-rule"><pre><code><a href="/api/SingleBankTruss/">SingleBankTruss</a></pre></code></div>
+<div class="api-rule"><pre><code><a href="/api/MultiBankTruss/">MultiBankTruss</a></pre></code></div>
     </div>
   </div>
   

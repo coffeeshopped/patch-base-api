@@ -1,1 +1,1 @@
-{"single":{">":"[\">\", ::SinglePatchTruss.Core.FromMidiFn::, ::ByteTransform::]","basic":"[::Object::]"},"array":{}}
+{"single":{"basic":"[::Object::]",">":"[\">\", ::SinglePatchTruss.Core.FromMidiFn::, ::ByteTransform::]"},"array":{}}

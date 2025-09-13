@@ -6,7 +6,7 @@ extension MultiPatchTruss : JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
     .d([
-      "multiPatch" : String.self,
+      "multi" : String.self,
       "trussMap" : [JsObj].self,
       "namePath" : SynthPath.self,
 //      "bodyDataCount" : ".n",
@@ -21,7 +21,7 @@ extension MultiPatchTruss : JsParsable {
 //      let parseBody = try $0.any("parseBody").xform(parseBodyRules)
 //      let namePack = try? $0.any("namePack").xform(namePackRules)
 //      let unpack = try? $0.any("unpack").xform(jsUnpackParsers)
-      return try .init($0.x("multiPatch"), trussMap: $0.any("trussMap").x(), namePath: $0.x("namePath"), initFile: $0.x("initFile"), fileDataCount: nil, defaultName: nil, createFileData: nil, parseBodyData: nil, validSizes: $0.x("validSizes"), includeFileDataCount: $0.x("includeFileDataCount"))
+      return try .init($0.x("multi"), trussMap: $0.x("trussMap"), namePath: $0.x("namePath"), initFile: $0.x("initFile"), fileDataCount: nil, defaultName: nil, createFileData: nil, parseBodyData: nil, validSizes: $0.x("validSizes"), includeFileDataCount: $0.x("includeFileDataCount"))
     }, "basic"),
   ]
   

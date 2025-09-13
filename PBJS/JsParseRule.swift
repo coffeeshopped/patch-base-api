@@ -137,7 +137,7 @@ public enum Match {
       let optString = opts.count == 0 ? "" : ", " + opts.map { "\(Self.jsName($0, links: links))?" }.joined(separator: ", ")
       return "[\(key)\(argString)\(optString)]"
     case .t(let t):
-      return "\(t)"
+      return "\(Self.jsName(t, links: links))"
     case .arr(let args, let opts):
       let argString = args.map { Self.jsName($0, links: links) }.joined(separator: ", ")
       let optString = opts.map { "\(Self.jsName($0, links: links))?" }.joined(separator: ", ")

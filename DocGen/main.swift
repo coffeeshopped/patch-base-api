@@ -40,6 +40,7 @@ let jsTypes: [JsDocable.Type] = [
   RolandMultiPatchTrussWerk.MapItem.self,
   PBBezier.PathCommand.self,
   DXAlgorithm.self,
+  SomeSysexTruss.self,
   SinglePatchTruss.self,
   NamePackIso.self,
   SingleBankTruss.self,
