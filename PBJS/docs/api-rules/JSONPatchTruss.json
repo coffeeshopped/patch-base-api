@@ -1,1 +1,1 @@
-{"single":{"basic":"{\n  json: ::String::,\n  parms: [::Parm::]\n}","channel":"\"channel\""},"array":{}}
+{"single":{"channel":"\"channel\"","basic":"{\n  json: ::String::,\n  parms: [::Parm::]\n}"},"array":{}}

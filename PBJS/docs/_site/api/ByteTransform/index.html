@@ -21,88 +21,49 @@
     <div class="api-content">
       <h1>ByteTransform</h1>
       <p>A function that takes in a byte array and optionally an Editor object and outputs a byte array.</p>
-<div class="api-rule"><pre><code>[">", <a href="/api/ByteTransform/">ByteTransform</a>, <a href="/api/ByteTransform/">ByteTransform</a>...]</pre></code></div>
+<div class="api-rule"><pre><code>[">", <a href="/api/ByteTransform/">ByteTransform</a>]</pre></code></div>
 <p>Creates a ByteTransform that takes the output byte array from the first ByteTransform, and feeds it to the next ByteTransform, etc. The same Editor object is fed to each ByteTransform in the series.</p>
 <div class="api-rule"><pre><code>"b"</pre></code></div>
 <p>A ByteTransform that simply outputs the input byte array.</p>
-<div class="api-rule"><pre><code>Int</pre></code></div>
+<div class="api-rule"><pre><code><a href="/api/UInt8/">UInt8</a></pre></code></div>
 <p>A ByteTransform that outputs the given Number in a one-element Array.</p>
-<div class="api-rule"><pre><code>["e.values", <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/[SynthPath/">[SynthPath</a>], Function]</pre></code></div>
+<div class="api-rule"><pre><code>["e.values", <a href="/api/SynthPath/">SynthPath</a>, [<a href="/api/SynthPath/">SynthPath</a>], <a href="/api/Function/">Function</a>]</pre></code></div>
 <p>Extract an array of values from the Editor object. The first SynthPath specifies the editor section to pull from (e.g. &quot;voice&quot; to pull from the temporary voice section). The following Array of SynthPath's specifies the parameter paths to pull values from. The Function signature should be (Int) -&gt; Int, and each pulled value will be put through this Function. The final output is an array of the mapped values.</p>
-<div class="api-rule"><pre><code>["byte", Number]</pre></code></div>
+<div class="api-rule"><pre><code>["byte", <a href="/api/Int/">Int</a>]</pre></code></div>
 <p>Extract a single byte from the byte array, at the index specified by the Number. Output the byte as a one-element array. Throws an error if the index is out of range.</p>
-<div class="api-rule"><pre><code>["bytes", { start: Int, ... }]</pre></code></div>
+<div class="api-rule"><pre><code>["bytes", <a href="/api/Object/">Object</a>]</pre></code></div>
 <p>Extract a series of bytes from the byte array. The passed Object should have a <em>start</em> property that specifies the beginning index to parse from. A negative value for <em>start</em> specifies an index starting from the end of the array (e.g. -1 specifies that last byte of the array). Additionally the Object should either have a <em>count</em> property that specifies the number of bytes to extract, or an <em>end</em> property that indicates the final index to extract from.</p>
 <p>Throws an error if the calculated <em>end</em> index is less than or equal to <em>start</em>.</p>
 <p>0-values are returned for any out-of-range indices.</p>
-<div class="api-rule"><pre><code>["bits", Range, [UInt8]?]</pre></code></div>
+<div class="api-rule"><pre><code>["bits", <a href="/api/Range/">Range</a>]</pre></code></div>
 <p>Extracts the bits specified by the Range as a Byte, which is output as a single-element array. The first byte from the input byte array will be used as input. The input byte array can be specified as the last element, or omitted in which case the input byte array for the function will be passed.</p>
 <p>Bit indices are 0-based, with 0 specifying the least-significant bit of the byte.</p>
-<div class="api-rule"><pre><code>["bit", Int, [UInt8]?]</pre></code></div>
+<div class="api-rule"><pre><code>["bit", <a href="/api/Int/">Int</a>]</pre></code></div>
 <p>Extracts the single bit specified at the passed index. Similar to &quot;bits&quot;, but for just a single bit.</p>
-<div class="api-rule"><pre><code>["msBytes7bit", Int, Int]</pre></code></div>
+<div class="api-rule"><pre><code>["msBytes7bit", <a href="/api/Int/">Int</a>, <a href="/api/Int/">Int</a>]</pre></code></div>
 <p>Decompose a value into a byte array, 7 bits at a time, MSB-first. The first Int passed is the value to be decomposed, and the second Int is the length of the resulting array.</p>
-<div class="api-rule"><pre><code>["enc", String]</pre></code></div>
+<div class="api-rule"><pre><code>["enc", <a href="/api/String/">String</a>]</pre></code></div>
 <p>Decompose a String into a series of bytes representing the Unicode values of the string.</p>
 <div class="api-rule"><pre><code>"count"</pre></code></div>
 <p>Return a one-element array containing the length of the input byte array.</p>
-<div class="api-rule"><pre><code>["count", ByteTransform, String, Int]</pre></code></div>
-<p>Process the ByteTransform, then get the length of the resulting byte array. Then, decompose that (length) value into a series of bytes, using the encoding specified by the String, with an array length (number of bytes) specified by the final Int.</p>
-<div class="api-rule"><pre><code>["nibblizeLSB", ByteTransform?]</pre></code></div>
-<p>Process the input ByteTransform, and output the result as a series of nibbles (4-bit values), least-significant bit first.</p>
-<div class="api-rule"><pre><code>["denibblizeLSB"\, ByteTransform?]</pre></code></div>
-<p>Process the input ByteTransform, taking 2 bytes at a time and combining them into a single byte, where the lower 4 bits of the first byte are the least significant bits of the output byte.</p>
-<div class="api-rule"><pre><code>["checksum", ByteTransform?]</pre></code></div>
-<p>Compute a checksum on the passed byte array, adding all values together and keeping the lower 7 bits of the result.</p>
-<div class="api-rule"><pre><code>["yamChk", ByteTransform?]</pre></code></div>
-<p>Compute a &quot;Yamaha-style&quot; checksum on the byte array, adding all values together, negating the result in 2's-complement format, then keeping just the lower 7 bits of the result.</p>
-<div class="api-rule"><pre><code>["trussTransform", { from: <a href="/api/SinglePatchTruss/">SinglePatchTruss</a>, to: <a href="/api/SinglePatchTruss/">SinglePatchTruss</a> }]</pre></code></div>
-<p>Translate the input byte array, reading it as body data in the format of the &quot;from&quot; SinglePatchTruss, and outputting a new array with those values mapped to the format of the &quot;to&quot; SinglePatchTruss. E.g. if the &quot;from&quot; truss has a parameter with path &quot;osc/0/wave&quot; at byte 5, and the &quot;to&quot; truss has the same parameter path, but at byte 8, then the byte value at index 5 of the input array will be output at byte index 8 in the output array.</p>
-<div class="api-rule"><pre><code>String</pre></code></div>
-<p>Parse as an <a href="/api/EditorValueTransform/">EditorValueTransform</a>, and output the result as an array of bytes.</p>
-<div class="api-rule"><pre><code>Array</pre></code></div>
-<p>Parse as an <a href="/api/EditorValueTransform/">EditorValueTransform</a> if possible, otherwise, parse as an array of ByteTransform's, where each ByteTransform is fed the same input byte array and Editor object, and the outputs of the ByteTransform's are concatenated and flattened.</p>
-<div class="api-rule"><pre><code>Function</pre></code></div>
-<p>Pass the input byte array as the sole argument to a Javascript function, which should output a byte array.</p>
-<h2>Undocumented Single Rules:</h2>
-<p>checksum</p>
-<div class="api-rule"><pre><code>["checksum", <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
-<p>trussTransform</p>
-<div class="api-rule"><pre><code>["trussTransform", <a href="/api/Object/">Object</a>]</pre></code></div>
-<p>enc</p>
-<div class="api-rule"><pre><code>["enc", <a href="/api/String/">String</a>]</pre></code></div>
-<p>count</p>
-<div class="api-rule"><pre><code>["count", <a href="/api/ByteTransform/">ByteTransform</a>, <a href="/api/String/">String</a>, <a href="/api/Int/">Int</a>]</pre></code></div>
-<p>e.values</p>
-<div class="api-rule"><pre><code>["e.values", <a href="/api/SynthPath/">SynthPath</a>, [<a href="/api/SynthPath/">SynthPath</a>], <a href="/api/Function/">Function</a>]</pre></code></div>
-<p>bits</p>
-<div class="api-rule"><pre><code>["bits", <a href="/api/Range/">Range</a>]</pre></code></div>
-<p>Function</p>
-<div class="api-rule"><pre><code><a href="/api/Function/">Function</a></pre></code></div>
-<p>msBytes7bit</p>
-<div class="api-rule"><pre><code>["msBytes7bit", <a href="/api/Int/">Int</a>, <a href="/api/Int/">Int</a>]</pre></code></div>
-<p>array</p>
-<div class="api-rule"><pre><code>[<a href="/api/Object/">Object</a>]</pre></code></div>
-<p>bit</p>
-<div class="api-rule"><pre><code>["bit", <a href="/api/Int/">Int</a>]</pre></code></div>
-<p>byte</p>
-<div class="api-rule"><pre><code>["byte", <a href="/api/Int/">Int</a>]</pre></code></div>
-<p>yamChk</p>
-<div class="api-rule"><pre><code>["yamChk", <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
-<p>denibblizeLSB</p>
-<div class="api-rule"><pre><code>["denibblizeLSB", <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
-<p>String</p>
-<div class="api-rule"><pre><code><a href="/api/String/">String</a></pre></code></div>
-<p>UInt8</p>
-<div class="api-rule"><pre><code><a href="/api/UInt8/">UInt8</a></pre></code></div>
-<p>b</p>
-<div class="api-rule"><pre><code>"b"</pre></code></div>
-<p>nibblizeLSB</p>
+<div class="api-rule"><pre><code>["countDecomp", <a href="/api/String/">String</a>, <a href="/api/Int/">Int</a>]</pre></code></div>
+<p>Get the length of the input byte array. Then, decompose that (length) value into a series of bytes, using the encoding specified by the String, with an array length (number of bytes) specified by the final Int.</p>
 <div class="api-rule"><pre><code>["nibblizeLSB", <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
-<blockquote></blockquote>
-<div class="api-rule"><pre><code>[">", <a href="/api/ByteTransform/">ByteTransform</a>]</pre></code></div>
-<p>bytes</p>
-<div class="api-rule"><pre><code>["bytes", <a href="/api/Object/">Object</a>]</pre></code></div>
+<p>Process the input ByteTransform, and output the result as a series of nibbles (4-bit values), least-significant bit first.</p>
+<div class="api-rule"><pre><code>"denibblizeLSB"</pre></code></div>
+<p>Process the input ByteTransform, taking 2 bytes at a time and combining them into a single byte, where the lower 4 bits of the first byte are the least significant bits of the output byte.</p>
+<div class="api-rule"><pre><code>["checksum", <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
+<p>Compute a checksum on the passed byte array, adding all values together and keeping the lower 7 bits of the result.</p>
+<div class="api-rule"><pre><code>["yamChk", <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
+<p>Compute a &quot;Yamaha-style&quot; checksum on the byte array, adding all values together, negating the result in 2's-complement format, then keeping just the lower 7 bits of the result.</p>
+<div class="api-rule"><pre><code>["trussTransform", <a href="/api/Object/">Object</a>]</pre></code></div>
+<p>Translate the input byte array, reading it as body data in the format of the &quot;from&quot; SinglePatchTruss, and outputting a new array with those values mapped to the format of the &quot;to&quot; SinglePatchTruss. E.g. if the &quot;from&quot; truss has a parameter with path &quot;osc/0/wave&quot; at byte 5, and the &quot;to&quot; truss has the same parameter path, but at byte 8, then the byte value at index 5 of the input array will be output at byte index 8 in the output array.</p>
+<div class="api-rule"><pre><code><a href="/api/EditorValueTransform/">EditorValueTransform</a></pre></code></div>
+<p>Parse as an <a href="/api/EditorValueTransform/">EditorValueTransform</a>, and output the result as an array of bytes.</p>
+<div class="api-rule"><pre><code>[<a href="/api/ByteTransform/">ByteTransform</a>]</pre></code></div>
+<p>Each ByteTransform is fed the same input byte array and Editor object, and the outputs of the ByteTransform's are concatenated and flattened.</p>
+<div class="api-rule"><pre><code><a href="/api/Function/">Function</a></pre></code></div>
+<p>Pass the input byte array as the sole argument to a Javascript function, which should output a byte array.</p>
 
     </div>
   </div>

@@ -84,12 +84,11 @@ extension ByteTransform: JsParsable {
     .s("count", { _ in
       .b { b in [UInt8(b.count)] }
     }),
-    .a("count", [ByteTransform.self, String.self, Int.self], {
-      let encoding: String = try $0.x(2)
-      let byteCount: Int = try $0.x(3)
-      return .arg1(try $0.x(1)) {
-        $0.count.bytes7bit(count: byteCount)
-      }
+    .a("countDecomp", [String.self, Int.self], {
+      // TODO: specify possible encodings.
+      let encoding: String = try $0.x(1)
+      let byteCount: Int = try $0.x(2)
+      return .b { $0.count.bytes7bit(count: byteCount) }
     }),
     .a("nibblizeLSB", [], optional: [ByteTransform.self], {
       .arg1(try $0.xq(1) ?? .ident) {
@@ -121,17 +120,11 @@ extension ByteTransform: JsParsable {
         try toTruss.parse(otherData: $0, otherTruss: fromTruss)
       }
     }),
-    .t(String.self, {
-      // if string, see if it's an editorValueTransform
+    .t(EditorValueTransform.self, {
       let evt: EditorValueTransform = try $0.x()
       return .e { [try evt.byteValue($0)] }
     }),
-    .arr([JsObj.self], {
-      // first see if it's an EVT
-      if let evt = try? $0.x() as EditorValueTransform {
-        return .e { [try evt.byteValue($0)] }
-      }
-      
+    .arr([ByteTransform.self], {
       let fns: [Self] = try $0.map { try $0.x() }
       return .fn { b, e in
         try fns.flatMap { try $0.call(b, e) }

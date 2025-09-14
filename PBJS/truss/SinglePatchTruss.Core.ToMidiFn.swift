@@ -39,23 +39,19 @@ extension SysexTrussCore.ToMidiFn : JsParsable {
 
 extension SysexTrussCore<[UInt8]>.ToMidiFn {
   
-  public static func chainRule(_ v: JSValue) throws -> Self {
-    // v is a JS array. Skip the first element.
-    // treat as an array of ByteTransforms, with the output of each function being fed as input to the next function, and the last element is a ToMidiFn.
-    let count = v.arrCount()
-    let fns: [ByteTransform] = try (1..<(count-1)).map { try v.x($0) }
-    let mfn: Self = try v.x(count-1)
-    return .fn { b, e in
-      let bd = try fns.reduce(b) { partialResult, fn in try fn.call(partialResult, e) }
-      return try mfn.call(bd, e)
-    }
-  }
-  
   public static func jsName() -> String { "SinglePatchTruss.Core.ToMidiFn" }
   
   static let jsRules: [JsParseRule<Self>] = [
-    .a(">", [], {
-      try chainRule($0)
+    .a(">", [ByteTransform.self], { v in
+      // v is a JS array. Skip the first element.
+      // treat as an array of ByteTransforms, with the output of each function being fed as input to the next function, and the last element is a ToMidiFn.
+      let count = v.arrCount()
+      let fns: [ByteTransform] = try (1..<(count-1)).map { try v.x($0) }
+      let mfn: Self = try v.x(count-1)
+      return .fn { b, e in
+        let bd = try fns.reduce(b) { partialResult, fn in try fn.call(partialResult, e) }
+        return try mfn.call(bd, e)
+      }
     }),
     .a("yamSyx", [], optional: [ByteTransform.self], {
       try .arg1($0.xq(1) ?? .ident) {
@@ -86,25 +82,13 @@ extension SysexTrussCore<[UInt8]>.ToMidiFn {
         try [.pgmChange(channel: e1.byteValue(e), value: e2.byteValue(e))]
       }
     }),
-    .t(String.self, {
-      // assume it's a byte transform
+    .t(ByteTransform.self, {
       let bt: ByteTransform = try $0.x()
-      return .fn { b, e in
-        try [.sysex(bt.call(b, e))]
-      }
+      return .fn { b, e in try [.sysex(bt.call(b, e))] }
     }),
-    .t([JsObj].self, {
-      // first see if it's a byte transform
-      if let bt = try? $0.x() as ByteTransform {
-        return .fn { b, e in
-          try [.sysex(bt.call(b, e))]
-        }
-      }
-      
+    .t([Self].self, {
       let fns: [Self] = try $0.map { try $0.x() }
-      return .fn { b, e in
-        try fns.flatMap { try $0.call(b, e) }
-      }
+      return .fn { b, e in try fns.flatMap { try $0.call(b, e) } }
     }),
 //    .s(".f", { fn in
 //      let exportOrigin = fn.exportOrigin()

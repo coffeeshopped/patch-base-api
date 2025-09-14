@@ -1,1 +1,1 @@
-{"array":{},"single":{"indexFn":"{\n  indexFn: ::Function::\n}","fixed":"{\n  fixed: ::SynthPath::\n}","index":"{\n  index: ::SynthPath::\n}"}}
+{"single":{"fixed":"{\n  fixed: ::SynthPath::\n}","index":"{\n  index: ::SynthPath::\n}","indexFn":"{\n  indexFn: ::Function::\n}"},"array":{}}

@@ -1,1 +1,1 @@
-{"single":{"truss":"[\"truss\", ::SinglePatchTruss.Core.ToMidiFn::]","bankTruss":"[\"bankTruss\", ::SinglePatchTruss.Core.ToMidiFn::]","send":"[\"send\", ::SinglePatchTruss.Core.ToMidiFn::]","sequence":"[\"sequence\", [::FetchTransform::]]"},"array":{}}
+{"single":{"truss":"[\"truss\", ::SinglePatchTruss.Core.ToMidiFn::]","send":"[\"send\", ::SinglePatchTruss.Core.ToMidiFn::]","bankTruss":"[\"bankTruss\", ::SinglePatchTruss.Core.ToMidiFn::]","sequence":"[\"sequence\", [::FetchTransform::]]"},"array":{}}

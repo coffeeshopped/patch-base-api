@@ -20,23 +20,22 @@
     
     <div class="api-content">
       <h1>SinglePatchTruss.Core.ToMidiFn</h1>
-      <h2>Undocumented Single Rules:</h2>
-<p>yamParm</p>
-<div class="api-rule"><pre><code>["yamParm", <a href="/api/ByteTransform/">ByteTransform</a>, <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
-<p>yamCmd</p>
-<div class="api-rule"><pre><code>["yamCmd", <a href="/api/ByteTransform/">ByteTransform</a>, <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
-<p>[Object]</p>
-<div class="api-rule"><pre><code>[<a href="/api/Object/">Object</a>]</pre></code></div>
-<p>yamSyx</p>
-<div class="api-rule"><pre><code>["yamSyx", <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
-<p>yamFetch</p>
+      <div class="api-rule"><pre><code><a href="/api/ByteTransform/">ByteTransform</a></pre></code></div>
+<p>Take the input, process it through the ByteTransform, and parse the output as an array of MidiMessages.</p>
+<div class="api-rule"><pre><code>[">", <a href="/api/ByteTransform/">ByteTransform</a>]</pre></code></div>
+<p>The input should be a series of one or more ByteTransforms, with the last element of the array being a ToMidiFn (which itself can be just a ByteTransform). The input is processed through the first ByteTransform, with that output being fed as the input to the next ByteTransform, etc, and finally processed through the last ByteTransform to create one or more MidiMessages.</p>
 <div class="api-rule"><pre><code>["yamFetch", <a href="/api/ByteTransform/">ByteTransform</a>, <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
-<p>String</p>
-<div class="api-rule"><pre><code><a href="/api/String/">String</a></pre></code></div>
-<p>pgmChange</p>
+<p>A typical fetch request message for many Yamaha synthesizers. The first ByteTransform passed should yield the MIDI channel number for the request. The second ByteTransform should yield the command bytes for the request. The output MidiMessage will be:</p>
+<pre><code>[0xf0, 0x43, 0x20 + channel, cmdBytes, 0xf7]
+</code></pre>
+<div class="api-rule"><pre><code>["yamParm", <a href="/api/ByteTransform/">ByteTransform</a>, <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
+<p>A typical parameter change message for many Yamaha synthesizers. The first ByteTransform passed should yield the MIDI channel number for the request. The second ByteTransform should yield the command bytes for the request. The output MidiMessage will be:</p>
+<pre><code>[0xf0, 0x43, 0x10 + channel, cmdBytes, 0xf7]
+</code></pre>
+<div class="api-rule"><pre><code>["yamCmd", <a href="/api/ByteTransform/">ByteTransform</a>, <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
+<div class="api-rule"><pre><code>["yamSyx", <a href="/api/ByteTransform/">ByteTransform</a>?]</pre></code></div>
 <div class="api-rule"><pre><code>["pgmChange", <a href="/api/EditorValueTransform/">EditorValueTransform</a>, <a href="/api/EditorValueTransform/">EditorValueTransform</a>]</pre></code></div>
-<blockquote></blockquote>
-<div class="api-rule"><pre><code>[">"]</pre></code></div>
+<div class="api-rule"><pre><code>[<a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a>]</pre></code></div>
 
     </div>
   </div>

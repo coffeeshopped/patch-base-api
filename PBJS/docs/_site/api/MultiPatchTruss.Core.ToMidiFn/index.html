@@ -20,19 +20,14 @@
     
     <div class="api-content">
       <h1>MultiPatchTruss.Core.ToMidiFn</h1>
-      <h2>Undocumented Single Rules:</h2>
-<p>Function</p>
-<div class="api-rule"><pre><code><a href="/api/Function/">Function</a></pre></code></div>
-<ul>
-<li></li>
-</ul>
-<div class="api-rule"><pre><code>["+", <a href="/api/MultiPatchTruss.Core.ToMidiFn/">MultiPatchTruss.Core.ToMidiFn</a>]</pre></code></div>
-<p>basic</p>
-<div class="api-rule"><pre><code>[<a href="/api/SynthPath/">SynthPath</a>, <a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a>]</pre></code></div>
-<p>UInt8</p>
-<div class="api-rule"><pre><code><a href="/api/UInt8/">UInt8</a></pre></code></div>
-<p>[MultiPatchTruss.Core.ToMidiFn]</p>
+      <div class="api-rule"><pre><code>[<a href="/api/SynthPath/">SynthPath</a>, <a href="/api/SinglePatchTruss.Core.ToMidiFn/">SinglePatchTruss.Core.ToMidiFn</a>]</pre></code></div>
+<p>First, get the body data from the MultiPatch that is located at the given path. Then, process that data through the supplied SinglePatchTruss ToMidiFn.</p>
 <div class="api-rule"><pre><code>[<a href="/api/MultiPatchTruss.Core.ToMidiFn/">MultiPatchTruss.Core.ToMidiFn</a>]</pre></code></div>
+<p>Pass the body data of the MultiPatch through each of the passed ToMidiFn's, and concatenate the results of all of them.</p>
+<div class="api-rule"><pre><code><a href="/api/UInt8/">UInt8</a></pre></code></div>
+<p>Returns a MidiMessage that is just the single byte value. TODO: is this used?</p>
+<div class="api-rule"><pre><code><a href="/api/Function/">Function</a></pre></code></div>
+<p>The function should have the signature ([[SynthPath:Byte]], Editor) =&gt; [MidiMessage]</p>
 
     </div>
   </div>
