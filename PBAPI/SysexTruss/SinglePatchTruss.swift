@@ -71,14 +71,6 @@ public struct SinglePatchTruss : PatchTruss {
   }
 
   public init(_ displayId: String, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn? = nil, parseBodyData: Core.FromMidiFn? = nil, validBundle: ValidBundle? = nil, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
-
-    let fileDataCount: Int
-    if let createFileData = createFileData {
-      fileDataCount = try Self.fileDataCount(createFileData: createFileData)
-    }
-    else {
-      fileDataCount = 0
-    }
     
     let createFileData = createFileData ?? .fn({ _, _ in
       throw SysexTrussError.blockNotSet(msg: "createFileData called but never set.")
@@ -86,6 +78,8 @@ public struct SinglePatchTruss : PatchTruss {
     let parseBodyData = parseBodyData ?? .fn({ _ in
       throw SysexTrussError.blockNotSet(msg: "\(displayId): parseBodyData called but never set.")
     })
+
+    let fileDataCount = try Self.fileDataCount(parseBodyData: parseBodyData, createFileData: createFileData)
 
     let maxNameCount = namePackIso?.byteRange.count ?? 32
     let core = SysexTrussCore<BodyData>(displayId, initFile: initFile, maxNameCount: maxNameCount, fileDataCount: fileDataCount, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: validBundle)
@@ -95,19 +89,19 @@ public struct SinglePatchTruss : PatchTruss {
   
   public init(_ displayId: String, namePackIso: NamePackIso? = nil, params: SynthPathParam, initFile: String = "", defaultName: String? = nil, createFileData: Core.ToMidiFn, parseBodyData: Core.FromMidiFn, validSizes: [Int], includeFileDataCount: Bool, pack: PackFn? = nil, unpack: UnpackFn? = nil, randomize: RandomizeFn? = nil) throws {
 
-    let fileDataCount = try Self.fileDataCount(createFileData: createFileData)
+    let fileDataCount = try Self.fileDataCount(parseBodyData: parseBodyData, createFileData: createFileData)
     let finalValidSizes = (includeFileDataCount ? [fileDataCount] : []) + validSizes
     
     self = try Self.init(displayId, namePackIso: namePackIso, params: params, initFile: initFile, defaultName: defaultName, createFileData: createFileData, parseBodyData: parseBodyData, validBundle: .init(sizes: finalValidSizes), pack: pack, unpack: unpack, randomize: randomize)
   }
   
-  private static func createEmptyFileData(createFileData: Core.ToMidiFn) throws -> BodyData {
+  private static func createEmptyFileData(parseBodyData: Core.FromMidiFn, createFileData: Core.ToMidiFn) throws -> BodyData {
     // TODO: maybe count below should be based on validSizes?
-    try createFileData.call([UInt8](repeating: 0, count: 0), nil).flatMap { $0.bytes() }
+    try createFileData.call(parseBodyData.call([]), nil).flatMap { $0.bytes() }
   }
   
-  private static func fileDataCount(createFileData: Core.ToMidiFn) throws -> Int {
-    try createEmptyFileData(createFileData: createFileData).count
+  private static func fileDataCount(parseBodyData: Core.FromMidiFn, createFileData: Core.ToMidiFn) throws -> Int {
+    try createEmptyFileData(parseBodyData: parseBodyData, createFileData: createFileData).count
   }
         
 //  func randomize(patch: SingleSysexPatch<Self>)
@@ -119,9 +113,7 @@ public struct SinglePatchTruss : PatchTruss {
 
   // TODO: should this be cached? Seems expensive...
   public func createEmptyBodyData() throws -> BodyData {
-    let fileData = try Self.createEmptyFileData(createFileData: core.createFileData)
-    let msgs = SysexData(data: Data(fileData)).msgs()
-    return try core.parseBodyData.call(msgs)
+    try core.parseBodyData.call([])
   }
   
   public func getValue(_ bodyData: BodyData, path: SynthPath) throws -> Int? {

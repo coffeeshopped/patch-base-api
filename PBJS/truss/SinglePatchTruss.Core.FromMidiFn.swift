@@ -42,22 +42,18 @@ extension SysexTrussCore<[UInt8]>.FromMidiFn {
   
   public static func jsName() -> String { "SinglePatchTruss.Core.FromMidiFn" }
 
-  static func chainRule(_ v: JSValue) throws -> Self {
-    // v is a JS array. Skip the first element.
-    // the second element is a FromMidiFn.
-    // the rest, treat as an array of ByteTransforms, with the output of each function being fed as input to the next function.
-    let count = v.arrCount()
-    let mfn: Self = try v.x(1)
-    let fns: [ByteTransform] = try (2..<(count-1)).map { try v.x($0) }
-    return .fn { msgs in
-      let b = try mfn.call(msgs)
-      return try fns.reduce(b) { partialResult, fn in try fn.call(partialResult, nil) }
-    }
-  }
-
   static let jsRules: [JsParseRule<Self>] = [
-    .a(">", [SinglePatchTruss.Core.FromMidiFn.self, ByteTransform.self], {
-      try chainRule($0)
+    .a(">", [SinglePatchTruss.Core.FromMidiFn.self, ByteTransform.self], { v in
+      // v is a JS array. Skip the first element.
+      // the second element is a FromMidiFn.
+      // the rest, treat as an array of ByteTransforms, with the output of each function being fed as input to the next function.
+      let count = v.arrCount()
+      let mfn: Self = try v.x(1)
+      let fns: [ByteTransform] = try (2..<count).map { try v.x($0) }
+      return .fn { msgs in
+        let b = try mfn.call(msgs)
+        return try fns.reduce(b) { partialResult, fn in try fn.call(partialResult, nil) }
+      }
     }),
     .arr([JsObj.self], {
       // first see if it's a byte transform

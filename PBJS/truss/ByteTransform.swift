@@ -96,11 +96,11 @@ extension ByteTransform: JsParsable {
         $0.flatMap { [UInt8($0.bits(0...3)), UInt8($0.bits(4...7))] }
       }
     }),
-    .a("denibblizeLSB", [], optional: [ByteTransform.self], {
-      .arg1(try $0.xq(1) ?? .ident) { bytes in
+    .s("denibblizeLSB", { _ in
+      .b { bytes in
         (bytes.count / 2).map {
           UInt8(bytes[$0 * 2].bits(0...3) + (bytes[$0 * 2 + 1].bits(0...3) << 4))
-       }
+        }
       }
     }),
     .a("checksum", [], optional: [ByteTransform.self], {
