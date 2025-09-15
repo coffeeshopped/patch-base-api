@@ -20,7 +20,7 @@ extension IsoFF : JsParsable {
       return try .lerp(in: inn, out: $0.x(2))
     }),
     .s("round", .round()),
-    .a("round", [Float.self], { try .round($0.x(1)) }),
+    .a("round", [Int.self], { try .round($0.x(1)) }),
     .s("=", .ident()),
   ]
 
@@ -30,7 +30,7 @@ extension IsoFF.SwitcherCheck: JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
     .arr([Int.self, Float.self], { try .int($0.x(0), $0.x(1)) }, "int"),
-    .arr([ClosedRange<Float>.self, Float.self], { try .rangeString($0.x(0), $0.x(1)) }, "rangeString"),
+    .arr([ClosedRange<Float>.self, Float.self], { try .rangeConst($0.x(0), $0.x(1)) }, "rangeConst"),
     .arr([ClosedRange<Float>.self, IsoFF.self], { try .range($0.x(0), $0.x(1)) }, "range"),
   ]
   

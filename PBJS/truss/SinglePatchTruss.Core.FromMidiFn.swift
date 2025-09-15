@@ -44,7 +44,6 @@ extension SysexTrussCore<[UInt8]>.FromMidiFn {
 
   static let jsRules: [JsParseRule<Self>] = [
     .a(">", [SinglePatchTruss.Core.FromMidiFn.self, ByteTransform.self], { v in
-      // v is a JS array. Skip the first element.
       // the second element is a FromMidiFn.
       // the rest, treat as an array of ByteTransforms, with the output of each function being fed as input to the next function.
       let count = v.arrCount()
@@ -55,18 +54,14 @@ extension SysexTrussCore<[UInt8]>.FromMidiFn {
         return try fns.reduce(b) { partialResult, fn in try fn.call(partialResult, nil) }
       }
     }),
-    .arr([JsObj.self], {
-      // first see if it's a byte transform
-      if let bt = try? $0.x() as ByteTransform {
-        return .fn { msgs in
-          try bt.call(msgs.flatMap { $0.bytes() }, nil)
-        }
-      }
-
-      // otherwise, treat as an implicit "+"
+    .t(ByteTransform.self, {
+      let bt: ByteTransform = try $0.x()
+      return .fn { msgs in try bt.call(msgs.flatMap { $0.bytes() }, nil) }
+    }),
+    .arr([Self.self], {
       let fns: [Self] = try $0.map { try $0.x() }
       return .fn({ b in try fns.flatMap { try $0.call(b) } })
-    }, "basic"),
+    }, "array"),
 //    .s(".f", { fn in
 //      try fn.checkFn()
 //      return .fn({ try fn.call([$0], exportOrigin: nil).x() })

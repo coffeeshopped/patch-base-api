@@ -4,7 +4,7 @@ title: SinglePatchTruss.Core.ToMidiFn
 
 rule::ByteTransform
 
-Take the input, process it through the ByteTransform, and parse the output as an array of MidiMessages.
+Take the input, process it through the ByteTransform, and treat the output as a single sysex MIDI message.
 
 rule::>
 

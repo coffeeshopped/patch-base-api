@@ -370,13 +370,13 @@
 //  public enum SwitcherCheckF {
 //    case int(Int, Float)
 //    case range(ClosedRange<Float>, JisoFF)
-//    case rangeString(ClosedRange<Float>, Float)
+//    case rangeConst(ClosedRange<Float>, Float)
 //  }
 //
 //  public enum SwitcherCheckS {
 //    case int(Int, String)
 //    case range(ClosedRange<Float>, JisoFS)
-//    case rangeString(ClosedRange<Float>, String)
+//    case rangeConst(ClosedRange<Float>, String)
 //  }
 //
 //  public static func switcherF(_ checks: [SwitcherCheckF], default def: JisoFF? = nil) -> JisoFF {
@@ -389,7 +389,7 @@
 //            if i == checkInt { return constY }
 //          case .range(let checkRange, let iso):
 //            if checkRange.contains($0) { return iso.forward($0) }
-//          case .rangeString(let checkRange, let s):
+//          case .rangeConst(let checkRange, let s):
 //            if checkRange.contains($0) { return s }
 //          }
 //        }
@@ -405,7 +405,7 @@
 //          case .range(let checkRange, let iso):
 //            let f = iso.backward($0)
 //            if checkRange.contains(f) { return f }
-//          case .rangeString(let checkRange, let s):
+//          case .rangeConst(let checkRange, let s):
 //            if s.misoEquals($0) {
 //              return checkRange.lowerBound
 //            }
@@ -426,7 +426,7 @@
 //            if i == checkInt { return constY }
 //          case .range(let checkRange, let iso):
 //            if checkRange.contains($0) { return iso.forward($0) }
-//          case .rangeString(let checkRange, let s):
+//          case .rangeConst(let checkRange, let s):
 //            if checkRange.contains($0) { return s }
 //          }
 //        }
@@ -442,7 +442,7 @@
 //          case .range(let checkRange, let iso):
 //            let f = iso.backward($0)
 //            if checkRange.contains(f) { return f }
-//          case .rangeString(let checkRange, let s):
+//          case .rangeConst(let checkRange, let s):
 //            if s.misoEquals($0) {
 //              return checkRange.lowerBound
 //            }

@@ -1,1 +1,1 @@
-{"single":{"channel":"\"channel\"","e":"[\"e\", ::SynthPath::, ::SynthPath::, ::Int::?]"},"array":{}}
+{"array":{},"single":{"e":"[\"e\", ::SynthPath::, ::SynthPath::, ::Int::?]","channel":"\"channel\""}}

@@ -142,7 +142,7 @@ public extension IsoFS {
   enum SwitcherCheck {
     case int(Int, String)
     case range(ClosedRange<Float>, IsoFS)
-    case rangeString(ClosedRange<Float>, String)
+    case rangeConst(ClosedRange<Float>, String)
   }
   
   static func switcher(_ checks: [SwitcherCheck], default def: Self? = nil, withBase: Bool = false) -> Self {
@@ -162,7 +162,7 @@ public extension IsoFS {
                 return iso.forward($0)
               }
             }
-          case .rangeString(let checkRange, let s):
+          case .rangeConst(let checkRange, let s):
             if checkRange.contains($0) { return s }
           }
         }
@@ -178,7 +178,7 @@ public extension IsoFS {
           case .range(let checkRange, let iso):
             let f = iso.backward($0) + (withBase ? checkRange.lowerBound : 0)
             if checkRange.contains(f) { return f }
-          case .rangeString(let checkRange, let s):
+          case .rangeConst(let checkRange, let s):
             if s.misoEquals($0) {
               return checkRange.lowerBound
             }

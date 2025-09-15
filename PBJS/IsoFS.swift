@@ -10,9 +10,7 @@ extension IsoFS : JsParsable {
     .a("noteName", [String.self], {
       try .noteName(zeroNote: $0.x(1), octave: true)
     }),
-    .t(String.self, {
-      try .const($0.x())
-    }),
+    .t(String.self, { try .const($0.x()) }),
     .a("switch", [[SwitcherCheck].self], optional: [IsoFS.self], {
       try .switcher($0.x(1), default: $0.xq(2))
     }),
@@ -33,7 +31,7 @@ extension IsoFS : JsParsable {
     .a("@", [[String].self], {
       try .options($0.x(1))
     }),
-    .a(">", [IsoFF.self], optional: [IsoFS.self], {
+    .a(">", [IsoFF.self], {
       var floatOut = true
       var isoFMerge: IsoFF?
       var isoSMerge: IsoFS?
@@ -95,7 +93,7 @@ extension IsoFS.SwitcherCheck: JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
     .arr([Int.self, String.self], { try .int($0.x(0), $0.x(1)) }, "int"),
-    .arr([ClosedRange<Float>.self, String.self], { try .rangeString($0.x(0), $0.x(1)) }, "rangeString"),
+    .arr([ClosedRange<Float>.self, String.self], { try .rangeConst($0.x(0), $0.x(1)) }, "rangeConst"),
     .arr([ClosedRange<Float>.self, IsoFS.self], { try .range($0.x(0), $0.x(1)) }, "range"),
   ]
   

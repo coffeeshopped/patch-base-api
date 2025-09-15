@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ParamOutTransform</title>
+    <title>IsoFS.SwitcherCheck</title>
     <link rel="stylesheet" href="/css/base.css">
   </head>
   <body>
@@ -19,13 +19,13 @@
     </div>
     
     <div class="api-content">
-      <h1>ParamOutTransform</h1>
-      <div class="api-rule"><pre><code>["bankNames", <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/SynthPath/">SynthPath</a>]</pre></code></div>
-<p>Pulls the list of current patch names from the bank at the first specified SynthPath, and maps them to a <a href="/api/Parm/">Parm</a> having the second specified SynthPath.</p>
-<div class="api-rule"><pre><code>["patchOut", <a href="/api/SynthPath/">SynthPath</a>, <a href="/api/Function/">Function</a>]</pre></code></div>
-<p>Pulls one or more values from the section of the synth specified at the SynthPath and passes them through the supplied Function which returns an array of <a href="/api/Parm/">Parm</a>'s. The supplied Function should have the signature:</p>
-<pre><code>(PatchChange, SysexPatch) =&gt; [Parm]
-</code></pre>
+      <h1>IsoFS.SwitcherCheck</h1>
+      <div class="api-rule"><pre><code>[<a href="/api/Range/">Range</a>, <a href="/api/IsoFS/">IsoFS</a>]</pre></code></div>
+<p>If the input falls within the given range, use the Iso given.</p>
+<div class="api-rule"><pre><code>[<a href="/api/Int/">Int</a>, <a href="/api/String/">String</a>]</pre></code></div>
+<p>If the input equals the given Int, use the Iso given.</p>
+<div class="api-rule"><pre><code>[<a href="/api/Range/">Range</a>, <a href="/api/String/">String</a>]</pre></code></div>
+<p>If the input falls within the given range, output the given constant value.</p>
 
     </div>
   </div>

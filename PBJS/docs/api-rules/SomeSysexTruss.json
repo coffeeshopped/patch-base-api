@@ -1,1 +1,1 @@
-{"single":{"SinglePatchTruss":"::SinglePatchTruss::","SingleBankTruss":"::SingleBankTruss::","MultiBankTruss":"::MultiBankTruss::","JSONPatchTruss":"::JSONPatchTruss::","MultiPatchTruss":"::MultiPatchTruss::"},"array":{}}
+{"array":{},"single":{"MultiPatchTruss":"::MultiPatchTruss::","MultiBankTruss":"::MultiBankTruss::","SinglePatchTruss":"::SinglePatchTruss::","SingleBankTruss":"::SingleBankTruss::","JSONPatchTruss":"::JSONPatchTruss::"}}
