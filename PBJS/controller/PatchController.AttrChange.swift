@@ -5,7 +5,7 @@ import JavaScriptCore
 extension PatchController.AttrChange: JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
-    .a("dimItem", [Bool.self, SynthPath.self], optional: [CGFloat.self], {
+    .a("dimItem", [Bool.self, SynthPath.self], optional: [Float.self], {
       try .dimItem($0.x(1), $0.x(2), dimAlpha: $0.xq(3))
     }),
     .a("hideItem", [Bool.self, SynthPath.self], {
@@ -17,7 +17,7 @@ extension PatchController.AttrChange: JsParsable {
     .a("configCtrl", [SynthPath.self, Parm.Span.self], {
       try .configCtrl($0.x(1), .span($0.x(2)))
     }),
-    .a("dimPanel", [Bool.self], optional: [String.self, CGFloat.self], {
+    .a("dimPanel", [Bool.self], optional: [String.self, Float.self], {
       try .dimPanel($0.x(1), $0.xq(2), dimAlpha: $0.xq(3))
     }),
     .a("hidePanel", [Bool.self], optional: [String.self], {
@@ -27,9 +27,9 @@ extension PatchController.AttrChange: JsParsable {
       try .setValue($0.x(1), $0.x(2))
     }),
     // TODO: Make this object-style
-    .a("midiNote", [JsObj.self], {
+    .a("midiNote", [UInt8.self, UInt8.self, UInt8.self, Int.self], {
       let obj = try $0.obj(1)
-      return try .midiNote(chan: obj.x("ch"), note: obj.x("n"), velo: obj.x("v"), len: obj.x("l"))
+      return try .midiNote(chan: obj.x(1), note: obj.x(2), velo: obj.x(3), len: obj.x(4))
     }),
     .a("colorItem", [SynthPath.self], optional: [Int.self, Bool.self], {
       try .colorItem($0.x(1), level: $0.xq(2) ?? 1, clearBG: $0.xq(3))
@@ -48,7 +48,7 @@ extension PatchController.AttrChange: JsParsable {
       // ... leading to extra MIDI traffic.
       try .paramsChange(.init([$0.x(0) : $0.x(1)]))
     }, "basicParamsChange"),
-    .t([JsObj].self, {
+    .t([SynthPath:Int].self, {
       // an Array is assumed to be [SynthPath:Int]
       try .paramsChange(.init($0.x()))
     }),

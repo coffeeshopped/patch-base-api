@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PatchController.Constraint</title>
+    <title>Parm.Span</title>
     <link rel="stylesheet" href="/css/base.css">
   </head>
   <body>
@@ -19,20 +19,41 @@
     </div>
     
     <div class="api-content">
-      <h1>PatchController.Constraint</h1>
-      <h2>Undocumented Single Rules:</h2>
-<p>eq</p>
-<div class="api-rule"><pre><code>["eq", [<a href="/api/String/">String</a>], <a href="/api/PBLayoutConstraint.Attribute/">PBLayoutConstraint.Attribute</a>]</pre></code></div>
-<p>colPart</p>
-<div class="api-rule"><pre><code>["colPart", [<a href="/api/PatchController.Constraint.Item/">PatchController.Constraint.Item</a>], <a href="/api/Object/">Object</a>?]</pre></code></div>
-<p>colFixed</p>
-<div class="api-rule"><pre><code>["colFixed", [<a href="/api/String/">String</a>], <a href="/api/Object/">Object</a>]</pre></code></div>
-<p>row</p>
-<div class="api-rule"><pre><code>["row", [<a href="/api/PatchController.Constraint.Item/">PatchController.Constraint.Item</a>], <a href="/api/Object/">Object</a>?]</pre></code></div>
-<p>rowPart</p>
-<div class="api-rule"><pre><code>["rowPart", [<a href="/api/PatchController.Constraint.Item/">PatchController.Constraint.Item</a>], <a href="/api/Object/">Object</a>?]</pre></code></div>
-<p>col</p>
-<div class="api-rule"><pre><code>["col", [<a href="/api/PatchController.Constraint.Item/">PatchController.Constraint.Item</a>], <a href="/api/Object/">Object</a>?]</pre></code></div>
+      <h1>Parm.Span</h1>
+      <div class="api-rule"><pre><code>{
+  rng: <a href="/api/Range/">Range</a>,
+  dispOff?: <a href="/api/Int/">Int</a>
+}</pre></code></div>
+<p>Specifies a value range for the parameter, with an optional &quot;display offset&quot; which is added to value before it is displayed on-screen.</p>
+<div class="api-rule"><pre><code>{
+  max: <a href="/api/Int/">Int</a>,
+  dispOff?: <a href="/api/Int/">Int</a>
+}</pre></code></div>
+<p>Same as <code>rng</code> but only specifies the maximum range value, with the minimum set to 0.</p>
+<div class="api-rule"><pre><code>{
+  dispOff: <a href="/api/Int/">Int</a>
+}</pre></code></div>
+<p>Sets a range of 0–127, with the specified display offset.</p>
+<div class="api-rule"><pre><code>{
+  opts: [<a href="/api/String/">String</a>]
+}</pre></code></div>
+<p>Parameter values are mapped to the corresponding element in the array.</p>
+<div class="api-rule"><pre><code>{
+  options: [<a href="/api/Int/">Int</a>:<a href="/api/String/">String</a>]
+}</pre></code></div>
+<p>Similar to above. TODO: probably should be phased out and removed.</p>
+<div class="api-rule"><pre><code>{
+  iso: <a href="/api/IsoFS/">IsoFS</a>,
+  rng?: <a href="/api/Range/">Range</a>
+}</pre></code></div>
+<p>Sets the parameter range to the passed Range, or 0–127 if no Range is passed. Parameter values are passed to the given Iso, which will format the values for display</p>
+<div class="api-rule"><pre><code>{
+  iso: <a href="/api/IsoFS/">IsoFS</a>,
+  max: <a href="/api/Int/">Int</a>
+}</pre></code></div>
+<p>Same as above, except only a max value for the range is specified, with the minimum set to 0.</p>
+<div class="api-rule"><pre><code><a href="/api/Object/">Object</a></pre></code></div>
+<p>An empty JS object can be passed as a shortcut for <code>{ rng: [0, 127] }</code>.</p>
 
     </div>
   </div>

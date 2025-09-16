@@ -1,1 +1,1 @@
-{"array":{},"single":{"bankNames":"[\"bankNames\", ::SynthPath::, ::SynthPath::]","patchOut":"[\"patchOut\", ::SynthPath::, ::Function::]"}}
+{"single":{"patchOut":"[\"patchOut\", ::SynthPath::, ::Function::]","bankNames":"[\"bankNames\", ::SynthPath::, ::SynthPath::]"},"array":{}}

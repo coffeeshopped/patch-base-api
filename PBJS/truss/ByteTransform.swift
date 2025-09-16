@@ -46,7 +46,9 @@ extension ByteTransform: JsParsable {
       else if let end: Int = try d.xq("end") {
         if end < 0 {
           return arg1(try $0.xq(2) ?? .ident) {
-            $0.safeBytes(start..<($0.count - end))
+            let offsetEnd = $0.count - end
+            guard offsetEnd >= start else { return [] }
+            return $0.safeBytes(start..<offsetEnd)
           }
         }
         else if end <= start {

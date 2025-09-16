@@ -1,1 +1,1 @@
-{"single":{"range":"[::Range::, ::IsoFF::]","int":"[::Int::, ::Float::]","rangeConst":"[::Range::, ::Float::]"},"array":{}}
+{"array":{},"single":{"rangeConst":"[::Range::, ::Float::]","range":"[::Range::, ::IsoFF::]","int":"[::Int::, ::Float::]"}}

@@ -101,7 +101,7 @@ extension Parm: JsParsable, JsPassable {
 extension Parm.Span: JsParsable, JsPassable {
   
   public static let jsRules: [JsParseRule<Self>] = [
-    .d(["opts" : [JsObj].self], {
+    .d(["opts" : [String].self], {
       // allow for sparse arrays.
       // TODO: follow up and see if this causes weirdness with controls.
       let arr = try $0.arr("opts")

@@ -15,6 +15,7 @@ let jsTypes: [JsDocable.Type] = [
   SynthPath.self,
   SynthPathMap.self,
   Parm.self,
+  Parm.Span.self,
   IsoFF.self,
   IsoFF.SwitcherCheck.self,
   IsoFS.self,

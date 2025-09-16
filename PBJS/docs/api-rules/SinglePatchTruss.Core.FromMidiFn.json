@@ -1,1 +1,1 @@
-{"array":{},"single":{"array":"[::SinglePatchTruss.Core.FromMidiFn::]","ByteTransform":"::ByteTransform::",">":"[\">\", ::SinglePatchTruss.Core.FromMidiFn::, ::ByteTransform::]"}}
+{"single":{"ByteTransform":"::ByteTransform::","array":"[::SinglePatchTruss.Core.FromMidiFn::]",">":"[\">\", ::SinglePatchTruss.Core.FromMidiFn::, ::ByteTransform::]"},"array":{}}
