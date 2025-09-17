@@ -4,44 +4,79 @@ import PBAPI
 extension PatchController.Builder: JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
-    .a("child", [PatchController.self, String.self], optional: [JsObj.self], {
-      let opts = try? $0.obj(3)
-      return try .child($0.x("1"), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"))
+    .d([
+      "child" : PatchController.self,
+      "id" : String.self,
+      "color?" : Int.self,
+      "clearBG?" : Bool.self,
+    ], {
+      try .child($0.x("child"), $0.x("id"), color: $0.xq("color"), clearBG: $0.xq("clearBG"))
+    }, "childObj"),
+    .a("child", [PatchController.self, String.self], {
+      try .child($0.x(1), $0.x(2), color: nil, clearBG: nil)
     }),
-    .a("children", [Int.self, String.self, PatchController.self], optional: [JsObj.self], {
-      let opts = try? $0.obj(4)
-      return try .children($0.x(1), $0.x(2), color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), $0.x(3), indexFn: opts?.fnq("index"))
+    .d([
+      "children" : PatchController.self,
+      "id" : String.self,
+      "count" : Int.self,
+      "color?" : Int.self,
+      "clearBG?" : Bool.self,
+      "index?" : JsFn.self,
+    ], {
+      try .children($0.x("count"), $0.x("id"), color: $0.xq("color"), clearBG: $0.xq("clearBG"), $0.x("children"), indexFn: $0.fnq("index"))
+    }, "childrenObj"),
+    .a("children", [Int.self, String.self, PatchController.self], optional: [JsFn.self], {
+      try .children($0.x(1), $0.x(2), color: nil, clearBG: nil, $0.x(3), indexFn: $0.fnq(4))
     }),
-    .a("panel", [String.self, JsObj.self], optional: [[Row].self], {
-      let opts = try? $0.obj(2)
-      let prefix: SynthPath = (try opts?.xq("prefix")) ?? []
-      return try .panel($0.x(1), prefix: prefix, color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), rows: $0.xq(3) ?? [])
+    .d([
+      "panel" : String.self,
+      "rows?" : [Row].self,
+      "prefix?" : SynthPath.self,
+      "color?" : Int.self,
+      "clearBG?" : Bool.self,
+    ], {
+      let prefix: SynthPath = (try $0.xq("prefix")) ?? []
+      return try .panel($0.x("panel"), prefix: prefix, color: $0.xq("color"), clearBG: $0.xq("clearBG"), rows: $0.xq("rows") ?? [])
+    }, "panelObj"),
+    .a("panel", [String.self], optional: [[Row].self], {
+      try .panel($0.x(1), prefix: [], color: nil, clearBG: nil, rows: $0.xq(2) ?? [])
     }),
-    .a("panel", [String.self, [Row].self], {
-      try .panel($0.x(1), prefix: [], color: nil, clearBG: nil, rows: $0.x(2))
-    }),
-    .a("grid", [JsObj.self, [[PatchController.PanelItem]].self], {
-      let opts = try? $0.obj(1)
-      return try .grid(prefix: nil, color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), $0.x(2))
-    }),
+    .d([
+      "grid" : [[PatchController.PanelItem]].self,
+      "color?" : Int.self,
+      "clearBG?" : Bool.self,
+    ], {
+      try .grid(prefix: nil, color: $0.xq("color"), clearBG: $0.xq("clearBG"), $0.x("grid"))
+    }, "gridObj"),
     .a("grid", [[[PatchController.PanelItem]].self], {
       try .grid(prefix: nil, $0.x(1))
     }),
-    .a("items", [JsObj.self, [Row].self], {
-      let opts = try? $0.obj(1)
-      return try .items(color: opts?.xq("color"), clearBG: opts?.xq("clearBG"), $0.x(2))
+    .d([
+      "items": [Row].self,
+      "color?" : Int.self,
+      "clearBG?" : Bool.self,
+    ], {
+      try .items(color: $0.xq("color"), clearBG: $0.xq("clearBG"), $0.x("items"))
+    }, "itemsObj"),
+    .a("items", [[Row].self], {
+      try .items(color: nil, clearBG: nil, $0.x(1))
     }),
-    .a("switcher", [[String].self], optional: [JsObj.self], {
-      let c = try? $0.obj(2)
-      return try .switcher(label: c?.xq("l"), $0.x(1), cols: c?.xq("cols"), color: c?.xq("color"))
+    .d([
+      "switcher": [String].self,
+      "l?" : String.self,
+      "cols?" : Int.self,
+      "color?" : Int.self,
+    ], {
+      try .switcher(label: $0.xq("l"), $0.x("switcher"), cols: $0.xq("cols"), color: $0.xq("color"))
+    }, "switcherObj"),
+    .a("switcher", [[String].self], optional: [String.self], {
+      try .switcher(label: $0.xq(2), $0.x(1), cols: nil, color: nil)
     }),
-    .a("button", [String.self, JsObj.self], {
-      let c = try? $0.obj(2)
-      return try .button($0.x(1), color: c?.xq("color"))
+    .a("button", [String.self, Int.self], {
+      try .button($0.x(1), color: $0.xq(2))
     }),
-    .a("nav", [String.self, SynthPath.self], optional: [JsObj.self], {
-      let c = try? $0.obj(3)
-      return try .nav($0.x(1), $0.x(2), color: c?.xq("color"))
+    .a("nav", [String.self, SynthPath.self], optional: [Int.self], {
+      try .nav($0.x(1), $0.x(2), color: $0.xq(3))
     }),
   ]
 
@@ -50,7 +85,7 @@ extension PatchController.Builder: JsParsable {
 extension PatchController.Builder.Row : JsParsable {
   
   public static let jsRules: [JsParseRule<Self>] = [
-    .arr([[PatchController.PanelItem].self], { try .init($0.x(), 1) }, "single"),
+    .t([PatchController.PanelItem].self, { try .init($0.x(), 1) }, "single"),
     .d([
       "row": [PatchController.PanelItem].self,
       "h": CGFloat.self,

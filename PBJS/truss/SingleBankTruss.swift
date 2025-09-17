@@ -10,15 +10,25 @@ extension SinglePatchTruss: JsBankParsable {
       "locationIndex" : Int.self,
       "createFile" : SingleBankTruss.Core.ToMidiFn.self,
       "initFile?" : String.self,
-      "validSizes" : [Int].self,
-      "includeFileDataCount" : Bool.self,
+      "validSizes" : [JsObj].self,
     ], {
       let patchTruss: Self = try $0.x("singleBank")
       let patchCount: Int = try $0.x("patchCount")
       
       let parseBody = try SingleBankTruss.sortAndParseBodyDataWithLocationIndex($0.x("locationIndex"), parseBodyData: patchTruss.core.parseBodyData, patchCount: patchCount)
 
-      return try .init(patchTruss: patchTruss, patchCount: patchCount, initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: $0.x("createFile"), parseBodyData: parseBody, validSizes: $0.x("validSizes"), includeFileDataCount: $0.x("includeFileDataCount"))
+      var validSizes: [Int] = [Int]()
+      var includeFileDataCount = false
+      try $0.forProperty("validSizes").forEach({ v in
+        if v.isString && v.toString() == "auto" {
+          includeFileDataCount = true
+        }
+        else {
+          validSizes.append(Int(v.toInt32()))
+        }
+      })
+      
+      return try .init(patchTruss: patchTruss, patchCount: patchCount, initFile: $0.xq("initFile") ?? "", fileDataCount: nil, defaultName: nil, createFileData: $0.x("createFile"), parseBodyData: parseBody, validSizes: validSizes, includeFileDataCount: includeFileDataCount)
     }, "validSizes"),
     .d([
       "singleBank" : SinglePatchTruss.self,

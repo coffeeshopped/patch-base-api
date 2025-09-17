@@ -58,6 +58,7 @@ let jsTypes: [JsDocable.Type] = [
   PatchController.self,
   PatchController.Prefix.self,
   PatchController.Builder.self,
+  PatchController.Builder.Row.self,
   PatchController.Effect.self,
   PatchController.ConfigParam.self,
   PatchController.AttrChange.self,

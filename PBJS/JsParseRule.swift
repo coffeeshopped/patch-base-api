@@ -150,13 +150,12 @@ public enum Match {
     if links {
       let n = t.jsName()
       if n.hasPrefix("[") {
-        let noBrackets = n.replacingOccurrences(of: "[", with: "").replacingOccurrences(of: "]", with: "")
-        if noBrackets.contains(":") {
-          return "[::\(noBrackets.split(separator: ":").joined(separator: ":::::"))::]"
-        }
-        else {
-          return "[::\(noBrackets)::]"
-        }
+        let bracketCount = n.prefix(while: { $0 == "[" }).count
+        let start = n.index(n.startIndex, offsetBy: bracketCount)
+        let end = n.index(n.endIndex, offsetBy: -bracketCount)
+        let noBrackets = String(n[start..<end])
+        let inner = noBrackets.contains(":") ? noBrackets.split(separator: ":").joined(separator: ":::::") : noBrackets
+        return String(repeating: "[", count: bracketCount) + "::\(inner)::" + String(repeating: "]", count: bracketCount)
       }
       else {
         return "::\(t.jsName())::"

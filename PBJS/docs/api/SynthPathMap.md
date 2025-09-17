@@ -2,9 +2,10 @@
 title: SynthPathMap
 ---
 
-A function that maps an input array of [[SynthPath]]'s to another array.
+A function that maps an input array of ::SynthPath::'s to another array.
 
-### \["removePrefix", [[SynthPath]]\]
+
+rule::removePrefix
 
 For any SynthPath that starts with the specified prefix, remove that prefix and return what's left. For any SynthPath that does not start with that prefix, return nothing.
 
@@ -22,7 +23,8 @@ Example:
 ['wave', 'pitch/1']
 ```
 
-### \["from", Int\]
+
+rule::from
 
 Return the subpath for each SynthPath, starting from the specified (0-based) index.
 
@@ -40,6 +42,7 @@ Example:
 ['wave', 'pitch/1']
 ```
 
-### \["fn", Function\]
+
+rule::fn
 
 Map each SynthPath through an arbitrary Javascript Function.
